@@ -482,6 +482,22 @@ p {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(0, 122, 255, 0.08));
 }
 
+.status-strip {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 34px;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid var(--separator);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--label-secondary);
+  font-size: 13px;
+  font-weight: 720;
+  backdrop-filter: blur(20px);
+}
+
 .compact-actions {
   margin-top: 18px;
 }

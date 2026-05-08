@@ -1,29 +1,57 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
-import { getRandomRestaurant, getRecommendedRestaurant, getRestaurantMetadata, listRestaurants } from '../services/restaurantService'
+import { describeApiSource, getRandomRestaurantRemote, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantSummary } from '../types'
+
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError'
+}
 
 export function HomePage() {
   const navigate = useNavigate()
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
   const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
+  const [topRestaurants, setTopRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }).slice(0, 3))
+  const [topPick, setTopPick] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [isLoading, setIsLoading] = useState(false)
   const metadata = getRestaurantMetadata()
 
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
-  const topRestaurants = listRestaurants({}, context).slice(0, 3)
-  const topPick = getRecommendedRestaurant({}, context)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setIsLoading(true)
+
+    Promise.all([listRestaurantsRemote({}, context, controller.signal), getRecommendedRestaurantRemote({}, context, controller.signal)])
+      .then(([listResult, pickResult]) => {
+        setTopRestaurants(listResult.data.slice(0, 3))
+        setTopPick(pickResult.data)
+        setDataSource(describeApiSource(listResult.source, listResult.fallbackReason))
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) setDataSource('本地 seed fallback')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [context])
 
   function toggleFavorite(id: string) {
     setFavoriteIds(toggleFavoriteRestaurant(id))
   }
 
-  function surpriseMe() {
-    setRandomPick(getRandomRestaurant({}, context))
+  async function surpriseMe() {
+    const result = await getRandomRestaurantRemote({}, context)
+    setRandomPick(result.data)
+    setDataSource(describeApiSource(result.source, result.fallbackReason))
   }
 
   return (
@@ -41,6 +69,10 @@ export function HomePage() {
           </button>
         </div>
       </section>
+
+      <div className="status-strip">
+        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
+      </div>
 
       {randomPick ? (
         <GlassCard className="result-card">

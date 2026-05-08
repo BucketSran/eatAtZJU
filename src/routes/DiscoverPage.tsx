@@ -6,8 +6,8 @@ import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
-import { getRandomRestaurant, getRestaurantMetadata, listRestaurants } from '../services/restaurantService'
-import type { SortKey } from '../types'
+import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
+import type { RestaurantSummary, SortKey } from '../types'
 
 const sortOptions: Array<{ label: string; value: SortKey }> = [
   { label: '推荐', value: 'recommended' },
@@ -15,6 +15,10 @@ const sortOptions: Array<{ label: string; value: SortKey }> = [
   { label: '评分', value: 'rating' },
   { label: '价格', value: 'price' }
 ]
+
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError'
+}
 
 export function DiscoverPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -25,11 +29,14 @@ export function DiscoverPage() {
   const [sort, setSort] = useState<SortKey>(() => (searchParams.get('sort') as SortKey) || 'recommended')
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
+  const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants({ keyword, tag, priceLabel, sort }, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
+  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [isLoading, setIsLoading] = useState(false)
 
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
-  const restaurants = listRestaurants({ keyword, tag, priceLabel, sort }, context)
+  const filters = useMemo(() => ({ keyword, tag, priceLabel, sort }), [keyword, priceLabel, sort, tag])
   const showRandom = searchParams.get('random') === '1'
-  const randomPick = showRandom ? getRandomRestaurant({ keyword, tag, priceLabel, sort }, context) : null
 
   useEffect(() => {
     const next = new URLSearchParams()
@@ -40,6 +47,44 @@ export function DiscoverPage() {
     if (showRandom) next.set('random', '1')
     setSearchParams(next, { replace: true })
   }, [keyword, priceLabel, setSearchParams, showRandom, sort, tag])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setIsLoading(true)
+
+    listRestaurantsRemote(filters, context, controller.signal)
+      .then((result) => {
+        setRestaurants(result.data)
+        setDataSource(describeApiSource(result.source, result.fallbackReason))
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) setRestaurants(listRestaurants(filters, context))
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [context, filters])
+
+  useEffect(() => {
+    if (!showRandom) {
+      setRandomPick(null)
+      return
+    }
+
+    const controller = new AbortController()
+    getRandomRestaurantRemote(filters, context, controller.signal)
+      .then((result) => {
+        setRandomPick(result.data)
+        setDataSource(describeApiSource(result.source, result.fallbackReason))
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) setRandomPick(getRandomRestaurant(filters, context))
+      })
+
+    return () => controller.abort()
+  }, [context, filters, showRandom])
 
   function toggleFavorite(id: string) {
     setFavoriteIds(toggleFavoriteRestaurant(id))
@@ -54,6 +99,10 @@ export function DiscoverPage() {
           <p>按口味、预算和学生口碑筛选，先把选择变少一点。</p>
         </div>
         <span className="count-badge">{restaurants.length} 家匹配</span>
+      </div>
+
+      <div className="status-strip">
+        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
       </div>
 
       {randomPick ? (

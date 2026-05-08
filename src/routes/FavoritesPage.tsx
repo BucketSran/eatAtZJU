@@ -1,17 +1,47 @@
 import { Link } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
-import { getFavoriteRestaurants, getRecommendedRestaurant } from '../services/restaurantService'
+import { describeApiSource, getFavoriteRestaurants, getFavoriteRestaurantsRemote, getRecommendedRestaurant, getRecommendedRestaurantRemote } from '../services/restaurantService'
+import type { RestaurantSummary } from '../types'
+
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError'
+}
 
 export function FavoritesPage() {
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
-  const restaurants = getFavoriteRestaurants(context)
-  const fallbackPick = getRecommendedRestaurant({}, context)
+  const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => getFavoriteRestaurants({ preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const [fallbackPick, setFallbackPick] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setIsLoading(true)
+
+    Promise.all([getFavoriteRestaurantsRemote(context, controller.signal), getRecommendedRestaurantRemote({}, context, controller.signal)])
+      .then(([favoritesResult, pickResult]) => {
+        setRestaurants(favoritesResult.data)
+        setFallbackPick(pickResult.data)
+        setDataSource(describeApiSource(favoritesResult.source, favoritesResult.fallbackReason))
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) {
+          setRestaurants(getFavoriteRestaurants(context))
+          setFallbackPick(getRecommendedRestaurant({}, context))
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [context])
 
   function toggleFavorite(id: string) {
     setFavoriteIds(toggleFavoriteRestaurant(id))
@@ -26,6 +56,10 @@ export function FavoritesPage() {
           <p>Demo v0.1 收藏先保存在本地浏览器，后续接 Supabase Auth 后同步到个人账号。</p>
         </div>
         <span className="count-badge">{restaurants.length} 家</span>
+      </div>
+
+      <div className="status-strip">
+        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
       </div>
 
       {restaurants.length ? (

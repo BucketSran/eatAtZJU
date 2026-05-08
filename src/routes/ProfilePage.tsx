@@ -1,12 +1,39 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { defaultPreferences, getPreferenceTags, resetPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
-import { getRestaurantMetadata, getRecommendedRestaurant } from '../services/restaurantService'
+import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata } from '../services/restaurantService'
+import type { RestaurantSummary } from '../types'
+
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError'
+}
 
 export function ProfilePage() {
   const metadata = getRestaurantMetadata()
   const [preferences, setPreferences] = useState(() => getPreferenceTags())
-  const recommended = useMemo(() => getRecommendedRestaurant({}, { preferences, favoriteRestaurantIds: [] }), [preferences])
+  const [recommended, setRecommended] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: [] }))
+  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [isLoading, setIsLoading] = useState(false)
+  const context = useMemo(() => ({ preferences, favoriteRestaurantIds: [] }), [preferences])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setIsLoading(true)
+
+    getRecommendedRestaurantRemote({}, context, controller.signal)
+      .then((result) => {
+        setRecommended(result.data)
+        setDataSource(describeApiSource(result.source, result.fallbackReason))
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) setRecommended(getRecommendedRestaurant({}, context))
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [context])
 
   function toggleTag(tag: string) {
     setPreferences(togglePreferenceTag(tag))
@@ -25,6 +52,10 @@ export function ProfilePage() {
           <p>这里先用本地偏好驱动推荐排序，等 Supabase Auth 接入后再同步到用户资料。</p>
         </div>
         <span className="count-badge">{preferences.length} 个偏好</span>
+      </div>
+
+      <div className="status-strip">
+        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
       </div>
 
       <GlassCard>

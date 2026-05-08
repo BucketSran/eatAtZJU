@@ -1,18 +1,63 @@
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
-import { getRestaurantDetail, listRestaurants } from '../services/restaurantService'
-import { useMemo, useState } from 'react'
+import { describeApiSource, getRestaurantDetail, getRestaurantDetailRemote, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
+import type { RestaurantDetail } from '../services/apiRestaurantClient'
+import type { RestaurantSummary } from '../types'
+
+function isAbortError(error: unknown) {
+  return error instanceof DOMException && error.name === 'AbortError'
+}
 
 export function RestaurantDetailPage() {
   const { id } = useParams()
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
-  const detail = id ? getRestaurantDetail(id, context) : null
-  const relatedRestaurants = detail ? listRestaurants({ tag: detail.restaurant.tags[0] }, context).filter((restaurant) => restaurant.id !== detail.restaurant.id).slice(0, 2) : []
+  const [detail, setDetail] = useState<RestaurantDetail | null>(() => (id ? getRestaurantDetail(id, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }) : null))
+  const [relatedRestaurants, setRelatedRestaurants] = useState<RestaurantSummary[]>(() => (detail ? listRestaurants({ tag: detail.restaurant.tags[0] }, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }).filter((restaurant) => restaurant.id !== detail.restaurant.id).slice(0, 2) : []))
+  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (!id) {
+      setDetail(null)
+      setRelatedRestaurants([])
+      return
+    }
+
+    const controller = new AbortController()
+    setIsLoading(true)
+
+    getRestaurantDetailRemote(id, context, controller.signal)
+      .then(async (result) => {
+        setDetail(result.data)
+        setDataSource(describeApiSource(result.source, result.fallbackReason))
+
+        if (!result.data) {
+          setRelatedRestaurants([])
+          return
+        }
+
+        const related = await listRestaurantsRemote({ tag: result.data.restaurant.tags[0] }, context, controller.signal)
+        setRelatedRestaurants(related.data.filter((restaurant) => restaurant.id !== result.data?.restaurant.id).slice(0, 2))
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) {
+          const local = getRestaurantDetail(id, context)
+          setDetail(local)
+          setRelatedRestaurants(local ? listRestaurants({ tag: local.restaurant.tags[0] }, context).filter((restaurant) => restaurant.id !== local.restaurant.id).slice(0, 2) : [])
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [context, id])
 
   function toggleFavorite(restaurantId: string) {
     setFavoriteIds(toggleFavoriteRestaurant(restaurantId))
@@ -23,8 +68,8 @@ export function RestaurantDetailPage() {
       <div className="route-stack">
         <div className="page-heading">
           <p className="eyebrow">RESTAURANT</p>
-          <h1>没有找到这家餐厅</h1>
-          <p>可能是 demo seed 里还没有录入，或链接里的餐厅 ID 不存在。</p>
+          <h1>{isLoading ? '正在加载餐厅...' : '没有找到这家餐厅'}</h1>
+          <p>{isLoading ? '正在向后端确认餐厅详情。' : '可能是 demo seed 里还没有录入，或链接里的餐厅 ID 不存在。'}</p>
         </div>
         <GlassCard>
           <Link className="secondary-action inline-action" to="/discover">
@@ -39,6 +84,10 @@ export function RestaurantDetailPage() {
 
   return (
     <div className="route-stack">
+      <div className="status-strip">
+        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
+      </div>
+
       <section className="detail-hero glass-card">
         <div className="detail-mark" style={{ background: restaurant.coverColor }} aria-hidden="true">
           {restaurant.coverIcon}
