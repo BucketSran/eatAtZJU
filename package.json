@@ -2,8 +2,23 @@
   "name": "eatat-zju",
   "version": "0.1.0",
   "private": true,
-  "description": "食在浙大微信小程序 MVP",
+  "description": "食在浙大 Web/PWA demo and WeChat mini-program prototype",
   "scripts": {
-    "check": "node scripts/check.js"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "check": "node scripts/check.cjs && tsc -b --pretty false"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.15.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.11"
   }
 }

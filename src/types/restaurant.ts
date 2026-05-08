@@ -1,0 +1,40 @@
+export type RestaurantStatus = 'published' | 'draft' | 'archived'
+
+export type Restaurant = {
+  id: string
+  name: string
+  area: string
+  distance: number
+  walkMinutes: number
+  cuisine: string
+  price: number
+  rating: number
+  studentScore: number
+  checkins: number
+  latitude: number
+  longitude: number
+  coverIcon: string
+  coverColor: string
+  tags: string[]
+  suitedFor: string[]
+  reason: string
+  status: RestaurantStatus
+}
+
+export type RestaurantSummary = Restaurant & {
+  recommendationScore?: number
+  isFavorite?: boolean
+}
+
+export type PriceRange = {
+  label: string
+  min: number
+  max: number
+}
+
+export type RestaurantsSeed = {
+  schemaVersion: number
+  restaurants: Restaurant[]
+  tasteTags: string[]
+  priceRanges: PriceRange[]
+}

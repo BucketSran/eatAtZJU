@@ -86,7 +86,7 @@ The demo should feel like an Apple-inspired product: calm surfaces, generous whi
 Do not:
 
 - Put API keys in frontend code.
-- Use Supabase service-role key outside server-side code.
+- Use Supabase service-role key outside server-side code. (Never do this; server-side only.)
 - Allow UGC to bypass moderation.
 - Copy unauthorized comments, images, or usernames from external platforms.
 - Add a dependency just because AI suggested it; prefer mature, official, actively maintained packages.

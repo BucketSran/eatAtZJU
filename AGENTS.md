@@ -15,17 +15,13 @@
 ## Build and Test Commands
 
 ```bash
-npm run check
-```
-
-Future React migration should add:
-
-```bash
 npm run dev
+npm run check
 npm run build
-npm run lint
-npm run test
+npm run preview
 ```
+
+`npm run lint` and `npm run test` should be added when the React implementation grows beyond the skeleton.
 
 ## Code Style Guidelines
 
@@ -38,7 +34,7 @@ npm run test
 
 ## Testing Instructions
 
-- Run `npm run check` before every commit.
+- Run `npm run check` and `npm run build` before every commit that changes app code.
 - For complex logic, write tests before implementation.
 - Add data invariant checks when changing restaurant seed data.
 - For API functions, test success, validation failure, auth failure, and rate-limit/abuse paths.

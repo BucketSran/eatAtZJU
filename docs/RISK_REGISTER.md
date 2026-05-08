@@ -7,7 +7,7 @@
 - 已知高风险项都有明确缓解措施。
 - 剩余风险都被显式记录，不假装不存在。
 - 每次进入下一阶段前都有可验证的退出条件。
-- 工具和 MCP 用来提升开发/运营效率，但不成为小程序运行时的隐形依赖。
+- 工具和 MCP 用来提升开发/运营效率，但不成为产品运行时的隐形依赖。
 
 因此，本登记册把“事实上的 100% 信心”定义为：当前阶段内没有未处理的 P0/P1 风险，P2/P3 风险都有 owner、触发条件和下一步动作。
 
@@ -38,12 +38,14 @@
 | R14 | 发布配置风险 | P1 | 小程序 `touristappid`、Vercel env、Supabase keys、source map、域名和隐私配置都可能在发布前出错。 | 发布前必须复核 Vercel production env、Supabase anon/service-role key、域名、source map 和隐私策略。 | 新增约束 |
 | R15 | 图片版权与肖像权 | P0 | 打卡图可能包含他人脸部、商家素材或平台水印。 | 用户授权声明、图片内容安全、必要时打码、投诉删除入口。 | 规划中 |
 | R16 | 校园邮箱验证被滥用 | P1 | 邮箱验证码可被撞库、频繁请求或转让账号。 | 限频、验证码过期、设备风险控制、绑定微信 openid。 | 规划中 |
-| R17 | 成本失控 | P2 | 图片存储、云函数调用、AI 推荐理由生成都可能带来成本。 | 设置预算告警、限流、缓存、AI 只在后端异步生成。 | 规划中 |
+| R17 | 成本失控 | P2 | 图片存储、Vercel Functions 调用、Supabase 用量、AI 推荐理由生成都可能带来成本。 | 设置预算告警、限流、缓存、AI 只在后端异步生成。 | 规划中 |
 | R18 | MCP/外部工具可用性不稳定 | P2 | 插件、connector、CLI token、网络代理都可能失效。 | 所有关键流程保留本地 CLI 或手工 fallback，不把 MCP 作为唯一路径。 | 已记录 |
 | R19 | 缺少 GitHub issue/PR 规范 | P2 | 迭代多了以后上下文会散，vibecoding 容易变成漂流瓶。 | 增加 bug、feature、data、risk issue 模板，以及 PR checklist。 | 已缓解 |
 | R20 | 无真实用户验证 | P1 | 功能看起来完整，但可能不解决学生真实选择困难。 | 10-20 人内测，记录“是否真的帮你决定吃什么”和失败原因。 | 待处理 |
 | R21 | 从小程序切到 Web/PWA 影响传播路径 | P1 | 浙大学生天然更熟悉微信分享，小程序转 Web/PWA 可能降低微信内打开体验。 | Web/PWA 先验证产品，保留小程序原型；如内测证明微信入口关键，再用同一 Supabase 后端恢复小程序客户端。 | 新增约束 |
 | R22 | Vercel Functions 不适合长任务 | P2 | 批量抓取、数据清洗和重 AI 任务可能超出 serverless 请求模型。 | 长任务改为离线脚本、Supabase scheduled jobs、队列或专门 worker，不阻塞用户请求。 | 新增约束 |
+| R23 | SPA fallback 误吞 API 路由 | P1 | React Router 需要 fallback 到 `index.html`，但错误 rewrites 可能把 `/api/*` 也重写成前端页面。 | `vercel.json` 使用 negative lookahead，仅非 `/api/` 路径 fallback；新增 API 后必须用 Vercel preview 验证。 | 已缓解 |
+| R24 | 前端骨架与真实数据路径脱节 | P1 | 如果 UI 继续用占位数据，后续接 API/Supabase 会返工。 | 已新增 schema-versioned seed、typed domain models、seed repository，并将下一阶段锁定为服务/API 边界。 | 已缓解 |
 
 ## 风险归属约定
 
@@ -74,7 +76,7 @@
 
 ### 小范围内测前
 
-- 真机跑通首页、地图、详情、收藏、偏好。
+- 本地浏览器或 Vercel preview 跑通首页、发现、详情、收藏、偏好。
 - Vercel preview、隐私配置、定位权限说明准备好。
 - 至少 80 家真实种子餐厅，覆盖主要区域和预算段。
 - 有反馈表或 issue 收集渠道。
@@ -95,4 +97,4 @@
 - 不应把论坛/小红书/微信群内容当作可自由复制的数据源。
 - 当前阶段最值得马上做的是：数据 seed 化、mock/api 双模式、React/Vercel/Supabase 骨架、Supabase RLS 权限设计。
 
-架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未实现的身份、审核、隐私、RLS、权限和运营能力。
+架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略已经完成第一阶段闭环；但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未实现的身份、审核、隐私、RLS、权限和运营能力。

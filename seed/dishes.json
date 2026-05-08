@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "dishes": [
+    {
+      "id": "d00101",
+      "restaurantId": "r001",
+      "name": "招牌小炒黄牛肉",
+      "price": 48,
+      "heat": 98,
+      "status": "published"
+    },
+    {
+      "id": "d00102",
+      "restaurantId": "r001",
+      "name": "酸辣鸡杂",
+      "price": 36,
+      "heat": 88,
+      "status": "published"
+    },
+    {
+      "id": "d00103",
+      "restaurantId": "r001",
+      "name": "砂锅米饭",
+      "price": 5,
+      "heat": 76,
+      "status": "published"
+    },
+    {
+      "id": "d00201",
+      "restaurantId": "r002",
+      "name": "番茄牛腩饭",
+      "price": 26,
+      "heat": 93,
+      "status": "published"
+    },
+    {
+      "id": "d00202",
+      "restaurantId": "r002",
+      "name": "青椒肉丝盖饭",
+      "price": 18,
+      "heat": 84,
+      "status": "published"
+    },
+    {
+      "id": "d00203",
+      "restaurantId": "r002",
+      "name": "小碗汤",
+      "price": 4,
+      "heat": 62,
+      "status": "published"
+    },
+    {
+      "id": "d00301",
+      "restaurantId": "r003",
+      "name": "咖喱鸡饭",
+      "price": 18,
+      "heat": 89,
+      "status": "published"
+    },
+    {
+      "id": "d00302",
+      "restaurantId": "r003",
+      "name": "孜然牛肉拌面",
+      "price": 22,
+      "heat": 83,
+      "status": "published"
+    },
+    {
+      "id": "d00303",
+      "restaurantId": "r003",
+      "name": "酸奶碗",
+      "price": 12,
+      "heat": 71,
+      "status": "published"
+    },
+    {
+      "id": "d00401",
+      "restaurantId": "r004",
+      "name": "番茄肥牛面",
+      "price": 35,
+      "heat": 92,
+      "status": "published"
+    },
+    {
+      "id": "d00402",
+      "restaurantId": "r004",
+      "name": "雪菜笋丝面",
+      "price": 24,
+      "heat": 73,
+      "status": "published"
+    },
+    {
+      "id": "d00403",
+      "restaurantId": "r004",
+      "name": "卤蛋",
+      "price": 4,
+      "heat": 66,
+      "status": "published"
+    },
+    {
+      "id": "d00501",
+      "restaurantId": "r005",
+      "name": "炸鸡柳",
+      "price": 12,
+      "heat": 94,
+      "status": "published"
+    },
+    {
+      "id": "d00502",
+      "restaurantId": "r005",
+      "name": "年糕串",
+      "price": 4,
+      "heat": 91,
+      "status": "published"
+    },
+    {
+      "id": "d00503",
+      "restaurantId": "r005",
+      "name": "掌中宝",
+      "price": 16,
+      "heat": 79,
+      "status": "published"
+    },
+    {
+      "id": "d00601",
+      "restaurantId": "r006",
+      "name": "炸猪排咖喱饭",
+      "price": 42,
+      "heat": 96,
+      "status": "published"
+    },
+    {
+      "id": "d00602",
+      "restaurantId": "r006",
+      "name": "溏心蛋牛肉咖喱",
+      "price": 38,
+      "heat": 87,
+      "status": "published"
+    },
+    {
+      "id": "d00603",
+      "restaurantId": "r006",
+      "name": "柚子苏打",
+      "price": 16,
+      "heat": 74,
+      "status": "published"
+    }
+  ]
+}

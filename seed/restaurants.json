@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "restaurants": [
+    {
+      "id": "r001",
+      "name": "青芝坞·小院川味",
+      "area": "青芝坞",
+      "distance": 1.8,
+      "walkMinutes": 22,
+      "cuisine": "川湘菜",
+      "price": 46,
+      "rating": 4.7,
+      "studentScore": 96,
+      "checkins": 328,
+      "latitude": 30.2749,
+      "longitude": 120.1238,
+      "coverIcon": "辣",
+      "coverColor": "#d95f35",
+      "tags": [
+        "辣",
+        "聚餐",
+        "下饭",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "晚餐聚餐",
+        "想吃辣",
+        "三五好友"
+      ],
+      "reason": "学生评价集中在“锅气足、分量稳、晚饭不踩雷”，适合约饭和改善伙食。",
+      "status": "published"
+    },
+    {
+      "id": "r002",
+      "name": "港湾家常菜",
+      "area": "紫金港北门",
+      "distance": 0.7,
+      "walkMinutes": 9,
+      "cuisine": "家常菜",
+      "price": 28,
+      "rating": 4.5,
+      "studentScore": 91,
+      "checkins": 412,
+      "latitude": 30.3124,
+      "longitude": 120.0921,
+      "coverIcon": "饭",
+      "coverColor": "#f0aa38",
+      "tags": [
+        "近",
+        "实惠",
+        "快餐",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "下课即吃",
+        "预算友好",
+        "单人吃饭"
+      ],
+      "reason": "距离近、出餐快，是“今天不想思考”的安全牌。",
+      "status": "published"
+    },
+    {
+      "id": "r003",
+      "name": "留学生食堂风味档",
+      "area": "校内",
+      "distance": 0.4,
+      "walkMinutes": 6,
+      "cuisine": "融合简餐",
+      "price": 24,
+      "rating": 4.4,
+      "studentScore": 88,
+      "checkins": 285,
+      "latitude": 30.3088,
+      "longitude": 120.0865,
+      "coverIcon": "校",
+      "coverColor": "#4f8b65",
+      "tags": [
+        "校内",
+        "实惠",
+        "清真友好",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "课间午餐",
+        "多人拼桌",
+        "轻负担"
+      ],
+      "reason": "校内可达，价格友好，风味档选择比普通窗口更有记忆点。",
+      "status": "published"
+    },
+    {
+      "id": "r004",
+      "name": "龙湖天街·一碗热汤面",
+      "area": "西溪天街",
+      "distance": 2.3,
+      "walkMinutes": 29,
+      "cuisine": "面馆",
+      "price": 33,
+      "rating": 4.6,
+      "studentScore": 89,
+      "checkins": 194,
+      "latitude": 30.2965,
+      "longitude": 120.1012,
+      "coverIcon": "面",
+      "coverColor": "#6d8fbd",
+      "tags": [
+        "面食",
+        "暖胃",
+        "一人食",
+        "人均40内"
+      ],
+      "suitedFor": [
+        "雨天热汤",
+        "独自觅食",
+        "轻聚餐"
+      ],
+      "reason": "汤头清爽、座位舒服，适合一个人慢慢吃完再回去写作业。",
+      "status": "published"
+    },
+    {
+      "id": "r005",
+      "name": "西园夜市·炸串铺",
+      "area": "西园",
+      "distance": 1.1,
+      "walkMinutes": 15,
+      "cuisine": "小吃夜宵",
+      "price": 22,
+      "rating": 4.3,
+      "studentScore": 86,
+      "checkins": 506,
+      "latitude": 30.3029,
+      "longitude": 120.0774,
+      "coverIcon": "串",
+      "coverColor": "#b85834",
+      "tags": [
+        "夜宵",
+        "小吃",
+        "实惠",
+        "快乐碳水"
+      ],
+      "suitedFor": [
+        "夜跑后",
+        "组队加餐",
+        "嘴馋"
+      ],
+      "reason": "打卡量很高，学生评价的关键词是“热闹、便宜、快乐”。",
+      "status": "published"
+    },
+    {
+      "id": "r006",
+      "name": "慢吞吞咖喱屋",
+      "area": "申花",
+      "distance": 2,
+      "walkMinutes": 25,
+      "cuisine": "日式简餐",
+      "price": 39,
+      "rating": 4.8,
+      "studentScore": 94,
+      "checkins": 236,
+      "latitude": 30.3204,
+      "longitude": 120.1042,
+      "coverIcon": "咖",
+      "coverColor": "#8c6338",
+      "tags": [
+        "不辣",
+        "一人食",
+        "拍照",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "独处放空",
+        "不想吃辣",
+        "拍照打卡"
+      ],
+      "reason": "环境安静、咖喱浓郁，适合想暂时逃离食堂宇宙的一餐。",
+      "status": "published"
+    }
+  ],
+  "tasteTags": [
+    "全部",
+    "近",
+    "实惠",
+    "辣",
+    "不辣",
+    "夜宵",
+    "一人食",
+    "聚餐",
+    "校内",
+    "面食"
+  ],
+  "priceRanges": [
+    {
+      "label": "不限",
+      "min": 0,
+      "max": 999
+    },
+    {
+      "label": "30以内",
+      "min": 0,
+      "max": 30
+    },
+    {
+      "label": "30-50",
+      "min": 30,
+      "max": 50
+    },
+    {
+      "label": "50+",
+      "min": 50,
+      "max": 999
+    }
+  ]
+}

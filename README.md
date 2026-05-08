@@ -28,15 +28,31 @@ Vercel deploys from GitHub
 
 ## 如何运行
 
-1. 打开微信开发者工具。
-2. 选择“导入项目”。
-3. 项目目录选择当前目录 `eatAtZJU`。
-4. AppID 可先使用测试号或项目里的 `touristappid`。
-5. 编译运行。
+Web/PWA demo:
+
+```bash
+npm install
+npm run dev
+```
+
+开发服务器默认运行在 `http://localhost:5173`。
+
+生产构建和检查：
+
+```bash
+npm run check
+npm run build
+```
+
+微信小程序原型仍保留，可用微信开发者工具导入当前目录查看。
 
 ## 项目结构
 
 ```text
+index.html / vite.config.ts        React/Vite Web 入口与配置
+src/                             React/Vite/TypeScript demo 源码
+seed/                            schema-versioned demo seed 数据
+api/                             Vercel Functions 预留目录
 app.js / app.json / app.wxss      小程序入口与全局样式
 components/restaurant-card/       餐厅卡片组件
 data/restaurants.js               MVP mock 餐厅数据
@@ -57,10 +73,11 @@ docs/DEMO_PLAN.md                  Demo v0.1 范围和验收
 docs/UI_STYLE_GUIDE.md             Demo UI 风格指南
 docs/MCP_USAGE_PLAN.md             MCP/工具介入计划
 docs/REFERENCE_REPOS_REVIEW.md     高星参考仓库调研
+docs/DEMO_FOUNDATION_REVIEW.md     Demo 地基策略审计
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude
-scripts/check.js                  本地 sanity check
+scripts/check.cjs                 本地 sanity check
 .github/                          Issue/PR 模板和 GitHub Actions 检查
 ```
 
@@ -72,9 +89,11 @@ npm run check
 
 检查内容包括：
 
-- 所有 JS 文件语法
+- 所有 JS/CJS 文件语法
 - 所有 JSON 配置解析
-- 餐厅 mock 数据必填字段、重复 ID、评分/价格范围
+- TypeScript 类型检查
+- 小程序 legacy mock 数据基础不变量
+- Web demo seed JSON 的 schemaVersion、关联完整性、评分/价格/经纬度范围
 - 服务层筛选、收藏装饰、随机推荐和地图 marker 数量
 
 ## 推荐逻辑
@@ -87,11 +106,11 @@ npm run check
 - 打卡量 `checkins`
 - 用户偏好标签命中数
 
-后续可以把 `utils/recommend.js` 的规则迁移到云函数，或加入好友推荐、时间段、预算历史等信号。
+后续可以把推荐规则迁移到 Vercel Functions / Supabase-backed repository，或加入好友推荐、时间段、预算历史等信号。
 
 ## 策略安全边界
 
-- MCP/插件只作为开发、测试、数据整理和后台运营辅助，不作为小程序运行时依赖。
+- MCP/插件只作为开发、测试、数据整理和后台运营辅助，不作为产品运行时依赖。
 - 真实 UGC 上线前必须完成身份验证、内容安全、审核队列、隐私政策和数据库权限模型。
 - 学生社区内容只能做授权整理和事实摘要，不能直接搬运原文、图片、昵称或受版权保护的素材。
 - 前端可以使用 Supabase anon key，但必须依赖严格 RLS；service-role key 和 AI/API 密钥只能放在 Vercel 服务端环境变量。

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "reviews": [
+    {
+      "id": "rv00101",
+      "restaurantId": "r001",
+      "userName": "紫金港饭搭子",
+      "text": "辣度可以备注，米饭很香，四个人点三个菜刚刚好。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv00102",
+      "restaurantId": "r001",
+      "userName": "赶DDL的研一",
+      "text": "高峰要等位，但翻台快。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv00201",
+      "restaurantId": "r002",
+      "userName": "十分钟吃完",
+      "text": "性价比稳定，适合赶课。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv00202",
+      "restaurantId": "r002",
+      "userName": "不吃香菜",
+      "text": "口味偏家常，重口党可能觉得淡。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv00301",
+      "restaurantId": "r003",
+      "userName": "玉泉路过",
+      "text": "比想象中丰富，咖喱饭很稳。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv00302",
+      "restaurantId": "r003",
+      "userName": "早八幸存者",
+      "text": "中午排队略长，建议错峰。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv00401",
+      "restaurantId": "r004",
+      "userName": "爱喝汤",
+      "text": "番茄汤底很舒服，冬天尤其加分。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv00402",
+      "restaurantId": "r004",
+      "userName": "小份就够",
+      "text": "商场价，但环境比路边店好。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv00501",
+      "restaurantId": "r005",
+      "userName": "今晚不减脂",
+      "text": "快乐是真的，罪恶感也是真的。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv00502",
+      "restaurantId": "r005",
+      "userName": "夜宵观察员",
+      "text": "建议两三个人拼，不然容易点多。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv00601",
+      "restaurantId": "r006",
+      "userName": "咖喱信徒",
+      "text": "猪排脆，咖喱很厚，适合慢慢吃。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv00602",
+      "restaurantId": "r006",
+      "userName": "论文卡住了",
+      "text": "一个人坐窗边挺治愈。",
+      "rating": 5,
+      "status": "approved"
+    }
+  ]
+}

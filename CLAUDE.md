@@ -30,20 +30,21 @@ The existing WeChat mini-program code is a prototype/reference and should not be
 
 ## Required Commands
 
-Run before commit:
+Run before commit when app code changes:
 
 ```bash
 npm run check
+npm run build
 ```
 
-When React migration starts, add and use:
+Use during local development:
 
 ```bash
 npm run dev
-npm run build
-npm run lint
-npm run test
+npm run preview
 ```
+
+`npm run lint` and `npm run test` should be added when the React implementation grows beyond the skeleton.
 
 ## MCP / Tool Policy
 
@@ -77,8 +78,8 @@ Do not treat MCP as product runtime infrastructure. The product runtime should c
 
 Build the React/Vercel/Supabase foundation while preserving the current mini-program prototype:
 
-1. Create React + TypeScript + Vite skeleton.
-2. Convert mock restaurant data into schema-versioned seed JSON.
-3. Add Vercel Functions for restaurant list/detail and recommendation.
-4. Draft Supabase schema and RLS migrations.
-5. Port current core pages to React.
+1. Build demo service/API boundaries on top of schema-versioned seed JSON.
+2. Add Vercel Functions for restaurant list/detail and recommendation.
+3. Draft Supabase schema and RLS migrations.
+4. Port current core pages to React.
+5. Inspect local UI in browser after `npm run dev` works.
