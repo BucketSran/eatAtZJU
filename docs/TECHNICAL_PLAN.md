@@ -13,6 +13,27 @@
 - 审核：用户提交进入 `submissions`，管理员审核后写入正式集合。
 - 推荐：早期规则云函数，后期再加轻量 Agent 生成推荐理由。
 
+## MCP / 外部工具边界
+
+MCP 和插件能力主要用于开发期与运营期，不进入小程序运行时：
+
+- GitHub：版本、issue、PR、CI 和代码 review。
+- Browser Use：后续 Web Admin 的本地交互测试、截图和验收。
+- Documents / Spreadsheets：PRD、数据字典、审核规范、种子数据表。
+- AI Agent：只能通过后端或管理侧调用，用于生成推荐理由、辅助审核摘要或数据清洗建议。
+
+小程序端只调用微信能力、云函数或我们自己的后端 API。不要让客户端直接依赖 MCP、第三方 token 或管理工具。
+
+## 安全与合规门槛
+
+- UGC 不得直接写入正式集合，必须先进入 `submissions`。
+- 所有文本、图片类 UGC 先过微信内容安全接口，再进入人工或社区审核。
+- 餐厅种子数据不得未经授权复制论坛、小红书、微信群等平台的原文、图片、昵称或截图。
+- 个人数据最小化采集，收藏、偏好、打卡、定位都需要在隐私政策中说明。
+- 用户数据写操作必须走云函数，数据库权限默认最小化。
+- 管理员操作必须写入 `audit_logs`，保留审核前后快照，支持回滚。
+- 发布前替换正式 AppID，开启必要 URL 校验，并复核 source map 上传策略。
+
 ## 数据集合草案
 
 ### restaurants
@@ -94,6 +115,22 @@
 }
 ```
 
+### audit_logs
+
+```js
+{
+  _id: 'audit_log_id',
+  actorId: 'admin_user_id',
+  action: 'approve' | 'reject' | 'merge' | 'rollback',
+  targetCollection: 'submissions',
+  targetId: 'submission_id',
+  before: {},
+  after: {},
+  reason: '信息完整且通过内容安全',
+  createdAt: Date
+}
+```
+
 ## API / 云函数草案
 
 - `listRestaurants(filters)`：列表、筛选、搜索、推荐排序
@@ -111,6 +148,14 @@
 3. 把本地 `utils/storage.js` 的收藏迁移到 `users.favoriteRestaurantIds`。
 4. 加入微信登录与校园邮箱认证。
 5. 加审核后台页面或独立 Web Admin。
+
+## 不进入下一阶段的阻断条件
+
+- `npm run check` 不通过。
+- 数据源绕过 `services/restaurantService.js` 直接散落在页面里。
+- 没有明确云数据库权限模型。
+- 没有内容安全与审核队列就开放真实 UGC。
+- 没有隐私政策和定位权限说明就进入公开测试。
 
 ## 产品下一步优先级
 

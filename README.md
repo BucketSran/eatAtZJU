@@ -35,7 +35,23 @@ pages/favorites/                  收藏页
 pages/profile/                    我的/偏好页
 docs/TECHNICAL_PLAN.md            后续云开发和产品路线
 docs/WORKPLAN.md                  当前迭代工作清单
+docs/RISK_REGISTER.md             策略漏洞、风险等级和修复门槛
+scripts/check.js                  本地 sanity check
+.github/                          Issue/PR 模板和 GitHub Actions 检查
 ```
+
+## 本地检查
+
+```bash
+npm run check
+```
+
+检查内容包括：
+
+- 所有 JS 文件语法
+- 所有 JSON 配置解析
+- 餐厅 mock 数据必填字段、重复 ID、评分/价格范围
+- 服务层筛选、收藏装饰、随机推荐和地图 marker 数量
 
 ## 推荐逻辑
 
@@ -48,3 +64,10 @@ docs/WORKPLAN.md                  当前迭代工作清单
 - 用户偏好标签命中数
 
 后续可以把 `utils/recommend.js` 的规则迁移到云函数，或加入好友推荐、时间段、预算历史等信号。
+
+## 策略安全边界
+
+- MCP/插件只作为开发、测试、数据整理和后台运营辅助，不作为小程序运行时依赖。
+- 真实 UGC 上线前必须完成身份验证、内容安全、审核队列、隐私政策和数据库权限模型。
+- 学生社区内容只能做授权整理和事实摘要，不能直接搬运原文、图片、昵称或受版权保护的素材。
+- 发布前需要替换正式 AppID，并复核 `urlCheck`、source map、定位权限和隐私配置。

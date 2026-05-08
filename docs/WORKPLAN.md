@@ -7,7 +7,9 @@
 - 初始化 Git 仓库并推送到 `BucketSran/eatAtZJU`。
 - 保持 `main` 为稳定分支，后续功能用 `feature/*` 或 `codex/*` 分支。
 - 每轮迭代保留清晰 commit message 和变更说明。
-- 后续可接入 GitHub Issues 管理功能、Bug、数据任务和发布节奏。
+- 已接入 GitHub Issues 模板、PR checklist 和 Actions sanity check，用于管理功能、Bug、数据任务、合规风险和发布节奏。
+- 修复本机 GitHub CLI 认证：执行 `gh auth login -h github.com`，以便后续创建 issue、PR 和检查 CI。
+- 用 issue 模板和 PR checklist 承接需求、数据任务和合规事项，避免上下文散落在聊天记录里。
 
 ## 1. 当前 MVP 打磨
 
@@ -15,14 +17,18 @@
 - 调整地图 marker、页面间跳转、收藏状态同步和不同机型样式。
 - 补充更多紫金港周边种子餐厅数据，至少覆盖北门、青芝坞、西园、申花、西溪天街。
 - 将 mock 数据从 JS 文件逐步整理成可导入的 JSON seed。
+- 每次提交前运行 `npm run check`。
+- 发布前替换正式 AppID，复核 `urlCheck`、source map、定位权限和隐私配置。
 
 ## 2. 云开发接入
 
 - 创建微信云开发环境。
 - 设计并创建集合：`restaurants`、`dishes`、`reviews`、`checkins`、`users`、`submissions`。
+- 增加 `audit_logs` 集合，记录管理员审核、合并、回滚。
 - 增加云函数：`listRestaurants`、`getRestaurantDetail`、`toggleFavorite`、`recommendToday`。
 - 将 `services/restaurantService.js` 改造成 mock/cloud 双模式，前端页面尽量不改。
 - 把收藏和偏好从本地 storage 迁移到用户数据。
+- 默认数据库权限最小化，用户写操作只走云函数。
 
 ## 3. 学生可信数据机制
 
@@ -31,6 +37,8 @@
 - 所有 UGC 先进入 `submissions` 审核队列。
 - 接入微信内容安全能力审核文本和图片。
 - 设计贡献信用机制：高采纳率用户减少审核成本，异常评价进入复核。
+- 不直接搬运学生社区原文、图片、昵称或截图；初始数据只保留授权内容、事实字段和摘要标签。
+- 增加投诉删除和数据更正流程。
 
 ## 4. 推荐与榜单
 
