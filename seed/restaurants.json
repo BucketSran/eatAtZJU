@@ -696,6 +696,1050 @@
       ],
       "reason": "校内夜宵兜底选项，便宜、近、不会太撑。",
       "status": "published"
+    },
+    {
+      "id": "r025",
+      "name": "紫金港北门·川湘小炒一号店",
+      "area": "紫金港北门",
+      "distance": 0.8,
+      "walkMinutes": 10,
+      "cuisine": "川湘小炒",
+      "price": 40,
+      "rating": 4.2,
+      "studentScore": 88,
+      "checkins": 125,
+      "latitude": 30.313,
+      "longitude": 120.0882,
+      "coverIcon": "辣",
+      "coverColor": "#c84b35",
+      "tags": [
+        "辣",
+        "下饭",
+        "聚餐",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "晚饭改善",
+        "想吃辣",
+        "三五好友"
+      ],
+      "reason": "锅气足、味道直接，适合想把米饭认真吃完的一餐。",
+      "status": "published"
+    },
+    {
+      "id": "r026",
+      "name": "紫金港南门·家常盖饭小馆",
+      "area": "紫金港南门",
+      "distance": 1.3,
+      "walkMinutes": 18,
+      "cuisine": "家常盖饭",
+      "price": 23,
+      "rating": 4.3,
+      "studentScore": 89,
+      "checkins": 162,
+      "latitude": 30.2998,
+      "longitude": 120.0874,
+      "coverIcon": "饭",
+      "coverColor": "#e0a23a",
+      "tags": [
+        "实惠",
+        "快餐",
+        "一人食",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "赶课午餐",
+        "预算友好",
+        "单人吃饭"
+      ],
+      "reason": "出餐快、价格稳，是日常不知道吃什么时的安全牌。",
+      "status": "published"
+    },
+    {
+      "id": "r027",
+      "name": "校内·面馆粉铺饭铺",
+      "area": "校内",
+      "distance": 0.3,
+      "walkMinutes": 4,
+      "cuisine": "面馆粉铺",
+      "price": 27,
+      "rating": 4.3,
+      "studentScore": 90,
+      "checkins": 199,
+      "latitude": 30.3094,
+      "longitude": 120.0872,
+      "coverIcon": "面",
+      "coverColor": "#6688bd",
+      "tags": [
+        "面食",
+        "暖胃",
+        "一人食",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "雨天热汤",
+        "一个人",
+        "快速解决"
+      ],
+      "reason": "热汤和碳水都到位，适合课间或晚自习前快速补能。",
+      "status": "published"
+    },
+    {
+      "id": "r028",
+      "name": "西园·夜宵小吃食堂外档",
+      "area": "西园",
+      "distance": 1.1,
+      "walkMinutes": 15,
+      "cuisine": "夜宵小吃",
+      "price": 23,
+      "rating": 4.4,
+      "studentScore": 91,
+      "checkins": 236,
+      "latitude": 30.307,
+      "longitude": 120.0733,
+      "coverIcon": "夜",
+      "coverColor": "#5c6078",
+      "tags": [
+        "夜宵",
+        "小吃",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "晚课后",
+        "嘴馋",
+        "组队加餐"
+      ],
+      "reason": "便宜、热闹、快乐，适合晚上给自己一点小奖励。",
+      "status": "published"
+    },
+    {
+      "id": "r029",
+      "name": "青芝坞·轻食简餐街角店",
+      "area": "青芝坞",
+      "distance": 1.9,
+      "walkMinutes": 24,
+      "cuisine": "轻食简餐",
+      "price": 31,
+      "rating": 4.5,
+      "studentScore": 92,
+      "checkins": 273,
+      "latitude": 30.2782,
+      "longitude": 120.1263,
+      "coverIcon": "轻",
+      "coverColor": "#5aa37c",
+      "tags": [
+        "不辣",
+        "一人食",
+        "轻负担",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "健身后",
+        "清爽午餐",
+        "不想太油"
+      ],
+      "reason": "口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。",
+      "status": "published"
+    },
+    {
+      "id": "r030",
+      "name": "申花·日韩简餐小桌",
+      "area": "申花",
+      "distance": 1.9,
+      "walkMinutes": 23,
+      "cuisine": "日韩简餐",
+      "price": 36,
+      "rating": 4.6,
+      "studentScore": 93,
+      "checkins": 310,
+      "latitude": 30.319,
+      "longitude": 120.1038,
+      "coverIcon": "拌",
+      "coverColor": "#8d5a3b",
+      "tags": [
+        "一人食",
+        "下饭",
+        "拍照",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "周末换口味",
+        "独自觅食",
+        "两人小聚"
+      ],
+      "reason": "酱汁和主食都比较稳，店面氛围适合慢慢吃。",
+      "status": "published"
+    },
+    {
+      "id": "r031",
+      "name": "蒋村·清真友好便当社",
+      "area": "蒋村",
+      "distance": 2.2,
+      "walkMinutes": 28,
+      "cuisine": "清真友好",
+      "price": 23,
+      "rating": 4.7,
+      "studentScore": 94,
+      "checkins": 347,
+      "latitude": 30.3004,
+      "longitude": 120.0692,
+      "coverIcon": "牛",
+      "coverColor": "#4f8b65",
+      "tags": [
+        "清真友好",
+        "面食",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "清真友好",
+        "午餐快吃",
+        "预算友好"
+      ],
+      "reason": "选择稳定、价格友好，适合日常快速解决。",
+      "status": "published"
+    },
+    {
+      "id": "r032",
+      "name": "文一西路·聚餐烤鱼热饭局",
+      "area": "文一西路",
+      "distance": 2.8,
+      "walkMinutes": 36,
+      "cuisine": "聚餐烤鱼",
+      "price": 58,
+      "rating": 4.1,
+      "studentScore": 95,
+      "checkins": 384,
+      "latitude": 30.2936,
+      "longitude": 120.095,
+      "coverIcon": "鱼",
+      "coverColor": "#3d7f8f",
+      "tags": [
+        "聚餐",
+        "辣",
+        "夜宵",
+        "50+"
+      ],
+      "suitedFor": [
+        "多人约饭",
+        "夜宵改善",
+        "想吃鱼"
+      ],
+      "reason": "更适合多人分食，氛围感比日常快餐强。",
+      "status": "published"
+    },
+    {
+      "id": "r033",
+      "name": "城西银泰·粥面暖胃风味档",
+      "area": "城西银泰",
+      "distance": 2.7,
+      "walkMinutes": 33,
+      "cuisine": "粥面暖胃",
+      "price": 20,
+      "rating": 4.2,
+      "studentScore": 96,
+      "checkins": 421,
+      "latitude": 30.2968,
+      "longitude": 120.1128,
+      "coverIcon": "粥",
+      "coverColor": "#c0955f",
+      "tags": [
+        "暖胃",
+        "不辣",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "晚课后",
+        "胃口一般",
+        "轻负担"
+      ],
+      "reason": "清淡、近、负担小，适合不想吃太重的一餐。",
+      "status": "published"
+    },
+    {
+      "id": "r034",
+      "name": "三墩·咖啡甜点深夜档",
+      "area": "三墩",
+      "distance": 3.2,
+      "walkMinutes": 40,
+      "cuisine": "咖啡甜点",
+      "price": 38,
+      "rating": 4.3,
+      "studentScore": 80,
+      "checkins": 458,
+      "latitude": 30.3227,
+      "longitude": 120.0745,
+      "coverIcon": "咖",
+      "coverColor": "#8c6338",
+      "tags": [
+        "拍照",
+        "不辣",
+        "一人食",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "下午自习",
+        "独处放空",
+        "轻约会"
+      ],
+      "reason": "适合坐一会儿，把吃饭和自习之间的缝隙填满。",
+      "status": "published"
+    },
+    {
+      "id": "r035",
+      "name": "紫金港北门·东南亚风味一号店",
+      "area": "紫金港北门",
+      "distance": 0.9,
+      "walkMinutes": 12,
+      "cuisine": "东南亚风味",
+      "price": 41,
+      "rating": 4.3,
+      "studentScore": 81,
+      "checkins": 495,
+      "latitude": 30.3121,
+      "longitude": 120.0881,
+      "coverIcon": "越",
+      "coverColor": "#4d9a8d",
+      "tags": [
+        "不辣",
+        "清爽",
+        "面食",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "周末换口味",
+        "清爽汤粉",
+        "轻聚餐"
+      ],
+      "reason": "汤粉清爽，香料感轻，适合吃腻重口后的换口味。",
+      "status": "published"
+    },
+    {
+      "id": "r036",
+      "name": "紫金港南门·东北大份菜小馆",
+      "area": "紫金港南门",
+      "distance": 1.1,
+      "walkMinutes": 14,
+      "cuisine": "东北大份菜",
+      "price": 44,
+      "rating": 4.4,
+      "studentScore": 82,
+      "checkins": 532,
+      "latitude": 30.3053,
+      "longitude": 120.0934,
+      "coverIcon": "锅",
+      "coverColor": "#b06a36",
+      "tags": [
+        "聚餐",
+        "下饭",
+        "大份",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "寝室聚餐",
+        "大份下饭",
+        "晚饭改善"
+      ],
+      "reason": "菜量友好，人多分摊很合适，适合寝室饭局。",
+      "status": "published"
+    },
+    {
+      "id": "r037",
+      "name": "校内·川湘小炒饭铺",
+      "area": "校内",
+      "distance": 0.4,
+      "walkMinutes": 6,
+      "cuisine": "川湘小炒",
+      "price": 42,
+      "rating": 4.5,
+      "studentScore": 83,
+      "checkins": 569,
+      "latitude": 30.3067,
+      "longitude": 120.0836,
+      "coverIcon": "辣",
+      "coverColor": "#c84b35",
+      "tags": [
+        "辣",
+        "下饭",
+        "聚餐",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "晚饭改善",
+        "想吃辣",
+        "三五好友"
+      ],
+      "reason": "锅气足、味道直接，适合想把米饭认真吃完的一餐。",
+      "status": "published"
+    },
+    {
+      "id": "r038",
+      "name": "西园·家常盖饭食堂外档",
+      "area": "西园",
+      "distance": 1.2,
+      "walkMinutes": 17,
+      "cuisine": "家常盖饭",
+      "price": 25,
+      "rating": 4.6,
+      "studentScore": 84,
+      "checkins": 146,
+      "latitude": 30.3008,
+      "longitude": 120.0737,
+      "coverIcon": "饭",
+      "coverColor": "#e0a23a",
+      "tags": [
+        "实惠",
+        "快餐",
+        "一人食",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "赶课午餐",
+        "预算友好",
+        "单人吃饭"
+      ],
+      "reason": "出餐快、价格稳，是日常不知道吃什么时的安全牌。",
+      "status": "published"
+    },
+    {
+      "id": "r039",
+      "name": "青芝坞·面馆粉铺街角店",
+      "area": "青芝坞",
+      "distance": 1.7,
+      "walkMinutes": 20,
+      "cuisine": "面馆粉铺",
+      "price": 29,
+      "rating": 4.7,
+      "studentScore": 85,
+      "checkins": 183,
+      "latitude": 30.277,
+      "longitude": 120.1193,
+      "coverIcon": "面",
+      "coverColor": "#6688bd",
+      "tags": [
+        "面食",
+        "暖胃",
+        "一人食",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "雨天热汤",
+        "一个人",
+        "快速解决"
+      ],
+      "reason": "热汤和碳水都到位，适合课间或晚自习前快速补能。",
+      "status": "published"
+    },
+    {
+      "id": "r040",
+      "name": "申花·夜宵小吃小桌",
+      "area": "申花",
+      "distance": 2,
+      "walkMinutes": 25,
+      "cuisine": "夜宵小吃",
+      "price": 20,
+      "rating": 4.1,
+      "studentScore": 86,
+      "checkins": 220,
+      "latitude": 30.32,
+      "longitude": 120.1022,
+      "coverIcon": "夜",
+      "coverColor": "#5c6078",
+      "tags": [
+        "夜宵",
+        "小吃",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "晚课后",
+        "嘴馋",
+        "组队加餐"
+      ],
+      "reason": "便宜、热闹、快乐，适合晚上给自己一点小奖励。",
+      "status": "published"
+    },
+    {
+      "id": "r041",
+      "name": "蒋村·轻食简餐便当社",
+      "area": "蒋村",
+      "distance": 2.3,
+      "walkMinutes": 30,
+      "cuisine": "轻食简餐",
+      "price": 28,
+      "rating": 4.2,
+      "studentScore": 87,
+      "checkins": 257,
+      "latitude": 30.2961,
+      "longitude": 120.0752,
+      "coverIcon": "轻",
+      "coverColor": "#5aa37c",
+      "tags": [
+        "不辣",
+        "一人食",
+        "轻负担",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "健身后",
+        "清爽午餐",
+        "不想太油"
+      ],
+      "reason": "口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。",
+      "status": "published"
+    },
+    {
+      "id": "r042",
+      "name": "文一西路·日韩简餐热饭局",
+      "area": "文一西路",
+      "distance": 2.6,
+      "walkMinutes": 32,
+      "cuisine": "日韩简餐",
+      "price": 38,
+      "rating": 4.3,
+      "studentScore": 88,
+      "checkins": 294,
+      "latitude": 30.2893,
+      "longitude": 120.0921,
+      "coverIcon": "拌",
+      "coverColor": "#8d5a3b",
+      "tags": [
+        "一人食",
+        "下饭",
+        "拍照",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "周末换口味",
+        "独自觅食",
+        "两人小聚"
+      ],
+      "reason": "酱汁和主食都比较稳，店面氛围适合慢慢吃。",
+      "status": "published"
+    },
+    {
+      "id": "r043",
+      "name": "城西银泰·清真友好风味档",
+      "area": "城西银泰",
+      "distance": 2.8,
+      "walkMinutes": 35,
+      "cuisine": "清真友好",
+      "price": 25,
+      "rating": 4.3,
+      "studentScore": 89,
+      "checkins": 331,
+      "latitude": 30.2957,
+      "longitude": 120.1184,
+      "coverIcon": "牛",
+      "coverColor": "#4f8b65",
+      "tags": [
+        "清真友好",
+        "面食",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "清真友好",
+        "午餐快吃",
+        "预算友好"
+      ],
+      "reason": "选择稳定、价格友好，适合日常快速解决。",
+      "status": "published"
+    },
+    {
+      "id": "r044",
+      "name": "三墩·聚餐烤鱼深夜档",
+      "area": "三墩",
+      "distance": 3.3,
+      "walkMinutes": 42,
+      "cuisine": "聚餐烤鱼",
+      "price": 60,
+      "rating": 4.4,
+      "studentScore": 90,
+      "checkins": 368,
+      "latitude": 30.3209,
+      "longitude": 120.0773,
+      "coverIcon": "鱼",
+      "coverColor": "#3d7f8f",
+      "tags": [
+        "聚餐",
+        "辣",
+        "夜宵",
+        "50+"
+      ],
+      "suitedFor": [
+        "多人约饭",
+        "夜宵改善",
+        "想吃鱼"
+      ],
+      "reason": "更适合多人分食，氛围感比日常快餐强。",
+      "status": "published"
+    },
+    {
+      "id": "r045",
+      "name": "紫金港北门·粥面暖胃一号店",
+      "area": "紫金港北门",
+      "distance": 0.7,
+      "walkMinutes": 8,
+      "cuisine": "粥面暖胃",
+      "price": 17,
+      "rating": 4.5,
+      "studentScore": 91,
+      "checkins": 405,
+      "latitude": 30.3133,
+      "longitude": 120.0875,
+      "coverIcon": "粥",
+      "coverColor": "#c0955f",
+      "tags": [
+        "暖胃",
+        "不辣",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "晚课后",
+        "胃口一般",
+        "轻负担"
+      ],
+      "reason": "清淡、近、负担小，适合不想吃太重的一餐。",
+      "status": "published"
+    },
+    {
+      "id": "r046",
+      "name": "紫金港南门·咖啡甜点小馆",
+      "area": "紫金港南门",
+      "distance": 1.2,
+      "walkMinutes": 16,
+      "cuisine": "咖啡甜点",
+      "price": 35,
+      "rating": 4.6,
+      "studentScore": 92,
+      "checkins": 442,
+      "latitude": 30.297,
+      "longitude": 120.0884,
+      "coverIcon": "咖",
+      "coverColor": "#8c6338",
+      "tags": [
+        "拍照",
+        "不辣",
+        "一人食",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "下午自习",
+        "独处放空",
+        "轻约会"
+      ],
+      "reason": "适合坐一会儿，把吃饭和自习之间的缝隙填满。",
+      "status": "published"
+    },
+    {
+      "id": "r047",
+      "name": "校内·东南亚风味饭铺",
+      "area": "校内",
+      "distance": 0.5,
+      "walkMinutes": 8,
+      "cuisine": "东南亚风味",
+      "price": 43,
+      "rating": 4.7,
+      "studentScore": 93,
+      "checkins": 479,
+      "latitude": 30.31,
+      "longitude": 120.0821,
+      "coverIcon": "越",
+      "coverColor": "#4d9a8d",
+      "tags": [
+        "不辣",
+        "清爽",
+        "面食",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "周末换口味",
+        "清爽汤粉",
+        "轻聚餐"
+      ],
+      "reason": "汤粉清爽，香料感轻，适合吃腻重口后的换口味。",
+      "status": "published"
+    },
+    {
+      "id": "r048",
+      "name": "西园·东北大份菜食堂外档",
+      "area": "西园",
+      "distance": 1,
+      "walkMinutes": 13,
+      "cuisine": "东北大份菜",
+      "price": 46,
+      "rating": 4.1,
+      "studentScore": 94,
+      "checkins": 516,
+      "latitude": 30.2983,
+      "longitude": 120.0758,
+      "coverIcon": "锅",
+      "coverColor": "#b06a36",
+      "tags": [
+        "聚餐",
+        "下饭",
+        "大份",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "寝室聚餐",
+        "大份下饭",
+        "晚饭改善"
+      ],
+      "reason": "菜量友好，人多分摊很合适，适合寝室饭局。",
+      "status": "published"
+    },
+    {
+      "id": "r049",
+      "name": "青芝坞·川湘小炒街角店",
+      "area": "青芝坞",
+      "distance": 1.8,
+      "walkMinutes": 22,
+      "cuisine": "川湘小炒",
+      "price": 44,
+      "rating": 4.2,
+      "studentScore": 95,
+      "checkins": 553,
+      "latitude": 30.2758,
+      "longitude": 120.1242,
+      "coverIcon": "辣",
+      "coverColor": "#c84b35",
+      "tags": [
+        "辣",
+        "下饭",
+        "聚餐",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "晚饭改善",
+        "想吃辣",
+        "三五好友"
+      ],
+      "reason": "锅气足、味道直接，适合想把米饭认真吃完的一餐。",
+      "status": "published"
+    },
+    {
+      "id": "r050",
+      "name": "申花·家常盖饭小桌",
+      "area": "申花",
+      "distance": 2.1,
+      "walkMinutes": 27,
+      "cuisine": "家常盖饭",
+      "price": 22,
+      "rating": 4.3,
+      "studentScore": 96,
+      "checkins": 130,
+      "latitude": 30.3168,
+      "longitude": 120.1091,
+      "coverIcon": "饭",
+      "coverColor": "#e0a23a",
+      "tags": [
+        "实惠",
+        "快餐",
+        "一人食",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "赶课午餐",
+        "预算友好",
+        "单人吃饭"
+      ],
+      "reason": "出餐快、价格稳，是日常不知道吃什么时的安全牌。",
+      "status": "published"
+    },
+    {
+      "id": "r051",
+      "name": "蒋村·面馆粉铺便当社",
+      "area": "蒋村",
+      "distance": 2.1,
+      "walkMinutes": 26,
+      "cuisine": "面馆粉铺",
+      "price": 26,
+      "rating": 4.3,
+      "studentScore": 80,
+      "checkins": 167,
+      "latitude": 30.3017,
+      "longitude": 120.0753,
+      "coverIcon": "面",
+      "coverColor": "#6688bd",
+      "tags": [
+        "面食",
+        "暖胃",
+        "一人食",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "雨天热汤",
+        "一个人",
+        "快速解决"
+      ],
+      "reason": "热汤和碳水都到位，适合课间或晚自习前快速补能。",
+      "status": "published"
+    },
+    {
+      "id": "r052",
+      "name": "文一西路·夜宵小吃热饭局",
+      "area": "文一西路",
+      "distance": 2.7,
+      "walkMinutes": 34,
+      "cuisine": "夜宵小吃",
+      "price": 22,
+      "rating": 4.4,
+      "studentScore": 81,
+      "checkins": 204,
+      "latitude": 30.2941,
+      "longitude": 120.0963,
+      "coverIcon": "夜",
+      "coverColor": "#5c6078",
+      "tags": [
+        "夜宵",
+        "小吃",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "晚课后",
+        "嘴馋",
+        "组队加餐"
+      ],
+      "reason": "便宜、热闹、快乐，适合晚上给自己一点小奖励。",
+      "status": "published"
+    },
+    {
+      "id": "r053",
+      "name": "城西银泰·轻食简餐风味档",
+      "area": "城西银泰",
+      "distance": 2.9,
+      "walkMinutes": 37,
+      "cuisine": "轻食简餐",
+      "price": 30,
+      "rating": 4.5,
+      "studentScore": 82,
+      "checkins": 241,
+      "latitude": 30.2922,
+      "longitude": 120.1116,
+      "coverIcon": "轻",
+      "coverColor": "#5aa37c",
+      "tags": [
+        "不辣",
+        "一人食",
+        "轻负担",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "健身后",
+        "清爽午餐",
+        "不想太油"
+      ],
+      "reason": "口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。",
+      "status": "published"
+    },
+    {
+      "id": "r054",
+      "name": "三墩·日韩简餐深夜档",
+      "area": "三墩",
+      "distance": 3.1,
+      "walkMinutes": 38,
+      "cuisine": "日韩简餐",
+      "price": 40,
+      "rating": 4.6,
+      "studentScore": 83,
+      "checkins": 278,
+      "latitude": 30.327,
+      "longitude": 120.0745,
+      "coverIcon": "拌",
+      "coverColor": "#8d5a3b",
+      "tags": [
+        "一人食",
+        "下饭",
+        "拍照",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "周末换口味",
+        "独自觅食",
+        "两人小聚"
+      ],
+      "reason": "酱汁和主食都比较稳，店面氛围适合慢慢吃。",
+      "status": "published"
+    },
+    {
+      "id": "r055",
+      "name": "紫金港北门·清真友好一号店",
+      "area": "紫金港北门",
+      "distance": 0.8,
+      "walkMinutes": 10,
+      "cuisine": "清真友好",
+      "price": 22,
+      "rating": 4.7,
+      "studentScore": 84,
+      "checkins": 315,
+      "latitude": 30.3136,
+      "longitude": 120.0925,
+      "coverIcon": "牛",
+      "coverColor": "#4f8b65",
+      "tags": [
+        "清真友好",
+        "面食",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "清真友好",
+        "午餐快吃",
+        "预算友好"
+      ],
+      "reason": "选择稳定、价格友好，适合日常快速解决。",
+      "status": "published"
+    },
+    {
+      "id": "r056",
+      "name": "紫金港南门·聚餐烤鱼小馆",
+      "area": "紫金港南门",
+      "distance": 1.3,
+      "walkMinutes": 18,
+      "cuisine": "聚餐烤鱼",
+      "price": 57,
+      "rating": 4.1,
+      "studentScore": 85,
+      "checkins": 352,
+      "latitude": 30.296,
+      "longitude": 120.0918,
+      "coverIcon": "鱼",
+      "coverColor": "#3d7f8f",
+      "tags": [
+        "聚餐",
+        "辣",
+        "夜宵",
+        "50+"
+      ],
+      "suitedFor": [
+        "多人约饭",
+        "夜宵改善",
+        "想吃鱼"
+      ],
+      "reason": "更适合多人分食，氛围感比日常快餐强。",
+      "status": "published"
+    },
+    {
+      "id": "r057",
+      "name": "校内·粥面暖胃饭铺",
+      "area": "校内",
+      "distance": 0.3,
+      "walkMinutes": 4,
+      "cuisine": "粥面暖胃",
+      "price": 19,
+      "rating": 4.2,
+      "studentScore": 86,
+      "checkins": 389,
+      "latitude": 30.3073,
+      "longitude": 120.0886,
+      "coverIcon": "粥",
+      "coverColor": "#c0955f",
+      "tags": [
+        "暖胃",
+        "不辣",
+        "实惠",
+        "人均30内"
+      ],
+      "suitedFor": [
+        "晚课后",
+        "胃口一般",
+        "轻负担"
+      ],
+      "reason": "清淡、近、负担小，适合不想吃太重的一餐。",
+      "status": "published"
+    },
+    {
+      "id": "r058",
+      "name": "西园·咖啡甜点食堂外档",
+      "area": "西园",
+      "distance": 1.1,
+      "walkMinutes": 15,
+      "cuisine": "咖啡甜点",
+      "price": 37,
+      "rating": 4.3,
+      "studentScore": 87,
+      "checkins": 426,
+      "latitude": 30.3066,
+      "longitude": 120.0773,
+      "coverIcon": "咖",
+      "coverColor": "#8c6338",
+      "tags": [
+        "拍照",
+        "不辣",
+        "一人食",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "下午自习",
+        "独处放空",
+        "轻约会"
+      ],
+      "reason": "适合坐一会儿，把吃饭和自习之间的缝隙填满。",
+      "status": "published"
+    },
+    {
+      "id": "r059",
+      "name": "青芝坞·东南亚风味街角店",
+      "area": "青芝坞",
+      "distance": 1.9,
+      "walkMinutes": 24,
+      "cuisine": "东南亚风味",
+      "price": 45,
+      "rating": 4.3,
+      "studentScore": 88,
+      "checkins": 463,
+      "latitude": 30.2745,
+      "longitude": 120.1241,
+      "coverIcon": "越",
+      "coverColor": "#4d9a8d",
+      "tags": [
+        "不辣",
+        "清爽",
+        "面食",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "周末换口味",
+        "清爽汤粉",
+        "轻聚餐"
+      ],
+      "reason": "汤粉清爽，香料感轻，适合吃腻重口后的换口味。",
+      "status": "published"
+    },
+    {
+      "id": "r060",
+      "name": "申花·东北大份菜小桌",
+      "area": "申花",
+      "distance": 1.9,
+      "walkMinutes": 23,
+      "cuisine": "东北大份菜",
+      "price": 43,
+      "rating": 4.4,
+      "studentScore": 89,
+      "checkins": 500,
+      "latitude": 30.3242,
+      "longitude": 120.1036,
+      "coverIcon": "锅",
+      "coverColor": "#b06a36",
+      "tags": [
+        "聚餐",
+        "下饭",
+        "大份",
+        "人均50内"
+      ],
+      "suitedFor": [
+        "寝室聚餐",
+        "大份下饭",
+        "晚饭改善"
+      ],
+      "reason": "菜量友好，人多分摊很合适，适合寝室饭局。",
+      "status": "published"
     }
   ],
   "tasteTags": [
@@ -712,7 +1756,9 @@
     "暖胃",
     "下饭",
     "快餐",
-    "拍照"
+    "拍照",
+    "轻负担",
+    "清真友好"
   ],
   "priceRanges": [
     {

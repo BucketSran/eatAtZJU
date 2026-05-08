@@ -626,6 +626,942 @@ on conflict (id) do update set
   source_refs = excluded.source_refs,
   status = excluded.status;
 
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r025', '紫金港北门·川湘小炒一号店', '紫金港北门·川湘小炒一号店', array[]::text[], '紫金港北门', 0.8, 10, '川湘小炒', 40, 4.2, 88, 125, 30.313, 120.0882, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r026', '紫金港南门·家常盖饭小馆', '紫金港南门·家常盖饭小馆', array[]::text[], '紫金港南门', 1.3, 18, '家常盖饭', 23, 4.3, 89, 162, 30.2998, 120.0874, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r027', '校内·面馆粉铺饭铺', '校内·面馆粉铺饭铺', array[]::text[], '校内', 0.3, 4, '面馆粉铺', 27, 4.3, 90, 199, 30.3094, 120.0872, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r028', '西园·夜宵小吃食堂外档', '西园·夜宵小吃食堂外档', array[]::text[], '西园', 1.1, 15, '夜宵小吃', 23, 4.4, 91, 236, 30.307, 120.0733, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r029', '青芝坞·轻食简餐街角店', '青芝坞·轻食简餐街角店', array[]::text[], '青芝坞', 1.9, 24, '轻食简餐', 31, 4.5, 92, 273, 30.2782, 120.1263, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r030', '申花·日韩简餐小桌', '申花·日韩简餐小桌', array[]::text[], '申花', 1.9, 23, '日韩简餐', 36, 4.6, 93, 310, 30.319, 120.1038, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r031', '蒋村·清真友好便当社', '蒋村·清真友好便当社', array[]::text[], '蒋村', 2.2, 28, '清真友好', 23, 4.7, 94, 347, 30.3004, 120.0692, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r032', '文一西路·聚餐烤鱼热饭局', '文一西路·聚餐烤鱼热饭局', array[]::text[], '文一西路', 2.8, 36, '聚餐烤鱼', 58, 4.1, 95, 384, 30.2936, 120.095, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r033', '城西银泰·粥面暖胃风味档', '城西银泰·粥面暖胃风味档', array[]::text[], '城西银泰', 2.7, 33, '粥面暖胃', 20, 4.2, 96, 421, 30.2968, 120.1128, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r034', '三墩·咖啡甜点深夜档', '三墩·咖啡甜点深夜档', array[]::text[], '三墩', 3.2, 40, '咖啡甜点', 38, 4.3, 80, 458, 30.3227, 120.0745, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r035', '紫金港北门·东南亚风味一号店', '紫金港北门·东南亚风味一号店', array[]::text[], '紫金港北门', 0.9, 12, '东南亚风味', 41, 4.3, 81, 495, 30.3121, 120.0881, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r036', '紫金港南门·东北大份菜小馆', '紫金港南门·东北大份菜小馆', array[]::text[], '紫金港南门', 1.1, 14, '东北大份菜', 44, 4.4, 82, 532, 30.3053, 120.0934, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r037', '校内·川湘小炒饭铺', '校内·川湘小炒饭铺', array[]::text[], '校内', 0.4, 6, '川湘小炒', 42, 4.5, 83, 569, 30.3067, 120.0836, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r038', '西园·家常盖饭食堂外档', '西园·家常盖饭食堂外档', array[]::text[], '西园', 1.2, 17, '家常盖饭', 25, 4.6, 84, 146, 30.3008, 120.0737, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r039', '青芝坞·面馆粉铺街角店', '青芝坞·面馆粉铺街角店', array[]::text[], '青芝坞', 1.7, 20, '面馆粉铺', 29, 4.7, 85, 183, 30.277, 120.1193, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r040', '申花·夜宵小吃小桌', '申花·夜宵小吃小桌', array[]::text[], '申花', 2, 25, '夜宵小吃', 20, 4.1, 86, 220, 30.32, 120.1022, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r041', '蒋村·轻食简餐便当社', '蒋村·轻食简餐便当社', array[]::text[], '蒋村', 2.3, 30, '轻食简餐', 28, 4.2, 87, 257, 30.2961, 120.0752, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r042', '文一西路·日韩简餐热饭局', '文一西路·日韩简餐热饭局', array[]::text[], '文一西路', 2.6, 32, '日韩简餐', 38, 4.3, 88, 294, 30.2893, 120.0921, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r043', '城西银泰·清真友好风味档', '城西银泰·清真友好风味档', array[]::text[], '城西银泰', 2.8, 35, '清真友好', 25, 4.3, 89, 331, 30.2957, 120.1184, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r044', '三墩·聚餐烤鱼深夜档', '三墩·聚餐烤鱼深夜档', array[]::text[], '三墩', 3.3, 42, '聚餐烤鱼', 60, 4.4, 90, 368, 30.3209, 120.0773, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r045', '紫金港北门·粥面暖胃一号店', '紫金港北门·粥面暖胃一号店', array[]::text[], '紫金港北门', 0.7, 8, '粥面暖胃', 17, 4.5, 91, 405, 30.3133, 120.0875, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r046', '紫金港南门·咖啡甜点小馆', '紫金港南门·咖啡甜点小馆', array[]::text[], '紫金港南门', 1.2, 16, '咖啡甜点', 35, 4.6, 92, 442, 30.297, 120.0884, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r047', '校内·东南亚风味饭铺', '校内·东南亚风味饭铺', array[]::text[], '校内', 0.5, 8, '东南亚风味', 43, 4.7, 93, 479, 30.31, 120.0821, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r048', '西园·东北大份菜食堂外档', '西园·东北大份菜食堂外档', array[]::text[], '西园', 1, 13, '东北大份菜', 46, 4.1, 94, 516, 30.2983, 120.0758, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r049', '青芝坞·川湘小炒街角店', '青芝坞·川湘小炒街角店', array[]::text[], '青芝坞', 1.8, 22, '川湘小炒', 44, 4.2, 95, 553, 30.2758, 120.1242, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r050', '申花·家常盖饭小桌', '申花·家常盖饭小桌', array[]::text[], '申花', 2.1, 27, '家常盖饭', 22, 4.3, 96, 130, 30.3168, 120.1091, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r051', '蒋村·面馆粉铺便当社', '蒋村·面馆粉铺便当社', array[]::text[], '蒋村', 2.1, 26, '面馆粉铺', 26, 4.3, 80, 167, 30.3017, 120.0753, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r052', '文一西路·夜宵小吃热饭局', '文一西路·夜宵小吃热饭局', array[]::text[], '文一西路', 2.7, 34, '夜宵小吃', 22, 4.4, 81, 204, 30.2941, 120.0963, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r053', '城西银泰·轻食简餐风味档', '城西银泰·轻食简餐风味档', array[]::text[], '城西银泰', 2.9, 37, '轻食简餐', 30, 4.5, 82, 241, 30.2922, 120.1116, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r054', '三墩·日韩简餐深夜档', '三墩·日韩简餐深夜档', array[]::text[], '三墩', 3.1, 38, '日韩简餐', 40, 4.6, 83, 278, 30.327, 120.0745, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r055', '紫金港北门·清真友好一号店', '紫金港北门·清真友好一号店', array[]::text[], '紫金港北门', 0.8, 10, '清真友好', 22, 4.7, 84, 315, 30.3136, 120.0925, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r056', '紫金港南门·聚餐烤鱼小馆', '紫金港南门·聚餐烤鱼小馆', array[]::text[], '紫金港南门', 1.3, 18, '聚餐烤鱼', 57, 4.1, 85, 352, 30.296, 120.0918, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r057', '校内·粥面暖胃饭铺', '校内·粥面暖胃饭铺', array[]::text[], '校内', 0.3, 4, '粥面暖胃', 19, 4.2, 86, 389, 30.3073, 120.0886, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r058', '西园·咖啡甜点食堂外档', '西园·咖啡甜点食堂外档', array[]::text[], '西园', 1.1, 15, '咖啡甜点', 37, 4.3, 87, 426, 30.3066, 120.0773, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r059', '青芝坞·东南亚风味街角店', '青芝坞·东南亚风味街角店', array[]::text[], '青芝坞', 1.9, 24, '东南亚风味', 45, 4.3, 88, 463, 30.2745, 120.1241, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
+insert into public.restaurants (
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+) values (
+  'r060', '申花·东北大份菜小桌', '申花·东北大份菜小桌', array[]::text[], '申花', 1.9, 23, '东北大份菜', 43, 4.4, 89, 500, 30.3242, 120.1036, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+)
+on conflict (id) do update set
+  name = excluded.name,
+  canonical_name = excluded.canonical_name,
+  area = excluded.area,
+  distance = excluded.distance,
+  walk_minutes = excluded.walk_minutes,
+  cuisine = excluded.cuisine,
+  price = excluded.price,
+  rating = excluded.rating,
+  student_score = excluded.student_score,
+  checkins = excluded.checkins,
+  latitude = excluded.latitude,
+  longitude = excluded.longitude,
+  cover_icon = excluded.cover_icon,
+  cover_color = excluded.cover_color,
+  tags = excluded.tags,
+  suited_for = excluded.suited_for,
+  reason = excluded.reason,
+  source_refs = excluded.source_refs,
+  status = excluded.status;
+
 insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
   'd00101', 'r001', '招牌小炒黄牛肉', 48, 98, array[]::text[], 'published'
 )
@@ -1418,6 +2354,1194 @@ on conflict (id) do update set
   tags = excluded.tags,
   status = excluded.status;
 
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02501', 'r025', '小炒黄牛肉', 46, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02502', 'r025', '干锅花菜', 29, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02503', 'r025', '酸辣土豆丝', 15, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02601', 'r026', '番茄牛腩饭', 27, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02602', 'r026', '青椒肉丝饭', 19, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02603', 'r026', '荷包蛋', 4, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02701', 'r027', '番茄肥牛面', 31, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02702', 'r027', '雪菜肉丝面', 22, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02703', 'r027', '卤蛋', 5, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02801', 'r028', '炸鸡柳', 12, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02802', 'r028', '烤年糕', 7, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02803', 'r028', '关东煮', 17, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02901', 'r029', '照烧鸡腿拌饭', 27, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02902', 'r029', '牛油果鸡胸碗', 31, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd02903', 'r029', '南瓜汤', 8, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03001', 'r030', '烤肉拌饭', 33, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03002', 'r030', '咖喱猪排饭', 42, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03003', 'r030', '海苔饭团', 13, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03101', 'r031', '牛肉拉面', 19, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03102', 'r031', '孜然牛肉拌面', 27, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03103', 'r031', '凉拌黄瓜', 7, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03201', 'r032', '香辣烤鱼', 129, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03202', 'r032', '豆花烤鱼', 117, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03203', 'r032', '宽粉加菜', 8, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03301', 'r033', '皮蛋瘦肉粥', 12, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03302', 'r033', '青菜肉丝面', 16, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03303', 'r033', '茶叶蛋', 4, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03401', 'r034', '拿铁', 22, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03402', 'r034', '巴斯克蛋糕', 29, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03403', 'r034', '鸡肉可颂', 31, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03501', 'r035', '牛肉河粉', 44, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03502', 'r035', '越式春卷', 17, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03503', 'r035', '柠檬鸡翅', 22, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03601', 'r036', '锅包肉', 45, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03602', 'r036', '地三鲜', 28, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03603', 'r036', '小鸡炖蘑菇', 59, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03701', 'r037', '小炒黄牛肉', 46, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03702', 'r037', '干锅花菜', 29, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03703', 'r037', '酸辣土豆丝', 15, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03801', 'r038', '番茄牛腩饭', 27, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03802', 'r038', '青椒肉丝饭', 19, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03803', 'r038', '荷包蛋', 4, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03901', 'r039', '番茄肥牛面', 31, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03902', 'r039', '雪菜肉丝面', 22, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd03903', 'r039', '卤蛋', 5, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04001', 'r040', '炸鸡柳', 12, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04002', 'r040', '烤年糕', 7, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04003', 'r040', '关东煮', 17, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04101', 'r041', '照烧鸡腿拌饭', 27, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04102', 'r041', '牛油果鸡胸碗', 31, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04103', 'r041', '南瓜汤', 8, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04201', 'r042', '烤肉拌饭', 33, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04202', 'r042', '咖喱猪排饭', 42, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04203', 'r042', '海苔饭团', 13, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04301', 'r043', '牛肉拉面', 19, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04302', 'r043', '孜然牛肉拌面', 27, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04303', 'r043', '凉拌黄瓜', 7, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04401', 'r044', '香辣烤鱼', 129, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04402', 'r044', '豆花烤鱼', 117, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04403', 'r044', '宽粉加菜', 8, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04501', 'r045', '皮蛋瘦肉粥', 12, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04502', 'r045', '青菜肉丝面', 16, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04503', 'r045', '茶叶蛋', 4, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04601', 'r046', '拿铁', 22, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04602', 'r046', '巴斯克蛋糕', 29, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04603', 'r046', '鸡肉可颂', 31, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04701', 'r047', '牛肉河粉', 44, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04702', 'r047', '越式春卷', 17, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04703', 'r047', '柠檬鸡翅', 22, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04801', 'r048', '锅包肉', 45, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04802', 'r048', '地三鲜', 28, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04803', 'r048', '小鸡炖蘑菇', 59, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04901', 'r049', '小炒黄牛肉', 46, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04902', 'r049', '干锅花菜', 29, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd04903', 'r049', '酸辣土豆丝', 15, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05001', 'r050', '番茄牛腩饭', 27, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05002', 'r050', '青椒肉丝饭', 19, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05003', 'r050', '荷包蛋', 4, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05101', 'r051', '番茄肥牛面', 31, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05102', 'r051', '雪菜肉丝面', 22, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05103', 'r051', '卤蛋', 5, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05201', 'r052', '炸鸡柳', 12, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05202', 'r052', '烤年糕', 7, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05203', 'r052', '关东煮', 17, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05301', 'r053', '照烧鸡腿拌饭', 27, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05302', 'r053', '牛油果鸡胸碗', 31, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05303', 'r053', '南瓜汤', 8, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05401', 'r054', '烤肉拌饭', 33, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05402', 'r054', '咖喱猪排饭', 42, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05403', 'r054', '海苔饭团', 13, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05501', 'r055', '牛肉拉面', 19, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05502', 'r055', '孜然牛肉拌面', 27, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05503', 'r055', '凉拌黄瓜', 7, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05601', 'r056', '香辣烤鱼', 129, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05602', 'r056', '豆花烤鱼', 117, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05603', 'r056', '宽粉加菜', 8, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05701', 'r057', '皮蛋瘦肉粥', 12, 77, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05702', 'r057', '青菜肉丝面', 16, 86, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05703', 'r057', '茶叶蛋', 4, 95, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05801', 'r058', '拿铁', 22, 84, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05802', 'r058', '巴斯克蛋糕', 29, 93, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05803', 'r058', '鸡肉可颂', 31, 74, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05901', 'r059', '牛肉河粉', 44, 91, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05902', 'r059', '越式春卷', 17, 72, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd05903', 'r059', '柠檬鸡翅', 22, 81, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd06001', 'r060', '锅包肉', 45, 70, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd06002', 'r060', '地三鲜', 28, 79, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.dishes (id, restaurant_id, name, price, heat, tags, status) values (
+  'd06003', 'r060', '小鸡炖蘑菇', 59, 88, array[]::text[], 'published'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  name = excluded.name,
+  price = excluded.price,
+  heat = excluded.heat,
+  tags = excluded.tags,
+  status = excluded.status;
+
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
   'rv00101', 'r001', null, '紫金港饭搭子', 5, '辣度可以备注，米饭很香，四个人点三个菜刚刚好。', array[]::text[], 'approved'
 )
@@ -1937,6 +4061,798 @@ on conflict (id) do update set
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
   'rv02402', 'r024', null, '不想吃炸串', 4, '粥很适合收尾。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02501', 'r025', null, '周末出门', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02502', 'r025', null, '一个人也行', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02601', 'r026', null, '一个人也行', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02602', 'r026', null, '预算守门员', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02701', 'r027', null, '预算守门员', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02702', 'r027', null, '酸辣脑袋', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02801', 'r028', null, '酸辣脑袋', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02802', 'r028', null, '复习到饿', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02901', 'r029', null, '复习到饿', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv02902', 'r029', null, '紫金港饭搭子', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03001', 'r030', null, '紫金港饭搭子', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03002', 'r030', null, '赶DDL的研一', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03101', 'r031', null, '赶DDL的研一', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03102', 'r031', null, '不吃香菜', 4, '适合和朋友一起点几样分着吃。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03201', 'r032', null, '不吃香菜', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03202', 'r032', null, '夜宵观察员', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03301', 'r033', null, '夜宵观察员', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03302', 'r033', null, '早八幸存者', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03401', 'r034', null, '早八幸存者', 4, '适合和朋友一起点几样分着吃。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03402', 'r034', null, '周末出门', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03501', 'r035', null, '周末出门', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03502', 'r035', null, '一个人也行', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03601', 'r036', null, '一个人也行', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03602', 'r036', null, '预算守门员', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03701', 'r037', null, '预算守门员', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03702', 'r037', null, '酸辣脑袋', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03801', 'r038', null, '酸辣脑袋', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03802', 'r038', null, '复习到饿', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03901', 'r039', null, '复习到饿', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv03902', 'r039', null, '紫金港饭搭子', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04001', 'r040', null, '紫金港饭搭子', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04002', 'r040', null, '赶DDL的研一', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04101', 'r041', null, '赶DDL的研一', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04102', 'r041', null, '不吃香菜', 4, '适合和朋友一起点几样分着吃。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04201', 'r042', null, '不吃香菜', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04202', 'r042', null, '夜宵观察员', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04301', 'r043', null, '夜宵观察员', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04302', 'r043', null, '早八幸存者', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04401', 'r044', null, '早八幸存者', 4, '适合和朋友一起点几样分着吃。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04402', 'r044', null, '周末出门', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04501', 'r045', null, '周末出门', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04502', 'r045', null, '一个人也行', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04601', 'r046', null, '一个人也行', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04602', 'r046', null, '预算守门员', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04701', 'r047', null, '预算守门员', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04702', 'r047', null, '酸辣脑袋', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04801', 'r048', null, '酸辣脑袋', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04802', 'r048', null, '复习到饿', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04901', 'r049', null, '复习到饿', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv04902', 'r049', null, '紫金港饭搭子', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05001', 'r050', null, '紫金港饭搭子', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05002', 'r050', null, '赶DDL的研一', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05101', 'r051', null, '赶DDL的研一', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05102', 'r051', null, '不吃香菜', 4, '适合和朋友一起点几样分着吃。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05201', 'r052', null, '不吃香菜', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05202', 'r052', null, '夜宵观察员', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05301', 'r053', null, '夜宵观察员', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05302', 'r053', null, '早八幸存者', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05401', 'r054', null, '早八幸存者', 4, '适合和朋友一起点几样分着吃。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05402', 'r054', null, '周末出门', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05501', 'r055', null, '周末出门', 5, '味道不算惊艳，但胜在稳妥。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05502', 'r055', null, '一个人也行', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05601', 'r056', null, '一个人也行', 4, '离校区不远，赶时间也能接受。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05602', 'r056', null, '预算守门员', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05701', 'r057', null, '预算守门员', 5, '建议错峰，饭点人会比较多。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05702', 'r057', null, '酸辣脑袋', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05801', 'r058', null, '酸辣脑袋', 4, '整体体验舒服，适合周末换口味。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05802', 'r058', null, '复习到饿', 5, '高峰期会排队，但翻台还算快。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05901', 'r059', null, '复习到饿', 5, '推荐先点招牌，不太容易踩雷。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv05902', 'r059', null, '紫金港饭搭子', 4, '价格对学生比较友好，分量也够。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv06001', 'r060', null, '紫金港饭搭子', 4, '口味稳定，适合不知道吃什么的时候。', array[]::text[], 'approved'
+)
+on conflict (id) do update set
+  restaurant_id = excluded.restaurant_id,
+  display_name_snapshot = excluded.display_name_snapshot,
+  rating = excluded.rating,
+  text = excluded.text,
+  tags = excluded.tags,
+  status = excluded.status;
+
+insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (
+  'rv06002', 'r060', null, '赶DDL的研一', 5, '一个人来吃不会尴尬，座位周转快。', array[]::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
