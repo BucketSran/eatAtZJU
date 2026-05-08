@@ -7,6 +7,7 @@
 把真实线上数据库和部署前必须有的“用户链路”先接成可落地骨架：
 
 - Supabase Auth 邮箱 magic link 登录。
+- 服务端校园邮箱验证，写入 `user_trust.campus_email_verified`。
 - 用户偏好写入 `profiles.preferences`。
 - 本地收藏与 Supabase `favorites` 双向同步。
 - 学生贡献进入 `submissions` 审核队列。
@@ -26,6 +27,7 @@
 | API | 方法 | 权限 | 说明 |
 | --- | --- | --- | --- |
 | `/api/submissions` | `POST` | 登录用户 | 写入 pending submission |
+| `/api/auth/campus-verify` | `POST` | 登录用户 | 验证当前 Auth 邮箱是否属于校园邮箱域，并写入 `user_trust` |
 | `/api/admin/submissions` | `GET` | `admin_users` 管理员 | 读取待审核队列 |
 | `/api/admin/submissions` | `POST` | `admin_users` 管理员 | approve/reject 并写审计日志 |
 
@@ -44,9 +46,11 @@ VITE_SUPABASE_ANON_KEY=
 SUPABASE_URL=
 SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+CAMPUS_EMAIL_DOMAINS=zju.edu.cn,st.zju.edu.cn,intl.zju.edu.cn
 ```
 
 `SUPABASE_SERVICE_ROLE_KEY` 只能放在 Vercel 服务端环境变量，不能使用 `VITE_` 前缀。
+`CAMPUS_EMAIL_DOMAINS` 是可选项，不配置时默认允许 `zju.edu.cn`、`st.zju.edu.cn`、`intl.zju.edu.cn`。如需允许所有浙大子域名，可设置为 `zju.edu.cn,*.zju.edu.cn`。
 
 ## 管理员启用方式
 
@@ -71,6 +75,7 @@ on conflict (user_id) do update set role = excluded.role;
 | 管理员审核没有审计写入权限 | RLS 增加 `admins can insert audit logs` policy |
 | UGC 直接公开污染正式数据 | `/api/submissions` 只写 `pending`，不直接改餐厅/菜品/评论正式表 |
 | 未配置 Supabase 时页面误报成功 | 前端明确显示未配置状态，API 未登录/未配置返回 401/503 |
+| 用户自提权成为校园认证用户 | `user_trust` 不开放用户写入，校园邮箱验证只走服务端 service-role API |
 
 ## 当前边界
 

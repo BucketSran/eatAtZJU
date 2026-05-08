@@ -61,6 +61,7 @@
 | R37 | 首次登录覆盖云端偏好 | P2 | 如果登录后直接 upsert 本地偏好，可能覆盖用户已有云端资料。 | `ensureProfile` 先查询 profile；存在则拉取云端偏好，不自动覆盖。 | 已缓解 |
 | R38 | 管理员审核缺少审计写权限 | P1 | RLS 只有 audit log read policy 时，anon/user-scoped 管理员无法写审计日志。 | 增加 `admins can insert audit logs` policy，并纳入 `npm run check`。 | 已缓解 |
 | R39 | 线上登录/提交链路尚未远端实测 | P1 | 本地代码已接 Auth/UGC/Admin，但没有真实 Supabase/Vercel env，无法确认邮件回调、RLS、Vercel env 和远端 API。 | 提供真实凭证后执行 migration/seed、配置 Auth redirect、创建管理员、跑远端 smoke test。 | 待处理 |
+| R40 | 校园邮箱认证被用户自提权 | P0 | 如果前端直接更新 `user_trust`，用户可把自己标成已验证，破坏学生可信机制。 | `user_trust` 只允许用户读取；校园邮箱验证通过 `/api/auth/campus-verify` 服务端 service-role 写入。 | 已缓解 |
 
 ## 风险归属约定
 

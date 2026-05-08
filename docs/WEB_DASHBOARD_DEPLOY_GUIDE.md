@@ -156,6 +156,7 @@ SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_ANON_KEY=你的 anon 或 publishable key
 SUPABASE_SERVICE_ROLE_KEY=你的 service_role 或 secret key
 SUPABASE_DISABLE_FALLBACK=true
+CAMPUS_EMAIL_DOMAINS=zju.edu.cn,st.zju.edu.cn,intl.zju.edu.cn
 VITE_SUPABASE_URL=https://xxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=你的 anon 或 publishable key
 ```
@@ -170,6 +171,7 @@ VITE_SUPABASE_ANON_KEY=你的 anon 或 publishable key
 
 - `SUPABASE_SERVICE_ROLE_KEY` 不得以 `VITE_` 开头。
 - `VITE_SUPABASE_ANON_KEY` 可以公开，因为它受 RLS 保护。
+- `CAMPUS_EMAIL_DOMAINS` 可选，用于控制哪些邮箱域会被 `/profile` 认证为校园邮箱；多个域名用英文逗号分隔。
 - 不要把任何 key 粘贴到 GitHub issue、README、聊天截图或提交记录里。
 
 ## 8. 部署 Vercel
@@ -216,8 +218,9 @@ API_BASE_URL='https://你的-vercel-url.vercel.app' EXPECT_API_SOURCE=supabase n
 3. 打开邮箱 magic link。
 4. 回到 `/profile`，确认能看到当前账号。
 5. 点击同步偏好、推送本地收藏、拉取云端收藏。
-6. 打开 `/contribute`，提交一条餐厅或纠错内容。
-7. 到 Supabase `Table Editor -> submissions`，确认有一条 `status=pending` 的记录。
+6. 如果邮箱属于允许域名，点击验证校园邮箱，到 Supabase `Table Editor -> user_trust` 确认 `campus_email_verified=true`。
+7. 打开 `/contribute`，提交一条餐厅或纠错内容。
+8. 到 Supabase `Table Editor -> submissions`，确认有一条 `status=pending` 的记录。
 
 ## 11. 创建第一个管理员
 

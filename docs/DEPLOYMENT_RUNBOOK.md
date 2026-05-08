@@ -68,6 +68,7 @@ SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
 SUPABASE_DISABLE_FALLBACK=true
+CAMPUS_EMAIL_DOMAINS=zju.edu.cn,st.zju.edu.cn,intl.zju.edu.cn
 ```
 
 如果未来浏览器端接 Supabase Auth，再配置：
@@ -130,6 +131,8 @@ EXPECT_API_SOURCE=seed npm run smoke:api
 | `/api/submissions` 无 bearer | 401 |
 | `/api/admin/submissions` 无 bearer | 401 |
 | `/profile` | 配置 `VITE_*` 后可发送 magic link |
+| `/api/auth/campus-verify` 无 bearer | 401 |
+| `/profile` 校园邮箱验证 | 登录后可写入 `user_trust.campus_email_verified` |
 | `/contribute` | 登录后提交进入 `submissions.status=pending` |
 | `/admin` | 管理员可读取 pending submissions |
 | `/api/restaurants/../secret` | 400 |

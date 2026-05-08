@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
+import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
 import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, type AuthState } from '../services/authService'
 import { pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
 import { defaultPreferences, getPreferenceTags, resetPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
@@ -17,19 +18,28 @@ export function ProfilePage() {
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
   const [authState, setAuthState] = useState<AuthState>({ isConfigured: isSupabaseBrowserConfigured(), user: null })
+  const [campusTrust, setCampusTrust] = useState<CampusTrustStatus | null>(null)
   const [email, setEmail] = useState('')
   const [accountStatus, setAccountStatus] = useState('')
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: [] }), [preferences])
 
   useEffect(() => {
-    getCurrentAuthState().then((state) => {
+    async function hydrateUserState(state: AuthState) {
       setAuthState(state)
-      if (state.user) ensureProfile(state.user).catch((error: unknown) => setAccountStatus(error instanceof Error ? error.message : '资料同步失败'))
+      if (!state.user) {
+        setCampusTrust(null)
+        return
+      }
+      await ensureProfile(state.user)
+      setCampusTrust(await fetchCampusTrustStatus())
+    }
+
+    getCurrentAuthState().then((state) => {
+      hydrateUserState(state).catch((error: unknown) => setAccountStatus(error instanceof Error ? error.message : '资料同步失败'))
     })
 
     return onAuthChange((state) => {
-      setAuthState(state)
-      if (state.user) ensureProfile(state.user).catch((error: unknown) => setAccountStatus(error instanceof Error ? error.message : '资料同步失败'))
+      hydrateUserState(state).catch((error: unknown) => setAccountStatus(error instanceof Error ? error.message : '资料同步失败'))
     })
   }, [])
 
@@ -101,6 +111,17 @@ export function ProfilePage() {
     }
   }
 
+  async function verifyCampus() {
+    setAccountStatus('正在验证校园邮箱...')
+    try {
+      const result = await verifyCampusEmail()
+      setCampusTrust(result)
+      setAccountStatus(result.campusEmailVerified ? '校园邮箱已验证，后续贡献会获得更高可信度。' : `当前邮箱不在允许域名：${result.allowedDomains.join('、')}`)
+    } catch (error) {
+      setAccountStatus(error instanceof Error ? error.message : '校园邮箱验证失败')
+    }
+  }
+
   return (
     <div className="route-stack">
       <div className="page-heading split-heading">
@@ -129,7 +150,12 @@ export function ProfilePage() {
         {authState.user ? (
           <div className="form-stack">
             <p className="helper-text">当前账号：{authState.user.email}</p>
+            <div className={`trust-pill ${campusTrust?.campusEmailVerified ? 'verified' : ''}`}>
+              <strong>{campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'}</strong>
+              <span>{campusTrust?.campusEmailVerified ? `${campusTrust.campusEmail} · 信用分 ${campusTrust.creditScore}` : '验证后可用于学生可信贡献、审核优先级和后续约饭身份。'}</span>
+            </div>
             <div className="hero-actions compact-actions">
+              <button className="secondary-action" type="button" onClick={verifyCampus}>验证校园邮箱</button>
               <button className="secondary-action" type="button" onClick={syncProfile}>同步偏好</button>
               <button className="secondary-action" type="button" onClick={pushFavorites}>推送本地收藏</button>
               <button className="secondary-action" type="button" onClick={pullFavorites}>拉取云端收藏</button>
