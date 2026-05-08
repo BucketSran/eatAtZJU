@@ -218,6 +218,7 @@ async function checkApiHandlers() {
     const recommendHandler = require('../api/recommend/today.js')
     const submissionsHandler = require('../api/submissions/index.js')
     const adminSubmissionsHandler = require('../api/admin/submissions/index.js')
+    const adminAuditLogsHandler = require('../api/admin/audit-logs/index.js')
     const campusVerifyHandler = require('../api/auth/campus-verify.js')
 
     const list = await callHandler(listHandler, { method: 'GET', query: { tag: '实惠', preferences: '近,实惠' } })
@@ -246,6 +247,9 @@ async function checkApiHandlers() {
 
     const unauthenticatedAdmin = await callHandler(adminSubmissionsHandler, { method: 'GET', headers: {} })
     assert(unauthenticatedAdmin.statusCode === 401, 'admin submissions handler should require bearer auth')
+
+    const unauthenticatedAuditLogs = await callHandler(adminAuditLogsHandler, { method: 'GET', headers: {} })
+    assert(unauthenticatedAuditLogs.statusCode === 401, 'admin audit logs handler should require bearer auth')
 
     const unauthenticatedCampusVerify = await callHandler(campusVerifyHandler, { method: 'POST', headers: {} })
     assert(unauthenticatedCampusVerify.statusCode === 401, 'campus verification should require bearer auth')

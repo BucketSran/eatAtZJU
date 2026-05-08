@@ -62,6 +62,7 @@
 | R38 | 管理员审核缺少审计写权限 | P1 | RLS 只有 audit log read policy 时，anon/user-scoped 管理员无法写审计日志。 | 增加 `admins can insert audit logs` policy，并纳入 `npm run check`。 | 已缓解 |
 | R39 | 线上登录/提交链路尚未远端实测 | P1 | 本地代码已接 Auth/UGC/Admin，但没有真实 Supabase/Vercel env，无法确认邮件回调、RLS、Vercel env 和远端 API。 | 提供真实凭证后执行 migration/seed、配置 Auth redirect、创建管理员、跑远端 smoke test。 | 待处理 |
 | R40 | 校园邮箱认证被用户自提权 | P0 | 如果前端直接更新 `user_trust`，用户可把自己标成已验证，破坏学生可信机制。 | `user_trust` 只允许用户读取；校园邮箱验证通过 `/api/auth/campus-verify` 服务端 service-role 写入。 | 已缓解 |
+| R41 | 自动审批污染正式数据且无法回退 | P0 | 如果自动审批直接写 `restaurants/dishes/reviews`，错误或恶意内容可能长期污染榜单和推荐。 | 新增审计日志回滚 API 和后台入口；未来自动审批必须先写 before/after 快照，再写正式表。 | 已缓解基线 |
 
 ## 风险归属约定
 

@@ -13,6 +13,7 @@
 - 学生贡献进入 `submissions` 审核队列。
 - 管理员读取 pending submissions 并 approve/reject。
 - 审核动作写入 `audit_logs`。
+- 管理员可读取审计日志，并按 before/after 快照回滚审核或正式数据变更。
 
 ## 已新增页面
 
@@ -30,6 +31,8 @@
 | `/api/auth/campus-verify` | `POST` | 登录用户 | 验证当前 Auth 邮箱是否属于校园邮箱域，并写入 `user_trust` |
 | `/api/admin/submissions` | `GET` | `admin_users` 管理员 | 读取待审核队列 |
 | `/api/admin/submissions` | `POST` | `admin_users` 管理员 | approve/reject 并写审计日志 |
+| `/api/admin/audit-logs` | `GET` | `admin_users` 管理员 | 读取最近审计日志 |
+| `/api/admin/audit-logs` | `POST` | `admin_users` 管理员 | 按审计快照回滚变更 |
 
 ## 环境变量
 
@@ -76,6 +79,7 @@ on conflict (user_id) do update set role = excluded.role;
 | UGC 直接公开污染正式数据 | `/api/submissions` 只写 `pending`，不直接改餐厅/菜品/评论正式表 |
 | 未配置 Supabase 时页面误报成功 | 前端明确显示未配置状态，API 未登录/未配置返回 401/503 |
 | 用户自提权成为校园认证用户 | `user_trust` 不开放用户写入，校园邮箱验证只走服务端 service-role API |
+| 自动审批污染正式数据 | 正式表变更必须写 `audit_logs.before_data/after_data`，后台支持按审计日志回滚 |
 
 ## 当前边界
 

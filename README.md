@@ -86,6 +86,7 @@ docs/AUTH_UGC_ADMIN_PLAN.md       登录、UGC 提交和管理员审核接入说
 docs/DEPLOYMENT_RUNBOOK.md        Supabase/Vercel 部署运行手册
 docs/WEB_DASHBOARD_DEPLOY_GUIDE.md 网页端 Supabase/Vercel 部署指南
 docs/SUPABASE_OTP_EMAIL_TEMPLATE.md Supabase 邮箱验证码模板
+docs/AUTO_APPROVAL_ROLLBACK_PLAN.md 自动审批与回滚策略
 docs/FRONTEND_API_INTEGRATION.md  React 前端 API 接入与 fallback 策略
 docs/SEED_DATA_NOTES.md           Demo seed 数据说明
 docs/DEMO_SCRIPT.md               演示讲稿

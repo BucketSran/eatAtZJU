@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { GlassCard } from '../components/GlassCard'
+import { listAuditLogs, rollbackAuditLog, type AdminAuditLog } from '../services/adminAuditService'
 import { listPendingSubmissions, reviewSubmission, type AdminSubmission } from '../services/adminSubmissionService'
 import { isSupabaseBrowserConfigured } from '../services/supabaseBrowserClient'
 
@@ -11,8 +12,10 @@ function stringifyPayload(payload: Record<string, unknown>) {
 
 export function AdminPage() {
   const [items, setItems] = useState<AdminSubmission[]>([])
+  const [auditLogs, setAuditLogs] = useState<AdminAuditLog[]>([])
   const [status, setStatus] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isAuditLoading, setIsAuditLoading] = useState(false)
   const configured = isSupabaseBrowserConfigured()
 
   async function loadSubmissions() {
@@ -35,8 +38,38 @@ export function AdminPage() {
       await reviewSubmission(id, action)
       setItems((current) => current.filter((item) => item.id !== id))
       setStatus(action === 'approve' ? '已通过并记录审计日志。' : '已拒绝并记录审计日志。')
+      loadAuditLogs().catch(() => {})
     } catch (error) {
       setStatus(error instanceof Error ? error.message : '审核失败')
+    }
+  }
+
+  async function loadAuditLogs() {
+    setIsAuditLoading(true)
+    setStatus('正在读取审计日志...')
+    try {
+      const data = await listAuditLogs()
+      setAuditLogs(data)
+      setStatus(data.length ? `读取到 ${data.length} 条审计日志。` : '当前没有审计日志。')
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : '读取审计日志失败')
+    } finally {
+      setIsAuditLoading(false)
+    }
+  }
+
+  async function handleRollback(auditLogId: string) {
+    const confirmed = window.confirm('确认回滚这条变更吗？系统会恢复 before_data，并写入一条新的 rollback 审计日志。')
+    if (!confirmed) return
+
+    setStatus('正在回滚变更...')
+    try {
+      await rollbackAuditLog(auditLogId, 'Manual rollback from admin page')
+      setStatus('已回滚，并写入 rollback 审计日志。')
+      await loadAuditLogs()
+      await loadSubmissions()
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : '回滚失败')
     }
   }
 
@@ -100,6 +133,34 @@ export function AdminPage() {
         <p className="eyebrow">NEXT</p>
         <h2>下一步：提交一条测试资料</h2>
         <p>如果读取队列后没有出现 `Admin access required`，说明当前账号已经具备管理员权限。当前为空只是还没有 pending submission，请先到贡献页提交一条测试内容。</p>
+      </GlassCard>
+
+      <GlassCard>
+        <div className="section-heading card-heading">
+          <div>
+            <p className="eyebrow">ROLLBACK</p>
+            <h2>审计日志与回滚</h2>
+            <p>每次审核动作都会记录 before/after 快照。后续自动审批写入正式表前，也必须先写审计日志，确保污染数据可以回退。</p>
+          </div>
+          <button className="secondary-action" type="button" onClick={loadAuditLogs} disabled={!configured || isAuditLoading}>
+            {isAuditLoading ? '读取中...' : '读取审计日志'}
+          </button>
+        </div>
+
+        <div className="audit-list">
+          {auditLogs.map((log) => (
+            <article key={log.id} className="audit-card">
+              <div>
+                <span>{log.action}</span>
+                <strong>{log.target_table} / {log.target_id}</strong>
+                <p>{log.reason || '无备注'} · {new Date(log.created_at).toLocaleString()}</p>
+              </div>
+              <button className="secondary-action" type="button" onClick={() => handleRollback(log.id)} disabled={log.action === 'rollback'}>
+                {log.action === 'rollback' ? '回滚记录' : '回滚'}
+              </button>
+            </article>
+          ))}
+        </div>
       </GlassCard>
     </div>
   )

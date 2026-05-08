@@ -777,13 +777,15 @@ p {
   align-content: center;
 }
 
-.submission-list {
+.submission-list,
+.audit-list {
   display: grid;
   gap: 12px;
   margin-top: 18px;
 }
 
-.submission-card {
+.submission-card,
+.audit-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 18px;
@@ -794,7 +796,8 @@ p {
   padding: 16px;
 }
 
-.submission-card span {
+.submission-card span,
+.audit-card span {
   color: var(--accent);
   font-size: 12px;
   font-weight: 820;
@@ -802,13 +805,15 @@ p {
   text-transform: uppercase;
 }
 
-.submission-card strong {
+.submission-card strong,
+.audit-card strong {
   display: block;
   margin-top: 4px;
   font-size: 17px;
 }
 
-.submission-card p {
+.submission-card p,
+.audit-card p {
   margin-bottom: 0;
 }
 
@@ -870,7 +875,8 @@ p {
     border-radius: 22px;
   }
 
-  .submission-card {
+  .submission-card,
+  .audit-card {
     grid-template-columns: 1fr;
   }
 }
