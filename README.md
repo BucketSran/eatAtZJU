@@ -82,6 +82,7 @@ docs/SUPABASE_SCHEMA_RLS.md       Supabase schema/RLS 设计与审计
 docs/SUPABASE_API_INTEGRATION.md  Supabase API 接入与 fallback 策略
 docs/DEPLOYMENT_RUNBOOK.md        Supabase/Vercel 部署运行手册
 docs/FRONTEND_API_INTEGRATION.md  React 前端 API 接入与 fallback 策略
+docs/SEED_DATA_NOTES.md           Demo seed 数据说明
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude

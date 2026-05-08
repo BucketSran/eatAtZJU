@@ -144,6 +144,438 @@
       "price": 16,
       "heat": 74,
       "status": "published"
+    },
+    {
+      "id": "d00701",
+      "restaurantId": "r007",
+      "name": "番茄肥牛砂锅",
+      "price": 32,
+      "heat": 91,
+      "status": "published"
+    },
+    {
+      "id": "d00702",
+      "restaurantId": "r007",
+      "name": "菌菇鸡肉煲",
+      "price": 29,
+      "heat": 82,
+      "status": "published"
+    },
+    {
+      "id": "d00703",
+      "restaurantId": "r007",
+      "name": "腊味煲仔饭",
+      "price": 28,
+      "heat": 78,
+      "status": "published"
+    },
+    {
+      "id": "d00801",
+      "restaurantId": "r008",
+      "name": "鸡胸牛油果拌饭",
+      "price": 29,
+      "heat": 86,
+      "status": "published"
+    },
+    {
+      "id": "d00802",
+      "restaurantId": "r008",
+      "name": "照烧鸡腿拌饭",
+      "price": 25,
+      "heat": 88,
+      "status": "published"
+    },
+    {
+      "id": "d00803",
+      "restaurantId": "r008",
+      "name": "玉米南瓜汤",
+      "price": 8,
+      "heat": 65,
+      "status": "published"
+    },
+    {
+      "id": "d00901",
+      "restaurantId": "r009",
+      "name": "双拼烧腊饭",
+      "price": 38,
+      "heat": 93,
+      "status": "published"
+    },
+    {
+      "id": "d00902",
+      "restaurantId": "r009",
+      "name": "叉烧滑蛋饭",
+      "price": 35,
+      "heat": 88,
+      "status": "published"
+    },
+    {
+      "id": "d00903",
+      "restaurantId": "r009",
+      "name": "例汤",
+      "price": 5,
+      "heat": 62,
+      "status": "published"
+    },
+    {
+      "id": "d01001",
+      "restaurantId": "r010",
+      "name": "酸汤牛肉粉",
+      "price": 26,
+      "heat": 92,
+      "status": "published"
+    },
+    {
+      "id": "d01002",
+      "restaurantId": "r010",
+      "name": "番茄酸汤粉",
+      "price": 20,
+      "heat": 80,
+      "status": "published"
+    },
+    {
+      "id": "d01003",
+      "restaurantId": "r010",
+      "name": "炸蛋加料",
+      "price": 5,
+      "heat": 74,
+      "status": "published"
+    },
+    {
+      "id": "d01101",
+      "restaurantId": "r011",
+      "name": "锅包肉",
+      "price": 46,
+      "heat": 94,
+      "status": "published"
+    },
+    {
+      "id": "d01102",
+      "restaurantId": "r011",
+      "name": "地三鲜",
+      "price": 28,
+      "heat": 81,
+      "status": "published"
+    },
+    {
+      "id": "d01103",
+      "restaurantId": "r011",
+      "name": "小鸡炖蘑菇",
+      "price": 58,
+      "heat": 89,
+      "status": "published"
+    },
+    {
+      "id": "d01201",
+      "restaurantId": "r012",
+      "name": "火车头牛肉粉",
+      "price": 45,
+      "heat": 91,
+      "status": "published"
+    },
+    {
+      "id": "d01202",
+      "restaurantId": "r012",
+      "name": "柠檬鸡翅",
+      "price": 22,
+      "heat": 76,
+      "status": "published"
+    },
+    {
+      "id": "d01203",
+      "restaurantId": "r012",
+      "name": "越式春卷",
+      "price": 18,
+      "heat": 72,
+      "status": "published"
+    },
+    {
+      "id": "d01301",
+      "restaurantId": "r013",
+      "name": "豌杂小面",
+      "price": 18,
+      "heat": 94,
+      "status": "published"
+    },
+    {
+      "id": "d01302",
+      "restaurantId": "r013",
+      "name": "牛肉小面",
+      "price": 24,
+      "heat": 86,
+      "status": "published"
+    },
+    {
+      "id": "d01303",
+      "restaurantId": "r013",
+      "name": "煎蛋",
+      "price": 4,
+      "heat": 68,
+      "status": "published"
+    },
+    {
+      "id": "d01401",
+      "restaurantId": "r014",
+      "name": "黑椒鸡排饭",
+      "price": 24,
+      "heat": 84,
+      "status": "published"
+    },
+    {
+      "id": "d01402",
+      "restaurantId": "r014",
+      "name": "芝士牛肉卷",
+      "price": 22,
+      "heat": 79,
+      "status": "published"
+    },
+    {
+      "id": "d01403",
+      "restaurantId": "r014",
+      "name": "土豆泥",
+      "price": 6,
+      "heat": 60,
+      "status": "published"
+    },
+    {
+      "id": "d01501",
+      "restaurantId": "r015",
+      "name": "黄咖喱鸡饭",
+      "price": 39,
+      "heat": 93,
+      "status": "published"
+    },
+    {
+      "id": "d01502",
+      "restaurantId": "r015",
+      "name": "冬阴功汤",
+      "price": 28,
+      "heat": 78,
+      "status": "published"
+    },
+    {
+      "id": "d01503",
+      "restaurantId": "r015",
+      "name": "芒果糯米饭",
+      "price": 22,
+      "heat": 82,
+      "status": "published"
+    },
+    {
+      "id": "d01601",
+      "restaurantId": "r016",
+      "name": "猪肉白菜水饺",
+      "price": 22,
+      "heat": 88,
+      "status": "published"
+    },
+    {
+      "id": "d01602",
+      "restaurantId": "r016",
+      "name": "虾仁三鲜水饺",
+      "price": 30,
+      "heat": 84,
+      "status": "published"
+    },
+    {
+      "id": "d01603",
+      "restaurantId": "r016",
+      "name": "紫菜蛋花汤",
+      "price": 6,
+      "heat": 61,
+      "status": "published"
+    },
+    {
+      "id": "d01701",
+      "restaurantId": "r017",
+      "name": "烤五花拌饭",
+      "price": 34,
+      "heat": 90,
+      "status": "published"
+    },
+    {
+      "id": "d01702",
+      "restaurantId": "r017",
+      "name": "肥牛泡菜锅",
+      "price": 42,
+      "heat": 83,
+      "status": "published"
+    },
+    {
+      "id": "d01703",
+      "restaurantId": "r017",
+      "name": "海苔饭团",
+      "price": 12,
+      "heat": 70,
+      "status": "published"
+    },
+    {
+      "id": "d01801",
+      "restaurantId": "r018",
+      "name": "经典牛肉面",
+      "price": 18,
+      "heat": 92,
+      "status": "published"
+    },
+    {
+      "id": "d01802",
+      "restaurantId": "r018",
+      "name": "红烧牛肉面",
+      "price": 25,
+      "heat": 85,
+      "status": "published"
+    },
+    {
+      "id": "d01803",
+      "restaurantId": "r018",
+      "name": "凉拌土豆丝",
+      "price": 8,
+      "heat": 64,
+      "status": "published"
+    },
+    {
+      "id": "d01901",
+      "restaurantId": "r019",
+      "name": "鲜虾砂锅粥",
+      "price": 58,
+      "heat": 91,
+      "status": "published"
+    },
+    {
+      "id": "d01902",
+      "restaurantId": "r019",
+      "name": "潮汕卤水拼盘",
+      "price": 42,
+      "heat": 80,
+      "status": "published"
+    },
+    {
+      "id": "d01903",
+      "restaurantId": "r019",
+      "name": "炸粿肉",
+      "price": 26,
+      "heat": 76,
+      "status": "published"
+    },
+    {
+      "id": "d02001",
+      "restaurantId": "r020",
+      "name": "鸡肉炒米粉",
+      "price": 28,
+      "heat": 94,
+      "status": "published"
+    },
+    {
+      "id": "d02002",
+      "restaurantId": "r020",
+      "name": "牛肉炒米粉",
+      "price": 32,
+      "heat": 88,
+      "status": "published"
+    },
+    {
+      "id": "d02003",
+      "restaurantId": "r020",
+      "name": "酸奶",
+      "price": 8,
+      "heat": 67,
+      "status": "published"
+    },
+    {
+      "id": "d02101",
+      "restaurantId": "r021",
+      "name": "豚骨叉烧拉面",
+      "price": 45,
+      "heat": 94,
+      "status": "published"
+    },
+    {
+      "id": "d02102",
+      "restaurantId": "r021",
+      "name": "味噌玉米拉面",
+      "price": 39,
+      "heat": 82,
+      "status": "published"
+    },
+    {
+      "id": "d02103",
+      "restaurantId": "r021",
+      "name": "唐扬鸡块",
+      "price": 24,
+      "heat": 75,
+      "status": "published"
+    },
+    {
+      "id": "d02201",
+      "restaurantId": "r022",
+      "name": "自选麻辣烫",
+      "price": 26,
+      "heat": 92,
+      "status": "published"
+    },
+    {
+      "id": "d02202",
+      "restaurantId": "r022",
+      "name": "番茄汤底",
+      "price": 1,
+      "heat": 70,
+      "status": "published"
+    },
+    {
+      "id": "d02203",
+      "restaurantId": "r022",
+      "name": "麻酱小料",
+      "price": 3,
+      "heat": 66,
+      "status": "published"
+    },
+    {
+      "id": "d02301",
+      "restaurantId": "r023",
+      "name": "香辣烤鱼",
+      "price": 128,
+      "heat": 92,
+      "status": "published"
+    },
+    {
+      "id": "d02302",
+      "restaurantId": "r023",
+      "name": "豆花烤鱼",
+      "price": 118,
+      "heat": 84,
+      "status": "published"
+    },
+    {
+      "id": "d02303",
+      "restaurantId": "r023",
+      "name": "宽粉加菜",
+      "price": 8,
+      "heat": 79,
+      "status": "published"
+    },
+    {
+      "id": "d02401",
+      "restaurantId": "r024",
+      "name": "皮蛋瘦肉粥",
+      "price": 12,
+      "heat": 88,
+      "status": "published"
+    },
+    {
+      "id": "d02402",
+      "restaurantId": "r024",
+      "name": "青菜肉丝面",
+      "price": 16,
+      "heat": 84,
+      "status": "published"
+    },
+    {
+      "id": "d02403",
+      "restaurantId": "r024",
+      "name": "茶叶蛋",
+      "price": 3,
+      "heat": 70,
+      "status": "published"
     }
   ]
 }
