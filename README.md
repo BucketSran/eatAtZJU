@@ -53,6 +53,9 @@ docs/WORKPLAN.md                  当前迭代工作清单
 docs/RISK_REGISTER.md             策略漏洞、风险等级和修复门槛
 docs/ADR-0001-react-vercel-supabase.md React/Vercel/Supabase 架构决策
 docs/VIBE_CODING_GUIDE.md         AI 编程工作流
+docs/DEMO_PLAN.md                  Demo v0.1 范围和验收
+docs/UI_STYLE_GUIDE.md             Demo UI 风格指南
+docs/MCP_USAGE_PLAN.md             MCP/工具介入计划
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude

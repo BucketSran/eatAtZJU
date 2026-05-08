@@ -13,6 +13,9 @@
 
 ## 1. 当前 MVP 打磨
 
+- Demo v0.1 范围以 `docs/DEMO_PLAN.md` 为准。
+- UI 实现必须先对齐 `docs/UI_STYLE_GUIDE.md`，避免通用模板化界面。
+- MCP/工具介入以 `docs/MCP_USAGE_PLAN.md` 为准，不进入产品运行时。
 - 保留微信小程序原型作为交互参考。
 - 在 React 中复刻首页、发现、详情、收藏、我的页面。
 - 调整地图、页面间跳转、收藏状态同步和移动端样式。

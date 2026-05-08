@@ -2,8 +2,6 @@
 
 This guide adapts the referenced Linux.do post into project rules for 食在浙大.
 
-## 1. Spec First
-
 ## 0. Memory Files
 
 Use layered memory deliberately:
@@ -25,6 +23,12 @@ For any non-trivial feature, create or update a spec before coding:
 - API impact.
 - Security/privacy impact.
 - Acceptance criteria.
+
+For this demo, use:
+
+- `docs/DEMO_PLAN.md` for demo scope.
+- `docs/UI_STYLE_GUIDE.md` for visual direction.
+- `docs/MCP_USAGE_PLAN.md` for tool boundaries.
 
 ## 2. Work in Small Slices
 
@@ -70,7 +74,13 @@ Use MCP/tools for:
 
 Do not use MCP as runtime product infrastructure.
 
-## 6. Explicit Prohibitions
+## 6. UI Before Implementation
+
+Before implementing visible UI, check `docs/UI_STYLE_GUIDE.md`.
+
+The demo should feel like a campus food field guide, not a generic SaaS dashboard. Use warm paper tones, tomato/chili accents, student trust signals, and mobile-first layouts.
+
+## 7. Explicit Prohibitions
 
 Do not:
 
@@ -82,7 +92,7 @@ Do not:
 - Generate large README churn unless documentation is part of the task.
 - Make destructive git operations without explicit user approval.
 
-## 7. Prompt Template for Future Tasks
+## 8. Prompt Template for Future Tasks
 
 ```text
 Context:
@@ -90,6 +100,8 @@ Context:
 - Stack: React + TypeScript + Vite, Vercel Functions, Supabase
 - Current files to inspect:
 - Existing pattern to follow:
+- UI style: docs/UI_STYLE_GUIDE.md
+- Tool boundaries: docs/MCP_USAGE_PLAN.md
 
 Task:
 
@@ -108,7 +120,7 @@ Validation:
 - manual page path
 ```
 
-## 8. Definition of Done
+## 9. Definition of Done
 
 A task is not done until:
 

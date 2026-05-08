@@ -52,6 +52,14 @@ npm run test
 - Location, favorites, preferences, check-ins, and uploaded images require privacy-policy coverage.
 - Admin actions must be audited and reversible.
 
+## Demo Planning Docs
+
+Before building the demo UI, read:
+
+- `docs/DEMO_PLAN.md` for v0.1 scope and acceptance criteria.
+- `docs/UI_STYLE_GUIDE.md` for visual direction and component style.
+- `docs/MCP_USAGE_PLAN.md` for tool usage boundaries.
+
 ## AI Coding Workflow
 
 - Start with a spec or issue for non-trivial work.
