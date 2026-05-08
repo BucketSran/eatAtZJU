@@ -141,8 +141,31 @@ function checkSeedData() {
   }
 }
 
+function checkApiService() {
+  const apiService = require('../api/_shared/restaurantService.cjs')
+  const metadata = apiService.getMetadata()
+  assert(metadata.tasteTags.includes('全部'), 'api metadata tasteTags must include 全部')
+  assert(metadata.priceRanges.some((range) => range.label === '不限'), 'api metadata priceRanges must include 不限')
+
+  const all = apiService.listRestaurants({ preferences: '近,实惠,辣' })
+  assert(all.length > 0, 'api listRestaurants should return published restaurants')
+  assert(typeof all[0].recommendationScore === 'number', 'api listRestaurants should decorate recommendationScore')
+
+  const filtered = apiService.listRestaurants({ tag: '实惠', price: '50以下', sort: 'recommended' })
+  assert(filtered.length > 0, 'api filtered list should return restaurants')
+
+  const detail = apiService.getRestaurantDetail('r001', { preferences: '近,实惠' })
+  assert(detail && detail.restaurant.id === 'r001', 'api getRestaurantDetail should return r001')
+  assert(detail.dishes.length > 0, 'api detail should include dishes')
+  assert(detail.reviews.length > 0, 'api detail should include reviews')
+
+  assert(apiService.getRecommendedRestaurant({ preferences: '近,实惠' }), 'api recommended restaurant failed')
+  assert(apiService.getRandomRestaurant({ tag: '全部' }), 'api random restaurant failed')
+}
+
 checkJavaScript()
 checkJson()
 checkLegacyRestaurantData()
 checkSeedData()
+checkApiService()
 console.log('check ok')

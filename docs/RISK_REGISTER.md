@@ -46,6 +46,7 @@
 | R22 | Vercel Functions 不适合长任务 | P2 | 批量抓取、数据清洗和重 AI 任务可能超出 serverless 请求模型。 | 长任务改为离线脚本、Supabase scheduled jobs、队列或专门 worker，不阻塞用户请求。 | 新增约束 |
 | R23 | SPA fallback 误吞 API 路由 | P1 | React Router 需要 fallback 到 `index.html`，但错误 rewrites 可能把 `/api/*` 也重写成前端页面。 | `vercel.json` 使用 negative lookahead，仅非 `/api/` 路径 fallback；新增 API 后必须用 Vercel preview 验证。 | 已缓解 |
 | R24 | 前端骨架与真实数据路径脱节 | P1 | 如果 UI 继续用占位数据，后续接 API/Supabase 会返工。 | 已新增 schema-versioned seed、typed domain models、seed repository，并将下一阶段锁定为服务/API 边界。 | 已缓解 |
+| R25 | 前后端 demo 规则重复 | P2 | 前端 TypeScript 服务和 Vercel CJS API 共享同一批 seed，但筛选/推荐规则各有实现，长期可能漂移。 | 当前用 `npm run check` 覆盖 API 服务入口；接 Supabase 前应抽出共享领域规则或增加前后端契约测试。 | 已记录 |
 
 ## 风险归属约定
 
@@ -77,6 +78,7 @@
 ### 小范围内测前
 
 - 本地浏览器或 Vercel preview 跑通首页、发现、详情、收藏、偏好。
+- API handler 能返回餐厅列表、餐厅详情和今日推荐。
 - Vercel preview、隐私配置、定位权限说明准备好。
 - 至少 80 家真实种子餐厅，覆盖主要区域和预算段。
 - 有反馈表或 issue 收集渠道。
@@ -97,4 +99,4 @@
 - 不应把论坛/小红书/微信群内容当作可自由复制的数据源。
 - 当前阶段最值得马上做的是：数据 seed 化、mock/api 双模式、React/Vercel/Supabase 骨架、Supabase RLS 权限设计。
 
-架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略已经完成第一阶段闭环；但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未实现的身份、审核、隐私、RLS、权限和运营能力。
+架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略、Vercel API handler 和 seed-backed UI 纵切已经完成闭环；但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未实现的身份、审核、隐私、RLS、权限和运营能力。

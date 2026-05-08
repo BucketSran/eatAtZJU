@@ -1,28 +1,100 @@
-import { Link } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
+import { RestaurantCard } from '../components/RestaurantCard'
+import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
+import { getPreferenceTags } from '../services/preferenceStore'
+import { getRandomRestaurant, getRecommendedRestaurant, getRestaurantMetadata, listRestaurants } from '../services/restaurantService'
+import type { RestaurantSummary } from '../types'
 
 export function HomePage() {
+  const navigate = useNavigate()
+  const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
+  const [preferences] = useState(() => getPreferenceTags())
+  const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
+  const metadata = getRestaurantMetadata()
+
+  const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
+  const topRestaurants = listRestaurants({}, context).slice(0, 3)
+  const topPick = getRecommendedRestaurant({}, context)
+
+  function toggleFavorite(id: string) {
+    setFavoriteIds(toggleFavoriteRestaurant(id))
+  }
+
+  function surpriseMe() {
+    setRandomPick(getRandomRestaurant({}, context))
+  }
+
   return (
     <div className="route-stack">
       <section className="hero-panel">
         <p className="eyebrow">ZJU FOOD DEMO</p>
         <h1>今天吃什么？</h1>
-        <p className="hero-copy">先用学生口碑和轻量推荐，帮你在 30 秒内做出一顿饭的决定。</p>
+        <p className="hero-copy">用学生口碑、距离和偏好标签，帮你在 30 秒内做出一顿饭的决定。</p>
         <div className="hero-actions">
-          <Link className="primary-action" to="/discover">
-            浏览附近
-          </Link>
-          <Link className="secondary-action" to="/discover?random=1">
+          <button className="primary-action" type="button" onClick={surpriseMe}>
             随机一餐
-          </Link>
+          </button>
+          <button className="secondary-action" type="button" onClick={() => navigate('/discover')}>
+            浏览附近
+          </button>
         </div>
       </section>
 
+      {randomPick ? (
+        <GlassCard className="result-card">
+          <p className="eyebrow">RANDOM PICK</p>
+          <h2>{randomPick.name}</h2>
+          <p>
+            {randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。{randomPick.reason}
+          </p>
+          <div className="hero-actions compact-actions">
+            <Link className="primary-action" to={`/restaurants/${randomPick.id}`}>
+              看详情
+            </Link>
+            <button className="secondary-action" type="button" onClick={surpriseMe}>
+              再摇一次
+            </button>
+          </div>
+        </GlassCard>
+      ) : null}
+
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">TOP PICK</p>
+          <h2>今日首推</h2>
+        </div>
+        <Link className="text-link" to="/discover">
+          查看全部
+        </Link>
+      </div>
+
+      {topPick ? <RestaurantCard restaurant={topPick} onToggleFavorite={toggleFavorite} /> : null}
+
       <GlassCard>
-        <p className="eyebrow">Demo v0.1</p>
-        <h2>React/Vercel/Supabase 地基已就绪</h2>
-        <p>下一步会把当前小程序原型的推荐、筛选、详情和收藏流程迁移到 Web/PWA。</p>
+        <p className="eyebrow">QUICK FILTERS</p>
+        <h2>按场景快速找</h2>
+        <div className="quick-filter-grid">
+          {metadata.tasteTags.slice(1, 7).map((tag) => (
+            <Link key={tag} className="quick-filter" to={`/discover?tag=${encodeURIComponent(tag)}`}>
+              {tag}
+            </Link>
+          ))}
+        </div>
       </GlassCard>
+
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">STUDENT SIGNALS</p>
+          <h2>学生口碑热推</h2>
+        </div>
+      </div>
+      <div className="restaurant-list">
+        {topRestaurants.map((restaurant) => (
+          <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
+        ))}
+      </div>
     </div>
   )
 }

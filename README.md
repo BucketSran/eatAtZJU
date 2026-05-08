@@ -12,6 +12,8 @@
 - 收藏：本地收藏夹，收藏状态同步到列表和详情页
 - 我的：口味偏好配置，影响推荐排序
 - 推荐：基于评分、学生可信分、距离、打卡量、偏好标签的规则打分
+- Web demo：React 页面已接入 schema-versioned seed，支持首页、发现、详情、收藏和偏好配置
+- API demo：Vercel Functions 提供餐厅列表、详情和今日推荐接口
 
 ## 目标架构
 
@@ -52,7 +54,7 @@ npm run build
 index.html / vite.config.ts        React/Vite Web 入口与配置
 src/                             React/Vite/TypeScript demo 源码
 seed/                            schema-versioned demo seed 数据
-api/                             Vercel Functions 预留目录
+api/                             Vercel Serverless Functions demo API
 app.js / app.json / app.wxss      小程序入口与全局样式
 components/restaurant-card/       餐厅卡片组件
 data/restaurants.js               MVP mock 餐厅数据
@@ -74,6 +76,7 @@ docs/UI_STYLE_GUIDE.md             Demo UI 风格指南
 docs/MCP_USAGE_PLAN.md             MCP/工具介入计划
 docs/REFERENCE_REPOS_REVIEW.md     高星参考仓库调研
 docs/DEMO_FOUNDATION_REVIEW.md     Demo 地基策略审计
+docs/DEMO_API_UI_REVIEW.md         Demo API 与 UI 纵切审计
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude
@@ -95,6 +98,7 @@ npm run check
 - 小程序 legacy mock 数据基础不变量
 - Web demo seed JSON 的 schemaVersion、关联完整性、评分/价格/经纬度范围
 - 服务层筛选、收藏装饰、随机推荐和地图 marker 数量
+- Vercel API 共享服务的列表、详情、筛选、推荐和随机入口
 
 ## 推荐逻辑
 
