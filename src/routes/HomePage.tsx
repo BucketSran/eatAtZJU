@@ -67,6 +67,9 @@ export function HomePage() {
           <button className="secondary-action" type="button" onClick={() => navigate('/discover')}>
             浏览附近
           </button>
+          <button className="secondary-action" type="button" onClick={() => navigate('/leaderboards')}>
+            看榜单
+          </button>
         </div>
       </section>
 
@@ -114,6 +117,15 @@ export function HomePage() {
             </Link>
           ))}
         </div>
+      </GlassCard>
+
+      <GlassCard className="demo-note">
+        <p className="eyebrow">RANKINGS</p>
+        <h2>五个榜单，快速解释产品价值</h2>
+        <p>本周热吃、30 元以内、夜宵、一人食、聚餐场景已经整理成榜单，适合 demo 时快速展示“学生到底怎么做饭点决策”。</p>
+        <Link className="secondary-action inline-action" to="/leaderboards">
+          打开校园美食榜
+        </Link>
       </GlassCard>
 
       <div className="section-heading">
