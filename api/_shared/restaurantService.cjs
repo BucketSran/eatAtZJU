@@ -56,11 +56,11 @@ function sortRestaurants(restaurants, sort = 'recommended') {
   })
 }
 
-function listRestaurants(query = {}) {
+function listRestaurantCollection(restaurants, query = {}) {
   const preferences = parseList(query.preferences)
   const favoriteRestaurantIds = parseList(query.favorites)
-  const priceRange = findPriceRange(query.priceLabel)
-  const filtered = restaurantsSeed.restaurants.filter((restaurant) => {
+  const priceRange = findPriceRange(query.priceLabel || query.price)
+  const filtered = restaurants.filter((restaurant) => {
     return (
       restaurant.status === 'published' &&
       matchesKeyword(restaurant, query.keyword) &&
@@ -75,6 +75,10 @@ function listRestaurants(query = {}) {
   }))
 
   return sortRestaurants(scored, query.sort)
+}
+
+function listRestaurants(query = {}) {
+  return listRestaurantCollection(restaurantsSeed.restaurants, query)
 }
 
 function getRestaurantDetail(id, query = {}) {
@@ -107,9 +111,12 @@ function getMetadata() {
 }
 
 module.exports = {
+  listRestaurantCollection,
   getMetadata,
   getRandomRestaurant,
   getRecommendedRestaurant,
   getRestaurantDetail,
-  listRestaurants
+  listRestaurants,
+  parseList,
+  scoreRestaurant
 }

@@ -32,6 +32,21 @@ function assert(condition, message) {
   if (!condition) throw new Error(message)
 }
 
+async function withMissingSupabaseEnv(callback) {
+  const keys = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY', 'VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY']
+  const previous = new Map(keys.map((key) => [key, process.env[key]]))
+  for (const key of keys) delete process.env[key]
+
+  try {
+    return await callback()
+  } finally {
+    for (const [key, value] of previous) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+  }
+}
+
 function checkJavaScript() {
   for (const file of walk(root, file => file.endsWith('.js') || file.endsWith('.cjs'))) {
     run(process.execPath, ['--check', file])
@@ -141,7 +156,7 @@ function checkSeedData() {
   }
 }
 
-function checkApiService() {
+async function checkApiService() {
   const apiService = require('../api/_shared/restaurantService.cjs')
   const metadata = apiService.getMetadata()
   assert(metadata.tasteTags.includes('全部'), 'api metadata tasteTags must include 全部')
@@ -151,7 +166,7 @@ function checkApiService() {
   assert(all.length > 0, 'api listRestaurants should return published restaurants')
   assert(typeof all[0].recommendationScore === 'number', 'api listRestaurants should decorate recommendationScore')
 
-  const filtered = apiService.listRestaurants({ tag: '实惠', price: '50以下', sort: 'recommended' })
+  const filtered = apiService.listRestaurants({ tag: '实惠', price: '30以内', sort: 'recommended' })
   assert(filtered.length > 0, 'api filtered list should return restaurants')
 
   const detail = apiService.getRestaurantDetail('r001', { preferences: '近,实惠' })
@@ -161,6 +176,68 @@ function checkApiService() {
 
   assert(apiService.getRecommendedRestaurant({ preferences: '近,实惠' }), 'api recommended restaurant failed')
   assert(apiService.getRandomRestaurant({ tag: '全部' }), 'api random restaurant failed')
+
+  await withMissingSupabaseEnv(async () => {
+    const apiRepository = require('../api/_shared/restaurantRepository.cjs')
+    const repositoryList = await apiRepository.listRestaurants({ preferences: '近,实惠,辣' })
+    assert(repositoryList.source === 'seed', 'api repository should fall back to seed when Supabase is not configured')
+    assert(repositoryList.data.length > 0, 'api repository fallback list should return restaurants')
+    assert(repositoryList.fallbackReason === 'supabase_not_configured', 'api repository should report missing Supabase config')
+  })
+}
+
+function createMockResponse() {
+  return {
+    body: undefined,
+    headers: {},
+    statusCode: 200,
+    setHeader(key, value) {
+      this.headers[key] = value
+    },
+    status(code) {
+      this.statusCode = code
+      return this
+    },
+    json(body) {
+      this.body = body
+      return this
+    }
+  }
+}
+
+async function callHandler(handler, req) {
+  const res = createMockResponse()
+  await handler(req, res)
+  return res
+}
+
+async function checkApiHandlers() {
+  await withMissingSupabaseEnv(async () => {
+    const listHandler = require('../api/restaurants/index.js')
+    const detailHandler = require('../api/restaurants/[id].js')
+    const recommendHandler = require('../api/recommend/today.js')
+
+    const list = await callHandler(listHandler, { method: 'GET', query: { tag: '实惠', preferences: '近,实惠' } })
+    assert(list.statusCode === 200, 'restaurants handler should return 200')
+    assert(list.body.source === 'seed', 'restaurants handler should use seed fallback without Supabase config')
+    assert(list.body.restaurants.length > 0, 'restaurants handler should return rows')
+
+    const detail = await callHandler(detailHandler, { method: 'GET', query: { id: 'r001', preferences: '近' } })
+    assert(detail.statusCode === 200, 'restaurant detail handler should return 200')
+    assert(detail.body.source === 'seed', 'restaurant detail handler should use seed fallback without Supabase config')
+    assert(detail.body.restaurant.id === 'r001', 'restaurant detail handler should return r001')
+
+    const today = await callHandler(recommendHandler, { method: 'GET', query: { strategy: 'recommended', preferences: '近,实惠' } })
+    assert(today.statusCode === 200, 'recommend handler should return 200')
+    assert(today.body.source === 'seed', 'recommend handler should use seed fallback without Supabase config')
+    assert(today.body.restaurant.id, 'recommend handler should return a restaurant')
+
+    const invalidDetail = await callHandler(detailHandler, { method: 'GET', query: { id: '../secret' } })
+    assert(invalidDetail.statusCode === 400, 'restaurant detail handler should reject invalid ids')
+
+    const invalidStrategy = await callHandler(recommendHandler, { method: 'GET', query: { strategy: 'surprise-me' } })
+    assert(invalidStrategy.statusCode === 400, 'recommend handler should reject invalid strategies')
+  })
 }
 
 function checkSupabaseFiles() {
@@ -208,10 +285,18 @@ function checkSupabaseFiles() {
   run(process.execPath, ['scripts/generate-supabase-seed.cjs', '--check'])
 }
 
-checkJavaScript()
-checkJson()
-checkLegacyRestaurantData()
-checkSeedData()
-checkApiService()
-checkSupabaseFiles()
-console.log('check ok')
+async function main() {
+  checkJavaScript()
+  checkJson()
+  checkLegacyRestaurantData()
+  checkSeedData()
+  await checkApiService()
+  await checkApiHandlers()
+  checkSupabaseFiles()
+  console.log('check ok')
+}
+
+main().catch((error) => {
+  console.error(error)
+  process.exit(1)
+})

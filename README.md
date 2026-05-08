@@ -79,6 +79,7 @@ docs/REFERENCE_REPOS_REVIEW.md     高星参考仓库调研
 docs/DEMO_FOUNDATION_REVIEW.md     Demo 地基策略审计
 docs/DEMO_API_UI_REVIEW.md         Demo API 与 UI 纵切审计
 docs/SUPABASE_SCHEMA_RLS.md       Supabase schema/RLS 设计与审计
+docs/SUPABASE_API_INTEGRATION.md  Supabase API 接入与 fallback 策略
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude

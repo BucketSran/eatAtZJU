@@ -50,6 +50,9 @@
 | R26 | 用户资料字段可被自提权 | P0 | 如果 `profiles` 同时保存 role、校园认证、信用分，并允许用户更新自己的 profile，用户可能把自己改成管理员或高信用。 | 将用户可编辑字段限定在 `profiles`；管理员身份放 `admin_users`，校园认证和信用分放 `user_trust`，写入走 service-role/管理员流程。 | 已缓解：写入 Supabase 迁移 |
 | R27 | Supabase seed 与 JSON 漂移 | P1 | 如果 seed SQL 手写且不检查，demo JSON 和 Supabase 数据会不一致。 | 新增 `scripts/generate-supabase-seed.cjs`，`npm run check` 校验 `supabase/seed.sql` 是否由当前 JSON 生成。 | 已缓解 |
 | R28 | Supabase 迁移尚未真实执行 | P2 | 当前已有版本化 SQL，但还没在真实 Supabase project/local stack 上跑迁移。 | 下一阶段使用 Supabase CLI 或 Dashboard 执行迁移，并补实际 SQL smoke test。 | 待处理 |
+| R29 | service-role 绕过 RLS 泄露未发布内容 | P0 | Vercel API 如果使用 service-role key，RLS 不会拦截草稿/未审核数据。 | Supabase repository 显式过滤 `restaurants.status='published'`、`dishes.status='published'`、`reviews.status='approved'`。 | 已缓解 |
+| R30 | seed fallback 掩盖生产后端问题 | P1 | 如果 Supabase 已配置但 API 总是回退 seed，可能掩盖空库、迁移失败或线上错误。 | 仅在未配置或 Supabase 请求异常时 fallback；空结果不 fallback；提供 `SUPABASE_DISABLE_FALLBACK=true` 用于 staging/production。 | 已缓解 |
+| R31 | API 路由参数缺少边界校验 | P1 | 动态餐厅 ID 或推荐 strategy 如果直接进入查询，可能带来异常、日志污染或未来 SQL/SDK 查询风险。 | 新增 `requestValidation.cjs`，餐厅 ID 和推荐 strategy 采用白名单校验，无效输入返回 400。 | 已缓解 |
 
 ## 风险归属约定
 
@@ -103,4 +106,4 @@
 - 不应把论坛/小红书/微信群内容当作可自由复制的数据源。
 - 当前阶段最值得马上做的是：数据 seed 化、mock/api 双模式、React/Vercel/Supabase 骨架、Supabase RLS 权限设计。
 
-架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略、Vercel API handler、seed-backed UI 纵切、Supabase 初始 schema/RLS 迁移和 seed SQL 生成检查已经完成闭环；但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未在真实 Supabase project 验证的迁移、身份、审核、隐私、内容安全、授权数据和运营能力。
+架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略、Vercel API handler、seed-backed UI 纵切、Supabase 初始 schema/RLS 迁移、seed SQL 生成检查和 Supabase-first API fallback 已经完成闭环；但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未在真实 Supabase project 验证的迁移、身份、审核、隐私、内容安全、授权数据和运营能力。
