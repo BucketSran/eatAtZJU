@@ -6,7 +6,7 @@
 
 把真实线上数据库和部署前必须有的“用户链路”先接成可落地骨架：
 
-- Supabase Auth 邮箱 magic link 登录。
+- Supabase Auth 邮箱 OTP 验证码登录，避免校园邮箱打开 Supabase 外链失败。
 - 服务端校园邮箱验证，写入 `user_trust.campus_email_verified`。
 - 用户偏好写入 `profiles.preferences`。
 - 本地收藏与 Supabase `favorites` 双向同步。

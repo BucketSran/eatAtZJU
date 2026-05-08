@@ -211,18 +211,42 @@ API_BASE_URL='https://你的-vercel-url.vercel.app' EXPECT_API_SOURCE=supabase n
 - 修改环境变量后需要 Redeploy。
 - 如果 `SUPABASE_DISABLE_FALLBACK=true`，正常情况下数据库错误会暴露为 500，不应静默回 seed。
 
-## 10. 验证登录和 UGC
+## 10. 配置邮箱验证码模板
+
+为了避免校园邮箱点击 Supabase 外链时被拦截，建议把 Magic Link 邮件改成验证码邮件。
+
+Supabase Dashboard:
+
+```text
+Authentication -> Email Templates -> Magic Link
+```
+
+Subject:
+
+```text
+食在浙大登录验证码：{{ .Token }}
+```
+
+Body 可使用仓库文档：
+
+```text
+docs/SUPABASE_OTP_EMAIL_TEMPLATE.md
+```
+
+关键点是邮件正文必须包含 `{{ .Token }}`，这样用户能复制 6 位验证码到 `/profile` 登录。
+
+## 11. 验证登录和 UGC
 
 1. 打开 Vercel URL 的 `/profile`。
-2. 输入邮箱，点击发送登录邮件。
-3. 打开邮箱 magic link。
+2. 输入邮箱，点击发送验证码。
+3. 从邮件中复制 6 位验证码，不需要点击 Supabase 外链。
 4. 回到 `/profile`，确认能看到当前账号。
 5. 点击同步偏好、推送本地收藏、拉取云端收藏。
 6. 如果邮箱属于允许域名，点击验证校园邮箱，到 Supabase `Table Editor -> user_trust` 确认 `campus_email_verified=true`。
 7. 打开 `/contribute`，提交一条餐厅或纠错内容。
 8. 到 Supabase `Table Editor -> submissions`，确认有一条 `status=pending` 的记录。
 
-## 11. 创建第一个管理员
+## 12. 创建第一个管理员
 
 1. 用你的邮箱在 `/profile` 登录一次。
 2. 在 Supabase `Authentication -> Users` 找到你的用户，复制 UUID。
@@ -240,19 +264,20 @@ on conflict (user_id) do update set role = excluded.role;
 7. 对刚才提交的内容点击通过或拒绝。
 8. 到 Supabase `audit_logs` 表确认有审计记录。
 
-## 12. 常见问题排查
+## 13. 常见问题排查
 
 | 问题 | 可能原因 | 处理方式 |
 | --- | --- | --- |
 | 页面能打开，但 API 返回 `source=seed` | Vercel env 没配或没重新部署 | 配 env 后 Redeploy，再跑 smoke |
-| Magic link 点开回不到网站 | Supabase Auth Redirect URL 没加 Vercel URL | 在 Authentication URL Configuration 添加 URL |
+| Magic link 点开回不到网站 | 校园邮箱/网络拦截 Supabase 外链 | 使用邮箱验证码登录；确认 Magic Link 模板包含 `{{ .Token }}` |
+| 邮件里没有 6 位验证码 | Magic Link 邮件模板没配置 `{{ .Token }}` | 按第 10 步修改模板 |
 | `/contribute` 提交失败 `Please sign in first` | 没登录或 session 失效 | 重新登录 |
 | `/admin` 返回 `Admin access required` | 当前用户不在 `admin_users` | 按第 11 步插入管理员 |
 | `/admin` 审核失败 | audit_logs insert policy 缺失或 migration 没执行最新版本 | 重新确认 migration 是否包含 `admins can insert audit logs` |
 | Vercel build 失败 | 依赖安装或 TypeScript 问题 | 本地先跑 `npm run check && npm run build` |
 | Supabase SQL Editor 执行 seed 失败 | SQL 太长、网络中断或部分表未创建 | 先执行 migration，再重跑 seed；必要时用 `npm run supabase:apply:seed` |
 
-## 13. 官方参考
+## 14. 官方参考
 
 - Supabase database connection：<https://supabase.com/docs/guides/database/connecting-to-postgres>
 - Supabase API keys：<https://supabase.com/docs/guides/getting-started/api-keys>

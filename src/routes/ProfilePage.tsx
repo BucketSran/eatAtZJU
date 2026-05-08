@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
-import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, type AuthState } from '../services/authService'
+import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, verifyEmailOtp, type AuthState } from '../services/authService'
 import { pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
 import { defaultPreferences, getPreferenceTags, resetPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
 import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata } from '../services/restaurantService'
@@ -20,6 +20,8 @@ export function ProfilePage() {
   const [authState, setAuthState] = useState<AuthState>({ isConfigured: isSupabaseBrowserConfigured(), user: null })
   const [campusTrust, setCampusTrust] = useState<CampusTrustStatus | null>(null)
   const [email, setEmail] = useState('')
+  const [otpCode, setOtpCode] = useState('')
+  const [otpEmail, setOtpEmail] = useState('')
   const [accountStatus, setAccountStatus] = useState('')
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: [] }), [preferences])
 
@@ -72,12 +74,26 @@ export function ProfilePage() {
 
   async function submitEmailLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setAccountStatus('正在发送登录邮件...')
+    const normalizedEmail = email.trim().toLowerCase()
+    setAccountStatus('正在发送邮箱验证码...')
     try {
-      await signInWithEmail(email)
-      setAccountStatus('登录邮件已发送，请检查邮箱。')
+      await signInWithEmail(normalizedEmail)
+      setOtpEmail(normalizedEmail)
+      setAccountStatus('验证码已发送，请从邮件中复制 6 位数字验证码。')
     } catch (error) {
       setAccountStatus(error instanceof Error ? error.message : '发送失败')
+    }
+  }
+
+  async function submitEmailOtp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setAccountStatus('正在验证邮箱验证码...')
+    try {
+      await verifyEmailOtp(otpEmail, otpCode.trim())
+      setOtpCode('')
+      setAccountStatus('登录成功。')
+    } catch (error) {
+      setAccountStatus(error instanceof Error ? error.message : '验证码验证失败')
     }
   }
 
@@ -142,7 +158,7 @@ export function ProfilePage() {
           <div>
             <p className="eyebrow">ACCOUNT</p>
             <h2>登录与云端同步</h2>
-            <p>{authState.isConfigured ? 'Supabase Auth 已可用时，可用邮箱 magic link 登录。' : '当前未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY，登录能力处于待接入状态。'}</p>
+            <p>{authState.isConfigured ? 'Supabase Auth 已可用时，可用邮箱验证码登录，无需打开外部 magic link。' : '当前未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY，登录能力处于待接入状态。'}</p>
           </div>
           {authState.user ? <button className="text-button" type="button" onClick={() => signOut()}>退出登录</button> : null}
         </div>
@@ -162,11 +178,22 @@ export function ProfilePage() {
             </div>
           </div>
         ) : (
-          <form className="form-stack" onSubmit={submitEmailLogin}>
-            <label className="search-label" htmlFor="login-email">邮箱</label>
-            <input id="login-email" className="search-input" type="email" value={email} placeholder="yourname@example.com" onChange={(event) => setEmail(event.target.value)} disabled={!authState.isConfigured} required />
-            <button className="primary-action" type="submit" disabled={!authState.isConfigured}>发送登录邮件</button>
-          </form>
+          <div className="form-stack">
+            <form className="form-stack" onSubmit={submitEmailLogin}>
+              <label className="search-label" htmlFor="login-email">邮箱</label>
+              <input id="login-email" className="search-input" type="email" value={email} placeholder="yourname@example.com" onChange={(event) => setEmail(event.target.value)} disabled={!authState.isConfigured} required />
+              <button className="primary-action" type="submit" disabled={!authState.isConfigured}>发送验证码</button>
+            </form>
+
+            {otpEmail ? (
+              <form className="form-stack otp-panel" onSubmit={submitEmailOtp}>
+                <label className="search-label" htmlFor="login-otp">邮箱验证码</label>
+                <input id="login-otp" className="search-input otp-input" type="text" inputMode="numeric" autoComplete="one-time-code" value={otpCode} maxLength={6} placeholder="输入 6 位验证码" onChange={(event) => setOtpCode(event.target.value.replace(/\D/g, '').slice(0, 6))} required />
+                <button className="primary-action" type="submit" disabled={otpCode.length !== 6}>验证并登录</button>
+                <p className="helper-text">验证码已发送到 {otpEmail}。不用点击邮件里的 Supabase 外链，只复制数字验证码即可。</p>
+              </form>
+            ) : null}
+          </div>
         )}
 
         {accountStatus ? <p className="helper-text">{accountStatus}</p> : null}

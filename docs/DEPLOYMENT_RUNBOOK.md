@@ -130,7 +130,7 @@ EXPECT_API_SOURCE=seed npm run smoke:api
 | `/api/recommend/today` | 200，`source=supabase`，返回餐厅 |
 | `/api/submissions` 无 bearer | 401 |
 | `/api/admin/submissions` 无 bearer | 401 |
-| `/profile` | 配置 `VITE_*` 后可发送 magic link |
+| `/profile` | 配置 `VITE_*` 后可发送邮箱验证码 |
 | `/api/auth/campus-verify` 无 bearer | 401 |
 | `/profile` 校园邮箱验证 | 登录后可写入 `user_trust.campus_email_verified` |
 | `/contribute` | 登录后提交进入 `submissions.status=pending` |
@@ -139,6 +139,10 @@ EXPECT_API_SOURCE=seed npm run smoke:api
 | `/api/recommend/today?strategy=invalid` | 400 |
 | `SUPABASE_DISABLE_FALLBACK=true` 且数据库错误 | 500，不回退 seed |
 | Vercel env | service-role 不出现在 `VITE_*` 变量 |
+
+## 6. 邮箱验证码模板
+
+为避免校园邮箱拦截 Supabase magic link 外链，`/profile` 使用邮箱 OTP 登录。Supabase 的 `Authentication -> Email Templates -> Magic Link` 模板需要包含 `{{ .Token }}`，推荐模板见 `docs/SUPABASE_OTP_EMAIL_TEMPLATE.md`。
 
 ## 当前阻断项
 

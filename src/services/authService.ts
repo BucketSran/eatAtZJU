@@ -32,12 +32,23 @@ export async function signInWithEmail(email: string) {
   const client = getSupabaseBrowserClient()
   if (!client) throw new Error('Supabase browser client is not configured')
   const { error } = await client.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: window.location.origin + '/profile'
-    }
+    email
   })
   if (error) throw error
+}
+
+export async function verifyEmailOtp(email: string, token: string) {
+  const client = getSupabaseBrowserClient()
+  if (!client) throw new Error('Supabase browser client is not configured')
+
+  const { data, error } = await client.auth.verifyOtp({
+    email,
+    token,
+    type: 'email'
+  })
+
+  if (error) throw error
+  return data
 }
 
 export async function signOut() {
