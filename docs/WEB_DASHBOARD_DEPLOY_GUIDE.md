@@ -213,9 +213,9 @@ API_BASE_URL='https://你的-vercel-url.vercel.app' EXPECT_API_SOURCE=supabase n
 
 ## 10. 绑定自定义域名
 
-当前建议使用 `eat.bucketsran.fun` 作为 Web demo 的正式入口。
+当前建议使用 `eat.bucketsran.fun` 作为 Web demo 的正式入口。该域名已在 Vercel 和阿里云 DNS 配置成功。
 
-Vercel 侧已经把 `eat.bucketsran.fun` 添加到 `eat-at-zju` 项目。下一步需要在阿里云 DNS 添加：
+如果后续需要重新配置，Vercel 侧需要把 `eat.bucketsran.fun` 添加到 `eat-at-zju` 项目，阿里云 DNS 需要添加：
 
 | 字段 | 值 |
 | --- | --- |

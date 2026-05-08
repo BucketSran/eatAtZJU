@@ -15,7 +15,8 @@
 - Vercel 项目：`eat-at-zju`
 - DNS 托管商：阿里云万网 DNS，当前 NS 为 `dns25.hichina.com`、`dns26.hichina.com`
 - Vercel 已添加域名：`eat.bucketsran.fun`
-- DNS 尚需配置：`A eat 76.76.21.21`
+- DNS 已配置：`A eat 76.76.21.21`
+- 新域名 API 已验证：`/api/restaurants` 返回 `source=supabase`
 
 ## 阶段 1：自定义域名接入 Vercel
 
@@ -154,11 +155,9 @@ https://eat.bucketsran.fun/**
 
 ## 下一步
 
-1. 在阿里云 DNS 添加 `A eat 76.76.21.21`。
-2. 等 DNS 生效后运行验证命令。
-3. 把 Supabase `Site URL` 和 redirect allowlist 增加 `https://eat.bucketsran.fun/**`。
-4. 用大陆网络实测无代理访问。
-5. 根据实测结果决定是否启动后端代理或国内云迁移。
+1. 把 Supabase `Site URL` 和 redirect allowlist 增加 `https://eat.bucketsran.fun/**`。
+2. 用大陆网络实测无代理访问。
+3. 根据实测结果决定是否启动后端代理或国内云迁移。
 
 ## 官方参考
 
