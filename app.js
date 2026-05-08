@@ -7,10 +7,21 @@ App({
       latitude: 30.3081,
       longitude: 120.0877
     },
-    defaultPreferences: getPreferences()
+    defaultPreferences: getPreferences(),
+    cloudReady: false
   },
 
   onLaunch() {
+    if (wx.cloud && wx.cloud.init) {
+      try {
+        wx.cloud.init({ traceUser: true })
+        this.globalData.cloudReady = true
+      } catch (error) {
+        this.globalData.cloudReady = false
+        console.warn('[eatAtZJU] CloudBase init failed, using local seed fallback:', error.message)
+      }
+    }
+
     if (!wx.getStorageSync('eatAtZjuOnboarded')) {
       wx.setStorageSync('eatAtZjuOnboarded', true)
       wx.setStorageSync('eatAtZjuFavorites', [])

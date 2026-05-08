@@ -1,5 +1,5 @@
-const service = require('../../services/restaurantService')
-const { toggleFavorite } = require('../../utils/storage')
+const service = require('../../services/restaurantDataService')
+const { getPreferences, toggleFavorite } = require('../../utils/storage')
 
 Page({
   data: {
@@ -10,8 +10,8 @@ Page({
     this.loadRestaurant(options.id)
   },
 
-  loadRestaurant(id) {
-    const restaurant = service.getRestaurant(id)
+  async loadRestaurant(id) {
+    const restaurant = await service.getRestaurant(id, getPreferences())
     if (!restaurant) {
       wx.showToast({ title: '餐厅不存在', icon: 'none' })
       setTimeout(() => wx.navigateBack(), 700)
@@ -20,10 +20,10 @@ Page({
     this.setData({ restaurant })
   },
 
-  handleFavorite() {
+  async handleFavorite() {
     const { restaurant } = this.data
     toggleFavorite(restaurant.id)
-    this.setData({ restaurant: service.getRestaurant(restaurant.id) })
+    this.setData({ restaurant: await service.getRestaurant(restaurant.id, getPreferences()) })
     wx.showToast({
       title: restaurant.isFavorite ? '已取消收藏' : '已收藏',
       icon: 'none'

@@ -1,4 +1,4 @@
-const service = require('../../services/restaurantService')
+const service = require('../../services/restaurantDataService')
 const { getPreferences, toggleFavorite } = require('../../utils/storage')
 
 Page({
@@ -10,9 +10,9 @@ Page({
     this.refresh()
   },
 
-  refresh() {
+  async refresh() {
     this.setData({
-      favorites: service.getFavoriteRestaurants(getPreferences())
+      favorites: await service.getFavoriteRestaurants(getPreferences())
     })
   },
 

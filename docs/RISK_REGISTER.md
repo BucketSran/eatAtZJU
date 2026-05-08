@@ -64,6 +64,9 @@
 | R40 | 校园邮箱认证被用户自提权 | P0 | 如果前端直接更新 `user_trust`，用户可把自己标成已验证，破坏学生可信机制。 | `user_trust` 只允许用户读取；校园邮箱验证通过 `/api/auth/campus-verify` 服务端 service-role 写入。 | 已缓解 |
 | R41 | 自动审批污染正式数据且无法回退 | P0 | 如果自动审批直接写 `restaurants/dishes/reviews`，错误或恶意内容可能长期污染榜单和推荐。 | 新增审计日志回滚 API 和后台入口；未来自动审批必须先写 before/after 快照，再写正式表。 | 已缓解基线 |
 | R42 | 大陆网络无法稳定访问 | P0 | 目标用户在浙大和中国大陆网络内；如果 Web 站依赖 Vercel 和浏览器直连 Supabase，可能出现无代理无法打开、登录失败或接口超时。 | 已添加 `eat.bucketsran.fun` 到 Vercel，并记录阿里云 DNS、Supabase redirect、国内云/小程序 fallback；上线前必须用大陆网络实测。 | 处理中 |
+| R43 | Web 与小程序双库导致数据漂移 | P0 | 如果 Web 使用 Supabase、小程序使用 CloudBase DB，审核、收藏、评论和回滚会出现不一致。 | 明确 Supabase Postgres 是短中期唯一事实源；CloudBase 只作为小程序云函数代理层；如迁库必须整体迁移，不长期双写。 | 已缓解策略 |
+| R44 | 微信 openid 与 Supabase UUID 身份分裂 | P1 | Web 用户 ID 来自 Supabase Auth，微信小程序 ID 来自 openid；如果不做映射，同一用户会有两份资料。 | 新增 `app_users` 与 `identity_links` 迁移，先建立统一用户模型，再逐步迁移收藏/UGC。 | 已缓解基线 |
+| R45 | 小程序前端泄露 Supabase secret | P0 | 如果小程序直接访问 Supabase 或把 service key 打进前端包，任何人都可能提取密钥。 | 小程序只调用 CloudBase 云函数；Supabase secret 只放云函数环境变量。 | 已缓解策略 |
 
 ## 风险归属约定
 
@@ -97,6 +100,7 @@
 
 - 本地浏览器或 Vercel preview 跑通首页、发现、详情、收藏、偏好。
 - API handler 能返回餐厅列表、餐厅详情和今日推荐。
+- 小程序只读 POC 通过 CloudBase 云函数读取 Supabase 数据，或确认继续使用 Web-only demo。
 - 登录、收藏同步、UGC submissions 和管理员审核 API 在真实 Supabase/Vercel preview 中至少跑通一次。
 - Vercel preview、隐私配置、定位权限说明准备好。
 - Demo 阶段至少 20 家 seed 餐厅；小范围内测前至少 80 家授权/可追溯真实种子餐厅，覆盖主要区域和预算段。

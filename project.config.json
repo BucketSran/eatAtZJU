@@ -37,6 +37,7 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
   "libVersion": "3.4.8",
   "appid": "touristappid",
   "projectname": "eatAtZJU",

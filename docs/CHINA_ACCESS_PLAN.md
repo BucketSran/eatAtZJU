@@ -119,11 +119,11 @@ https://eat.bucketsran.fun/**
 
 | 层 | 推荐方向 |
 | --- | --- |
-| 学生端 | 微信小程序 |
+| 学生端 | 微信小程序，作为主入口 |
 | Web 管理后台 | React，继续复用当前代码 |
 | 前端托管 | 阿里云 OSS/CDN、腾讯云静态网站托管或 CloudBase Hosting |
-| API | 云函数、CloudBase Functions 或阿里云函数计算 |
-| 数据库 | CloudBase DB、腾讯云 PostgreSQL、阿里云 RDS PostgreSQL，或阶段性保留 Supabase server-to-server |
+| API | CloudBase Functions，当前已新增 `eatAtZjuApi` 只读 POC |
+| 数据库 | 短中期保留 Supabase 作为唯一事实源；如果 CloudBase -> Supabase 不稳定，再整体迁到国内数据库 |
 | 身份 | 微信登录 + 校园邮箱验证 |
 | 审核 | 当前 submissions/admin/audit/rollback 模型继续保留 |
 
@@ -156,8 +156,10 @@ https://eat.bucketsran.fun/**
 ## 下一步
 
 1. 把 Supabase `Site URL` 和 redirect allowlist 增加 `https://eat.bucketsran.fun/**`。
-2. 用大陆网络实测无代理访问。
-3. 根据实测结果决定是否启动后端代理或国内云迁移。
+2. Web 继续作为 demo 和后台，不再作为大陆学生主入口。
+3. 按 `docs/CLOUDBASE_MINIPROGRAM_SETUP.md` 部署 CloudBase 小程序只读 POC。
+4. 如果 CloudBase 云函数访问 Supabase 稳定，再做微信 openid、收藏和 UGC。
+5. 如果 CloudBase 云函数访问 Supabase 不稳定，再整体迁移数据库到国内云，不做长期双写。
 
 ## 官方参考
 

@@ -1,4 +1,4 @@
-const service = require('../../services/restaurantService')
+const service = require('../../services/restaurantDataService')
 const { toggleFavorite, getPreferences } = require('../../utils/storage')
 
 Page({
@@ -19,14 +19,14 @@ Page({
     this.refreshRestaurants()
   },
 
-  refreshRestaurants() {
+  async refreshRestaurants() {
     const preferences = getPreferences()
     const filters = {
       keyword: this.data.keyword,
       tag: this.data.activeTag,
       priceRange: service.priceRanges[this.data.activePriceIndex]
     }
-    const restaurants = service.listRestaurants(filters, preferences)
+    const restaurants = await service.listRestaurants(filters, preferences)
     this.setData({
       preferences,
       preferenceText: preferences.join(' / '),
@@ -50,8 +50,8 @@ Page({
     this.refreshRestaurants()
   },
 
-  surpriseMe() {
-    const randomPick = service.randomRestaurant({
+  async surpriseMe() {
+    const randomPick = await service.randomRestaurant({
       keyword: this.data.keyword,
       tag: this.data.activeTag,
       priceRange: service.priceRanges[this.data.activePriceIndex]

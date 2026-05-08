@@ -2,7 +2,7 @@
 
 浙大学生专属的校园美食发现与分享平台 MVP。当前仓库已有微信小程序原型，用本地 mock 数据跑通核心体验：发现餐厅、筛选搜索、地图点位、详情页、收藏、偏好推荐和随机吃什么。
 
-下一阶段主线采用 AI 友好的 Web/PWA 架构：React + TypeScript + Vite 前端、Vercel Serverless Functions 后端、Supabase 数据库/Auth/Storage、Vercel 部署。现有小程序代码先保留为产品原型和交互参考。
+当前主线调整为：微信小程序面向浙大学生作为主要入口，React Web 继续作为 demo、管理后台和可访问 Vercel 用户的入口。短中期 Supabase Postgres 仍是唯一事实源；小程序通过 CloudBase 云函数代理访问 Supabase，不做 Web 与小程序双数据库同步。
 
 ## 当前已实现
 
@@ -16,16 +16,19 @@
 - 推荐：基于评分、学生可信分、距离、打卡量、偏好标签的规则打分
 - Web demo：React 页面已接入 schema-versioned seed，支持首页、发现、详情、收藏和偏好配置
 - API demo：Vercel Functions 提供餐厅列表、详情和今日推荐接口
+- 小程序 POC：页面优先调用 CloudBase 云函数读取 Supabase，失败时回退本地 seed
+- 身份地基：新增 `app_users` 和 `identity_links`，用于后续合并 Supabase Auth UUID 与微信 openid
 
 ## 目标架构
 
 ```text
-React + TypeScript + Vite frontend
+微信小程序
+  -> CloudBase Functions
+    -> Supabase Postgres
+
+React + TypeScript + Vite Web
   -> Vercel Serverless Functions
-    -> Supabase Auth
-    -> Supabase Postgres with RLS
-    -> Supabase Storage
-Vercel deploys from GitHub
+    -> Supabase Postgres
 ```
 
 详细决策见：[docs/ADR-0001-react-vercel-supabase.md](/Users/bucketsran/Documents/TsingProject/eatAtZJU/docs/ADR-0001-react-vercel-supabase.md)。
@@ -48,7 +51,7 @@ npm run check
 npm run build
 ```
 
-微信小程序原型仍保留，可用微信开发者工具导入当前目录查看。
+微信小程序原型可用微信开发者工具导入当前目录查看。若要接真实 Supabase 数据，按 [docs/CLOUDBASE_MINIPROGRAM_SETUP.md](/Users/bucketsran/Documents/TsingProject/eatAtZJU/docs/CLOUDBASE_MINIPROGRAM_SETUP.md) 部署 `eatAtZjuApi` 云函数。
 
 ## 项目结构
 
@@ -57,11 +60,13 @@ index.html / vite.config.ts        React/Vite Web 入口与配置
 src/                             React/Vite/TypeScript demo 源码
 seed/                            schema-versioned demo seed 数据
 api/                             Vercel Serverless Functions demo API
+cloudfunctions/eatAtZjuApi/       CloudBase 小程序 Supabase 只读代理 POC
 supabase/                         Supabase migrations and generated seed SQL
 app.js / app.json / app.wxss      小程序入口与全局样式
 components/restaurant-card/       餐厅卡片组件
 data/restaurants.js               MVP mock 餐厅数据
-services/restaurantService.js      餐厅查询、收藏装饰、地图 marker 服务
+services/restaurantService.js      本地 seed 餐厅查询、收藏装饰、地图 marker 服务
+services/restaurantDataService.js  小程序云函数优先、seed fallback 数据服务
 utils/recommend.js                规则推荐与筛选逻辑
 utils/storage.js                  本地收藏和偏好存储
 pages/home/                       首页推荐和筛选
@@ -85,6 +90,9 @@ docs/SUPABASE_API_INTEGRATION.md  Supabase API 接入与 fallback 策略
 docs/AUTH_UGC_ADMIN_PLAN.md       登录、UGC 提交和管理员审核接入说明
 docs/DEPLOYMENT_RUNBOOK.md        Supabase/Vercel 部署运行手册
 docs/WEB_DASHBOARD_DEPLOY_GUIDE.md 网页端 Supabase/Vercel 部署指南
+docs/CHINA_ACCESS_PLAN.md         大陆访问、域名和小程序主入口路线
+docs/WECHAT_MINIPROGRAM_PLAN.md   小程序主线、CloudBase 和统一身份规划
+docs/CLOUDBASE_MINIPROGRAM_SETUP.md CloudBase 云函数部署指南
 docs/SUPABASE_OTP_EMAIL_TEMPLATE.md Supabase 邮箱验证码模板
 docs/AUTO_APPROVAL_ROLLBACK_PLAN.md 自动审批与回滚策略
 docs/FRONTEND_API_INTEGRATION.md  React 前端 API 接入与 fallback 策略
