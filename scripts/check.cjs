@@ -285,6 +285,17 @@ function checkSupabaseFiles() {
   run(process.execPath, ['scripts/generate-supabase-seed.cjs', '--check'])
 }
 
+function checkDeploymentScripts() {
+  const applyScript = fs.readFileSync(path.join(root, 'scripts/apply-supabase.cjs'), 'utf8')
+  const smokeScript = fs.readFileSync(path.join(root, 'scripts/smoke-api.cjs'), 'utf8')
+
+  assert(applyScript.includes('SUPABASE_DB_URL'), 'apply script must require SUPABASE_DB_URL')
+  assert(applyScript.includes('app_private.schema_migrations'), 'apply script must track applied migrations')
+  assert(!applyScript.includes('console.log(process.env.SUPABASE_DB_URL)'), 'apply script must not print SUPABASE_DB_URL')
+  assert(smokeScript.includes('EXPECT_API_SOURCE'), 'smoke script must verify expected API source')
+  assert(smokeScript.includes('API_BASE_URL'), 'smoke script must support remote API_BASE_URL')
+}
+
 async function main() {
   checkJavaScript()
   checkJson()
@@ -293,6 +304,7 @@ async function main() {
   await checkApiService()
   await checkApiHandlers()
   checkSupabaseFiles()
+  checkDeploymentScripts()
   console.log('check ok')
 }
 

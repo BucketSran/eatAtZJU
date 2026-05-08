@@ -9,10 +9,14 @@
     "preview": "vite preview",
     "check": "node scripts/check.cjs && tsc -b --pretty false",
     "seed:sql": "node scripts/generate-supabase-seed.cjs",
-    "seed:sql:write": "node scripts/generate-supabase-seed.cjs --write"
+    "seed:sql:write": "node scripts/generate-supabase-seed.cjs --write",
+    "supabase:apply": "node scripts/apply-supabase.cjs",
+    "supabase:apply:seed": "node scripts/apply-supabase.cjs --seed",
+    "smoke:api": "node scripts/smoke-api.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
+    "postgres": "^3.4.9",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.0"

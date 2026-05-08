@@ -53,6 +53,8 @@
 | R29 | service-role 绕过 RLS 泄露未发布内容 | P0 | Vercel API 如果使用 service-role key，RLS 不会拦截草稿/未审核数据。 | Supabase repository 显式过滤 `restaurants.status='published'`、`dishes.status='published'`、`reviews.status='approved'`。 | 已缓解 |
 | R30 | seed fallback 掩盖生产后端问题 | P1 | 如果 Supabase 已配置但 API 总是回退 seed，可能掩盖空库、迁移失败或线上错误。 | 仅在未配置或 Supabase 请求异常时 fallback；空结果不 fallback；提供 `SUPABASE_DISABLE_FALLBACK=true` 用于 staging/production。 | 已缓解 |
 | R31 | API 路由参数缺少边界校验 | P1 | 动态餐厅 ID 或推荐 strategy 如果直接进入查询，可能带来异常、日志污染或未来 SQL/SDK 查询风险。 | 新增 `requestValidation.cjs`，餐厅 ID 和推荐 strategy 采用白名单校验，无效输入返回 400。 | 已缓解 |
+| R32 | 缺少真实部署凭证 | P1 | 没有 Supabase/Vercel 凭证时无法事实验证远端 migration、seed 和 preview。 | 新增 `scripts/apply-supabase.cjs`、`scripts/smoke-api.cjs` 和部署运行手册；待提供凭证后执行。 | 待处理 |
+| R33 | 手动执行 migration 后脚本重复执行失败 | P2 | 如果已在 Dashboard 手动粘贴 SQL，但没有 migration record，脚本再跑可能遇到 trigger 已存在。 | 运行手册要求优先在干净 project 用脚本执行，或手动补 `app_private.schema_migrations` 记录。 | 已记录 |
 
 ## 风险归属约定
 
@@ -106,4 +108,4 @@
 - 不应把论坛/小红书/微信群内容当作可自由复制的数据源。
 - 当前阶段最值得马上做的是：数据 seed 化、mock/api 双模式、React/Vercel/Supabase 骨架、Supabase RLS 权限设计。
 
-架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略、Vercel API handler、seed-backed UI 纵切、Supabase 初始 schema/RLS 迁移、seed SQL 生成检查和 Supabase-first API fallback 已经完成闭环；但对“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未在真实 Supabase project 验证的迁移、身份、审核、隐私、内容安全、授权数据和运营能力。
+架构调整后，当前阶段的策略置信度可以提升到“可继续推进 React/Vercel/Supabase Web/PWA MVP”。当前 React 骨架、seed、类型、CI/build 策略、Vercel API handler、seed-backed UI 纵切、Supabase 初始 schema/RLS 迁移、seed SQL 生成检查、Supabase-first API fallback 和部署执行脚本已经完成闭环；但对“真实 Supabase/Vercel 已部署”“开放真实用户 UGC”和“公开发布”仍不能给出 100% 信心，因为这些阶段依赖尚未提供的 Supabase/Vercel 凭证、真实迁移执行、身份、审核、隐私、内容安全、授权数据和运营能力。

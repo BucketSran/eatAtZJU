@@ -80,11 +80,14 @@ docs/DEMO_FOUNDATION_REVIEW.md     Demo 地基策略审计
 docs/DEMO_API_UI_REVIEW.md         Demo API 与 UI 纵切审计
 docs/SUPABASE_SCHEMA_RLS.md       Supabase schema/RLS 设计与审计
 docs/SUPABASE_API_INTEGRATION.md  Supabase API 接入与 fallback 策略
+docs/DEPLOYMENT_RUNBOOK.md        Supabase/Vercel 部署运行手册
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude
 scripts/check.cjs                 本地 sanity check
 scripts/generate-supabase-seed.cjs 从 seed JSON 生成 Supabase seed SQL
+scripts/apply-supabase.cjs        执行 Supabase migration/seed
+scripts/smoke-api.cjs             验证本地或远端 API 数据来源
 .github/                          Issue/PR 模板和 GitHub Actions 检查
 ```
 
