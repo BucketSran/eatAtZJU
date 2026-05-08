@@ -31,7 +31,7 @@ cloudfunctions/eatAtZjuApi
 当前已创建的 CloudBase 环境：
 
 ```text
-eatatzju-d3gh9q3zbb3603631
+cloud1-d0g7zbgtef433dbce
 ```
 
 仓库内已有 CLI 配置：
@@ -108,12 +108,12 @@ SUPABASE_ANON_KEY=你的 Supabase anon 或 publishable key
 
 ```bash
 npx -p @cloudbase/cli@3.3.2 cloudbase fn invoke eatAtZjuApi \
-  -e eatatzju-d3gh9q3zbb3603631 \
+  -e cloud1-d0g7zbgtef433dbce \
   -d '{"action":"ping"}' \
   --json
 
 npx -p @cloudbase/cli@3.3.2 cloudbase fn invoke eatAtZjuApi \
-  -e eatatzju-d3gh9q3zbb3603631 \
+  -e cloud1-d0g7zbgtef433dbce \
   -d '{"action":"listRestaurants","query":{"tag":"全部","preferences":"近,实惠,辣"}}' \
   --json
 ```

@@ -19,7 +19,9 @@ function withRecommendationScore(restaurants, preferences = []) {
 
 function filterRestaurants(restaurants, filters = {}) {
   const keyword = (filters.keyword || '').trim().toLowerCase()
-  const tag = filters.tag || '全部'
+  const selectedTags = Array.isArray(filters.tags)
+    ? filters.tags.filter(tag => tag && tag !== '全部')
+    : (filters.tag && filters.tag !== '全部' ? [filters.tag] : [])
   const priceRange = filters.priceRange
 
   return restaurants.filter(item => {
@@ -32,7 +34,13 @@ function filterRestaurants(restaurants, filters = {}) {
       item.menu.map(menu => menu.name).join(' ')
     ].join(' ').toLowerCase().includes(keyword)
 
-    const matchTag = tag === '全部' || item.tags.includes(tag) || item.cuisine.includes(tag)
+    const searchableTags = [
+      item.area,
+      item.cuisine,
+      item.tags.join(' '),
+      (item.suitedFor || []).join(' ')
+    ].join(' ')
+    const matchTag = !selectedTags.length || selectedTags.every(tag => searchableTags.includes(tag))
     const matchPrice = !priceRange || (item.price >= priceRange.min && item.price <= priceRange.max)
 
     return matchKeyword && matchTag && matchPrice

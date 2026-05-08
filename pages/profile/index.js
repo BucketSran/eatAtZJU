@@ -1,11 +1,17 @@
 const service = require('../../services/restaurantService')
-const { getPreferences, setPreferences } = require('../../utils/storage')
+const { getPreferences, setPreferences, getProfile, setProfile } = require('../../utils/storage')
+const { PRESET_AVATARS, getPresetAvatar } = require('../../utils/avatar')
+
+const MAX_AVATAR_SIZE = 1024 * 1024
 
 Page({
   data: {
     tags: [],
     preferences: [],
     preferenceText: '',
+    profile: null,
+    avatar: getPresetAvatar('rice'),
+    avatarOptions: PRESET_AVATARS,
     roadmap: [
       '校园邮箱认证与实名学生身份',
       'UGC 餐厅/菜品上传与社区审核',
@@ -20,10 +26,13 @@ Page({
 
   refresh() {
     const preferences = getPreferences()
+    const profile = getProfile()
     this.setData({
       tags: this.buildPreferenceTags(preferences),
       preferences,
-      preferenceText: preferences.join(' / ')
+      preferenceText: preferences.join(' / '),
+      profile,
+      avatar: getPresetAvatar(profile.avatarPreset)
     })
   },
 
@@ -57,6 +66,47 @@ Page({
       tags: this.buildPreferenceTags(defaults),
       preferences: defaults,
       preferenceText: defaults.join(' / ')
+    })
+  },
+
+  updateUsername(event) {
+    const username = event.detail.value.trim().slice(0, 16) || 'ZJU Student'
+    const profile = setProfile({ username })
+    this.setData({ profile })
+  },
+
+  choosePresetAvatar(event) {
+    const avatarPreset = event.currentTarget.dataset.id
+    const profile = setProfile({
+      avatarType: 'preset',
+      avatarPreset,
+      avatarTempPath: ''
+    })
+    this.setData({
+      profile,
+      avatar: getPresetAvatar(avatarPreset)
+    })
+  },
+
+  chooseCustomAvatar() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      sizeType: ['compressed'],
+      success: (res) => {
+        const file = res.tempFiles && res.tempFiles[0]
+        if (!file) return
+        if (file.size > MAX_AVATAR_SIZE) {
+          wx.showToast({ title: '头像需小于 1MB', icon: 'none' })
+          return
+        }
+        const profile = setProfile({
+          avatarType: 'custom',
+          avatarTempPath: file.tempFilePath
+        })
+        this.setData({ profile })
+      }
     })
   }
 })

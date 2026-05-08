@@ -99,6 +99,50 @@
   font-size: 26rpx;
 }
 
+.time-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22rpx;
+  margin-top: 24rpx;
+  padding: 26rpx 28rpx;
+  border: 2rpx solid rgba(10, 132, 255, 0.12);
+  border-radius: 30rpx;
+  background: linear-gradient(135deg, rgba(239, 248, 255, 0.92), rgba(255, 250, 241, 0.9));
+  box-shadow: 0 16rpx 36rpx rgba(25, 80, 130, 0.08);
+}
+
+.time-label {
+  color: #0a84ff;
+  font-size: 20rpx;
+  font-weight: 900;
+  letter-spacing: 4rpx;
+}
+
+.time-title {
+  margin-top: 10rpx;
+  color: #31271d;
+  font-size: 31rpx;
+  font-weight: 900;
+}
+
+.time-copy {
+  margin-top: 8rpx;
+  color: rgba(49, 39, 29, 0.64);
+  font-size: 23rpx;
+  line-height: 1.45;
+}
+
+.time-badge {
+  flex: 0 0 auto;
+  padding: 12rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(10, 132, 255, 0.1);
+  color: #0a84ff;
+  font-size: 22rpx;
+  font-weight: 800;
+}
+
 .price-row {
   display: flex;
   gap: 14rpx;

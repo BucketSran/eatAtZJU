@@ -1,18 +1,45 @@
 const service = require('../../services/restaurantDataService')
 const { toggleFavorite, getPreferences } = require('../../utils/storage')
+const { getMealContext } = require('../../utils/timeContext')
+
+const TAG_CONFLICTS = {
+  '辣': ['不辣'],
+  '不辣': ['辣']
+}
+
+function buildTagItems(tasteTags, activeTags) {
+  return tasteTags.map(tag => ({
+    label: tag,
+    active: tag === '全部' ? !activeTags.length : activeTags.includes(tag)
+  }))
+}
+
+function resolveTagSelection(currentTags, tag) {
+  if (tag === '全部') return []
+
+  if (currentTags.includes(tag)) {
+    return currentTags.filter(item => item !== tag)
+  }
+
+  const conflicts = TAG_CONFLICTS[tag] || []
+  return currentTags
+    .filter(item => !conflicts.includes(item))
+    .concat(tag)
+}
 
 Page({
   data: {
     keyword: '',
-    activeTag: '全部',
+    activeTags: [],
     activePriceIndex: 0,
-    tasteTags: service.tasteTags,
+    tasteTags: buildTagItems(service.tasteTags, []),
     priceRanges: service.priceRanges,
     restaurants: [],
     topPick: null,
     randomPick: null,
     preferences: [],
-    preferenceText: ''
+    preferenceText: '',
+    mealContext: getMealContext()
   },
 
   onShow() {
@@ -21,13 +48,15 @@ Page({
 
   async refreshRestaurants() {
     const preferences = getPreferences()
+    const mealContext = getMealContext()
     const filters = {
       keyword: this.data.keyword,
-      tag: this.data.activeTag,
+      tags: this.data.activeTags,
       priceRange: service.priceRanges[this.data.activePriceIndex]
     }
-    const restaurants = await service.listRestaurants(filters, preferences)
+    const restaurants = await service.listRestaurants(filters, preferences.concat(mealContext.tags))
     this.setData({
+      mealContext,
       preferences,
       preferenceText: preferences.join(' / '),
       restaurants,
@@ -41,7 +70,11 @@ Page({
   },
 
   chooseTag(event) {
-    this.setData({ activeTag: event.currentTarget.dataset.tag })
+    const activeTags = resolveTagSelection(this.data.activeTags, event.currentTarget.dataset.tag)
+    this.setData({
+      activeTags,
+      tasteTags: buildTagItems(service.tasteTags, activeTags)
+    })
     this.refreshRestaurants()
   },
 
@@ -53,9 +86,9 @@ Page({
   async surpriseMe() {
     const randomPick = await service.randomRestaurant({
       keyword: this.data.keyword,
-      tag: this.data.activeTag,
+      tags: this.data.activeTags,
       priceRange: service.priceRanges[this.data.activePriceIndex]
-    }, this.data.preferences)
+    }, this.data.preferences.concat(this.data.mealContext.tags))
 
     if (!randomPick) {
       wx.showToast({ title: '没有匹配餐厅', icon: 'none' })

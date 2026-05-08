@@ -157,10 +157,34 @@
 
 .comment-head {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 18rpx;
+}
+
+.comment-person {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  min-width: 0;
+}
+
+.comment-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54rpx;
+  height: 54rpx;
+  border-radius: 18rpx;
+  color: #fffaf1;
+  font-size: 24rpx;
+  font-weight: 950;
 }
 
 .comment-user {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 27rpx;
   font-weight: 850;
 }

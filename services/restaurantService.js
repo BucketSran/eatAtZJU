@@ -1,6 +1,7 @@
 const { restaurants, tasteTags, priceRanges } = require('../data/restaurants')
 const { filterRestaurants, withRecommendationScore, pickRandomRestaurant } = require('../utils/recommend')
 const { getFavorites } = require('../utils/storage')
+const { getCommentAvatar } = require('../utils/avatar')
 
 function decorateFavorites(items) {
   const favoriteIds = getFavorites()
@@ -18,7 +19,14 @@ function listRestaurants(filters = {}, preferences = []) {
 function getRestaurant(id) {
   const item = restaurants.find(restaurant => restaurant.id === id)
   if (!item) return null
-  return decorateFavorites([item])[0]
+  const restaurant = decorateFavorites([item])[0]
+  return {
+    ...restaurant,
+    comments: (restaurant.comments || []).map(comment => ({
+      ...comment,
+      avatar: getCommentAvatar(comment.user)
+    }))
+  }
 }
 
 function getFavoriteRestaurants(preferences = []) {

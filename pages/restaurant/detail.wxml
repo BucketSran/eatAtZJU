@@ -64,7 +64,10 @@
     <view class="comment-list">
       <view wx:for="{{restaurant.comments}}" wx:key="user" class="comment-card">
         <view class="comment-head">
-          <text class="comment-user">{{item.user}}</text>
+          <view class="comment-person">
+            <text class="comment-avatar" style="background: {{item.avatar.color}};">{{item.avatar.text}}</text>
+            <text class="comment-user">{{item.user}}</text>
+          </view>
           <text class="comment-rating">★ {{item.rating}}</text>
         </view>
         <view class="comment-text">{{item.text}}</view>

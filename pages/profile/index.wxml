@@ -1,10 +1,26 @@
 <view class="page-shell profile-page">
   <view class="profile-hero">
-    <view class="avatar">浙</view>
+    <view wx:if="{{profile.avatarType !== 'custom'}}" class="avatar" style="background: {{avatar.color}};">{{avatar.text}}</view>
+    <image wx:else class="avatar avatar-image" src="{{profile.avatarTempPath}}" mode="aspectFill" />
     <view class="profile-copy">
-      <view class="hello">ZJU Student</view>
+      <view class="hello">{{profile.username}}</view>
       <view class="sub">当前偏好：{{preferenceText}}</view>
     </view>
+  </view>
+
+  <view class="section-title">
+    <text class="section-title-main">个人名片</text>
+    <text class="section-title-sub">之后会展示在评论和打卡里</text>
+  </view>
+  <view class="profile-editor">
+    <input class="username-input" value="{{profile.username}}" maxlength="16" placeholder="取一个浙大饭搭子昵称" bindblur="updateUsername" confirm-type="done" />
+    <view class="avatar-grid">
+      <button wx:for="{{avatarOptions}}" wx:key="id" class="avatar-choice {{profile.avatarType === 'preset' && profile.avatarPreset === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="choosePresetAvatar">
+        <text class="avatar-choice-mark" style="background: {{item.color}};">{{item.text}}</text>
+        <text>{{item.label}}</text>
+      </button>
+    </view>
+    <button class="upload-button" bindtap="chooseCustomAvatar">上传自定义头像（小于 1MB）</button>
   </view>
 
   <view class="section-title">

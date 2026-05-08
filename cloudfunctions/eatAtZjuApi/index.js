@@ -51,6 +51,11 @@ function matchesTag(restaurant, tag = '全部') {
   return tag === '全部' || restaurant.tags.includes(tag) || restaurant.cuisine.includes(tag) || restaurant.suitedFor.includes(tag)
 }
 
+function matchesTags(restaurant, tags = []) {
+  if (!tags.length) return true
+  return tags.every((tag) => matchesTag(restaurant, tag))
+}
+
 function matchesPrice(restaurant, priceRange) {
   if (!priceRange) return true
   return restaurant.price >= priceRange.min && restaurant.price <= priceRange.max
@@ -68,12 +73,14 @@ function sortRestaurants(restaurants, sort = 'recommended') {
 function listRestaurantCollection(restaurants, query = {}) {
   const preferences = parseList(query.preferences)
   const favoriteRestaurantIds = parseList(query.favorites)
+  const selectedTags = parseList(query.tags)
   const priceRange = findPriceRange(query.priceLabel || query.price)
   const filtered = restaurants.filter((restaurant) => {
     return (
       restaurant.status === 'published' &&
       matchesKeyword(restaurant, query.keyword) &&
-      matchesTag(restaurant, query.tag || '全部') &&
+      matchesTag(restaurant, selectedTags.length ? '全部' : (query.tag || '全部')) &&
+      matchesTags(restaurant, selectedTags) &&
       matchesPrice(restaurant, priceRange)
     )
   })

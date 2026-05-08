@@ -1,5 +1,13 @@
 const FAVORITES_KEY = 'eatAtZjuFavorites'
 const PREFERENCES_KEY = 'eatAtZjuPreferences'
+const PROFILE_KEY = 'eatAtZjuProfile'
+
+const DEFAULT_PROFILE = {
+  username: 'ZJU Student',
+  avatarType: 'preset',
+  avatarPreset: 'rice',
+  avatarTempPath: ''
+}
 
 function getFavorites() {
   return wx.getStorageSync(FAVORITES_KEY) || []
@@ -27,10 +35,28 @@ function setPreferences(tags) {
   return tags
 }
 
+function getProfile() {
+  return {
+    ...DEFAULT_PROFILE,
+    ...(wx.getStorageSync(PROFILE_KEY) || {})
+  }
+}
+
+function setProfile(profile) {
+  const nextProfile = {
+    ...getProfile(),
+    ...profile
+  }
+  wx.setStorageSync(PROFILE_KEY, nextProfile)
+  return nextProfile
+}
+
 module.exports = {
   getFavorites,
   isFavorite,
   toggleFavorite,
   getPreferences,
-  setPreferences
+  setPreferences,
+  getProfile,
+  setProfile
 }

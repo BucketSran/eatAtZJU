@@ -1,5 +1,6 @@
 const localService = require('./restaurantService')
 const { getFavorites } = require('../utils/storage')
+const { getCommentAvatar } = require('../utils/avatar')
 
 const CLOUD_FUNCTION_NAME = 'eatAtZjuApi'
 
@@ -9,9 +10,11 @@ function getCloudReady() {
 }
 
 function buildQuery(filters = {}, preferences = []) {
+  const tags = Array.isArray(filters.tags) ? filters.tags.filter(tag => tag && tag !== '全部') : []
   return {
     keyword: filters.keyword || '',
-    tag: filters.tag || '全部',
+    tag: filters.tag || tags[0] || '全部',
+    tags: tags.join(','),
     price: filters.priceRange && filters.priceRange.label,
     preferences: preferences.join(','),
     favorites: getFavorites().join(',')
@@ -30,7 +33,8 @@ function toLegacyRestaurant(restaurant, detail = {}) {
     comments: (detail.reviews || restaurant.comments || []).map((review) => ({
       user: review.userName || review.user || 'ZJU student',
       text: review.text,
-      rating: review.rating
+      rating: review.rating,
+      avatar: getCommentAvatar(review.userName || review.user || 'ZJU student')
     }))
   }
 }

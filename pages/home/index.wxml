@@ -20,12 +20,21 @@
     <input value="{{keyword}}" placeholder="搜餐厅、菜品、标签，例如：夜宵 / 咖喱 / 辣" bindinput="handleSearch" />
   </view>
 
+  <view class="time-card">
+    <view>
+      <text class="time-label">{{mealContext.cta}}</text>
+      <view class="time-title">{{mealContext.title}}</view>
+      <view class="time-copy">{{mealContext.description}}</view>
+    </view>
+    <text class="time-badge">动态</text>
+  </view>
+
   <view class="section-title">
     <text class="section-title-main">口味雷达</text>
-    <text class="section-title-sub">你的偏好：{{preferenceText}}</text>
+    <text class="section-title-sub">可多选，辣/不辣会互斥</text>
   </view>
   <scroll-view scroll-x enable-flex class="chip-row">
-    <button wx:for="{{tasteTags}}" wx:key="*this" class="chip {{activeTag === item ? 'active' : ''}}" data-tag="{{item}}" bindtap="chooseTag">{{item}}</button>
+    <button wx:for="{{tasteTags}}" wx:key="label" class="chip {{item.active ? 'active' : ''}}" data-tag="{{item.label}}" bindtap="chooseTag">{{item.label}}</button>
   </scroll-view>
 
   <view class="price-row">
