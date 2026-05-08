@@ -56,6 +56,7 @@ docs/VIBE_CODING_GUIDE.md         AI 编程工作流
 docs/DEMO_PLAN.md                  Demo v0.1 范围和验收
 docs/UI_STYLE_GUIDE.md             Demo UI 风格指南
 docs/MCP_USAGE_PLAN.md             MCP/工具介入计划
+docs/REFERENCE_REPOS_REVIEW.md     高星参考仓库调研
 AGENTS.md                         AI coding agent 项目规则
 CLAUDE.md                         Claude Code 项目记忆
 docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude

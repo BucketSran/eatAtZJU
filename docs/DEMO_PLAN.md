@@ -31,6 +31,8 @@ This demo validates product feel and interaction flow. It is not yet a productio
 - Favorites page using `localStorage`.
 - Profile/preferences page using `localStorage`.
 - Seed data normalized from current mock data.
+- Typed domain models for restaurants, dishes, reviews, filters, and recommendation results.
+- `.env.example` before any Supabase/Vercel environment integration.
 - Demo API functions for restaurants and recommendation.
 - Basic build/check CI.
 - UI style defined in `docs/UI_STYLE_GUIDE.md`.
@@ -65,6 +67,7 @@ This demo validates product feel and interaction flow. It is not yet a productio
 
 - `npm run check` passes.
 - `npm run build` passes after React skeleton is introduced.
+- GitHub Actions runs `npm run check` and `npm run build` once the React skeleton exists.
 - Vercel preview opens on mobile and desktop.
 - User can search/filter restaurants.
 - User can open details.
@@ -86,11 +89,12 @@ This demo validates product feel and interaction flow. It is not yet a productio
 
 ## Stage Order
 
-1. Lock demo scope and visual direction.
-2. Initialize React/Vite/TypeScript.
-3. Normalize seed data.
-4. Add API mock functions.
-5. Build core UI pages.
-6. Add Supabase schema/RLS draft.
-7. Deploy Vercel preview.
-8. Run demo acceptance checklist.
+1. Review high-star reference repos and lock demo scope/tooling lessons.
+2. Lock demo scope and visual direction.
+3. Initialize React/Vite/TypeScript.
+4. Normalize seed data and typed domain models.
+5. Add API mock functions.
+6. Build core UI pages.
+7. Add Supabase schema/RLS draft.
+8. Deploy Vercel preview.
+9. Run demo acceptance checklist.

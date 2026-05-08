@@ -29,6 +29,7 @@ For this demo, use:
 - `docs/DEMO_PLAN.md` for demo scope.
 - `docs/UI_STYLE_GUIDE.md` for visual direction.
 - `docs/MCP_USAGE_PLAN.md` for tool boundaries.
+- `docs/REFERENCE_REPOS_REVIEW.md` for lessons from high-star AI/app/miniprogram repositories.
 
 ## 2. Work in Small Slices
 
