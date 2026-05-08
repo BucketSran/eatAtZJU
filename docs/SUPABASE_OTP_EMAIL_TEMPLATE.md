@@ -46,4 +46,4 @@ Authentication -> Email Templates -> Magic Link
 
 Supabase 默认 magic link 会先跳到项目的 `*.supabase.co/auth/v1/verify`，部分校园邮箱或国内网络会提示外链风险或无法打开。验证码登录只需要用户复制邮件里的 6 位数字，不依赖打开 Supabase 外链。
 
-官方依据：Supabase Email Templates 支持 `{{ .Token }}`，它是可替代 `{{ .ConfirmationURL }}` 的 6 位 OTP。
+官方依据：Supabase Email Templates 支持 `{{ .Token }}`，它是可替代 `{{ .ConfirmationURL }}` 的 OTP。Supabase 的 OTP 长度需在 `Authentication -> Providers -> Email` 中设置为 `6`，否则邮件可能发出 8 位验证码而前端无法验证。

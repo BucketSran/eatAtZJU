@@ -235,6 +235,14 @@ docs/SUPABASE_OTP_EMAIL_TEMPLATE.md
 
 关键点是邮件正文必须包含 `{{ .Token }}`，这样用户能复制 6 位验证码到 `/profile` 登录。
 
+还需要在 Supabase Dashboard 设置：
+
+```text
+Authentication -> Providers -> Email -> Email OTP Length = 6
+```
+
+如果这里保持默认 8，邮件会发 8 位验证码，而 `/profile` 会按 6 位验证码处理。
+
 ## 11. 验证登录和 UGC
 
 1. 打开 Vercel URL 的 `/profile`。
@@ -271,6 +279,7 @@ on conflict (user_id) do update set role = excluded.role;
 | 页面能打开，但 API 返回 `source=seed` | Vercel env 没配或没重新部署 | 配 env 后 Redeploy，再跑 smoke |
 | Magic link 点开回不到网站 | 校园邮箱/网络拦截 Supabase 外链 | 使用邮箱验证码登录；确认 Magic Link 模板包含 `{{ .Token }}` |
 | 邮件里没有 6 位验证码 | Magic Link 邮件模板没配置 `{{ .Token }}` | 按第 10 步修改模板 |
+| 邮件里是 8 位验证码 | Supabase Email OTP Length 仍是 8 | 在 `Authentication -> Providers -> Email` 改为 6 |
 | `/contribute` 提交失败 `Please sign in first` | 没登录或 session 失效 | 重新登录 |
 | `/admin` 返回 `Admin access required` | 当前用户不在 `admin_users` | 按第 11 步插入管理员 |
 | `/admin` 审核失败 | audit_logs insert policy 缺失或 migration 没执行最新版本 | 重新确认 migration 是否包含 `admins can insert audit logs` |
