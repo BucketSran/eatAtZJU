@@ -63,6 +63,7 @@
 | R39 | 线上登录/提交链路尚未远端实测 | P1 | 本地代码已接 Auth/UGC/Admin，但没有真实 Supabase/Vercel env，无法确认邮件回调、RLS、Vercel env 和远端 API。 | 提供真实凭证后执行 migration/seed、配置 Auth redirect、创建管理员、跑远端 smoke test。 | 待处理 |
 | R40 | 校园邮箱认证被用户自提权 | P0 | 如果前端直接更新 `user_trust`，用户可把自己标成已验证，破坏学生可信机制。 | `user_trust` 只允许用户读取；校园邮箱验证通过 `/api/auth/campus-verify` 服务端 service-role 写入。 | 已缓解 |
 | R41 | 自动审批污染正式数据且无法回退 | P0 | 如果自动审批直接写 `restaurants/dishes/reviews`，错误或恶意内容可能长期污染榜单和推荐。 | 新增审计日志回滚 API 和后台入口；未来自动审批必须先写 before/after 快照，再写正式表。 | 已缓解基线 |
+| R42 | 大陆网络无法稳定访问 | P0 | 目标用户在浙大和中国大陆网络内；如果 Web 站依赖 Vercel 和浏览器直连 Supabase，可能出现无代理无法打开、登录失败或接口超时。 | 已添加 `eat.bucketsran.fun` 到 Vercel，并记录阿里云 DNS、Supabase redirect、国内云/小程序 fallback；上线前必须用大陆网络实测。 | 处理中 |
 
 ## 风险归属约定
 
@@ -104,6 +105,7 @@
 ### 正式发布前
 
 - Vercel production env、Supabase keys、域名、source map、隐私策略已复核。
+- 大陆网络无代理可访问，或已切换到国内云/微信小程序主入口。
 - 内容安全和人工审核可承载预估提交量。
 - 数据备份、预算告警和异常监控就位。
 - 明确客服/投诉/删除流程。

@@ -211,7 +211,57 @@ API_BASE_URL='https://你的-vercel-url.vercel.app' EXPECT_API_SOURCE=supabase n
 - 修改环境变量后需要 Redeploy。
 - 如果 `SUPABASE_DISABLE_FALLBACK=true`，正常情况下数据库错误会暴露为 500，不应静默回 seed。
 
-## 10. 配置邮箱验证码模板
+## 10. 绑定自定义域名
+
+当前建议使用 `eat.bucketsran.fun` 作为 Web demo 的正式入口。
+
+Vercel 侧已经把 `eat.bucketsran.fun` 添加到 `eat-at-zju` 项目。下一步需要在阿里云 DNS 添加：
+
+| 字段 | 值 |
+| --- | --- |
+| 记录类型 | `A` |
+| 主机记录 | `eat` |
+| 解析线路 | `默认` |
+| 记录值 | `76.76.21.21` |
+| TTL | `10 分钟` 或默认值 |
+
+不要先把整个域名的 NS 改成 Vercel。改 NS 会把 `bucketsran.fun` 的 DNS 管理权整体交给 Vercel，后续再接阿里云 CDN、国内云或其它子域名会更绕。
+
+DNS 生效后，本地验证：
+
+```bash
+dig +short eat.bucketsran.fun A
+npx vercel domains inspect eat.bucketsran.fun
+curl -I https://eat.bucketsran.fun
+```
+
+然后在 Supabase Dashboard：
+
+```text
+Authentication -> URL Configuration
+```
+
+把 `Site URL` 更新为：
+
+```text
+https://eat.bucketsran.fun
+```
+
+`Redirect URLs` 增加：
+
+```text
+https://eat.bucketsran.fun/**
+```
+
+保留 `https://eat-at-zju.vercel.app/**` 一段时间，方便回退。
+
+详细国内访问路线见：
+
+```text
+docs/CHINA_ACCESS_PLAN.md
+```
+
+## 11. 配置邮箱验证码模板
 
 为了避免校园邮箱点击 Supabase 外链时被拦截，建议把 Magic Link 邮件改成验证码邮件。
 
@@ -243,7 +293,7 @@ Authentication -> Providers -> Email -> Email OTP Length = 6
 
 如果这里保持默认 8，邮件会发 8 位验证码，而 `/profile` 会按 6 位验证码处理。
 
-## 11. 验证登录和 UGC
+## 12. 验证登录和 UGC
 
 1. 打开 Vercel URL 的 `/profile`。
 2. 输入邮箱，点击发送验证码。
@@ -254,7 +304,7 @@ Authentication -> Providers -> Email -> Email OTP Length = 6
 7. 打开 `/contribute`，提交一条餐厅或纠错内容。
 8. 到 Supabase `Table Editor -> submissions`，确认有一条 `status=pending` 的记录。
 
-## 12. 创建第一个管理员
+## 13. 创建第一个管理员
 
 1. 用你的邮箱在 `/profile` 登录一次。
 2. 在 Supabase `Authentication -> Users` 找到你的用户，复制 UUID。
@@ -272,7 +322,7 @@ on conflict (user_id) do update set role = excluded.role;
 7. 对刚才提交的内容点击通过或拒绝。
 8. 到 Supabase `audit_logs` 表确认有审计记录。
 
-## 13. 常见问题排查
+## 14. 常见问题排查
 
 | 问题 | 可能原因 | 处理方式 |
 | --- | --- | --- |
@@ -281,15 +331,20 @@ on conflict (user_id) do update set role = excluded.role;
 | 邮件里没有 6 位验证码 | Magic Link 邮件模板没配置 `{{ .Token }}` | 按第 10 步修改模板 |
 | 邮件里是 8 位验证码 | Supabase Email OTP Length 仍是 8 | 在 `Authentication -> Providers -> Email` 改为 6 |
 | `/contribute` 提交失败 `Please sign in first` | 没登录或 session 失效 | 重新登录 |
-| `/admin` 返回 `Admin access required` | 当前用户不在 `admin_users` | 按第 11 步插入管理员 |
+| `/admin` 返回 `Admin access required` | 当前用户不在 `admin_users` | 按第 13 步插入管理员 |
 | `/admin` 审核失败 | audit_logs insert policy 缺失或 migration 没执行最新版本 | 重新确认 migration 是否包含 `admins can insert audit logs` |
+| `eat.bucketsran.fun` 打不开 | 阿里云 DNS 未添加或未生效 | 添加 `A eat 76.76.21.21`，等待生效后用 `dig` 和 `vercel domains inspect` 验证 |
+| 自定义域名能打开但登录异常 | Supabase redirect allowlist 没加新域名 | 在 Supabase `URL Configuration` 增加 `https://eat.bucketsran.fun/**` |
+| 大陆网络无代理仍打不开 | Vercel 或 Supabase 直连不稳定 | 按 `docs/CHINA_ACCESS_PLAN.md` 启动国内云/小程序路线 |
 | Vercel build 失败 | 依赖安装或 TypeScript 问题 | 本地先跑 `npm run check && npm run build` |
 | Supabase SQL Editor 执行 seed 失败 | SQL 太长、网络中断或部分表未创建 | 先执行 migration，再重跑 seed；必要时用 `npm run supabase:apply:seed` |
 
-## 14. 官方参考
+## 15. 官方参考
 
 - Supabase database connection：<https://supabase.com/docs/guides/database/connecting-to-postgres>
 - Supabase API keys：<https://supabase.com/docs/guides/getting-started/api-keys>
 - Supabase Auth redirect URLs：<https://supabase.com/docs/guides/auth/redirect-urls>
 - Vercel Git deployments：<https://vercel.com/docs/git>
 - Vercel environment variables：<https://vercel.com/docs/environment-variables>
+- Vercel domains CLI：<https://vercel.com/docs/cli/domains>
+- 阿里云 CDN 备案要求：<https://help.aliyun.com/zh/icp-filing/basic-icp-service/product-overview/use-alibaba-cloud-cdn>
