@@ -46,7 +46,7 @@ export function AdminPage() {
         <div>
           <p className="eyebrow">ADMIN</p>
           <h1>审核后台</h1>
-          <p>这里先放审核后台骨架；真实管理员登录后会读取 pending submissions。</p>
+          <p>管理员可以读取 pending submissions，执行通过/拒绝，并留下审计日志。</p>
         </div>
         <span className="count-badge">受限访问</span>
       </div>
@@ -98,8 +98,8 @@ export function AdminPage() {
 
       <GlassCard className="demo-note">
         <p className="eyebrow">NEXT</p>
-        <h2>上线前需要真实管理员账号</h2>
-        <p>需要在 `admin_users` 表中添加管理员用户 ID，后台页面再接入真实列表和审核操作。</p>
+        <h2>下一步：提交一条测试资料</h2>
+        <p>如果读取队列后没有出现 `Admin access required`，说明当前账号已经具备管理员权限。当前为空只是还没有 pending submission，请先到贡献页提交一条测试内容。</p>
       </GlassCard>
     </div>
   )
