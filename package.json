@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "check": "node scripts/check.cjs && tsc -b --pretty false"
+    "check": "node scripts/check.cjs && tsc -b --pretty false",
+    "seed:sql": "node scripts/generate-supabase-seed.cjs",
+    "seed:sql:write": "node scripts/generate-supabase-seed.cjs --write"
   },
   "dependencies": {
     "react": "^19.2.6",

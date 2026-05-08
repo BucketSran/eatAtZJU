@@ -163,9 +163,55 @@ function checkApiService() {
   assert(apiService.getRandomRestaurant({ tag: '全部' }), 'api random restaurant failed')
 }
 
+function checkSupabaseFiles() {
+  const migrationPath = path.join(root, 'supabase/migrations/202605080001_initial_schema.sql')
+  assert(fs.existsSync(migrationPath), 'missing Supabase initial schema migration')
+
+  const migration = fs.readFileSync(migrationPath, 'utf8')
+  const rlsTables = [
+    'admin_users',
+    'profiles',
+    'user_trust',
+    'restaurants',
+    'dishes',
+    'reviews',
+    'favorites',
+    'submissions',
+    'audit_logs'
+  ]
+
+  for (const table of rlsTables) {
+    assert(migration.includes(`create table if not exists public.${table}`), `migration missing table ${table}`)
+    assert(migration.includes(`alter table public.${table} enable row level security`), `migration missing RLS for ${table}`)
+  }
+
+  const requiredPolicies = [
+    'anyone can read published restaurants',
+    'anyone can read published dishes',
+    'anyone can read approved reviews',
+    'users can read own favorites',
+    'users can insert own favorites',
+    'users can delete own favorites',
+    'users can create pending submissions',
+    'admins can manage submissions',
+    'admins can read audit logs'
+  ]
+
+  for (const policy of requiredPolicies) {
+    assert(migration.includes(`create policy "${policy}"`), `migration missing policy: ${policy}`)
+  }
+
+  assert(migration.includes('constraint profiles_preferences_length'), 'migration missing preferences length guard')
+  assert(migration.includes('constraint submissions_payload_size'), 'migration missing submissions payload size guard')
+  assert(migration.includes("restaurants.status = 'published'"), 'migration missing published restaurant guard')
+
+  run(process.execPath, ['scripts/generate-supabase-seed.cjs', '--check'])
+}
+
 checkJavaScript()
 checkJson()
 checkLegacyRestaurantData()
 checkSeedData()
 checkApiService()
+checkSupabaseFiles()
 console.log('check ok')
