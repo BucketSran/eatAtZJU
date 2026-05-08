@@ -369,3 +369,9 @@ create policy "admins can read audit logs"
   for select
   to authenticated
   using (public.is_platform_admin(auth.uid()));
+
+create policy "admins can insert audit logs"
+  on public.audit_logs
+  for insert
+  to authenticated
+  with check (public.is_platform_admin(auth.uid()));

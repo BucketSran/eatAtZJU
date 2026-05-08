@@ -216,6 +216,8 @@ async function checkApiHandlers() {
     const listHandler = require('../api/restaurants/index.js')
     const detailHandler = require('../api/restaurants/[id].js')
     const recommendHandler = require('../api/recommend/today.js')
+    const submissionsHandler = require('../api/submissions/index.js')
+    const adminSubmissionsHandler = require('../api/admin/submissions/index.js')
 
     const list = await callHandler(listHandler, { method: 'GET', query: { tag: '实惠', preferences: '近,实惠' } })
     assert(list.statusCode === 200, 'restaurants handler should return 200')
@@ -237,6 +239,12 @@ async function checkApiHandlers() {
 
     const invalidStrategy = await callHandler(recommendHandler, { method: 'GET', query: { strategy: 'surprise-me' } })
     assert(invalidStrategy.statusCode === 400, 'recommend handler should reject invalid strategies')
+
+    const unauthenticatedSubmission = await callHandler(submissionsHandler, { method: 'POST', headers: {}, body: { type: 'restaurant', payload: { title: 'demo' } } })
+    assert(unauthenticatedSubmission.statusCode === 401, 'submissions handler should require bearer auth')
+
+    const unauthenticatedAdmin = await callHandler(adminSubmissionsHandler, { method: 'GET', headers: {} })
+    assert(unauthenticatedAdmin.statusCode === 401, 'admin submissions handler should require bearer auth')
   })
 }
 
@@ -271,7 +279,8 @@ function checkSupabaseFiles() {
     'users can delete own favorites',
     'users can create pending submissions',
     'admins can manage submissions',
-    'admins can read audit logs'
+    'admins can read audit logs',
+    'admins can insert audit logs'
   ]
 
   for (const policy of requiredPolicies) {

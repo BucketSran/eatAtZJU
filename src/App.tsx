@@ -1,4 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
+import { AdminPage } from './routes/AdminPage'
+import { ContributePage } from './routes/ContributePage'
 import { DiscoverPage } from './routes/DiscoverPage'
 import { FavoritesPage } from './routes/FavoritesPage'
 import { HomePage } from './routes/HomePage'
@@ -10,6 +12,7 @@ const navItems = [
   { to: '/', label: '首页' },
   { to: '/discover', label: '发现' },
   { to: '/leaderboards', label: '榜单' },
+  { to: '/contribute', label: '贡献' },
   { to: '/favorites', label: '收藏' },
   { to: '/profile', label: '我的' }
 ]
@@ -35,6 +38,8 @@ export function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/discover" element={<DiscoverPage />} />
           <Route path="/leaderboards" element={<LeaderboardsPage />} />
+          <Route path="/contribute" element={<ContributePage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/profile" element={<ProfilePage />} />

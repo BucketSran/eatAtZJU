@@ -57,6 +57,10 @@
 | R33 | 手动执行 migration 后脚本重复执行失败 | P2 | 如果已在 Dashboard 手动粘贴 SQL，但没有 migration record，脚本再跑可能遇到 trigger 已存在。 | 运行手册要求优先在干净 project 用脚本执行，或手动补 `app_private.schema_migrations` 记录。 | 已记录 |
 | R34 | 前端仍停留在本地 seed | P1 | 即使 API 已接 Supabase，如果 React 页面继续直接读 seed，真实数据库数据不会展示。 | 新增浏览器 API client，核心页面优先调用 `/api/*`，失败才回退本地 seed。 | 已缓解 |
 | R35 | 前端 fallback 掩盖 Supabase 404 | P1 | 如果真实 Supabase 明确返回 404，前端再用本地 seed 展示会掩盖空库或缺失数据。 | `source=supabase` 的 404 被视为权威缺失，不回退本地 seed。 | 已缓解 |
+| R36 | 服务端 bearer 校验后丢失 RLS 用户上下文 | P1 | 如果校验 token 后仍用普通 anon client 查数据库，`auth.uid()` 为空，会导致提交/审核线上失败。 | 新增 user-scoped Supabase client；无 service-role 时用 anon key + bearer JWT 触发 RLS。 | 已缓解 |
+| R37 | 首次登录覆盖云端偏好 | P2 | 如果登录后直接 upsert 本地偏好，可能覆盖用户已有云端资料。 | `ensureProfile` 先查询 profile；存在则拉取云端偏好，不自动覆盖。 | 已缓解 |
+| R38 | 管理员审核缺少审计写权限 | P1 | RLS 只有 audit log read policy 时，anon/user-scoped 管理员无法写审计日志。 | 增加 `admins can insert audit logs` policy，并纳入 `npm run check`。 | 已缓解 |
+| R39 | 线上登录/提交链路尚未远端实测 | P1 | 本地代码已接 Auth/UGC/Admin，但没有真实 Supabase/Vercel env，无法确认邮件回调、RLS、Vercel env 和远端 API。 | 提供真实凭证后执行 migration/seed、配置 Auth redirect、创建管理员、跑远端 smoke test。 | 待处理 |
 
 ## 风险归属约定
 
@@ -90,6 +94,7 @@
 
 - 本地浏览器或 Vercel preview 跑通首页、发现、详情、收藏、偏好。
 - API handler 能返回餐厅列表、餐厅详情和今日推荐。
+- 登录、收藏同步、UGC submissions 和管理员审核 API 在真实 Supabase/Vercel preview 中至少跑通一次。
 - Vercel preview、隐私配置、定位权限说明准备好。
 - Demo 阶段至少 20 家 seed 餐厅；小范围内测前至少 80 家授权/可追溯真实种子餐厅，覆盖主要区域和预算段。
 - 有反馈表或 issue 收集渠道。

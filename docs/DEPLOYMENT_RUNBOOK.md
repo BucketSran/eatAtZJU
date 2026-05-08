@@ -77,6 +77,8 @@ VITE_SUPABASE_URL=https://xxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=...
 ```
 
+当前代码已经接入 Supabase Auth、收藏同步、UGC submissions 和管理员审核页，因此如果要演示登录/提交/审核，`VITE_SUPABASE_URL` 与 `VITE_SUPABASE_ANON_KEY` 也需要配置到 Vercel Preview/Production。
+
 建议：
 
 - Preview 环境可先设 `SUPABASE_DISABLE_FALLBACK=false`，方便回退 demo。
@@ -125,6 +127,11 @@ EXPECT_API_SOURCE=seed npm run smoke:api
 | `/api/restaurants` | 200，`source=supabase`，有餐厅数据 |
 | `/api/restaurants/r001` | 200，`source=supabase`，有菜品和评论 |
 | `/api/recommend/today` | 200，`source=supabase`，返回餐厅 |
+| `/api/submissions` 无 bearer | 401 |
+| `/api/admin/submissions` 无 bearer | 401 |
+| `/profile` | 配置 `VITE_*` 后可发送 magic link |
+| `/contribute` | 登录后提交进入 `submissions.status=pending` |
+| `/admin` | 管理员可读取 pending submissions |
 | `/api/restaurants/../secret` | 400 |
 | `/api/recommend/today?strategy=invalid` | 400 |
 | `SUPABASE_DISABLE_FALLBACK=true` 且数据库错误 | 500，不回退 seed |

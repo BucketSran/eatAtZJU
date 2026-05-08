@@ -11,6 +11,9 @@
 - `GET /api/restaurants`
 - `GET /api/restaurants/[id]`
 - `GET /api/recommend/today`
+- `POST /api/submissions`
+- `GET /api/admin/submissions`
+- `POST /api/admin/submissions`
 
 响应会带上：
 
@@ -26,6 +29,8 @@
 ## 新增文件
 
 - `api/_shared/supabaseClient.cjs`：读取服务端 Supabase env 并创建 server client。
+- `api/_shared/auth.cjs`：校验 bearer token，并为数据库操作创建 service-role 或 user-scoped client。
+- `api/_shared/requestBody.cjs`：读取 Vercel request JSON body。
 - `api/_shared/supabaseRestaurantRepository.cjs`：Supabase 数据读取、snake_case 到 camelCase 映射。
 - `api/_shared/restaurantRepository.cjs`：统一 API repository，封装 Supabase 优先和 seed fallback。
 - `api/_shared/requestValidation.cjs`：API query 参数的轻量边界校验。
@@ -75,6 +80,15 @@ Supabase service-role key 会绕过 RLS。因此 API repository 即使用 servic
 
 API handler 捕获异常后只返回通用错误文案，详细错误仅留在服务端日志，避免泄露 schema、SQL 或环境信息。
 
+### bearer token 后续查询必须带用户上下文
+
+服务端会先用 Supabase `auth.getUser(token)` 校验 bearer token。通过后：
+
+- 如果配置了 `SUPABASE_SERVICE_ROLE_KEY`，服务端 API 使用 service-role client，但必须由 API 自己显式限制提交者、状态和审核动作。
+- 如果没有 service-role，但配置了 anon key，服务端 API 会创建带 `Authorization: Bearer <jwt>` 的 user-scoped client，让 RLS 中的 `auth.uid()` 生效。
+
+这样可以避免“token 校验成功，但数据库写入没有用户上下文”的线上失败。
+
 ### 不在空结果时回退
 
 如果 Supabase 已配置但返回空列表/404，说明真实数据库状态就是空或缺失。此时不应悄悄使用 seed，否则会掩盖部署问题。
@@ -110,6 +124,8 @@ npm run build
 | API 响应无法判断数据来源 | P2 | 响应带 `source` 和 `fallbackReason` |
 | Supabase env 泄露到浏览器 | P0 | service-role 只在 `SUPABASE_SERVICE_ROLE_KEY`，不使用 `VITE_` 前缀 |
 | 非法路由参数进入数据库查询 | P1 | 对餐厅 ID 和推荐 strategy 做白名单校验，无效输入返回 400 |
+| bearer 校验后 RLS 用户上下文丢失 | P1 | 新增 user-scoped Supabase client，anon 场景下带用户 JWT 查询 |
+| UGC 直接写正式表 | P0 | `/api/submissions` 只写 pending queue，管理员审核后再进入后续发布流程 |
 
 ## 当前信心声明
 

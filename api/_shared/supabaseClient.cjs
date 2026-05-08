@@ -18,6 +18,8 @@ function getSupabaseConfig() {
     hasConfig: Boolean(url && key),
     keyType: serviceRoleKey ? 'service_role' : anonKey ? 'anon' : 'missing',
     key,
+    anonKey,
+    serviceRoleKey,
     url
   }
 }
@@ -34,7 +36,35 @@ function createServerSupabaseClient() {
   })
 }
 
+function createUserScopedSupabaseClient(accessToken) {
+  const config = getSupabaseConfig()
+  if (!config.url) return null
+
+  if (config.serviceRoleKey) {
+    return createClient(config.url, config.serviceRoleKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  }
+
+  if (!config.anonKey || !accessToken) return null
+  return createClient(config.url, config.anonKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    },
+    global: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  })
+}
+
 module.exports = {
   createServerSupabaseClient,
+  createUserScopedSupabaseClient,
   getSupabaseConfig
 }

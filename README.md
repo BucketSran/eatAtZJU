@@ -10,7 +10,9 @@
 - 发现：地图展示紫金港周边餐厅点位，点击 marker 后列表置顶
 - 详情：餐厅评分、人均、步行时间、热门菜品、学生短评
 - 收藏：本地收藏夹，收藏状态同步到列表和详情页
-- 我的：口味偏好配置，影响推荐排序
+- 我的：口味偏好配置，影响推荐排序；配置 Supabase 后支持邮箱登录、偏好同步和收藏同步
+- 贡献：登录用户可提交餐厅、评论或纠错资料到审核队列
+- 审核：管理员可读取 pending submissions 并 approve/reject，动作写入审计日志
 - 推荐：基于评分、学生可信分、距离、打卡量、偏好标签的规则打分
 - Web demo：React 页面已接入 schema-versioned seed，支持首页、发现、详情、收藏和偏好配置
 - API demo：Vercel Functions 提供餐厅列表、详情和今日推荐接口
@@ -80,6 +82,7 @@ docs/DEMO_FOUNDATION_REVIEW.md     Demo 地基策略审计
 docs/DEMO_API_UI_REVIEW.md         Demo API 与 UI 纵切审计
 docs/SUPABASE_SCHEMA_RLS.md       Supabase schema/RLS 设计与审计
 docs/SUPABASE_API_INTEGRATION.md  Supabase API 接入与 fallback 策略
+docs/AUTH_UGC_ADMIN_PLAN.md       登录、UGC 提交和管理员审核接入说明
 docs/DEPLOYMENT_RUNBOOK.md        Supabase/Vercel 部署运行手册
 docs/FRONTEND_API_INTEGRATION.md  React 前端 API 接入与 fallback 策略
 docs/SEED_DATA_NOTES.md           Demo seed 数据说明
@@ -109,6 +112,7 @@ npm run check
 - Web demo seed JSON 的 schemaVersion、关联完整性、评分/价格/经纬度范围
 - 服务层筛选、收藏装饰、随机推荐和地图 marker 数量
 - Vercel API 共享服务的列表、详情、筛选、推荐和随机入口
+- 登录/UGC/Admin API 的未授权边界
 - Supabase 初始迁移的 RLS 覆盖和 seed SQL 同步
 
 ## 推荐逻辑
