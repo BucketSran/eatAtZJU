@@ -1,0 +1,61 @@
+.favorites-hero {
+  padding: 38rpx 34rpx;
+  background: linear-gradient(135deg, #31271d 0%, #6b4129 58%, #d8903f 100%);
+  color: #fffaf1;
+}
+
+.mini-title {
+  color: rgba(255, 250, 241, 0.58);
+  font-size: 22rpx;
+  font-weight: 800;
+  letter-spacing: 4rpx;
+}
+
+.title {
+  margin-top: 18rpx;
+  font-size: 50rpx;
+  font-weight: 950;
+}
+
+.subtitle {
+  margin-top: 18rpx;
+  color: rgba(255, 250, 241, 0.76);
+  font-size: 27rpx;
+  line-height: 1.5;
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 80rpx 34rpx;
+  border-radius: 40rpx;
+  background: rgba(255, 250, 241, 0.82);
+  text-align: center;
+}
+
+.empty-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 42rpx;
+  background: #e2a14d;
+  color: #fffaf1;
+  font-size: 46rpx;
+  font-weight: 950;
+}
+
+.empty-title {
+  margin-top: 26rpx;
+  font-size: 36rpx;
+  font-weight: 900;
+}
+
+.empty-copy {
+  margin: 14rpx 0 34rpx;
+  color: #8a6a4e;
+  font-size: 26rpx;
+  line-height: 1.5;
+}

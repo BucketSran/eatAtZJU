@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/map/index",
+    "pages/restaurant/detail",
+    "pages/favorites/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "食在浙大",
+    "navigationBarBackgroundColor": "#fbf4e7",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fbf4e7",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#756d5e",
+    "selectedColor": "#b04a2b",
+    "backgroundColor": "#fff9ef",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/map/index",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/favorites/index",
+        "text": "收藏"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

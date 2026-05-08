@@ -1,0 +1,126 @@
+.restaurant-card {
+  display: flex;
+  gap: 22rpx;
+  padding: 22rpx;
+  border: 2rpx solid rgba(49, 39, 29, 0.08);
+  border-radius: 34rpx;
+  background: rgba(255, 250, 241, 0.86);
+  box-shadow: 0 18rpx 46rpx rgba(91, 61, 38, 0.12);
+}
+
+.restaurant-card + .restaurant-card {
+  margin-top: 22rpx;
+}
+
+.restaurant-card.compact {
+  padding: 18rpx;
+}
+
+.cover {
+  flex: 0 0 132rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 132rpx;
+  border-radius: 30rpx;
+  color: #fffaf1;
+  font-size: 42rpx;
+  font-weight: 900;
+  box-shadow: inset 0 -20rpx 38rpx rgba(49, 39, 29, 0.16);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.topline {
+  display: flex;
+  gap: 12rpx;
+  justify-content: space-between;
+}
+
+.name {
+  max-width: 360rpx;
+  overflow: hidden;
+  font-size: 31rpx;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  margin-top: 8rpx;
+  color: #8a6a4e;
+  font-size: 22rpx;
+}
+
+.fav {
+  flex: 0 0 auto;
+  height: 54rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  background: #efe0cc;
+  color: #6d5945;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.fav.active {
+  background: #31271d;
+  color: #fffaf1;
+}
+
+.score-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 16rpx;
+}
+
+.score-row text {
+  padding: 7rpx 12rpx;
+  border-radius: 999rpx;
+  font-size: 21rpx;
+}
+
+.rating {
+  background: #fff0c2;
+  color: #946019;
+}
+
+.student-score {
+  background: #e9f3dc;
+  color: #4f7042;
+}
+
+.rec-score {
+  background: #f5ddd1;
+  color: #9c472e;
+}
+
+.reason {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 16rpx;
+  color: #5d4a39;
+  font-size: 24rpx;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  padding: 8rpx 12rpx;
+  border-radius: 999rpx;
+  background: rgba(49, 39, 29, 0.06);
+  color: #7b634d;
+  font-size: 21rpx;
+}

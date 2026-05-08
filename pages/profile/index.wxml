@@ -1,0 +1,38 @@
+<view class="page-shell profile-page">
+  <view class="profile-hero">
+    <view class="avatar">浙</view>
+    <view class="profile-copy">
+      <view class="hello">ZJU Student</view>
+      <view class="sub">当前偏好：{{preferenceText}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">
+    <text class="section-title-main">口味档案</text>
+    <text class="section-title-sub">点一下就会影响推荐</text>
+  </view>
+  <view class="preference-grid">
+    <button wx:for="{{tags}}" wx:key="label" class="pref-chip {{item.active ? 'active' : ''}}" data-tag="{{item.label}}" bindtap="togglePreference">{{item.label}}</button>
+  </view>
+  <button class="reset-button" bindtap="resetPreferences">恢复默认：近 / 实惠 / 辣</button>
+
+  <view class="section-title">
+    <text class="section-title-main">MVP 边界</text>
+    <text class="section-title-sub">这版先跑体验</text>
+  </view>
+  <view class="mvp-card">
+    <view class="mvp-title">当前版本已实现</view>
+    <view class="mvp-copy">餐厅列表、筛选搜索、地图点位、详情、收藏、本地偏好推荐、随机吃什么。</view>
+  </view>
+
+  <view class="section-title">
+    <text class="section-title-main">下一阶段</text>
+    <text class="section-title-sub">从 vibe 到产品</text>
+  </view>
+  <view class="roadmap-list">
+    <view wx:for="{{roadmap}}" wx:key="*this" class="roadmap-item">
+      <text class="dot"></text>
+      <text>{{item}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "发现周边",
+  "usingComponents": {
+    "restaurant-card": "/components/restaurant-card/index"
+  }
+}

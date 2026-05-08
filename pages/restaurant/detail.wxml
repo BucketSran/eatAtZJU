@@ -1,0 +1,74 @@
+<view wx:if="{{restaurant}}" class="detail-page">
+  <view class="detail-hero" style="background: {{restaurant.coverColor}};">
+    <view class="hero-noise"></view>
+    <view class="hero-icon">{{restaurant.coverIcon}}</view>
+    <view class="hero-copy">
+      <view class="area">{{restaurant.area}} · {{restaurant.cuisine}}</view>
+      <view class="name">{{restaurant.name}}</view>
+      <view class="summary">{{restaurant.reason}}</view>
+    </view>
+  </view>
+
+  <view class="page-shell detail-shell">
+    <view class="quick-panel">
+      <view class="quick-item">
+        <text class="quick-value">{{restaurant.rating}}</text>
+        <text class="quick-label">学生评分</text>
+      </view>
+      <view class="quick-item">
+        <text class="quick-value">¥{{restaurant.price}}</text>
+        <text class="quick-label">人均预算</text>
+      </view>
+      <view class="quick-item">
+        <text class="quick-value">{{restaurant.walkMinutes}}m</text>
+        <text class="quick-label">步行时间</text>
+      </view>
+      <view class="quick-item">
+        <text class="quick-value">{{restaurant.checkins}}</text>
+        <text class="quick-label">打卡量</text>
+      </view>
+    </view>
+
+    <view class="action-row">
+      <button class="primary-button action-main" bindtap="handleFavorite">{{restaurant.isFavorite ? '取消收藏' : '收藏这家'}}</button>
+      <button class="secondary-button" bindtap="createMealPlan">发起约饭</button>
+      <button class="secondary-button" bindtap="checkIn">打卡</button>
+    </view>
+
+    <view class="section-title">
+      <text class="section-title-main">适合场景</text>
+      <text class="section-title-sub">学生共识标签</text>
+    </view>
+    <view class="scene-grid">
+      <view wx:for="{{restaurant.suitedFor}}" wx:key="*this" class="scene-card">{{item}}</view>
+    </view>
+
+    <view class="section-title">
+      <text class="section-title-main">热门菜品</text>
+      <text class="section-title-sub">按学生提及热度</text>
+    </view>
+    <view class="menu-list">
+      <view wx:for="{{restaurant.menu}}" wx:key="name" class="menu-item">
+        <view>
+          <view class="dish-name">{{item.name}}</view>
+          <view class="dish-heat">热度 {{item.heat}}</view>
+        </view>
+        <text class="dish-price">¥{{item.price}}</text>
+      </view>
+    </view>
+
+    <view class="section-title">
+      <text class="section-title-main">学生短评</text>
+      <text class="section-title-sub">来自 mock 评测池</text>
+    </view>
+    <view class="comment-list">
+      <view wx:for="{{restaurant.comments}}" wx:key="user" class="comment-card">
+        <view class="comment-head">
+          <text class="comment-user">{{item.user}}</text>
+          <text class="comment-rating">★ {{item.rating}}</text>
+        </view>
+        <view class="comment-text">{{item.text}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,25 @@
+<view class="restaurant-card {{compact ? 'compact' : ''}}" bindtap="handleTap">
+  <view class="cover" style="background: {{item.coverColor}};">
+    <text>{{item.coverIcon}}</text>
+  </view>
+  <view class="content">
+    <view class="topline">
+      <view>
+        <view class="name">{{item.name}}</view>
+        <view class="meta">{{item.area}} · 步行 {{item.walkMinutes}} 分钟 · ¥{{item.price}}/人</view>
+      </view>
+      <button class="fav {{item.isFavorite ? 'active' : ''}}" catchtap="handleFavorite">
+        {{item.isFavorite ? '已藏' : '收藏'}}
+      </button>
+    </view>
+    <view class="score-row">
+      <text class="rating">★ {{item.rating}}</text>
+      <text class="student-score">学生可信分 {{item.studentScore}}</text>
+      <text class="rec-score">推荐 {{item.recommendationScore}}</text>
+    </view>
+    <view class="reason">{{item.reason}}</view>
+    <view class="tag-row">
+      <text wx:for="{{item.tags}}" wx:key="*this" class="tag">{{item}}</text>
+    </view>
+  </view>
+</view>

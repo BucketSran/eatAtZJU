@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "食在浙大",
+  "usingComponents": {
+    "restaurant-card": "/components/restaurant-card/index"
+  }
+}

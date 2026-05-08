@@ -1,0 +1,25 @@
+<view class="map-page">
+  <view class="map-wrap">
+    <map
+      class="campus-map"
+      latitude="{{campus.latitude}}"
+      longitude="{{campus.longitude}}"
+      markers="{{markers}}"
+      scale="13"
+      show-location
+      bindmarkertap="handleMarkerTap"
+    />
+    <view class="map-badge">
+      <text class="badge-title">紫金港觅食圈</text>
+      <text class="badge-subtitle">点地图标记，下面会把餐厅顶上来</text>
+    </view>
+  </view>
+
+  <view class="page-shell map-list-shell">
+    <view class="section-title map-title">
+      <text class="section-title-main">附近学生口碑</text>
+      <text class="section-title-sub">{{restaurants.length}} 个点位</text>
+    </view>
+    <restaurant-card wx:for="{{restaurants}}" wx:key="id" item="{{item}}" compact bind:open="openRestaurant" bind:favorite="handleFavorite" />
+  </view>
+</view>

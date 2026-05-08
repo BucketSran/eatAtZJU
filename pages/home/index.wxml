@@ -1,0 +1,44 @@
+<view class="page-shell home-page">
+  <view class="hero-card home-hero">
+    <view class="eyebrow">ZJU FOOD RADAR</view>
+    <view class="hero-title">今天吃点什么，交给学生口碑。</view>
+    <view class="hero-subtitle">按距离、预算、口味和真实打卡热度，为紫金港学生挑一顿不踩雷的饭。</view>
+    <view class="hero-actions">
+      <button class="primary-button" bindtap="surpriseMe">随机一餐</button>
+      <button class="secondary-button" bindtap="openRestaurant" data-id="{{topPick.id}}" wx:if="{{topPick}}">看今日首推</button>
+    </view>
+  </view>
+
+  <view wx:if="{{randomPick}}" class="random-card" bindtap="openRestaurant" data-id="{{randomPick.id}}">
+    <view class="random-label">命运饭勺指向</view>
+    <view class="random-name">{{randomPick.name}}</view>
+    <view class="random-meta">{{randomPick.area}} · {{randomPick.cuisine}} · ¥{{randomPick.price}}/人</view>
+  </view>
+
+  <view class="search-box">
+    <text class="search-icon">搜</text>
+    <input value="{{keyword}}" placeholder="搜餐厅、菜品、标签，例如：夜宵 / 咖喱 / 辣" bindinput="handleSearch" />
+  </view>
+
+  <view class="section-title">
+    <text class="section-title-main">口味雷达</text>
+    <text class="section-title-sub">你的偏好：{{preferenceText}}</text>
+  </view>
+  <scroll-view scroll-x class="chip-row">
+    <button wx:for="{{tasteTags}}" wx:key="*this" class="chip {{activeTag === item ? 'active' : ''}}" data-tag="{{item}}" bindtap="chooseTag">{{item}}</button>
+  </scroll-view>
+
+  <view class="price-row">
+    <button wx:for="{{priceRanges}}" wx:key="label" class="price-pill {{activePriceIndex === index ? 'active' : ''}}" data-index="{{index}}" bindtap="choosePrice">{{item.label}}</button>
+  </view>
+
+  <view class="section-title">
+    <text class="section-title-main">学生热推</text>
+    <text class="section-title-sub">{{restaurants.length}} 家匹配</text>
+  </view>
+
+  <block wx:if="{{restaurants.length}}">
+    <restaurant-card wx:for="{{restaurants}}" wx:key="id" item="{{item}}" bind:open="openRestaurant" bind:favorite="handleFavorite" />
+  </block>
+  <view wx:else class="empty-card">暂时没有匹配结果，换个标签试试。</view>
+</view>

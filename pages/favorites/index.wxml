@@ -1,0 +1,23 @@
+<view class="page-shell favorites-page">
+  <view class="hero-card favorites-hero">
+    <view class="mini-title">MY FOOD LIST</view>
+    <view class="title">你的今日吃清单</view>
+    <view class="subtitle">收藏是个小小的承诺：以后饿的时候，少一点纠结，多一点确定。</view>
+  </view>
+
+  <view class="section-title">
+    <text class="section-title-main">已收藏</text>
+    <text class="section-title-sub">{{favorites.length}} 家</text>
+  </view>
+
+  <block wx:if="{{favorites.length}}">
+    <restaurant-card wx:for="{{favorites}}" wx:key="id" item="{{item}}" bind:open="openRestaurant" bind:favorite="handleFavorite" />
+  </block>
+
+  <view wx:else class="empty-state">
+    <view class="empty-mark">饭</view>
+    <view class="empty-title">清单还空着</view>
+    <view class="empty-copy">去首页收藏几家店，之后就能在这里快速决定吃什么。</view>
+    <button class="primary-button" bindtap="goHome">去发现餐厅</button>
+  </view>
+</view>
