@@ -1,6 +1,6 @@
 # 食在浙大当前工作清单
 
-这份清单用于把项目从当前本地 mock MVP 推进到可测试、可运营、可持续迭代的版本。
+这份清单用于把项目从当前微信小程序 mock 原型，迁移到 React + Vercel + Supabase 主线，并推进到可测试、可运营、可持续迭代的版本。
 
 ## 0. 版本管理与协作基础
 
@@ -13,26 +13,27 @@
 
 ## 1. 当前 MVP 打磨
 
-- 在微信开发者工具中完整跑一遍首页、发现、详情、收藏、我的页面。
-- 调整地图 marker、页面间跳转、收藏状态同步和不同机型样式。
+- 保留微信小程序原型作为交互参考。
+- 在 React 中复刻首页、发现、详情、收藏、我的页面。
+- 调整地图、页面间跳转、收藏状态同步和移动端样式。
 - 补充更多紫金港周边种子餐厅数据，至少覆盖北门、青芝坞、西园、申花、西溪天街。
 - 将 mock 数据从 JS 文件逐步整理成可导入的 JSON seed。
 - 每次提交前运行 `npm run check`。
-- 发布前替换正式 AppID，复核 `urlCheck`、source map、定位权限和隐私配置。
+- Web 发布前复核 Vercel env、Supabase anon/service-role key、source map、定位权限和隐私配置。
 
-## 2. 云开发接入
+## 2. React/Vercel/Supabase 接入
 
-- 创建微信云开发环境。
-- 设计并创建集合：`restaurants`、`dishes`、`reviews`、`checkins`、`users`、`submissions`。
-- 增加 `audit_logs` 集合，记录管理员审核、合并、回滚。
-- 增加云函数：`listRestaurants`、`getRestaurantDetail`、`toggleFavorite`、`recommendToday`。
-- 将 `services/restaurantService.js` 改造成 mock/cloud 双模式，前端页面尽量不改。
-- 把收藏和偏好从本地 storage 迁移到用户数据。
-- 默认数据库权限最小化，用户写操作只走云函数。
+- 创建 React + TypeScript + Vite app。
+- 创建 Vercel 项目并接入 GitHub preview/production deployment。
+- 创建 Supabase project。
+- 设计并创建表：`restaurants`、`dishes`、`reviews`、`checkins`、`profiles`、`favorites`、`submissions`、`audit_logs`。
+- 增加 Vercel Functions：`GET /api/restaurants`、`GET /api/restaurants/:id`、`POST /api/favorites/toggle`、`POST /api/recommend/today`。
+- 将数据访问封装到 service/repository 层，前端组件不直接散落查询逻辑。
+- 默认启用 RLS，用户写操作受到 RLS 或 Vercel Function 校验保护。
 
 ## 3. 学生可信数据机制
 
-- 增加学生身份认证方案：微信登录 + 校园邮箱验证。
+- 增加学生身份认证方案：Supabase Auth + 校园邮箱验证。
 - 增加用户提交餐厅、菜品、短评和打卡图的入口。
 - 所有 UGC 先进入 `submissions` 审核队列。
 - 接入微信内容安全能力审核文本和图片。
@@ -58,12 +59,21 @@
 
 - 使用 GitHub 管理 issue、PR、版本和代码 review。
 - 使用表格维护初始餐厅数据，再通过脚本导入云数据库。
-- 后续如做 Web Admin，可用 Browser Use 做本地页面测试和截图验收。
+- Web/PWA 和 Admin 均可用 Browser Use 做本地页面测试和截图验收。
 - 使用 Documents/Spreadsheets 沉淀 PRD、数据字典、审核规范和种子数据表。
 
-## 7. 发布前检查
+## 7. AI 编程工作流
 
-- 微信开发者工具真机预览。
+- 使用 `AGENTS.md` 作为项目记忆，保持架构、命令、安全边界和测试方式清晰。
+- 非平凡功能先写 spec，再编码。
+- 复杂逻辑采用 TDD 或至少先补测试/检查。
+- 每个任务明确“不要做什么”，避免 AI 一次性重写过多文件。
+- 第三方库集成优先查官方文档，不凭记忆硬写。
+
+## 8. 发布前检查
+
+- Vercel preview 链接可访问。
+- 移动端浏览器/PWA 体验检查。
 - 核查用户隐私、定位权限、图片上传和内容审核说明。
-- 准备小程序名称、图标、简介、服务类目和审核材料。
+- 准备产品名称、图标、简介、隐私政策、用户协议和审核材料。
 - 做一轮学生小范围内测，收集餐厅缺失、推荐不准、体验卡点。

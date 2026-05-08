@@ -1,6 +1,8 @@
 # 食在浙大 eatAtZJU
 
-浙大学生专属的校园美食发现与分享平台 MVP。当前版本是微信小程序原生项目，先用本地 mock 数据跑通核心体验：发现餐厅、筛选搜索、地图点位、详情页、收藏、偏好推荐和随机吃什么。
+浙大学生专属的校园美食发现与分享平台 MVP。当前仓库已有微信小程序原型，用本地 mock 数据跑通核心体验：发现餐厅、筛选搜索、地图点位、详情页、收藏、偏好推荐和随机吃什么。
+
+下一阶段主线采用 AI 友好的 Web/PWA 架构：React + TypeScript + Vite 前端、Vercel Serverless Functions 后端、Supabase 数据库/Auth/Storage、Vercel 部署。现有小程序代码先保留为产品原型和交互参考。
 
 ## 当前已实现
 
@@ -10,6 +12,19 @@
 - 收藏：本地收藏夹，收藏状态同步到列表和详情页
 - 我的：口味偏好配置，影响推荐排序
 - 推荐：基于评分、学生可信分、距离、打卡量、偏好标签的规则打分
+
+## 目标架构
+
+```text
+React + TypeScript + Vite frontend
+  -> Vercel Serverless Functions
+    -> Supabase Auth
+    -> Supabase Postgres with RLS
+    -> Supabase Storage
+Vercel deploys from GitHub
+```
+
+详细决策见：[docs/ADR-0001-react-vercel-supabase.md](/Users/bucketsran/Documents/TsingProject/eatAtZJU/docs/ADR-0001-react-vercel-supabase.md)。
 
 ## 如何运行
 
@@ -33,9 +48,12 @@ pages/map/                        地图发现页
 pages/restaurant/                 餐厅详情页
 pages/favorites/                  收藏页
 pages/profile/                    我的/偏好页
-docs/TECHNICAL_PLAN.md            后续云开发和产品路线
+docs/TECHNICAL_PLAN.md            React/Vercel/Supabase 技术路线
 docs/WORKPLAN.md                  当前迭代工作清单
 docs/RISK_REGISTER.md             策略漏洞、风险等级和修复门槛
+docs/ADR-0001-react-vercel-supabase.md React/Vercel/Supabase 架构决策
+docs/VIBE_CODING_GUIDE.md         AI 编程工作流
+AGENTS.md                         AI coding agent 项目规则
 scripts/check.js                  本地 sanity check
 .github/                          Issue/PR 模板和 GitHub Actions 检查
 ```
@@ -70,4 +88,4 @@ npm run check
 - MCP/插件只作为开发、测试、数据整理和后台运营辅助，不作为小程序运行时依赖。
 - 真实 UGC 上线前必须完成身份验证、内容安全、审核队列、隐私政策和数据库权限模型。
 - 学生社区内容只能做授权整理和事实摘要，不能直接搬运原文、图片、昵称或受版权保护的素材。
-- 发布前需要替换正式 AppID，并复核 `urlCheck`、source map、定位权限和隐私配置。
+- 前端可以使用 Supabase anon key，但必须依赖严格 RLS；service-role key 和 AI/API 密钥只能放在 Vercel 服务端环境变量。
