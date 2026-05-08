@@ -78,7 +78,7 @@ Do not use MCP as runtime product infrastructure.
 
 Before implementing visible UI, check `docs/UI_STYLE_GUIDE.md`.
 
-The demo should feel like a campus food field guide, not a generic SaaS dashboard. Use warm paper tones, tomato/chili accents, student trust signals, and mobile-first layouts.
+The demo should feel like an Apple-inspired product: calm surfaces, generous whitespace, crisp hierarchy, subtle glass depth, restrained motion, student trust signals, and mobile-first layouts.
 
 ## 7. Explicit Prohibitions
 
