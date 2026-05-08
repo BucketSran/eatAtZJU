@@ -54,6 +54,8 @@ docs/RISK_REGISTER.md             策略漏洞、风险等级和修复门槛
 docs/ADR-0001-react-vercel-supabase.md React/Vercel/Supabase 架构决策
 docs/VIBE_CODING_GUIDE.md         AI 编程工作流
 AGENTS.md                         AI coding agent 项目规则
+CLAUDE.md                         Claude Code 项目记忆
+docs/CLAUDE_GLOBAL_TEMPLATE.md    全局用户记忆模板，不自动写入 ~/.claude
 scripts/check.js                  本地 sanity check
 .github/                          Issue/PR 模板和 GitHub Actions 检查
 ```

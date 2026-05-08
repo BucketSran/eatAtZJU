@@ -4,6 +4,18 @@ This guide adapts the referenced Linux.do post into project rules for 食在浙�
 
 ## 1. Spec First
 
+## 0. Memory Files
+
+Use layered memory deliberately:
+
+- `AGENTS.md`: cross-agent project rules and repository-wide expectations.
+- `CLAUDE.md`: Claude Code project memory; points Claude to the most important local docs and constraints.
+- `docs/CLAUDE_GLOBAL_TEMPLATE.md`: optional user-level template for `~/.claude/CLAUDE.md`.
+
+Do not blindly write global memory. Global memory affects every project, so review it first and only install it when the user explicitly wants those rules everywhere.
+
+## 1. Spec First
+
 For any non-trivial feature, create or update a spec before coding:
 
 - User problem.
