@@ -28,7 +28,35 @@
 cloudfunctions/eatAtZjuApi
 ```
 
+当前已创建的 CloudBase 环境：
+
+```text
+eatatzju-d3gh9q3zbb3603631
+```
+
+仓库内已有 CLI 配置：
+
+```text
+cloudbaserc.json
+```
+
 ## 3. 部署云函数
+
+### 使用 CLI 部署
+
+如果本机已登录 CloudBase CLI，可以运行：
+
+```bash
+npx -p @cloudbase/cli@3.3.2 cloudbase fn deploy eatAtZjuApi --deployMode zip --force
+```
+
+如果需要重新登录：
+
+```bash
+npx -p @cloudbase/cli@3.3.2 cloudbase login --flow web
+```
+
+### 使用微信开发者工具部署
 
 在微信开发者工具左侧找到：
 
@@ -72,7 +100,34 @@ SUPABASE_ANON_KEY=你的 Supabase anon 或 publishable key
 - 不要提交到 GitHub。
 - 不要放到截图、issue 或公开文档。
 
+当前远端 `eatAtZjuApi` 云函数已经通过 CLI 部署，并已配置上述环境变量。后续如果重建环境或换 Supabase 项目，再按本节重新配置。
+
 ## 5. 测试云函数
+
+### 使用 CLI 测试
+
+```bash
+npx -p @cloudbase/cli@3.3.2 cloudbase fn invoke eatAtZjuApi \
+  -e eatatzju-d3gh9q3zbb3603631 \
+  -d '{"action":"ping"}' \
+  --json
+
+npx -p @cloudbase/cli@3.3.2 cloudbase fn invoke eatAtZjuApi \
+  -e eatatzju-d3gh9q3zbb3603631 \
+  -d '{"action":"listRestaurants","query":{"tag":"全部","preferences":"近,实惠,辣"}}' \
+  --json
+```
+
+当前已验证：
+
+```text
+ping -> ok
+listRestaurants -> source=supabase
+getRestaurantDetail(r001) -> 返回餐厅、菜品、评论
+getTodayRecommendation(random) -> 返回随机餐厅
+```
+
+### 使用控制台测试
 
 在微信开发者工具的云开发控制台测试：
 

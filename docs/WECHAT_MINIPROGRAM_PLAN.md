@@ -48,6 +48,7 @@ CloudBase 在这里是小程序后端代理层，不是第二个数据库。
 - 新增 CloudBase 普通云函数：`cloudfunctions/eatAtZjuApi`。
 - 小程序页面改为优先调用云函数，失败时回退本地 seed。
 - 新增迁移：`supabase/migrations/202605080002_app_identity_links.sql`。
+- CloudBase 环境 `eatatzju-d3gh9q3zbb3603631` 已部署 `eatAtZjuApi`，并验证可读取 Supabase。
 
 ## CloudBase 云函数 POC
 
@@ -133,9 +134,13 @@ provider = wechat_miniapp, provider_user_id = 微信 openid
 
 验收：
 
-- 微信开发者工具能上传并调用 `eatAtZjuApi`。
+- `eatAtZjuApi` 已部署到 CloudBase。
 - `ping` 返回 `ok: true`。
 - `listRestaurants` 返回 60 条左右，并标记 `source: supabase`。
+- `getRestaurantDetail(r001)` 返回餐厅、菜品和评论。
+- `getTodayRecommendation(random)` 返回随机推荐。
+
+当前状态：已完成 CLI 远端验证。下一步是在微信开发者工具里使用真实 AppID 预览小程序页面，确认页面端 `wx.cloud.callFunction` 调用同一云函数。
 
 ### 阶段 2：微信身份和收藏
 

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.cloudbase.net/cli/cloudbaserc.schema.json",
+  "envId": "eatatzju-d3gh9q3zbb3603631",
+  "functionRoot": "cloudfunctions",
+  "functions": [
+    {
+      "name": "eatAtZjuApi",
+      "timeout": 15,
+      "memorySize": 256,
+      "runtime": "Nodejs20.19",
+      "handler": "index.main"
+    }
+  ]
+}
