@@ -13,9 +13,9 @@
       </button>
     </view>
     <view class="score-row">
-      <text class="rating">★ {{item.rating}}</text>
-      <text class="student-score">学生可信分 {{item.studentScore}}</text>
-      <text class="rec-score">推荐 {{item.recommendationScore}}</text>
+      <text class="score-pill rating">★ {{item.rating}}</text>
+      <text class="score-pill student-score">学生可信分 {{item.studentScore}}</text>
+      <text class="score-pill rec-score">推荐 {{item.recommendationScore}}</text>
     </view>
     <view class="reason">{{item.reason}}</view>
     <view class="tag-row">

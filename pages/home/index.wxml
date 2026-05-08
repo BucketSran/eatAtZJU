@@ -24,7 +24,7 @@
     <text class="section-title-main">口味雷达</text>
     <text class="section-title-sub">你的偏好：{{preferenceText}}</text>
   </view>
-  <scroll-view scroll-x class="chip-row">
+  <scroll-view scroll-x enable-flex class="chip-row">
     <button wx:for="{{tasteTags}}" wx:key="*this" class="chip {{activeTag === item ? 'active' : ''}}" data-tag="{{item}}" bindtap="chooseTag">{{item}}</button>
   </scroll-view>
 

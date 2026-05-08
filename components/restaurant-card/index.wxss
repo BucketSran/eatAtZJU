@@ -78,7 +78,7 @@
   margin-top: 16rpx;
 }
 
-.score-row text {
+.score-pill {
   padding: 7rpx 12rpx;
   border-radius: 999rpx;
   font-size: 21rpx;
