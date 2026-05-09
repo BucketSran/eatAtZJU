@@ -31,8 +31,13 @@
 
     <view class="action-row">
       <button class="primary-button action-main" bindtap="handleFavorite">{{restaurant.isFavorite ? '取消收藏' : '收藏这家'}}</button>
-      <button class="secondary-button" bindtap="createMealPlan">发起约饭</button>
+      <button class="secondary-button" bindtap="createMealPlan">{{mealContext.key === 'night' ? '约夜宵' : '约这顿'}}</button>
       <button class="secondary-button" bindtap="checkIn">打卡</button>
+    </view>
+
+    <view class="detail-time-card">
+      <text>{{mealContext.cta}}</text>
+      <view>{{mealContext.description}}</view>
     </view>
 
     <view class="section-title">

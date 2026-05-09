@@ -44,6 +44,17 @@
   line-height: 1.45;
 }
 
+.sync-state {
+  display: inline-flex;
+  margin-top: 14rpx;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 250, 241, 0.14);
+  color: rgba(255, 250, 241, 0.78);
+  font-size: 20rpx;
+  font-weight: 800;
+}
+
 .profile-editor {
   padding: 28rpx;
   border-radius: 32rpx;

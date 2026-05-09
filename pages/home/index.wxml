@@ -17,7 +17,7 @@
 
   <view class="search-box">
     <text class="search-icon">搜</text>
-    <input value="{{keyword}}" placeholder="搜餐厅、菜品、标签，例如：夜宵 / 咖喱 / 辣" bindinput="handleSearch" />
+    <input value="{{keyword}}" placeholder="{{searchPlaceholder}}" bindinput="handleSearch" />
   </view>
 
   <view class="time-card">

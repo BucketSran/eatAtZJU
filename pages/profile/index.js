@@ -1,8 +1,6 @@
 const service = require('../../services/restaurantService')
-const { getPreferences, setPreferences, getProfile, setProfile } = require('../../utils/storage')
-const { PRESET_AVATARS, getPresetAvatar } = require('../../utils/avatar')
-
-const MAX_AVATAR_SIZE = 1024 * 1024
+const profileService = require('../../services/userProfileService')
+const { getPreferences, setPreferences } = require('../../utils/storage')
 
 Page({
   data: {
@@ -10,8 +8,9 @@ Page({
     preferences: [],
     preferenceText: '',
     profile: null,
-    avatar: getPresetAvatar('rice'),
-    avatarOptions: PRESET_AVATARS,
+    profileSynced: false,
+    avatar: profileService.getPresetAvatar('rice'),
+    avatarOptions: profileService.PRESET_AVATARS,
     roadmap: [
       '校园邮箱认证与实名学生身份',
       'UGC 餐厅/菜品上传与社区审核',
@@ -20,13 +19,28 @@ Page({
     ]
   },
 
-  onShow() {
+  async onShow() {
+    await this.loadRemoteProfile()
     this.refresh()
+  },
+
+  async loadRemoteProfile() {
+    const result = await profileService.loadProfile()
+    this.setData({
+      profile: result.profile,
+      profileSynced: result.synced,
+      avatar: profileService.getPresetAvatar(result.profile.avatarPreset)
+    })
   },
 
   refresh() {
     const preferences = getPreferences()
-    const profile = getProfile()
+    const profile = this.data.profile || {
+      username: 'ZJU Student',
+      avatarType: 'preset',
+      avatarPreset: 'rice',
+      avatarTempPath: ''
+    }
     this.setData({
       tags: this.buildPreferenceTags(preferences),
       preferences,
@@ -67,24 +81,27 @@ Page({
       preferences: defaults,
       preferenceText: defaults.join(' / ')
     })
+    profileService.saveProfile({ preferences: defaults })
   },
 
-  updateUsername(event) {
+  async updateUsername(event) {
     const username = event.detail.value.trim().slice(0, 16) || 'ZJU Student'
-    const profile = setProfile({ username })
-    this.setData({ profile })
+    const result = await profileService.saveProfile({ username })
+    this.setData({ profile: result.profile, profileSynced: result.synced })
   },
 
-  choosePresetAvatar(event) {
+  async choosePresetAvatar(event) {
     const avatarPreset = event.currentTarget.dataset.id
-    const profile = setProfile({
+    const result = await profileService.saveProfile({
       avatarType: 'preset',
       avatarPreset,
+      avatarUrl: '',
       avatarTempPath: ''
     })
     this.setData({
-      profile,
-      avatar: getPresetAvatar(avatarPreset)
+      profile: result.profile,
+      profileSynced: result.synced,
+      avatar: profileService.getPresetAvatar(avatarPreset)
     })
   },
 
@@ -94,18 +111,32 @@ Page({
       mediaType: ['image'],
       sourceType: ['album', 'camera'],
       sizeType: ['compressed'],
-      success: (res) => {
+      success: async (res) => {
         const file = res.tempFiles && res.tempFiles[0]
         if (!file) return
-        if (file.size > MAX_AVATAR_SIZE) {
+        if (file.size > profileService.MAX_AVATAR_SIZE) {
           wx.showToast({ title: '头像需小于 1MB', icon: 'none' })
           return
         }
-        const profile = setProfile({
-          avatarType: 'custom',
-          avatarTempPath: file.tempFilePath
-        })
-        this.setData({ profile })
+        wx.showLoading({ title: '上传头像' })
+        try {
+          const avatarUrl = await profileService.uploadAvatarFile(file)
+          const result = await profileService.saveProfile({
+            avatarType: 'custom',
+            avatarUrl,
+            avatarTempPath: avatarUrl
+          })
+          this.setData({ profile: result.profile, profileSynced: result.synced })
+        } catch (error) {
+          const result = await profileService.saveProfile({
+            avatarType: 'custom',
+            avatarTempPath: file.tempFilePath
+          })
+          this.setData({ profile: result.profile, profileSynced: false })
+          wx.showToast({ title: '已本地保存，云同步稍后再试', icon: 'none' })
+        } finally {
+          wx.hideLoading()
+        }
       }
     })
   }

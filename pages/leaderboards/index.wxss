@@ -1,0 +1,116 @@
+.board-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 40rpx 34rpx;
+  border-radius: 40rpx;
+  background: linear-gradient(135deg, #fff7ea 0%, #dfefff 56%, #8fc6ef 100%);
+  box-shadow: 0 24rpx 62rpx rgba(42, 92, 140, 0.14);
+}
+
+.board-hero::after {
+  content: '';
+  position: absolute;
+  right: -90rpx;
+  bottom: -130rpx;
+  width: 320rpx;
+  height: 320rpx;
+  border: 24rpx solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+}
+
+.board-title {
+  position: relative;
+  z-index: 1;
+  margin-top: 18rpx;
+  color: #31271d;
+  font-size: 56rpx;
+  font-weight: 950;
+}
+
+.board-subtitle {
+  position: relative;
+  z-index: 1;
+  margin-top: 18rpx;
+  color: rgba(49, 39, 29, 0.68);
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+.board-tabs {
+  margin-top: 28rpx;
+  white-space: nowrap;
+}
+
+.board-tab {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 210rpx;
+  height: 92rpx;
+  margin-right: 16rpx;
+  padding: 0 24rpx;
+  border-radius: 28rpx;
+  background: rgba(255, 250, 241, 0.8);
+  color: #6d5945;
+  font-size: 24rpx;
+  font-weight: 850;
+  text-align: left;
+}
+
+.board-tab.active {
+  background: #31271d;
+  color: #fffaf1;
+  box-shadow: 0 18rpx 44rpx rgba(49, 39, 29, 0.18);
+}
+
+.priority-dot {
+  margin-top: 6rpx;
+  color: #0a84ff;
+  font-size: 19rpx;
+}
+
+.board-tab.active .priority-dot {
+  color: #8ecaff;
+}
+
+.active-board-card {
+  margin-top: 26rpx;
+  padding: 26rpx;
+  border-radius: 32rpx;
+  background: rgba(255, 250, 241, 0.86);
+  box-shadow: 0 18rpx 46rpx rgba(91, 61, 38, 0.1);
+}
+
+.compact-title {
+  margin-top: 0;
+}
+
+.board-description {
+  margin-top: 12rpx;
+  color: #6d5945;
+  font-size: 25rpx;
+  line-height: 1.5;
+}
+
+.rank-card {
+  position: relative;
+  margin-top: 22rpx;
+}
+
+.rank-number {
+  position: absolute;
+  top: 28rpx;
+  left: 26rpx;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46rpx;
+  height: 46rpx;
+  border-radius: 50%;
+  background: #31271d;
+  color: #fffaf1;
+  font-size: 22rpx;
+  font-weight: 950;
+  box-shadow: 0 12rpx 24rpx rgba(49, 39, 29, 0.18);
+}

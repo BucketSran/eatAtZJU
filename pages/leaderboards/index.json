@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "校园美食榜",
+  "usingComponents": {
+    "restaurant-card": "/components/restaurant-card/index"
+  }
+}

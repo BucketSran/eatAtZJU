@@ -1,0 +1,32 @@
+<view class="page-shell leaderboard-page">
+  <view class="board-hero">
+    <view class="eyebrow">TIME AWARE RANKINGS</view>
+    <view class="board-title">校园美食榜</view>
+    <view class="board-subtitle">{{mealContext.title}}：{{mealContext.description}}</view>
+  </view>
+
+  <scroll-view scroll-x enable-flex class="board-tabs" wx:if="{{boards.length}}">
+    <button wx:for="{{boards}}" wx:key="id" class="board-tab {{activeBoardIndex === index ? 'active' : ''}}" data-index="{{index}}" bindtap="chooseBoard">
+      <text>{{item.title}}</text>
+      <text wx:if="{{item.isTimePriority}}" class="priority-dot">当前优先</text>
+    </button>
+  </scroll-view>
+
+  <view wx:if="{{activeBoard}}" class="active-board-card">
+    <view class="section-title compact-title">
+      <text class="section-title-main">{{activeBoard.title}}</text>
+      <text class="section-title-sub">{{activeBoard.restaurants.length}} 家入榜</text>
+    </view>
+    <view class="board-description">{{activeBoard.description}}</view>
+  </view>
+
+  <block wx:if="{{activeBoard && activeBoard.restaurants.length}}">
+    <view wx:for="{{activeBoard.restaurants}}" wx:key="id" class="rank-card">
+      <view class="rank-number">{{index + 1}}</view>
+      <restaurant-card item="{{item}}" bind:open="openRestaurant" bind:favorite="handleFavorite" />
+    </view>
+  </block>
+
+  <view wx:elif="{{!loading}}" class="empty-card">这个榜单暂时没有匹配结果，等真实数据进来后会更丰富。</view>
+  <view wx:else class="empty-card">正在同步榜单...</view>
+</view>

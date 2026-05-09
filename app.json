@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/home/index",
+    "pages/leaderboards/index",
     "pages/map/index",
     "pages/restaurant/detail",
     "pages/favorites/index",
@@ -22,6 +23,10 @@
       {
         "pagePath": "pages/home/index",
         "text": "首页"
+      },
+      {
+        "pagePath": "pages/leaderboards/index",
+        "text": "榜单"
       },
       {
         "pagePath": "pages/map/index",

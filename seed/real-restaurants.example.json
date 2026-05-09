@@ -1,0 +1,47 @@
+{
+  "notice": "仅录入事实性信息和你自己的原创摘要。不要复制小红书/大众点评评论正文或图片；sourceRefs 只保存参考链接和备注。",
+  "restaurants": [
+    {
+      "id": "real_001",
+      "name": "示例餐厅名",
+      "canonicalName": "示例餐厅名",
+      "aliases": ["示例别名"],
+      "area": "紫金港北门",
+      "distance": 0.8,
+      "walkMinutes": 10,
+      "cuisine": "家常菜",
+      "price": 32,
+      "rating": 4.5,
+      "studentScore": 86,
+      "checkins": 20,
+      "latitude": 30.3081,
+      "longitude": 120.0877,
+      "coverIcon": "饭",
+      "coverColor": "#f0aa38",
+      "tags": ["近", "实惠", "快餐", "人均50内"],
+      "suitedFor": ["午饭速决", "下课即吃"],
+      "reason": "原创摘要：适合紫金港学生午饭快速解决，价格和距离都比较友好。",
+      "sourceRefs": [
+        {
+          "platform": "manual",
+          "url": "https://example.com/source-note",
+          "note": "只记录事实参考，不复制原文。",
+          "collectedAt": "2026-05-09"
+        }
+      ],
+      "dishes": [
+        { "id": "real_001_d01", "name": "招牌盖饭", "price": 28, "heat": 80, "tags": ["下饭"] }
+      ],
+      "reviews": [
+        {
+          "id": "real_001_rv01",
+          "displayNameSnapshot": "学生整理员",
+          "avatarSnapshot": { "type": "preset", "preset": "rice", "text": "饭", "color": "#f0aa38" },
+          "rating": 4,
+          "text": "原创短评：距离友好，适合作为工作日午饭备选。",
+          "tags": ["午饭", "近"]
+        }
+      ]
+    }
+  ]
+}

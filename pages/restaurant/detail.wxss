@@ -100,6 +100,25 @@
   flex: 1;
 }
 
+.detail-time-card {
+  margin-top: 22rpx;
+  padding: 22rpx 24rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, rgba(223, 239, 255, 0.88), rgba(255, 250, 241, 0.88));
+  color: rgba(49, 39, 29, 0.68);
+  font-size: 24rpx;
+  line-height: 1.45;
+}
+
+.detail-time-card text {
+  display: block;
+  margin-bottom: 8rpx;
+  color: #0a84ff;
+  font-size: 21rpx;
+  font-weight: 950;
+  letter-spacing: 3rpx;
+}
+
 .scene-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -34,7 +34,7 @@ function toLegacyRestaurant(restaurant, detail = {}) {
       user: review.userName || review.user || 'ZJU student',
       text: review.text,
       rating: review.rating,
-      avatar: getCommentAvatar(review.userName || review.user || 'ZJU student')
+      avatar: review.avatar || getCommentAvatar(review.userName || review.user || 'ZJU student')
     }))
   }
 }

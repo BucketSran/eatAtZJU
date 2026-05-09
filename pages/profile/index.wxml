@@ -5,6 +5,7 @@
     <view class="profile-copy">
       <view class="hello">{{profile.username}}</view>
       <view class="sub">当前偏好：{{preferenceText}}</view>
+      <view class="sync-state">{{profileSynced ? '已同步到云端名片' : '本地名片，登录云环境后自动同步'}}</view>
     </view>
   </view>
 

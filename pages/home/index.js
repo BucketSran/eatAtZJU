@@ -27,6 +27,17 @@ function resolveTagSelection(currentTags, tag) {
     .concat(tag)
 }
 
+function getSearchPlaceholder(mealContext) {
+  const examples = {
+    breakfast: '搜早餐、热汤、面食，例如：暖胃 / 面 / 校内',
+    lunch: '搜午饭、盖饭、快餐，例如：近 / 实惠 / 牛肉饭',
+    afternoon: '搜下午茶、咖啡、甜点，例如：咖啡 / 拍照',
+    dinner: '搜晚饭、聚餐、下饭，例如：烤鱼 / 辣 / 聚餐',
+    night: '搜夜宵、小吃、热汤，例如：炸串 / 粥 / 夜宵'
+  }
+  return examples[mealContext.key] || '搜餐厅、菜品、标签，例如：夜宵 / 咖喱 / 辣'
+}
+
 Page({
   data: {
     keyword: '',
@@ -39,7 +50,8 @@ Page({
     randomPick: null,
     preferences: [],
     preferenceText: '',
-    mealContext: getMealContext()
+    mealContext: getMealContext(),
+    searchPlaceholder: getSearchPlaceholder(getMealContext())
   },
 
   onShow() {
@@ -57,6 +69,7 @@ Page({
     const restaurants = await service.listRestaurants(filters, preferences.concat(mealContext.tags))
     this.setData({
       mealContext,
+      searchPlaceholder: getSearchPlaceholder(mealContext),
       preferences,
       preferenceText: preferences.join(' / '),
       restaurants,

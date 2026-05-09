@@ -11,6 +11,13 @@ const METADATA = {
   ]
 }
 
+const DEFAULT_AVATAR = {
+  type: 'preset',
+  preset: 'rice',
+  text: '饭',
+  color: '#f0aa38'
+}
+
 function parseList(value) {
   if (!value) return []
   if (Array.isArray(value)) return value.flatMap(parseList)
@@ -104,6 +111,10 @@ function getSupabaseConfig() {
 }
 
 function requestJson(pathname, query = {}) {
+  return requestRest(pathname, { query })
+}
+
+function requestRest(pathname, options = {}) {
   const { key, url } = getSupabaseConfig()
   if (!url || !key) {
     const error = new Error('Supabase is not configured')
@@ -112,19 +123,23 @@ function requestJson(pathname, query = {}) {
   }
 
   const target = new URL(`${url}/rest/v1/${pathname}`)
+  const query = options.query || {}
   for (const [name, value] of Object.entries(query)) {
     if (value !== undefined && value !== null && value !== '') target.searchParams.set(name, value)
   }
+  const body = options.body === undefined ? undefined : JSON.stringify(options.body)
 
   return new Promise((resolve, reject) => {
     const req = https.request(
       target,
       {
-        method: 'GET',
+        method: options.method || 'GET',
         headers: {
           apikey: key,
           Authorization: `Bearer ${key}`,
-          Accept: 'application/json'
+          Accept: 'application/json',
+          ...(body ? { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) } : {}),
+          ...(options.prefer ? { Prefer: options.prefer } : {})
         },
         timeout: 12000
       },
@@ -155,6 +170,7 @@ function requestJson(pathname, query = {}) {
       req.destroy(new Error('Supabase REST request timeout'))
     })
     req.on('error', reject)
+    if (body) req.write(body)
     req.end()
   })
 }
@@ -199,13 +215,148 @@ function mapDish(row) {
 }
 
 function mapReview(row) {
+  const avatar = row.avatar_snapshot || DEFAULT_AVATAR
   return {
     id: row.id,
     restaurantId: row.restaurant_id,
     userName: row.display_name_snapshot,
+    avatar,
     text: row.text,
     rating: row.rating,
     status: row.status
+  }
+}
+
+function normalizeDisplayName(value) {
+  const name = String(value || 'ZJU Student').trim().slice(0, 40)
+  return name || 'ZJU Student'
+}
+
+function normalizeAvatar(profile = {}) {
+  const avatarType = profile.avatarType === 'custom' ? 'custom' : 'preset'
+  const avatarPreset = String(profile.avatarPreset || 'rice').slice(0, 40)
+  const avatarUrl = String(profile.avatarUrl || '').slice(0, 500)
+  return {
+    avatarType,
+    avatarPreset,
+    avatarUrl
+  }
+}
+
+function mapAppUser(row) {
+  return {
+    id: row.id,
+    displayName: row.display_name,
+    username: row.display_name,
+    avatarType: row.avatar_type || 'preset',
+    avatarPreset: row.avatar_preset || 'rice',
+    avatarUrl: row.avatar_url || '',
+    avatarTempPath: row.avatar_url || '',
+    preferences: row.preferences || []
+  }
+}
+
+function getOpenId(event = {}) {
+  return event.openId || event.openid || (event.userInfo && (event.userInfo.openId || event.userInfo.openid))
+}
+
+async function fetchAppUserById(appUserId) {
+  const rows = await requestJson('app_users', {
+    select: 'id,display_name,avatar_url,avatar_type,avatar_preset,preferences,primary_channel',
+    id: `eq.${appUserId}`,
+    limit: 1
+  })
+  return rows && rows[0] ? rows[0] : null
+}
+
+async function ensureWechatAppUser(openId) {
+  if (!openId) {
+    const error = new Error('WeChat openId is required')
+    error.code = 'cloud_identity_required'
+    throw error
+  }
+
+  const links = await requestJson('identity_links', {
+    select: 'app_user_id',
+    provider: 'eq.wechat_miniapp',
+    provider_user_id: `eq.${openId}`,
+    limit: 1
+  })
+  if (links && links[0]) {
+    await requestRest('identity_links', {
+      method: 'PATCH',
+      query: {
+        provider: 'eq.wechat_miniapp',
+        provider_user_id: `eq.${openId}`
+      },
+      body: { last_seen_at: new Date().toISOString() }
+    })
+    const existing = await fetchAppUserById(links[0].app_user_id)
+    if (existing) return existing
+  }
+
+  const users = await requestRest('app_users', {
+    method: 'POST',
+    prefer: 'return=representation',
+    body: {
+      display_name: 'ZJU Student',
+      avatar_type: 'preset',
+      avatar_preset: 'rice',
+      preferences: [],
+      primary_channel: 'wechat_miniapp'
+    }
+  })
+  const appUser = users && users[0]
+  if (!appUser) throw new Error('failed_to_create_app_user')
+
+  await requestRest('identity_links', {
+    method: 'POST',
+    prefer: 'return=minimal',
+    body: {
+      app_user_id: appUser.id,
+      provider: 'wechat_miniapp',
+      provider_user_id: openId,
+      metadata: { source: 'mini_program' },
+      last_seen_at: new Date().toISOString()
+    }
+  })
+
+  return appUser
+}
+
+async function getUserProfile(event = {}) {
+  const appUser = await ensureWechatAppUser(getOpenId(event))
+  return {
+    ok: true,
+    profile: mapAppUser(appUser),
+    source: 'supabase'
+  }
+}
+
+async function updateUserProfile(event = {}) {
+  const openId = getOpenId(event)
+  const current = await ensureWechatAppUser(openId)
+  const profile = event.profile || {}
+  const avatar = normalizeAvatar(profile)
+  const body = {
+    display_name: normalizeDisplayName(profile.displayName || profile.username),
+    avatar_type: avatar.avatarType,
+    avatar_preset: avatar.avatarPreset,
+    avatar_url: avatar.avatarUrl,
+    preferences: Array.isArray(profile.preferences) ? profile.preferences.slice(0, 20) : current.preferences
+  }
+
+  const rows = await requestRest('app_users', {
+    method: 'PATCH',
+    query: { id: `eq.${current.id}` },
+    prefer: 'return=representation',
+    body
+  })
+
+  return {
+    ok: true,
+    profile: mapAppUser(rows && rows[0] ? rows[0] : { ...current, ...body }),
+    source: 'supabase'
   }
 }
 
@@ -245,7 +396,7 @@ async function getRestaurantDetail(event = {}) {
       status: 'eq.published'
     }),
     requestJson('reviews', {
-      select: 'id,restaurant_id,display_name_snapshot,rating,text,status',
+      select: 'id,restaurant_id,display_name_snapshot,avatar_snapshot,rating,text,status',
       restaurant_id: `eq.${id}`,
       status: 'eq.approved'
     })
@@ -284,6 +435,8 @@ exports.main = async (event = {}) => {
     if (action === 'listRestaurants') return listRestaurants(event)
     if (action === 'getRestaurantDetail') return getRestaurantDetail(event)
     if (action === 'getTodayRecommendation') return getTodayRecommendation(event)
+    if (action === 'getUserProfile') return getUserProfile(event)
+    if (action === 'updateUserProfile') return updateUserProfile(event)
     return { ok: false, error: 'unknown_action' }
   } catch (error) {
     console.error('[eatAtZjuApi]', action, error)

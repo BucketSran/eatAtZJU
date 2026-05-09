@@ -1,9 +1,11 @@
 const service = require('../../services/restaurantDataService')
 const { getPreferences, toggleFavorite } = require('../../utils/storage')
+const { getMealContext } = require('../../utils/timeContext')
 
 Page({
   data: {
-    restaurant: null
+    restaurant: null,
+    mealContext: getMealContext()
   },
 
   onLoad(options) {
@@ -17,7 +19,10 @@ Page({
       setTimeout(() => wx.navigateBack(), 700)
       return
     }
-    this.setData({ restaurant })
+    this.setData({
+      restaurant,
+      mealContext: getMealContext()
+    })
   },
 
   async handleFavorite() {
@@ -31,7 +36,8 @@ Page({
   },
 
   createMealPlan() {
-    wx.showToast({ title: '约饭功能已进入下一阶段路线图', icon: 'none' })
+    const title = this.data.mealContext.key === 'night' ? '夜宵约饭已加入路线图' : `${this.data.mealContext.title}约饭已加入路线图`
+    wx.showToast({ title, icon: 'none' })
   },
 
   checkIn() {
