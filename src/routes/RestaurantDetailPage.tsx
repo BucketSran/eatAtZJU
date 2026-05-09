@@ -4,7 +4,6 @@ import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getPresetAvatar } from '../lib/avatars'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
-import { setFavoriteInSupabase } from '../services/favoriteSyncService'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRestaurantDetail, getRestaurantDetailRemote, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantDetail } from '../services/apiRestaurantClient'
@@ -75,7 +74,8 @@ export function RestaurantDetailPage() {
   function toggleFavorite(restaurantId: string) {
     const nextIds = toggleFavoriteRestaurant(restaurantId)
     setFavoriteIds(nextIds)
-    setFavoriteInSupabase(restaurantId, nextIds.includes(restaurantId))
+    import('../services/favoriteSyncService')
+      .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(restaurantId, nextIds.includes(restaurantId)))
       .then(setFavoriteIds)
       .catch(() => {
         setDataSource('收藏已先保存在本地，登录后可同步云端')

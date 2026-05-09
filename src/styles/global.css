@@ -504,6 +504,18 @@ p {
   backdrop-filter: blur(20px);
 }
 
+.route-loading {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--label-secondary);
+  font-weight: 800;
+  box-shadow: var(--shadow-card);
+}
+
 .compact-actions {
   margin-top: 18px;
 }

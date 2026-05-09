@@ -1,12 +1,14 @@
+import { lazy, Suspense } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
-import { AdminPage } from './routes/AdminPage'
-import { ContributePage } from './routes/ContributePage'
-import { DiscoverPage } from './routes/DiscoverPage'
-import { FavoritesPage } from './routes/FavoritesPage'
-import { HomePage } from './routes/HomePage'
-import { LeaderboardsPage } from './routes/LeaderboardsPage'
-import { ProfilePage } from './routes/ProfilePage'
-import { RestaurantDetailPage } from './routes/RestaurantDetailPage'
+
+const AdminPage = lazy(() => import('./routes/AdminPage').then((module) => ({ default: module.AdminPage })))
+const ContributePage = lazy(() => import('./routes/ContributePage').then((module) => ({ default: module.ContributePage })))
+const DiscoverPage = lazy(() => import('./routes/DiscoverPage').then((module) => ({ default: module.DiscoverPage })))
+const FavoritesPage = lazy(() => import('./routes/FavoritesPage').then((module) => ({ default: module.FavoritesPage })))
+const HomePage = lazy(() => import('./routes/HomePage').then((module) => ({ default: module.HomePage })))
+const LeaderboardsPage = lazy(() => import('./routes/LeaderboardsPage').then((module) => ({ default: module.LeaderboardsPage })))
+const ProfilePage = lazy(() => import('./routes/ProfilePage').then((module) => ({ default: module.ProfilePage })))
+const RestaurantDetailPage = lazy(() => import('./routes/RestaurantDetailPage').then((module) => ({ default: module.RestaurantDetailPage })))
 
 const navItems = [
   { to: '/', label: '首页' },
@@ -34,16 +36,18 @@ export function App() {
       </header>
 
       <main className="page-container">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/discover" element={<DiscoverPage />} />
-          <Route path="/leaderboards" element={<LeaderboardsPage />} />
-          <Route path="/contribute" element={<ContributePage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Routes>
+        <Suspense fallback={<div className="route-loading">正在准备饭点地图...</div>}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/discover" element={<DiscoverPage />} />
+            <Route path="/leaderboards" element={<LeaderboardsPage />} />
+            <Route path="/contribute" element={<ContributePage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <nav className="mobile-tab-bar" aria-label="移动端导航">

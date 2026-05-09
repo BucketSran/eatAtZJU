@@ -12,7 +12,8 @@
     "seed:sql:write": "node scripts/generate-supabase-seed.cjs --write",
     "supabase:apply": "node scripts/apply-supabase.cjs",
     "supabase:apply:seed": "node scripts/apply-supabase.cjs --seed",
-    "smoke:api": "node scripts/smoke-api.cjs"
+    "smoke:api": "node scripts/smoke-api.cjs",
+    "smoke:auth": "node scripts/smoke-auth.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
