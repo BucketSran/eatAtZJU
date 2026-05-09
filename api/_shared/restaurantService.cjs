@@ -213,8 +213,15 @@ function matchesDistance(restaurant, distanceLabel = '不限') {
 }
 
 function matchesCampus(restaurant, campus) {
-  if (!campus || campus === '紫金港') return true
-  return getSearchableTokens(restaurant).some((value) => String(value).includes(campus))
+  if (!campus) return true
+  return (
+    String(restaurant.area || '').startsWith(`${campus}校内`) ||
+    String(restaurant.area || '').startsWith(`${campus}周边`) ||
+    (restaurant.tags || []).includes(campus) ||
+    (restaurant.suitedFor || []).includes(campus) ||
+    String(restaurant.reason || '').includes(`距离${campus}约`) ||
+    String(restaurant.reason || '').includes(`靠近${campus}`)
+  )
 }
 
 function sortRestaurants(restaurants, sort = 'recommended') {

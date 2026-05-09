@@ -1,19 +1,74 @@
 {
-  "generatedAt": "2026-05-09T15:16:33.521Z",
-  "center": {
-    "longitude": 120.081964,
-    "latitude": 30.302761
-  },
-  "radiusMeters": 3500,
-  "rawRows": 3818,
-  "uniqueCandidates": 2132,
-  "autoPublished": 120,
+  "generatedAt": "2026-05-09T17:13:23.505Z",
+  "campuses": [
+    {
+      "key": "zijingang",
+      "label": "紫金港",
+      "center": {
+        "longitude": 120.081964,
+        "latitude": 30.302761
+      },
+      "radiusMeters": 3500,
+      "maxPublishedRestaurants": 120
+    },
+    {
+      "key": "yuquan",
+      "label": "玉泉",
+      "center": {
+        "longitude": 120.123563,
+        "latitude": 30.263801
+      },
+      "radiusMeters": 2800,
+      "maxPublishedRestaurants": 85
+    },
+    {
+      "key": "xixi",
+      "label": "西溪",
+      "center": {
+        "longitude": 120.142375,
+        "latitude": 30.275303
+      },
+      "radiusMeters": 2600,
+      "maxPublishedRestaurants": 80
+    }
+  ],
+  "rawRows": 7726,
+  "uniqueCandidates": 4532,
+  "autoPublished": 282,
   "minAutoPublishConfidence": 0.78,
-  "rejectedOrPending": 2012,
-  "sources": {
-    "amapAroundRows": 3808,
-    "webClueRows": 10
-  },
+  "rejectedOrPending": 4250,
+  "campusReports": [
+    {
+      "campus": "紫金港",
+      "rawRows": 2827,
+      "uniqueCandidates": 1688,
+      "autoPublishedBeforeCrossCampusDedupe": 120,
+      "sources": {
+        "amapAroundRows": 2817,
+        "webClueRows": 10
+      }
+    },
+    {
+      "campus": "玉泉",
+      "rawRows": 2192,
+      "uniqueCandidates": 1220,
+      "autoPublishedBeforeCrossCampusDedupe": 83,
+      "sources": {
+        "amapAroundRows": 2189,
+        "webClueRows": 3
+      }
+    },
+    {
+      "campus": "西溪",
+      "rawRows": 2707,
+      "uniqueCandidates": 1624,
+      "autoPublishedBeforeCrossCampusDedupe": 79,
+      "sources": {
+        "amapAroundRows": 2704,
+        "webClueRows": 3
+      }
+    }
+  ],
   "sample": [
     {
       "id": "r001",
@@ -24,13 +79,15 @@
       "distance": 0.37,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
         "校内",
         "聚餐",
         "食堂",
-        "一人食"
+        "一人食",
+        "下饭"
       ],
       "sourceTypes": [
         "amap_around",
@@ -46,13 +103,15 @@
       "distance": 0.73,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
         "校内",
         "辣",
         "火锅",
-        "面食"
+        "面食",
+        "暖胃"
       ],
       "sourceTypes": [
         "amap_around",
@@ -68,9 +127,11 @@
       "distance": 0.87,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
+        "校内",
         "面食",
         "暖胃",
         "快餐",
@@ -90,13 +151,15 @@
       "distance": 0.66,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
         "校内",
         "面食",
         "暖胃",
-        "聚餐"
+        "聚餐",
+        "食堂"
       ],
       "sourceTypes": [
         "amap_around"
@@ -111,13 +174,15 @@
       "distance": 0.6,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
         "校内",
+        "快餐",
+        "一人食",
         "聚餐",
-        "轻负担",
-        "食堂"
+        "轻负担"
       ],
       "sourceTypes": [
         "amap_around"
@@ -132,6 +197,7 @@
       "distance": 1.04,
       "tags": [
         "正餐",
+        "紫金港",
         "实惠",
         "人均30内",
         "快餐",
@@ -153,13 +219,15 @@
       "distance": 0.88,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
         "校内",
         "面食",
         "暖胃",
-        "聚餐"
+        "聚餐",
+        "一人食"
       ],
       "sourceTypes": [
         "amap_around"
@@ -174,13 +242,99 @@
       "distance": 0.66,
       "tags": [
         "正餐",
+        "紫金港",
         "近",
         "实惠",
         "人均30内",
         "校内",
         "聚餐",
         "食堂",
+        "一人食",
+        "下饭"
+      ],
+      "sourceTypes": [
+        "amap_around"
+      ]
+    },
+    {
+      "id": "r009",
+      "name": "浙江大学紫金港校区玉湖餐厅",
+      "confidence": 0.95,
+      "rating": 4.6,
+      "price": 20,
+      "distance": 0.94,
+      "tags": [
+        "正餐",
+        "紫金港",
+        "实惠",
+        "人均30内",
+        "校内",
+        "快餐",
+        "一人食",
+        "聚餐",
+        "下饭"
+      ],
+      "sourceTypes": [
+        "amap_around"
+      ]
+    },
+    {
+      "id": "r010",
+      "name": "肯德基(浙大紫金港店)",
+      "confidence": 0.95,
+      "rating": 4.5,
+      "price": 30,
+      "distance": 0.69,
+      "tags": [
+        "正餐",
+        "紫金港",
+        "近",
+        "实惠",
+        "人均30内",
+        "校内",
+        "快餐",
         "一人食"
+      ],
+      "sourceTypes": [
+        "amap_around"
+      ]
+    },
+    {
+      "id": "r011",
+      "name": "蔡家缙云烧饼&粥铺(紫金港店)",
+      "confidence": 0.95,
+      "rating": 4.4,
+      "price": 12,
+      "distance": 1.07,
+      "tags": [
+        "正餐",
+        "紫金港",
+        "实惠",
+        "人均30内",
+        "快餐",
+        "一人食"
+      ],
+      "sourceTypes": [
+        "amap_around"
+      ]
+    },
+    {
+      "id": "r012",
+      "name": "东北烤冷面",
+      "confidence": 0.95,
+      "rating": 4.4,
+      "price": 13,
+      "distance": 1.07,
+      "tags": [
+        "正餐",
+        "紫金港",
+        "实惠",
+        "人均30内",
+        "面食",
+        "暖胃",
+        "聚餐",
+        "一人食",
+        "下饭"
       ],
       "sourceTypes": [
         "amap_around"

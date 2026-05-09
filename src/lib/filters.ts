@@ -99,8 +99,15 @@ function restaurantMatchesDistance(restaurant: Restaurant, distanceLabel = '不�
 }
 
 function restaurantMatchesCampus(restaurant: Restaurant, campus?: string) {
-  if (!campus || campus === '紫金港') return true
-  return getSearchableTokens(restaurant).some((value) => value.includes(campus))
+  if (!campus) return true
+  return (
+    restaurant.area.startsWith(`${campus}校内`) ||
+    restaurant.area.startsWith(`${campus}周边`) ||
+    restaurant.tags.includes(campus) ||
+    restaurant.suitedFor.includes(campus) ||
+    (restaurant.reason?.includes(`距离${campus}约`) ?? false) ||
+    (restaurant.reason?.includes(`靠近${campus}`) ?? false)
+  )
 }
 
 export function restaurantMatchesPrice(restaurant: Restaurant, priceRange?: PriceRange) {

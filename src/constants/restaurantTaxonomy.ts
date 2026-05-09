@@ -6,8 +6,8 @@ export type CampusOption = (typeof campusOptions)[number]
 
 export const campusCenters: Record<CampusOption, { latitude: number; longitude: number; dataStatus: 'ready' | 'collecting' }> = {
   紫金港: { latitude: 30.302761, longitude: 120.081964, dataStatus: 'ready' },
-  玉泉: { latitude: 30.263801, longitude: 120.123563, dataStatus: 'collecting' },
-  西溪: { latitude: 30.275303, longitude: 120.142375, dataStatus: 'collecting' },
+  玉泉: { latitude: 30.263801, longitude: 120.123563, dataStatus: 'ready' },
+  西溪: { latitude: 30.275303, longitude: 120.142375, dataStatus: 'ready' },
   华家池: { latitude: 30.269386, longitude: 120.196807, dataStatus: 'collecting' },
   之江: { latitude: 30.191619, longitude: 120.12779, dataStatus: 'collecting' },
   海宁: { latitude: 30.512801, longitude: 120.681777, dataStatus: 'collecting' }

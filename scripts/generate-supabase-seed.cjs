@@ -114,7 +114,7 @@ function buildSeedSql() {
     '',
     "delete from public.dishes where id ~ '^d[0-9]{5}$';",
     "delete from public.reviews where id ~ '^rv[0-9]{5}$';",
-    `update public.restaurants set status = 'archived' where id ~ '^r[0-9]{3}$' and id not in (${restaurants.map((restaurant) => sqlString(restaurant.id)).join(', ')});`,
+    `update public.restaurants set status = 'archived' where id ~ '^r[0-9]+$' and id not in (${restaurants.map((restaurant) => sqlString(restaurant.id)).join(', ')});`,
     ''
   ]
 

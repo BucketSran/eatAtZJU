@@ -2,16 +2,83 @@ const fs = require('fs')
 const path = require('path')
 
 const root = path.resolve(__dirname, '..')
-const center = { longitude: 120.081964, latitude: 30.302761 }
-const radiusMeters = 3500
-const maxPublishedRestaurants = 120
 const minAutoPublishConfidence = 0.78
-const amapRequestDelayMs = 450
+const amapRequestDelayMs = Number(process.env.AMAP_REQUEST_DELAY_MS || 300)
 const amapMaxRetries = 4
 const today = new Date().toISOString().slice(0, 10).replace(/-/g, '')
 
 const rawDir = path.join(root, 'data', 'raw')
 const processedDir = path.join(root, 'data', 'processed')
+
+const campusConfigs = [
+  {
+    key: 'zijingang',
+    label: '紫金港',
+    center: { longitude: 120.081964, latitude: 30.302761 },
+    radiusMeters: 3500,
+    maxPublishedRestaurants: 120,
+    maxPagesPerKeyword: 5,
+    insidePattern: /紫金港校区|浙江大学.*紫金港|浙大.*紫金港|紫金港餐饮中心|银泉|澄月|临湖|麦思威/,
+    areaRules: [
+      { label: '剑桥公社', pattern: /剑桥公社|剑桥/ },
+      { label: '紫金港东门', pattern: /申花路|浙大紫金港店|紫金港店/ },
+      { label: '紫金港南门', pattern: /余杭塘路|崇仁路|西溪天街|龙湖/ },
+      { label: '紫金港北侧', pattern: /池华街|墩祥街|紫萱路/ }
+    ],
+    webClues: [
+      { keyword: 'Mojito&Mojar墨西哥餐吧 紫金港', title: 'Mojito&Mojar墨西哥餐吧(紫金港店) 公开餐厅页', url: 'https://www.cnpp100.com/shop/18988.html', publishedAt: '2026-01-01' },
+      { keyword: '李桑炭火烤肉 浙大紫金港', title: '李桑炭火烤肉(浙大紫金港店) Trip.com 餐厅页', url: 'https://hk.trip.com/restaurant/china/hangzhou/detail/restaurant-142213787', publishedAt: '2025-06-24' },
+      { keyword: '我们家私房纸包鱼 烧烤 浙大紫金港', title: '我们家私房纸包鱼&烧烤 公开餐厅页', url: 'https://www.cnpp100.com/shop/19074.html', publishedAt: '2025-10-08' },
+      { keyword: 'Tony’s house 泰和路 浙江大学 紫金港', title: 'Reddit 杭州餐厅推荐提到 Tony’s House 与紫金港', url: 'https://www.reddit.com/r/hangzhou/comments/1jdcfb1', publishedAt: '2025-03-18' },
+      { keyword: '跑马场三明治 浙江大学 紫金港', title: 'Reddit 杭州餐厅推荐提到跑马场三明治', url: 'https://www.reddit.com/r/hangzhou/comments/1jdcfb1', publishedAt: '2025-03-18' },
+      { keyword: '紫金港餐饮中心 风味餐厅 浙江大学', title: 'Apple Maps 紫金港餐饮中心风味餐厅页面', url: 'https://maps.apple.com/place?auid=1118368631460667&lsp=57879', publishedAt: '2025-01-01' },
+      { keyword: '澄月餐厅 浙江大学 紫金港', title: '2025 年浙江大学本科新生指引饮食消费页', url: 'https://zjuers.com/welcome/life/canteen/', publishedAt: '2025-01-01' },
+      { keyword: '银泉餐厅 浙江大学 紫金港', title: '2025 年浙江大学本科新生指引校园区域页', url: 'https://welcome.zjuintl-share.top/life/campus/', publishedAt: '2025-01-01' },
+      { keyword: '麦思威餐吧 浙江大学 紫金港', title: '2025 年浙江大学本科新生指引校园区域页', url: 'https://welcome.zjuintl-share.top/life/campus/', publishedAt: '2025-01-01' },
+      { keyword: '临湖餐厅 浙江大学 紫金港', title: '2025 年浙江大学本科新生指引校园区域页', url: 'https://welcome.zjuintl-share.top/life/campus/', publishedAt: '2025-01-01' }
+    ]
+  },
+  {
+    key: 'yuquan',
+    label: '玉泉',
+    center: { longitude: 120.123563, latitude: 30.263801 },
+    radiusMeters: 2800,
+    maxPublishedRestaurants: 85,
+    maxPagesPerKeyword: 5,
+    insidePattern: /玉泉校区|浙江大学.*玉泉|浙大.*玉泉|玉泉食堂|怡膳堂|留学生食堂|第四食堂|学生一食堂|三食堂|民族餐厅/,
+    areaRules: [
+      { label: '玉泉校内', pattern: /玉泉校区|浙江大学玉泉|浙大玉泉|玉泉食堂|怡膳堂/ },
+      { label: '青芝坞', pattern: /青芝坞|兰家湾|玉古路/ },
+      { label: '黄龙', pattern: /黄龙|曙光路|求是路/ },
+      { label: '浙大路', pattern: /浙大路|玉泉路|植物园/ }
+    ],
+    webClues: [
+      { keyword: '浙江大学 玉泉 食堂', title: '浙江大学玉泉校区食堂公开信息检索', url: 'https://www.zju.edu.cn/', publishedAt: '2026-01-01' },
+      { keyword: '浙江大学 玉泉 青芝坞 美食', title: '玉泉校区青芝坞周边公开餐饮信息检索', url: 'https://ditu.amap.com/', publishedAt: '2026-01-01' },
+      { keyword: '浙江大学 玉泉 黄龙 美食', title: '玉泉校区黄龙周边公开餐饮信息检索', url: 'https://ditu.amap.com/', publishedAt: '2026-01-01' }
+    ]
+  },
+  {
+    key: 'xixi',
+    label: '西溪',
+    center: { longitude: 120.142375, latitude: 30.275303 },
+    radiusMeters: 2600,
+    maxPublishedRestaurants: 80,
+    maxPagesPerKeyword: 5,
+    insidePattern: /西溪校区|浙江大学.*西溪|浙大.*西溪|西溪食堂|西溪餐厅|北园餐厅/,
+    areaRules: [
+      { label: '西溪校内', pattern: /西溪校区|浙江大学西溪|浙大西溪|西溪食堂/ },
+      { label: '文三路', pattern: /文三路|马塍路|保俶北路/ },
+      { label: '黄龙', pattern: /黄龙|天目山路|杭大路/ },
+      { label: '古荡', pattern: /古荡|学院路|教工路/ }
+    ],
+    webClues: [
+      { keyword: '浙江大学 西溪 食堂', title: '浙江大学西溪校区食堂公开信息检索', url: 'https://www.zju.edu.cn/', publishedAt: '2026-01-01' },
+      { keyword: '浙江大学 西溪 文三路 美食', title: '西溪校区文三路周边公开餐饮信息检索', url: 'https://ditu.amap.com/', publishedAt: '2026-01-01' },
+      { keyword: '浙江大学 西溪 黄龙 美食', title: '西溪校区黄龙周边公开餐饮信息检索', url: 'https://ditu.amap.com/', publishedAt: '2026-01-01' }
+    ]
+  }
+]
 
 const aroundKeywords = [
   '餐饮',
@@ -44,69 +111,6 @@ const aroundKeywords = [
   '韩餐',
   '清真',
   '食堂'
-]
-
-const webClues = [
-  {
-    keyword: 'Mojito&Mojar墨西哥餐吧 紫金港',
-    title: 'Mojito&Mojar墨西哥餐吧(紫金港店) 公开餐厅页',
-    url: 'https://www.cnpp100.com/shop/18988.html',
-    publishedAt: '2026-01-01'
-  },
-  {
-    keyword: '李桑炭火烤肉 浙大紫金港',
-    title: '李桑炭火烤肉(浙大紫金港店) Trip.com 餐厅页',
-    url: 'https://hk.trip.com/restaurant/china/hangzhou/detail/restaurant-142213787',
-    publishedAt: '2025-06-24'
-  },
-  {
-    keyword: '我们家私房纸包鱼 烧烤 浙大紫金港',
-    title: '我们家私房纸包鱼&烧烤 公开餐厅页',
-    url: 'https://www.cnpp100.com/shop/19074.html',
-    publishedAt: '2025-10-08'
-  },
-  {
-    keyword: 'Tony’s house 泰和路 浙江大学 紫金港',
-    title: 'Reddit 杭州餐厅推荐提到 Tony’s House 与紫金港',
-    url: 'https://www.reddit.com/r/hangzhou/comments/1jdcfb1',
-    publishedAt: '2025-03-18'
-  },
-  {
-    keyword: '跑马场三明治 浙江大学 紫金港',
-    title: 'Reddit 杭州餐厅推荐提到跑马场三明治',
-    url: 'https://www.reddit.com/r/hangzhou/comments/1jdcfb1',
-    publishedAt: '2025-03-18'
-  },
-  {
-    keyword: '紫金港餐饮中心 风味餐厅 浙江大学',
-    title: 'Apple Maps 紫金港餐饮中心风味餐厅页面',
-    url: 'https://maps.apple.com/place?auid=1118368631460667&lsp=57879',
-    publishedAt: '2025-01-01'
-  },
-  {
-    keyword: '澄月餐厅 浙江大学 紫金港',
-    title: '2025 年浙江大学本科新生指引饮食消费页',
-    url: 'https://zjuers.com/welcome/life/canteen/',
-    publishedAt: '2025-01-01'
-  },
-  {
-    keyword: '银泉餐厅 浙江大学 紫金港',
-    title: '2025 年浙江大学本科新生指引校园区域页',
-    url: 'https://welcome.zjuintl-share.top/life/campus/',
-    publishedAt: '2025-01-01'
-  },
-  {
-    keyword: '麦思威餐吧 浙江大学 紫金港',
-    title: '2025 年浙江大学本科新生指引校园区域页',
-    url: 'https://welcome.zjuintl-share.top/life/campus/',
-    publishedAt: '2025-01-01'
-  },
-  {
-    keyword: '临湖餐厅 浙江大学 紫金港',
-    title: '2025 年浙江大学本科新生指引校园区域页',
-    url: 'https://welcome.zjuintl-share.top/life/campus/',
-    publishedAt: '2025-01-01'
-  }
 ]
 
 function ensureDir(dir) {
@@ -181,30 +185,30 @@ async function fetchAmap(endpoint, params) {
   throw lastError
 }
 
-async function collectAroundPois() {
+async function collectAroundPois(campus) {
   const rows = []
   for (const keyword of aroundKeywords) {
-    for (let page = 1; page <= 8; page += 1) {
+    for (let page = 1; page <= campus.maxPagesPerKeyword; page += 1) {
       const body = await fetchAmap('around', {
-        location: `${center.longitude},${center.latitude}`,
+        location: `${campus.center.longitude},${campus.center.latitude}`,
         keywords: keyword,
         types: '050000',
-        radius: String(radiusMeters),
+        radius: String(campus.radiusMeters),
         offset: '25',
         page: String(page),
         sortrule: 'distance'
       })
       const pois = Array.isArray(body.pois) ? body.pois : []
-      rows.push(...pois.map((poi) => ({ poi, source: { type: 'amap_around', keyword, page } })))
+      rows.push(...pois.map((poi) => ({ poi, source: { type: 'amap_around', campus: campus.label, keyword, page } })))
       if (pois.length < 25) break
     }
   }
   return rows
 }
 
-async function collectWebCluePois() {
+async function collectWebCluePois(campus) {
   const rows = []
-  for (const clue of webClues) {
+  for (const clue of campus.webClues || []) {
     const body = await fetchAmap('text', {
       keywords: clue.keyword,
       city: '杭州',
@@ -214,16 +218,16 @@ async function collectWebCluePois() {
       page: '1'
     })
     const pois = Array.isArray(body.pois) ? body.pois : []
-    rows.push(...pois.slice(0, 1).map((poi) => ({ poi, source: { type: 'web_clue', ...clue } })))
+    rows.push(...pois.slice(0, 1).map((poi) => ({ poi, source: { type: 'web_clue', campus: campus.label, ...clue } })))
   }
   return rows
 }
 
-function normalizePoi(row) {
+function normalizePoi(row, campus) {
   const poi = row.poi
   const location = parseLocation(poi.location)
   if (!location) return null
-  const computedDistanceMeters = haversineMeters(center, location)
+  const computedDistanceMeters = haversineMeters(campus.center, location)
   const reportedDistanceMeters = toNumber(poi.distance, computedDistanceMeters)
   const distanceMeters = reportedDistanceMeters > 0 ? reportedDistanceMeters : computedDistanceMeters
   const rating = toNumber(poi.biz_ext?.rating, 0)
@@ -252,14 +256,18 @@ function normalizePoi(row) {
     distanceMeters,
     rating,
     cost,
+    campus,
+    campusKey: campus.key,
+    campusLabel: campus.label,
+    nearbyCampusLabels: [campus.label],
     sourceRefs
   }
 }
 
-function mergeCandidates(rows) {
+function mergeCandidates(rows, campus) {
   const map = new Map()
   for (const row of rows) {
-    const normalized = normalizePoi(row)
+    const normalized = normalizePoi(row, campus)
     if (!normalized) continue
     const key = normalized.id || `${normalized.name}:${normalized.address}`
     const existing = map.get(key)
@@ -269,6 +277,36 @@ function mergeCandidates(rows) {
       existing.sourceRefs.push(...normalized.sourceRefs)
       existing.rating = Math.max(existing.rating, normalized.rating)
       existing.cost = existing.cost || normalized.cost
+      existing.distanceMeters = Math.min(existing.distanceMeters, normalized.distanceMeters)
+    }
+  }
+  return [...map.values()]
+}
+
+function mergePublishedItemsByPoi(items) {
+  const map = new Map()
+  for (const item of items) {
+    const key = item.candidate.id || `${item.candidate.name}:${item.candidate.address}`
+    const existing = map.get(key)
+    if (!existing) {
+      map.set(key, item)
+      continue
+    }
+
+    existing.candidate.sourceRefs.push(...item.candidate.sourceRefs)
+    existing.candidate.nearbyCampusLabels = unique([
+      ...(existing.candidate.nearbyCampusLabels || []),
+      ...(item.candidate.nearbyCampusLabels || []),
+      item.candidate.campusLabel
+    ])
+    existing.confidence = Math.max(existing.confidence, item.confidence)
+    existing.publishScore = Math.max(existing.publishScore, item.publishScore)
+
+    if (item.candidate.distanceMeters < existing.candidate.distanceMeters) {
+      existing.candidate.campus = item.candidate.campus
+      existing.candidate.campusKey = item.candidate.campusKey
+      existing.candidate.campusLabel = item.candidate.campusLabel
+      existing.candidate.distanceMeters = item.candidate.distanceMeters
     }
   }
   return [...map.values()]
@@ -276,27 +314,25 @@ function mergeCandidates(rows) {
 
 function inferArea(candidate) {
   const text = `${candidate.name} ${candidate.address} ${candidate.businessArea}`
-  if (/浙江大学|紫金港校区|校区|餐饮中心|食堂|银泉|澄月|临湖|麦思威/.test(text)) return '校内'
-  if (/剑桥公社|剑桥/.test(text)) return '剑桥公社'
-  if (/申花路|浙大紫金港店|紫金港店/.test(text)) return '紫金港东门'
-  if (/余杭塘路|崇仁路|西溪天街|龙湖/.test(text)) return '紫金港南门'
-  if (/池华街|墩祥街|紫萱路/.test(text)) return '紫金港北侧'
-  if (candidate.distanceMeters <= 800) return '紫金港周边'
-  return candidate.businessArea || candidate.adname || '紫金港周边'
+  if (candidate.campus.insidePattern.test(text)) return `${candidate.campusLabel}校内`
+  const matchedRule = candidate.campus.areaRules.find((rule) => rule.pattern.test(text))
+  if (matchedRule) return matchedRule.label
+  if (candidate.distanceMeters <= 800) return `${candidate.campusLabel}周边`
+  return candidate.businessArea || candidate.adname || `${candidate.campusLabel}周边`
 }
 
 function inferCuisine(candidate) {
   const text = `${candidate.name} ${candidate.type} ${candidate.tag}`
-  if (/古茗|蜜雪冰城|爷爷不泡茶|厝内小眷村|CoCo|都可|沪上阿姨|茶百道|霸王茶姬|茉莉奶白|茶颜|奶茶|茶饮|饮品|冷饮/.test(text)) return '茶饮'
-  if (/咖啡|Coffee|COFFEE/i.test(text)) return '咖啡'
-  if (/甜品|蛋糕|面包|烘焙|糕点/.test(text)) return '甜品烘焙'
-  if (/食堂|餐饮中心|澄月食堂|临湖餐厅|风味餐厅|银泉餐厅|玉湖餐厅|麦香餐厅|休闲餐厅/.test(text) && /浙江大学|紫金港|校区/.test(text)) return '校内食堂'
-  if (/墨西哥|印度|韩国|日本|日料|寿司|东南亚|外国|西餐/.test(text)) return '异国简餐'
+  if (/古茗|蜜雪冰城|爷爷不泡茶|厝内小眷村|CoCo|都可|沪上阿姨|茶百道|霸王茶姬|茉莉奶白|茶颜|奶茶|茶饮|饮品|冷饮|鲜奶|柠檬茶/.test(text)) return '茶饮'
+  if (/咖啡|Coffee|COFFEE|星巴克|瑞幸|库迪|Peet/i.test(text)) return '咖啡'
+  if (/甜品|蛋糕|面包|烘焙|糕点|可颂|贝果/.test(text)) return '甜品烘焙'
+  if (/食堂|餐饮中心|学生餐厅|风味餐厅|怡膳堂|留学生食堂/.test(text) && /浙江大学|浙大|紫金港|玉泉|西溪|校区/.test(text)) return '校内食堂'
+  if (/墨西哥|印度|韩国|日本|日料|寿司|东南亚|外国|西餐|披萨|意面/.test(text)) return '异国简餐'
   if (/烧烤|烤肉|烤串|纸包鱼/.test(text)) return '烧烤烤肉'
   if (/火锅|冒菜|麻辣烫|串串/.test(text)) return '火锅麻辣烫'
-  if (/面|粉|米线|馄饨|水饺|饺子|拉面/.test(text)) return '面食粉面'
+  if (/面|粉|米线|馄饨|水饺|饺子|拉面|拌川/.test(text)) return '面食粉面'
   if (/汉堡|炸鸡|披萨/.test(text)) return '异国简餐'
-  if (/小吃|快餐|简餐|盖浇饭|炒饭|炒粉/.test(text)) return '快餐小吃'
+  if (/小吃|快餐|简餐|盖浇饭|炒饭|炒粉|便当|饭团/.test(text)) return '快餐小吃'
   return '中餐简餐'
 }
 
@@ -317,39 +353,40 @@ function inferTags(candidate, cuisine, price) {
   const tags = []
   if (isMealCuisine(cuisine)) tags.push('正餐')
   else tags.push('饮品')
+  tags.push(candidate.campusLabel)
   if (candidate.distanceMeters <= 900) tags.push('近')
   if (price <= 30) tags.push('实惠', '人均30内')
   else if (price <= 50) tags.push('人均50内')
-  if (/浙江大学|紫金港校区|校区|食堂|餐饮中心|银泉|澄月|临湖|麦思威/.test(`${candidate.name} ${candidate.address}`)) tags.push('校内')
+  if (candidate.campus.insidePattern.test(`${candidate.name} ${candidate.address}`)) tags.push('校内')
   if (/辣|川|湘|火锅|麻辣|串串|冒菜|烧烤/.test(text)) tags.push('辣')
   if (/咖啡|甜品|蛋糕|面包|奶茶|茶饮|西餐|墨西哥|印度|韩国|日本|拍照/.test(text)) tags.push('拍照')
   if (/咖啡/.test(text)) tags.push('咖啡')
   if (/甜品|蛋糕|面包|烘焙/.test(text)) tags.push('甜品')
-  if (/奶茶|茶饮|饮品/.test(text)) tags.push('奶茶')
+  if (/奶茶|茶饮|饮品|鲜奶|柠檬茶/.test(text)) tags.push('奶茶')
   if (/烧烤|烤肉|烤串/.test(text)) tags.push('烧烤')
   if (/火锅|冒菜|麻辣烫|串串/.test(text)) tags.push('火锅')
-  if (/面|粉|米线|馄饨|水饺|饺子|拉面/.test(text)) tags.push('面食', '暖胃')
-  if (/快餐|小吃|简餐|盖浇饭|炒饭|炒粉|汉堡|炸鸡/.test(text)) tags.push('快餐', '一人食')
+  if (/面|粉|米线|馄饨|水饺|饺子|拉面|拌川/.test(text)) tags.push('面食', '暖胃')
+  if (/快餐|小吃|简餐|盖浇饭|炒饭|炒粉|汉堡|炸鸡|便当|饭团/.test(text)) tags.push('快餐', '一人食')
   if (/食堂|中餐|家常|烤肉|火锅|烧烤|西餐|墨西哥|印度|韩国|日本/.test(text)) tags.push('聚餐')
   if (/夜宵|烧烤|烤串|火锅|酒吧|餐吧/.test(text)) tags.push('夜宵')
   if (/清真|兰州|新疆/.test(text)) tags.push('清真友好')
   if (/素|轻食|沙拉|咖啡|甜品/.test(text)) tags.push('轻负担')
-  if (/外国|墨西哥|印度|韩国|日本|西餐|披萨/.test(text)) tags.push('异国料理')
-  if (/食堂|餐饮中心/.test(text)) tags.push('食堂')
+  if (/外国|墨西哥|印度|韩国|日本|西餐|披萨|意面/.test(text)) tags.push('异国料理')
+  if (/食堂|餐饮中心|学生餐厅/.test(text)) tags.push('食堂')
   if (!tags.includes('快餐') && price <= 35) tags.push('一人食')
   if (!tags.includes('下饭') && /中餐|家常|川|湘|炒|饭|烤肉|火锅/.test(text)) tags.push('下饭')
-  return unique(tags).slice(0, 8)
+  return unique([...tags, ...(candidate.nearbyCampusLabels || [])]).slice(0, 10)
 }
 
 function inferTaxonomy(candidate, tags, cuisine) {
   const text = `${candidate.name} ${candidate.type} ${candidate.tag} ${cuisine} ${tags.join(' ')}`
   const isDrinkOrSnack = isDrinkOrSnackCuisine(cuisine)
   const serviceModes = unique([
-    tags.some((tag) => ['快餐', '一人食', '实惠', '人均30内', '轻负担'].includes(tag)) ? '外卖' : '',
+    tags.some((tag) => ['快餐', '一人食', '实惠', '人均30内', '轻负担', '奶茶', '咖啡', '甜品'].includes(tag)) ? '外卖' : '',
     '堂食'
   ])
   const mealPeriods = unique([
-    /咖啡|甜品|奶茶|面包|烘焙/.test(text) ? '下午茶' : '',
+    /咖啡|甜品|奶茶|面包|烘焙|鲜奶|柠檬茶/.test(text) ? '下午茶' : '',
     /烧烤|烤肉|火锅|夜宵|餐吧/.test(text) ? '夜宵' : '',
     /早餐|包子|豆浆|粥|面包|咖啡/.test(text) ? '早餐' : '',
     isDrinkOrSnack ? '' : '中餐',
@@ -378,7 +415,8 @@ function inferTaxonomy(candidate, tags, cuisine) {
     tags.includes('快餐') ? '快餐' : '',
     tags.includes('实惠') ? '实惠' : '',
     tags.includes('咖啡') ? '咖啡' : '',
-    tags.includes('甜品') ? '甜品' : ''
+    tags.includes('甜品') ? '甜品' : '',
+    tags.includes('奶茶') ? '奶茶' : ''
   ])
   return { serviceModes, mealPeriods, scenarioTags, constraintTags, preferenceTags }
 }
@@ -386,14 +424,14 @@ function inferTaxonomy(candidate, tags, cuisine) {
 function confidenceFor(candidate, tags) {
   let score = 0
   if (candidate.id) score += 0.25
-  if (candidate.distanceMeters <= radiusMeters) score += 0.2
+  if (candidate.distanceMeters <= candidate.campus.radiusMeters) score += 0.2
   if (candidate.address) score += 0.15
   if (candidate.type.includes('餐饮服务')) score += 0.15
   if (candidate.rating || candidate.cost) score += 0.1
   if (tags.length >= 2) score += 0.1
   if (candidate.sourceRefs.some((source) => source.query?.type === 'web_clue')) score += 0.05
   if (candidate.rating && candidate.rating < 3.2) score -= 0.12
-  if (candidate.distanceMeters > radiusMeters) score -= 0.25
+  if (candidate.distanceMeters > candidate.campus.radiusMeters) score -= 0.25
   if (!candidate.type.includes('餐饮服务')) score -= 0.2
   return Math.max(0, Math.min(1, Number(score.toFixed(2))))
 }
@@ -401,7 +439,7 @@ function confidenceFor(candidate, tags) {
 function publishScoreFor(candidate, confidence) {
   const cuisine = inferCuisine(candidate)
   const ratingScore = (candidate.rating || 3.8) * 6
-  const distanceScore = Math.max(0, radiusMeters - candidate.distanceMeters) / 90
+  const distanceScore = Math.max(0, candidate.campus.radiusMeters - candidate.distanceMeters) / 90
   const priceScore = candidate.cost ? Math.max(0, 90 - candidate.cost) / 4 : 8
   const sourceScore = candidate.sourceRefs.some((source) => source.query?.type === 'web_clue') ? 5 : 0
   const mealScore = isMealCuisine(cuisine) ? 18 : -18
@@ -422,8 +460,10 @@ function coverFor(tags, cuisine) {
 function buildReason(candidate, tags, confidence) {
   const ratingText = candidate.rating ? `高德显示评分 ${candidate.rating.toFixed(1)}` : '高德 POI 已验证'
   const priceText = candidate.cost ? `人均约 ¥${Math.round(candidate.cost)}` : '人均待学生补充'
-  const tagsText = tags.slice(0, 3).join('、')
-  return `公开信息整理：${ratingText}，${priceText}，距离紫金港约 ${(candidate.distanceMeters / 1000).toFixed(1)}km；当前标签为 ${tagsText}，置信度 ${confidence.toFixed(2)}。`
+  const tagsText = tags.filter((tag) => !campusConfigs.some((campus) => campus.label === tag)).slice(0, 3).join('、')
+  const otherCampuses = (candidate.nearbyCampusLabels || []).filter((label) => label !== candidate.campusLabel)
+  const otherCampusText = otherCampuses.length ? `；同时靠近${otherCampuses.join('、')}` : ''
+  return `公开信息整理：${ratingText}，${priceText}，距离${candidate.campusLabel}约 ${(candidate.distanceMeters / 1000).toFixed(1)}km${otherCampusText}；当前标签为 ${tagsText}，置信度 ${confidence.toFixed(2)}。`
 }
 
 function buildSystemReview(restaurant, candidate) {
@@ -464,7 +504,7 @@ function candidateToRestaurant(candidate, index) {
     coverIcon: cover.icon,
     coverColor: cover.color,
     tags,
-    suitedFor: unique([...taxonomy.scenarioTags, ...taxonomy.mealPeriods, ...taxonomy.preferenceTags]).slice(0, 6),
+    suitedFor: unique([...taxonomy.scenarioTags, ...taxonomy.mealPeriods, ...taxonomy.preferenceTags, ...candidate.nearbyCampusLabels]).slice(0, 8),
     serviceModes: taxonomy.serviceModes,
     mealPeriods: taxonomy.mealPeriods,
     scenarioTags: taxonomy.scenarioTags,
@@ -482,31 +522,43 @@ function candidateToRestaurant(candidate, index) {
 function isGoodCandidate(candidate) {
   if (!candidate.name || !candidate.address) return false
   if (!candidate.type.includes('餐饮服务')) return false
-  if (candidate.distanceMeters > radiusMeters) return false
-  if (/停车场|公共厕所|厕所|入口|出口|充电|公司|学校|宿舍|银行|超市|堕落街|暂停营业|建设中|取餐点|提货点|配送站/.test(candidate.name)) return false
+  if (candidate.distanceMeters > candidate.campus.radiusMeters) return false
+  if (/停车场|公共厕所|厕所|入口|出口|充电|公司|学校|宿舍|银行|超市|堕落街|暂停营业|已停业|停业|歇业|撤店|建设中|装修|招商|取餐点|提货点|配送站|外卖柜|骑手/.test(candidate.name)) return false
+  if (mentionsOtherZjuCampus(candidate)) return false
   return true
+}
+
+function mentionsOtherZjuCampus(candidate) {
+  const text = `${candidate.name} ${candidate.address}`
+  return campusConfigs
+    .filter((campus) => campus.label !== candidate.campusLabel)
+    .some((campus) => new RegExp(`(${campus.label}校区|浙江大学.*${campus.label}|浙大.*${campus.label})`).test(text))
 }
 
 function brandKey(name) {
   return String(name)
     .replace(/\(.*?\)|（.*?）/g, '')
-    .replace(/浙江大学|浙大|紫金港|杭州|校区|店|旗舰/g, '')
+    .replace(/浙江大学|浙大|紫金港|玉泉|西溪|杭州|校区|店|旗舰/g, '')
     .split(/[·•\-—\s]/)[0]
     .slice(0, 8)
 }
 
-function diversifyScoredCandidates(scored) {
+function groupLimitsFor(campus) {
+  return {
+    meal: Math.round(campus.maxPublishedRestaurants * 0.76),
+    canteen: Math.max(6, Math.round(campus.maxPublishedRestaurants * 0.1)),
+    drink: Math.max(10, Math.round(campus.maxPublishedRestaurants * 0.14))
+  }
+}
+
+function diversifyScoredCandidates(scored, campus) {
   const selected = []
   const cuisineCounts = new Map()
   const brandCounts = new Map()
   const groupCounts = new Map()
-  const cuisineLimit = 18
+  const cuisineLimit = Math.max(12, Math.round(campus.maxPublishedRestaurants * 0.16))
   const brandLimit = 3
-  const groupLimits = {
-    meal: 90,
-    canteen: 12,
-    drink: 18
-  }
+  const groupLimits = groupLimitsFor(campus)
 
   for (const item of scored) {
     const cuisine = inferCuisine(item.candidate)
@@ -519,7 +571,7 @@ function diversifyScoredCandidates(scored) {
     cuisineCounts.set(cuisine, (cuisineCounts.get(cuisine) || 0) + 1)
     brandCounts.set(brand, (brandCounts.get(brand) || 0) + 1)
     groupCounts.set(group, (groupCounts.get(group) || 0) + 1)
-    if (selected.length >= maxPublishedRestaurants) return selected
+    if (selected.length >= campus.maxPublishedRestaurants) return selected
   }
 
   for (const item of scored) {
@@ -529,19 +581,26 @@ function diversifyScoredCandidates(scored) {
     if ((groupCounts.get(group) || 0) >= groupLimits[group]) continue
     selected.push(item)
     groupCounts.set(group, (groupCounts.get(group) || 0) + 1)
-    if (selected.length >= maxPublishedRestaurants) return selected
+    if (selected.length >= campus.maxPublishedRestaurants) return selected
   }
 
   return selected
 }
 
-async function main() {
-  ensureDir(rawDir)
-  ensureDir(processedDir)
+function parseSelectedCampuses() {
+  const arg = process.argv.find((item) => item.startsWith('--campus='))
+  if (!arg) return campusConfigs
+  const requested = arg.replace('--campus=', '').split(',').map((item) => item.trim()).filter(Boolean)
+  const selected = campusConfigs.filter((campus) => requested.includes(campus.key) || requested.includes(campus.label))
+  if (!selected.length) throw new Error(`No matching campus for ${requested.join(', ')}`)
+  return selected
+}
 
-  const aroundRows = await collectAroundPois()
-  const clueRows = await collectWebCluePois()
-  const merged = mergeCandidates([...aroundRows, ...clueRows]).filter(isGoodCandidate)
+async function collectCampus(campus) {
+  console.log(`[real-data] collecting ${campus.label} within ${campus.radiusMeters}m`)
+  const aroundRows = await collectAroundPois(campus)
+  const clueRows = await collectWebCluePois(campus)
+  const merged = mergeCandidates([...aroundRows, ...clueRows], campus).filter(isGoodCandidate)
   const scored = merged
     .map((candidate) => {
       const cuisine = inferCuisine(candidate)
@@ -558,7 +617,32 @@ async function main() {
       return a.candidate.distanceMeters - b.candidate.distanceMeters
     })
 
-  const built = diversifyScoredCandidates(scored).map((item, index) => candidateToRestaurant(item.candidate, index))
+  const selected = diversifyScoredCandidates(scored, campus)
+  return {
+    campus,
+    rows: [...aroundRows, ...clueRows],
+    aroundRows: aroundRows.length,
+    clueRows: clueRows.length,
+    uniqueCandidates: merged.length,
+    selected
+  }
+}
+
+async function main() {
+  ensureDir(rawDir)
+  ensureDir(processedDir)
+
+  const selectedCampuses = parseSelectedCampuses()
+  const campusRuns = []
+  for (const campus of selectedCampuses) {
+    campusRuns.push(await collectCampus(campus))
+  }
+
+  // Keep campus-specific copies instead of cross-campus deduping. Some POI names
+  // contain words like "西溪银泰" while actually serving 紫金港 users; preserving
+  // the collection campus avoids misleading campus labels and distances.
+  const selectedItems = campusRuns.flatMap((run) => run.selected)
+  const built = selectedItems.map((item, index) => candidateToRestaurant(item.candidate, index))
   const restaurants = built.map((item) => {
     const { confidence, ...restaurant } = item.restaurant
     return restaurant
@@ -569,22 +653,43 @@ async function main() {
   const processedPath = path.join(processedDir, `real_restaurant_candidates_${today}.json`)
   const reportPath = path.join(processedDir, `real_data_report_${today}.json`)
 
-  fs.writeFileSync(rawPath, JSON.stringify({ aroundKeywords, webClues, rows: [...aroundRows, ...clueRows] }, null, 2))
+  fs.writeFileSync(rawPath, JSON.stringify({
+    campuses: selectedCampuses.map((campus) => ({
+      key: campus.key,
+      label: campus.label,
+      center: campus.center,
+      radiusMeters: campus.radiusMeters,
+      maxPublishedRestaurants: campus.maxPublishedRestaurants
+    })),
+    aroundKeywords,
+    rows: campusRuns.flatMap((run) => run.rows)
+  }, null, 2))
   fs.writeFileSync(processedPath, JSON.stringify({ restaurants, reviews }, null, 2))
   fs.writeFileSync(reportPath, JSON.stringify({
     generatedAt: new Date().toISOString(),
-    center,
-    radiusMeters,
-    rawRows: aroundRows.length + clueRows.length,
-    uniqueCandidates: merged.length,
+    campuses: selectedCampuses.map((campus) => ({
+      key: campus.key,
+      label: campus.label,
+      center: campus.center,
+      radiusMeters: campus.radiusMeters,
+      maxPublishedRestaurants: campus.maxPublishedRestaurants
+    })),
+    rawRows: campusRuns.reduce((total, run) => total + run.rows.length, 0),
+    uniqueCandidates: campusRuns.reduce((total, run) => total + run.uniqueCandidates, 0),
     autoPublished: restaurants.length,
     minAutoPublishConfidence,
-    rejectedOrPending: Math.max(0, merged.length - restaurants.length),
-    sources: {
-      amapAroundRows: aroundRows.length,
-      webClueRows: clueRows.length
-    },
-    sample: built.slice(0, 8).map((item) => ({
+    rejectedOrPending: Math.max(0, campusRuns.reduce((total, run) => total + run.uniqueCandidates, 0) - restaurants.length),
+    campusReports: campusRuns.map((run) => ({
+      campus: run.campus.label,
+      rawRows: run.rows.length,
+      uniqueCandidates: run.uniqueCandidates,
+      autoPublishedBeforeCrossCampusDedupe: run.selected.length,
+      sources: {
+        amapAroundRows: run.aroundRows,
+        webClueRows: run.clueRows
+      }
+    })),
+    sample: built.slice(0, 12).map((item) => ({
       id: item.restaurant.id,
       name: item.restaurant.name,
       confidence: item.restaurant.confidence,
@@ -600,9 +705,10 @@ async function main() {
     rawPath: path.relative(root, rawPath),
     processedPath: path.relative(root, processedPath),
     reportPath: path.relative(root, reportPath),
-    rawRows: aroundRows.length + clueRows.length,
-    uniqueCandidates: merged.length,
-    autoPublished: restaurants.length
+    rawRows: campusRuns.reduce((total, run) => total + run.rows.length, 0),
+    uniqueCandidates: campusRuns.reduce((total, run) => total + run.uniqueCandidates, 0),
+    autoPublished: restaurants.length,
+    campusReports: campusRuns.map((run) => ({ campus: run.campus.label, selected: run.selected.length, uniqueCandidates: run.uniqueCandidates }))
   }, null, 2))
 }
 

@@ -1,9 +1,19 @@
 import { filterRestaurants, sortRestaurants } from '../lib/filters'
 import { attachRecommendationScore, pickRandomRestaurant, pickRecommendedRestaurant } from '../lib/recommendation'
-import type { RecommendationContext, RestaurantFilters, RestaurantSummary } from '../types'
+import type { PriceRange, RecommendationContext, RestaurantFilters, RestaurantSummary } from '../types'
 import { ApiHttpError, fetchRestaurantDetail, fetchRestaurants, fetchTodayRecommendation, type ApiResult, type ApiSource, type RestaurantDetail } from './apiRestaurantClient'
 import { getFavoriteRestaurantIds } from './favoriteStore'
-import { listSeedDishes, listSeedRestaurants, listSeedReviews, getSeedMetadata, getSeedRestaurant } from './seedRepository'
+
+const fallbackMetadata = {
+  schemaVersion: 1,
+  tasteTags: ['全部', '正餐', '饮品', '近', '实惠', '辣', '不辣', '夜宵', '一人食', '聚餐', '校内', '面食', '暖胃', '下饭', '快餐', '拍照', '轻负担', '清真友好', '咖啡', '甜品', '奶茶', '烧烤', '火锅', '食堂', '异国料理'],
+  priceRanges: [
+    { label: '不限', min: 0, max: 999 },
+    { label: '30以内', min: 0, max: 30 },
+    { label: '30-50', min: 31, max: 50 },
+    { label: '50+', min: 51, max: 999 }
+  ] satisfies PriceRange[]
+}
 
 function getContext(context?: Partial<RecommendationContext>): RecommendationContext {
   return {
@@ -20,10 +30,23 @@ function markFavorites(restaurants: RestaurantSummary[], favoriteRestaurantIds: 
 }
 
 export function getRestaurantMetadata() {
-  return getSeedMetadata()
+  return fallbackMetadata
 }
 
-export function listRestaurants(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
+export function listRestaurants(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>): RestaurantSummary[] {
+  void filters
+  void context
+  return []
+}
+
+export function getRestaurantDetail(id: string, context?: Partial<RecommendationContext>): RestaurantDetail | null {
+  void id
+  void context
+  return null
+}
+
+async function listRestaurantsFromSeed(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
+  const [{ listSeedRestaurants, getSeedMetadata }] = await Promise.all([import('./seedRepository')])
   const metadata = getSeedMetadata()
   const resolvedContext = getContext(context)
   const filtered = filterRestaurants(listSeedRestaurants(), filters, metadata.priceRanges)
@@ -32,7 +55,8 @@ export function listRestaurants(filters: RestaurantFilters = {}, context?: Parti
   return markFavorites(sorted, resolvedContext.favoriteRestaurantIds ?? [])
 }
 
-export function getRestaurantDetail(id: string, context?: Partial<RecommendationContext>) {
+async function getRestaurantDetailFromSeed(id: string, context?: Partial<RecommendationContext>) {
+  const { getSeedRestaurant, listSeedDishes, listSeedReviews } = await import('./seedRepository')
   const restaurant = getSeedRestaurant(id)
   if (!restaurant || restaurant.status !== 'published') return null
 
@@ -72,7 +96,7 @@ export async function listRestaurantsRemote(filters: RestaurantFilters = {}, con
     return await fetchRestaurants(filters, context, signal)
   } catch (error) {
     if (isAbortError(error)) throw error
-    return localResult(listRestaurants(filters, context))
+    return localResult(await listRestaurantsFromSeed(filters, context))
   }
 }
 
@@ -82,11 +106,11 @@ export async function getRestaurantDetailRemote(id: string, context?: Partial<Re
   } catch (error) {
     if (isAbortError(error)) throw error
     if (isAuthoritativeSupabaseMiss(error)) return supabaseNullResult<RestaurantDetail>()
-    return localResult(getRestaurantDetail(id, context))
+    return localResult(await getRestaurantDetailFromSeed(id, context))
   }
 }
 
-export function getFavoriteRestaurants(context?: Partial<RecommendationContext>) {
+export function getFavoriteRestaurants(context?: Partial<RecommendationContext>): RestaurantSummary[] {
   const favoriteRestaurantIds = context?.favoriteRestaurantIds ?? getFavoriteRestaurantIds()
   return listRestaurants({}, { ...context, favoriteRestaurantIds }).filter((restaurant) => favoriteRestaurantIds.includes(restaurant.id))
 }
@@ -100,8 +124,10 @@ export async function getFavoriteRestaurantsRemote(context?: Partial<Recommendat
   }
 }
 
-export function getRecommendedRestaurant(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
-  return pickRecommendedRestaurant(listRestaurants(filters, context))
+export function getRecommendedRestaurant(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>): RestaurantSummary | null {
+  void filters
+  void context
+  return null
 }
 
 export async function getRecommendedRestaurantRemote(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal) {
@@ -110,12 +136,14 @@ export async function getRecommendedRestaurantRemote(filters: RestaurantFilters 
   } catch (error) {
     if (isAbortError(error)) throw error
     if (isAuthoritativeSupabaseMiss(error)) return supabaseNullResult<RestaurantSummary>()
-    return localResult(getRecommendedRestaurant(filters, context))
+    return localResult(pickRecommendedRestaurant(await listRestaurantsFromSeed(filters, context)))
   }
 }
 
-export function getRandomRestaurant(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
-  return pickRandomRestaurant(listRestaurants(filters, context))
+export function getRandomRestaurant(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>): RestaurantSummary | null {
+  void filters
+  void context
+  return null
 }
 
 export async function getRandomRestaurantRemote(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal): Promise<ApiResult<RestaurantSummary | null>> {
@@ -124,7 +152,7 @@ export async function getRandomRestaurantRemote(filters: RestaurantFilters = {},
   } catch (error) {
     if (isAbortError(error)) throw error
     if (isAuthoritativeSupabaseMiss(error)) return supabaseNullResult<RestaurantSummary>()
-    return localResult(getRandomRestaurant(filters, context))
+    return localResult(pickRandomRestaurant(await listRestaurantsFromSeed(filters, context)))
   }
 }
 
