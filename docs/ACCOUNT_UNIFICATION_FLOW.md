@@ -11,6 +11,17 @@
 
 ## 当前落地方式
 
+### Web 端资料
+
+Web 端采用 `/api/profile` 作为用户资料唯一写入口：
+
+- 浏览器只持有 Supabase Auth access token。
+- Vercel API 校验 token 后，用服务端 Supabase key 创建/修复 `app_users` 与 `identity_links`。
+- 用户名、头像、偏好都写入 `app_users`，避免 `profiles` 和 `app_users` 双表状态不一致。
+- 头像通过 `/api/profile/avatar` 上传到 Supabase Storage 的 `app-avatars` bucket。
+
+### 小程序绑定
+
 1. 小程序用户进入“我的”页，填写浙大邮箱。
 2. 云函数调用 Supabase Auth 发送邮箱验证码。
 3. 用户复制邮件里的数字验证码到小程序。

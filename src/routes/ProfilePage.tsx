@@ -41,7 +41,7 @@ export function ProfilePage() {
         setAppProfile(profile)
         setDisplayNameDraft(profile.displayName)
       } else {
-        const appUserProfile = await ensureAppUserProfile(state.user)
+        const appUserProfile = await ensureAppUserProfile()
         setAppProfile(appUserProfile)
         setDisplayNameDraft(appUserProfile?.displayName ?? '')
       }

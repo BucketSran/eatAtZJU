@@ -60,34 +60,9 @@ export async function signOut() {
 }
 
 export async function ensureProfile(user: User) {
-  const client = getSupabaseBrowserClient()
-  if (!client) return null
-
-  const appProfile = await ensureAppUserProfile(user)
-
-  const { data: existingProfile, error: selectError } = await client
-    .from('profiles')
-    .select('id,display_name,preferences')
-    .eq('id', user.id)
-    .maybeSingle()
-
-  if (selectError) throw selectError
-  if (existingProfile) {
-    if (appProfile?.preferences?.length) setPreferenceTags(appProfile.preferences)
-    else if (Array.isArray(existingProfile.preferences)) setPreferenceTags(existingProfile.preferences)
-    return appProfile ?? existingProfile
-  }
-
-  const { data, error } = await client
-    .from('profiles')
-    .insert({ id: user.id, display_name: user.email?.split('@')[0] || 'ZJU student', preferences: getPreferenceTags() })
-    .select('id,display_name,preferences')
-    .single()
-
-  if (error) throw error
+  const appProfile = await ensureAppUserProfile()
   if (appProfile?.preferences?.length) setPreferenceTags(appProfile.preferences)
-  else if (Array.isArray(data.preferences)) setPreferenceTags(data.preferences)
-  return appProfile ?? data
+  return appProfile ?? { id: user.id, display_name: user.email?.split('@')[0] || 'ZJU student', preferences: getPreferenceTags() }
 }
 
 export async function syncPreferencesToProfile(tags: string[]) {
@@ -98,11 +73,6 @@ export async function syncPreferencesToProfile(tags: string[]) {
   if (userError) throw userError
   if (!userData.user) throw new Error('Please sign in first')
 
-  const { error } = await client
-    .from('profiles')
-    .upsert({ id: userData.user.id, display_name: userData.user.email?.split('@')[0] || 'ZJU student', preferences: tags }, { onConflict: 'id' })
-
-  if (error) throw error
   await updateAppUserProfile({ preferences: tags })
 }
 
