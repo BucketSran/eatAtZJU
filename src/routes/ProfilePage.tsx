@@ -13,6 +13,9 @@ function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === 'AbortError'
 }
 
+type StatusTone = 'info' | 'success' | 'error'
+type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | null
+
 export function ProfilePage() {
   const metadata = getRestaurantMetadata()
   const [preferences, setPreferences] = useState(() => getPreferenceTags())
@@ -25,17 +28,27 @@ export function ProfilePage() {
   const [otpCode, setOtpCode] = useState('')
   const [otpEmail, setOtpEmail] = useState('')
   const [accountStatus, setAccountStatus] = useState('')
+  const [accountStatusTone, setAccountStatusTone] = useState<StatusTone>('info')
   const [appProfile, setAppProfile] = useState<AppUserProfile | null>(null)
   const [displayNameDraft, setDisplayNameDraft] = useState('')
+  const [profileAction, setProfileAction] = useState<ProfileAction>(null)
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: [] }), [preferences])
+
+  function showAccountStatus(message: string, tone: StatusTone = 'info') {
+    setAccountStatus(message)
+    setAccountStatusTone(tone)
+  }
 
   useEffect(() => {
     async function hydrateUserState(state: AuthState) {
       setAuthState(state)
       if (!state.user) {
         setCampusTrust(null)
+        setAppProfile(null)
+        setDisplayNameDraft('')
         return
       }
+      setProfileAction('loading')
       const profile = await ensureProfile(state.user)
       if (profile && 'avatarPreset' in profile) {
         setAppProfile(profile)
@@ -46,14 +59,21 @@ export function ProfilePage() {
         setDisplayNameDraft(appUserProfile?.displayName ?? '')
       }
       setCampusTrust(await fetchCampusTrustStatus())
+      setProfileAction(null)
     }
 
     getCurrentAuthState().then((state) => {
-      hydrateUserState(state).catch((error: unknown) => setAccountStatus(error instanceof Error ? error.message : '资料同步失败'))
+      hydrateUserState(state).catch((error: unknown) => {
+        setProfileAction(null)
+        showAccountStatus(error instanceof Error ? error.message : '资料同步失败', 'error')
+      })
     })
 
     return onAuthChange((state) => {
-      hydrateUserState(state).catch((error: unknown) => setAccountStatus(error instanceof Error ? error.message : '资料同步失败'))
+      hydrateUserState(state).catch((error: unknown) => {
+        setProfileAction(null)
+        showAccountStatus(error instanceof Error ? error.message : '资料同步失败', 'error')
+      })
     })
   }, [])
 
@@ -87,108 +107,146 @@ export function ProfilePage() {
   async function submitEmailLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const normalizedEmail = email.trim().toLowerCase()
-    setAccountStatus('正在发送邮箱验证码...')
+    showAccountStatus('正在发送邮箱验证码...')
     try {
       await signInWithEmail(normalizedEmail)
       setOtpEmail(normalizedEmail)
-      setAccountStatus('验证码已发送，请从邮件中复制 6 位数字验证码。')
+      showAccountStatus('验证码已发送，请从邮件中复制 6 位数字验证码。', 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '发送失败')
+      showAccountStatus(error instanceof Error ? error.message : '发送失败', 'error')
     }
   }
 
   async function submitEmailOtp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setAccountStatus('正在验证邮箱验证码...')
+    showAccountStatus('正在验证邮箱验证码...')
     try {
       await verifyEmailOtp(otpEmail, otpCode.trim())
       setOtpCode('')
-      setAccountStatus('登录成功。')
+      showAccountStatus('登录成功，正在加载你的名片。', 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '验证码验证失败')
+      showAccountStatus(error instanceof Error ? error.message : '验证码验证失败', 'error')
     }
   }
 
   async function syncProfile() {
-    setAccountStatus('正在同步偏好...')
+    setProfileAction('syncingPreferences')
+    showAccountStatus('正在同步偏好...')
     try {
       await syncPreferencesToProfile(preferences)
       if (appProfile) setAppProfile(await updateAppUserProfile({ preferences }))
-      setAccountStatus('偏好已同步到 Supabase profile。')
+      showAccountStatus('偏好已同步。', 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '同步失败')
+      showAccountStatus(error instanceof Error ? error.message : '同步失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   async function pushFavorites() {
-    setAccountStatus('正在同步收藏...')
+    setProfileAction('syncingFavorites')
+    showAccountStatus('正在同步收藏...')
     try {
       const result = await syncLocalFavoritesToSupabase()
-      setAccountStatus(`已推送 ${result.pushed} 个本地收藏。`)
+      showAccountStatus(`已推送 ${result.pushed} 个本地收藏。`, 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '收藏同步失败')
+      showAccountStatus(error instanceof Error ? error.message : '收藏同步失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   async function pullFavorites() {
-    setAccountStatus('正在拉取收藏...')
+    setProfileAction('syncingFavorites')
+    showAccountStatus('正在拉取收藏...')
     try {
       const result = await pullFavoritesFromSupabase()
-      setAccountStatus(`已拉取 ${result.pulled} 个云端收藏。`)
+      showAccountStatus(`已拉取 ${result.pulled} 个云端收藏。`, 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '收藏拉取失败')
+      showAccountStatus(error instanceof Error ? error.message : '收藏拉取失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   async function verifyCampus() {
-    setAccountStatus('正在验证校园邮箱...')
+    setProfileAction('verifyingCampus')
+    showAccountStatus('正在验证校园邮箱...')
     try {
       const result = await verifyCampusEmail()
       setCampusTrust(result)
-      setAccountStatus(result.campusEmailVerified ? '校园邮箱已验证，后续贡献会获得更高可信度。' : `当前邮箱不在允许域名：${result.allowedDomains.join('、')}`)
+      showAccountStatus(result.campusEmailVerified ? '校园邮箱已验证，后续贡献会获得更高可信度。' : `当前邮箱不在允许域名：${result.allowedDomains.join('、')}`, result.campusEmailVerified ? 'success' : 'error')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '校园邮箱验证失败')
+      showAccountStatus(error instanceof Error ? error.message : '校园邮箱验证失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   async function saveDisplayName(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setAccountStatus('正在保存名片...')
+    const nextName = displayNameDraft.trim().slice(0, 40) || 'ZJU student'
+    if (appProfile && nextName === appProfile.displayName) {
+      showAccountStatus('用户名没有变化。')
+      return
+    }
+    setProfileAction('savingName')
+    showAccountStatus('正在保存用户名...')
     try {
-      const profile = await updateAppUserProfile({ displayName: displayNameDraft.trim().slice(0, 40) || 'ZJU student' })
+      const profile = await updateAppUserProfile({ displayName: nextName })
       setAppProfile(profile)
       setDisplayNameDraft(profile.displayName)
-      setAccountStatus('用户名已同步到 app_users。')
+      showAccountStatus('用户名已保存。', 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '用户名保存失败')
+      showAccountStatus(error instanceof Error ? error.message : '用户名保存失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   async function chooseAvatarPreset(avatarPreset: string) {
-    setAccountStatus('正在同步头像...')
+    if (appProfile?.avatarType === 'preset' && appProfile.avatarPreset === avatarPreset) {
+      showAccountStatus('已经是这个头像。')
+      return
+    }
+    const previousProfile = appProfile
+    if (previousProfile) {
+      setAppProfile({ ...previousProfile, avatarType: 'preset', avatarPreset, avatarUrl: '' })
+    }
+    setProfileAction('savingAvatar')
+    showAccountStatus('正在保存头像...')
     try {
       const profile = await updateAppUserProfile({ avatarType: 'preset', avatarPreset, avatarUrl: '' })
       setAppProfile(profile)
-      setAccountStatus('头像已同步到 app_users。')
+      showAccountStatus(`头像已切换为「${getPresetAvatar(profile.avatarPreset).label}」。`, 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '头像同步失败')
+      if (previousProfile) setAppProfile(previousProfile)
+      showAccountStatus(error instanceof Error ? error.message : '头像同步失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   async function uploadCustomAvatar(file: File | null) {
     if (!file) return
-    setAccountStatus('正在上传头像...')
+    setProfileAction('uploadingAvatar')
+    showAccountStatus('正在上传头像...')
     try {
       const avatarUrl = await uploadAppUserAvatar(file)
       const profile = await updateAppUserProfile({ avatarType: 'custom', avatarUrl })
       setAppProfile(profile)
-      setAccountStatus('自定义头像已同步到 Supabase Storage。')
+      showAccountStatus('自定义头像已上传并保存。', 'success')
     } catch (error) {
-      setAccountStatus(error instanceof Error ? error.message : '头像上传失败')
+      showAccountStatus(error instanceof Error ? error.message : '头像上传失败', 'error')
+    } finally {
+      setProfileAction(null)
     }
   }
 
   const profileAvatar = getPresetAvatar(appProfile?.avatarPreset)
+  const displayNameValue = displayNameDraft.trim().slice(0, 40)
+  const isNameDirty = Boolean(appProfile && displayNameValue && displayNameValue !== appProfile.displayName)
+  const isProfileBusy = profileAction !== null
 
   return (
     <div className="route-stack">
@@ -217,38 +275,71 @@ export function ProfilePage() {
 
         {authState.user ? (
           <div className="form-stack">
-            <p className="helper-text">当前账号：{authState.user.email}</p>
-            <div className="web-profile-card">
-              <div className="web-avatar" style={{ background: appProfile?.avatarType === 'preset' ? profileAvatar.color : undefined }}>
-                {appProfile?.avatarType === 'custom' && appProfile.avatarUrl ? <img src={appProfile.avatarUrl} alt="" /> : profileAvatar.text}
+            <div className="profile-console">
+              <div className="profile-preview-panel">
+                <div className="profile-preview-topline">
+                  <span>当前账号</span>
+                  <strong>{authState.user.email}</strong>
+                </div>
+                <div className="profile-preview-main">
+                  <div className={`web-avatar hero-avatar ${profileAction === 'uploadingAvatar' || profileAction === 'savingAvatar' ? 'is-saving' : ''}`} style={{ background: appProfile?.avatarType === 'preset' ? profileAvatar.color : undefined }}>
+                    {appProfile?.avatarType === 'custom' && appProfile.avatarUrl ? <img src={appProfile.avatarUrl} alt="" /> : profileAvatar.text}
+                  </div>
+                  <div>
+                    <p className="profile-kicker">PUBLIC CARD</p>
+                    <h3>{displayNameDraft || appProfile?.displayName || 'ZJU student'}</h3>
+                    <p>{appProfile?.avatarType === 'custom' ? '自定义头像' : `${profileAvatar.label} · 预设头像`}</p>
+                  </div>
+                </div>
               </div>
-              <form className="form-stack web-profile-form" onSubmit={saveDisplayName}>
-                <label className="search-label" htmlFor="display-name">用户名</label>
+
+              <form className="profile-edit-panel" onSubmit={saveDisplayName}>
+                <div className="field-row">
+                  <label className="search-label" htmlFor="display-name">用户名</label>
+                  <span className={`dirty-dot ${isNameDirty ? 'active' : ''}`}>{isNameDirty ? '未保存' : '已同步'}</span>
+                </div>
                 <input id="display-name" className="search-input" value={displayNameDraft} maxLength={40} placeholder="取一个浙大饭搭子昵称" onChange={(event) => setDisplayNameDraft(event.target.value)} />
-                <button className="secondary-action" type="submit">保存用户名</button>
+                <div className="inline-form-actions">
+                  <button className="secondary-action" type="button" disabled={!isNameDirty || isProfileBusy} onClick={() => setDisplayNameDraft(appProfile?.displayName ?? '')}>撤销</button>
+                  <button className="primary-action" type="submit" disabled={!isNameDirty || isProfileBusy}>{profileAction === 'savingName' ? '保存中...' : '保存用户名'}</button>
+                </div>
               </form>
             </div>
-            <div className="avatar-preset-grid">
-              {presetAvatars.map((avatar) => (
-                <button key={avatar.id} className={`avatar-preset-button ${appProfile?.avatarPreset === avatar.id ? 'active' : ''}`} type="button" onClick={() => chooseAvatarPreset(avatar.id)}>
-                  <span style={{ background: avatar.color }}>{avatar.text}</span>
-                  {avatar.label}
-                </button>
-              ))}
+
+            <div className="avatar-section">
+              <div className="field-row">
+                <div>
+                  <p className="eyebrow">AVATAR</p>
+                  <h3>选择头像</h3>
+                </div>
+                <span className="helper-inline">{profileAction === 'savingAvatar' ? '正在保存...' : '点击即预览并保存'}</span>
+              </div>
+              <div className="avatar-preset-grid">
+                {presetAvatars.map((avatar) => {
+                  const active = appProfile?.avatarType === 'preset' && appProfile.avatarPreset === avatar.id
+                  return (
+                    <button key={avatar.id} className={`avatar-preset-button ${active ? 'active' : ''}`} type="button" disabled={isProfileBusy} aria-pressed={active} onClick={() => chooseAvatarPreset(avatar.id)}>
+                      <span style={{ background: avatar.color }}>{avatar.text}</span>
+                      <strong>{avatar.label}</strong>
+                      {active ? <em>当前使用</em> : null}
+                    </button>
+                  )
+                })}
+              </div>
+              <label className={`avatar-upload-control ${profileAction === 'uploadingAvatar' ? 'is-uploading' : ''}`}>
+                <span>{profileAction === 'uploadingAvatar' ? '上传中...' : '上传自定义头像（小于 1MB）'}</span>
+                <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" disabled={isProfileBusy} onChange={(event) => uploadCustomAvatar(event.currentTarget.files?.[0] ?? null)} />
+              </label>
             </div>
-            <label className="avatar-upload-control">
-              <span>上传自定义头像（小于 1MB）</span>
-              <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => uploadCustomAvatar(event.currentTarget.files?.[0] ?? null)} />
-            </label>
             <div className={`trust-pill ${campusTrust?.campusEmailVerified ? 'verified' : ''}`}>
               <strong>{campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'}</strong>
               <span>{campusTrust?.campusEmailVerified ? `${campusTrust.campusEmail} · 信用分 ${campusTrust.creditScore}` : '验证后可用于学生可信贡献、审核优先级和后续约饭身份。'}</span>
             </div>
             <div className="hero-actions compact-actions">
-              <button className="secondary-action" type="button" onClick={verifyCampus}>验证校园邮箱</button>
-              <button className="secondary-action" type="button" onClick={syncProfile}>同步偏好</button>
-              <button className="secondary-action" type="button" onClick={pushFavorites}>推送本地收藏</button>
-              <button className="secondary-action" type="button" onClick={pullFavorites}>拉取云端收藏</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={verifyCampus}>{profileAction === 'verifyingCampus' ? '验证中...' : '验证校园邮箱'}</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={syncProfile}>{profileAction === 'syncingPreferences' ? '同步中...' : '同步偏好'}</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pushFavorites}>推送本地收藏</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pullFavorites}>拉取云端收藏</button>
             </div>
           </div>
         ) : (
@@ -270,7 +361,7 @@ export function ProfilePage() {
           </div>
         )}
 
-        {accountStatus ? <p className="helper-text">{accountStatus}</p> : null}
+        {accountStatus ? <p className={`profile-status ${accountStatusTone}`}>{accountStatus}</p> : null}
       </GlassCard>
 
       <GlassCard>
