@@ -186,6 +186,74 @@ async function checkApiService() {
   })
 }
 
+async function checkProfileContracts() {
+  const { readJsonBody } = require('../api/_shared/requestBody.cjs')
+  const { mapAppUser, updateAppUser } = require('../api/_shared/appProfile.cjs')
+
+  const parsedBuffer = await readJsonBody({ body: Buffer.from(JSON.stringify({ displayName: 'BucketSran', avatarPreset: 'duck' })) })
+  assert(parsedBuffer.displayName === 'BucketSran', 'request body parser must read Buffer JSON bodies')
+  assert(parsedBuffer.avatarPreset === 'duck', 'request body parser must preserve avatarPreset from Buffer JSON bodies')
+
+  const parsedUint8 = await readJsonBody({ body: new Uint8Array(Buffer.from(JSON.stringify({ avatarType: 'preset' }))) })
+  assert(parsedUint8.avatarType === 'preset', 'request body parser must read Uint8Array JSON bodies')
+
+  const apiProfile = mapAppUser({
+    id: 'profile_contract_id',
+    display_name: 'BucketSran',
+    avatar_type: 'preset',
+    avatar_preset: 'duck',
+    avatar_url: '',
+    preferences: ['近', '辣']
+  })
+  assert(apiProfile.displayName === 'BucketSran', 'profile API contract must expose displayName')
+  assert(apiProfile.avatarPreset === 'duck', 'profile API contract must expose avatarPreset')
+  assert(apiProfile.avatarType === 'preset', 'profile API contract must expose avatarType')
+
+  const updates = []
+  const mockClient = {
+    from(table) {
+      assert(table === 'app_users', 'profile update should write app_users')
+      return {
+        update(body) {
+          updates.push(body)
+          return {
+            eq() {
+              return {
+                select() {
+                  return {
+                    single: async () => ({
+                      data: {
+                        id: 'profile_contract_id',
+                        display_name: body.display_name,
+                        avatar_type: body.avatar_type,
+                        avatar_preset: body.avatar_preset,
+                        avatar_url: body.avatar_url,
+                        preferences: body.preferences
+                      },
+                      error: null
+                    })
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  const updated = await updateAppUser(mockClient, 'profile_contract_id', {
+    displayName: 'BucketSran',
+    avatarType: 'preset',
+    avatarPreset: 'frog',
+    avatarUrl: '',
+    preferences: ['近', '近', '实惠']
+  })
+  assert(updates[0].display_name === 'BucketSran', 'profile update must map displayName to display_name')
+  assert(updates[0].avatar_preset === 'frog', 'profile update must map avatarPreset to avatar_preset')
+  assert(updated.preferences.length === 2, 'profile update must deduplicate preferences')
+}
+
 function createMockResponse() {
   return {
     body: undefined,
@@ -319,6 +387,7 @@ async function main() {
   checkLegacyRestaurantData()
   checkSeedData()
   await checkApiService()
+  await checkProfileContracts()
   await checkApiHandlers()
   checkSupabaseFiles()
   checkDeploymentScripts()

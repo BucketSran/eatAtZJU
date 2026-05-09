@@ -12,12 +12,16 @@ export type AppUserProfile = {
 }
 
 function normalizeProfile(row: Record<string, unknown>): AppUserProfile {
+  const displayName = row.displayName ?? row.display_name
+  const avatarType = row.avatarType ?? row.avatar_type
+  const avatarPreset = row.avatarPreset ?? row.avatar_preset
+  const avatarUrl = row.avatarUrl ?? row.avatar_url
   return {
     id: String(row.id),
-    displayName: String(row.display_name || 'ZJU student'),
-    avatarType: row.avatar_type === 'custom' ? 'custom' : 'preset',
-    avatarPreset: String(row.avatar_preset || 'rice'),
-    avatarUrl: String(row.avatar_url || ''),
+    displayName: String(displayName || 'ZJU student'),
+    avatarType: avatarType === 'custom' ? 'custom' : 'preset',
+    avatarPreset: String(avatarPreset || 'rice'),
+    avatarUrl: String(avatarUrl || ''),
     preferences: Array.isArray(row.preferences) ? row.preferences.filter((tag): tag is string => typeof tag === 'string') : []
   }
 }
