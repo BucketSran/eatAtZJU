@@ -94,11 +94,29 @@ async function uploadAvatarFile(file) {
   return result.avatarUrl
 }
 
+async function sendCampusEmailOtp(email) {
+  return callCloud('sendCampusEmailOtp', { email })
+}
+
+async function verifyCampusEmailOtp(email, token) {
+  return callCloud('verifyCampusEmailOtp', { email, token })
+}
+
+async function confirmCampusEmailBind(mergeToken, choices) {
+  const result = await callCloud('confirmCampusEmailBind', { mergeToken, choices })
+  if (result.profile) saveLocalProfile(result.profile)
+  if (Array.isArray(result.profile && result.profile.preferences)) setPreferences(result.profile.preferences)
+  return result
+}
+
 module.exports = {
   PRESET_AVATARS,
   MAX_AVATAR_SIZE,
+  confirmCampusEmailBind,
   getPresetAvatar,
   loadProfile,
   saveProfile,
+  sendCampusEmailOtp,
+  verifyCampusEmailOtp,
   uploadAvatarFile
 }

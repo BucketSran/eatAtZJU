@@ -25,6 +25,74 @@
   </view>
 
   <view class="section-title">
+    <text class="section-title-main">绑定浙大邮箱</text>
+    <text class="section-title-sub">绑定后微信和邮箱共用同一个账号</text>
+  </view>
+  <view class="bind-card">
+    <view class="bind-copy">先用微信进入小程序也没关系。绑定校园邮箱后，用户名、头像和偏好会合并；有冲突时你可以自己选保留哪边。</view>
+    <input class="username-input" type="text" value="{{bindEmail}}" placeholder="yourname@zju.edu.cn" bindinput="updateBindEmail" />
+    <view class="otp-row">
+      <input class="username-input otp-input" type="number" value="{{bindOtp}}" maxlength="8" placeholder="邮箱验证码" bindinput="updateBindOtp" />
+      <button class="send-code-button" loading="{{isBindingEmail}}" bindtap="sendBindOtp">发验证码</button>
+    </view>
+    <button class="upload-button" loading="{{isBindingEmail}}" bindtap="previewEmailBind">验证并预览合并</button>
+    <view wx:if="{{bindStatus}}" class="bind-status">{{bindStatus}}</view>
+  </view>
+
+  <view wx:if="{{pendingMerge}}" class="merge-card">
+    <view class="merge-title">资料冲突处理</view>
+    <view class="merge-sub">邮箱：{{pendingMerge.email}}</view>
+
+    <view class="merge-field">
+      <view class="merge-label">用户名</view>
+      <radio-group bindchange="chooseDisplayNameMerge">
+        <label class="merge-option">
+          <radio value="source" checked="{{mergeChoices.displayName === 'source'}}" />
+          <text>保留微信：{{pendingMerge.preview.source.displayName}}</text>
+        </label>
+        <label class="merge-option">
+          <radio value="target" checked="{{mergeChoices.displayName === 'target'}}" />
+          <text>保留邮箱：{{pendingMerge.preview.target.displayName}}</text>
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="merge-field">
+      <view class="merge-label">头像</view>
+      <radio-group bindchange="chooseAvatarMerge">
+        <label class="merge-option">
+          <radio value="source" checked="{{mergeChoices.avatar === 'source'}}" />
+          <text>保留微信头像</text>
+        </label>
+        <label class="merge-option">
+          <radio value="target" checked="{{mergeChoices.avatar === 'target'}}" />
+          <text>保留邮箱头像</text>
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="merge-field">
+      <view class="merge-label">口味偏好</view>
+      <radio-group bindchange="choosePreferenceMerge">
+        <label class="merge-option">
+          <radio value="union" checked="{{mergeChoices.preferences === 'union'}}" />
+          <text>合并两边：{{pendingMerge.preview.unionPreferences}}</text>
+        </label>
+        <label class="merge-option">
+          <radio value="source" checked="{{mergeChoices.preferences === 'source'}}" />
+          <text>只保留微信：{{pendingMerge.preview.source.preferences}}</text>
+        </label>
+        <label class="merge-option">
+          <radio value="target" checked="{{mergeChoices.preferences === 'target'}}" />
+          <text>只保留邮箱：{{pendingMerge.preview.target.preferences}}</text>
+        </label>
+      </radio-group>
+    </view>
+
+    <button class="confirm-bind-button" loading="{{isBindingEmail}}" bindtap="confirmEmailBind">确认合并账号</button>
+  </view>
+
+  <view class="section-title">
     <text class="section-title-main">口味档案</text>
     <text class="section-title-sub">点一下就会影响推荐</text>
   </view>

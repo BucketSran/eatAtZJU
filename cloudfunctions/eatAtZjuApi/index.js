@@ -18,9 +18,11 @@ const DEFAULT_AVATAR = {
   color: '#f0aa38'
 }
 
+const DEFAULT_CAMPUS_EMAIL_DOMAINS = ['zju.edu.cn', 'st.zju.edu.cn', 'intl.zju.edu.cn']
 const AVATAR_BUCKET = 'app-avatars'
 const MAX_AVATAR_BYTES = 1024 * 1024
 const ALLOWED_AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+const LINK_CODE_TTL_MINUTES = 15
 
 function parseList(value) {
   if (!value) return []
@@ -228,6 +230,59 @@ function requestStorageObject(bucket, objectPath, options = {}) {
   })
 }
 
+function requestAuth(pathname, options = {}) {
+  const { url, key } = getSupabaseConfig()
+  if (!url || !key) {
+    const error = new Error('Supabase is not configured')
+    error.code = 'supabase_not_configured'
+    throw error
+  }
+
+  const target = new URL(`${url}/auth/v1/${pathname}`)
+  const body = options.body === undefined ? undefined : JSON.stringify(options.body)
+
+  return new Promise((resolve, reject) => {
+    const req = https.request(
+      target,
+      {
+        method: options.method || 'POST',
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+          Accept: 'application/json',
+          ...(body ? { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) } : {})
+        },
+        timeout: 15000
+      },
+      (res) => {
+        let responseBody = ''
+        res.setEncoding('utf8')
+        res.on('data', (chunk) => {
+          responseBody += chunk
+        })
+        res.on('end', () => {
+          if (res.statusCode < 200 || res.statusCode >= 300) {
+            const error = new Error(`Supabase Auth ${res.statusCode}: ${responseBody.slice(0, 300)}`)
+            error.statusCode = res.statusCode
+            reject(error)
+            return
+          }
+
+          try {
+            resolve(responseBody ? JSON.parse(responseBody) : null)
+          } catch (error) {
+            reject(error)
+          }
+        })
+      }
+    )
+    req.on('timeout', () => req.destroy(new Error('Supabase Auth request timeout')))
+    req.on('error', reject)
+    if (body) req.write(body)
+    req.end()
+  })
+}
+
 function toNumber(value) {
   if (value === null || value === undefined) return 0
   return Number(value)
@@ -285,6 +340,69 @@ function normalizeDisplayName(value) {
   return name || 'ZJU Student'
 }
 
+function getAllowedCampusEmailDomains() {
+  const raw = process.env.CAMPUS_EMAIL_DOMAINS
+  if (!raw) return DEFAULT_CAMPUS_EMAIL_DOMAINS
+  return raw
+    .split(',')
+    .map((domain) => domain.trim().toLowerCase())
+    .filter(Boolean)
+}
+
+function isAllowedCampusEmail(email) {
+  const domain = String(email || '').toLowerCase().split('@').pop()
+  return Boolean(domain && getAllowedCampusEmailDomains().some((allowedDomain) => {
+    if (allowedDomain.startsWith('*.')) return domain.endsWith(`.${allowedDomain.slice(2)}`)
+    return domain === allowedDomain
+  }))
+}
+
+function normalizeEmail(email) {
+  return String(email || '').trim().toLowerCase()
+}
+
+function generateLinkCode() {
+  return Math.random().toString(36).slice(2, 6).toUpperCase() + Math.random().toString(36).slice(2, 6).toUpperCase()
+}
+
+function summarizeProfile(row) {
+  const mapped = mapAppUser(row)
+  return {
+    id: mapped.id,
+    displayName: mapped.displayName,
+    avatarType: mapped.avatarType,
+    avatarPreset: mapped.avatarPreset,
+    avatarUrl: mapped.avatarUrl,
+    preferences: mapped.preferences
+  }
+}
+
+function hasUsefulDisplayName(profile) {
+  const value = normalizeDisplayName(profile && profile.display_name)
+  return !['ZJU Student', 'ZJU student'].includes(value)
+}
+
+function hasUsefulAvatar(profile) {
+  return Boolean(profile && (profile.avatar_type === 'custom' || (profile.avatar_preset && profile.avatar_preset !== 'rice')))
+}
+
+function buildMergePreview(source, target) {
+  const sourcePrefs = Array.isArray(source.preferences) ? source.preferences : []
+  const targetPrefs = Array.isArray(target.preferences) ? target.preferences : []
+  const unionPrefs = [...new Set([...targetPrefs, ...sourcePrefs])].slice(0, 20)
+  return {
+    source: summarizeProfile(source),
+    target: summarizeProfile(target),
+    recommended: {
+      displayName: hasUsefulDisplayName(source) && !hasUsefulDisplayName(target) ? 'source' : 'target',
+      avatar: hasUsefulAvatar(source) && !hasUsefulAvatar(target) ? 'source' : 'target',
+      preferences: 'union'
+    },
+    unionPreferences: unionPrefs,
+    expiresInMinutes: LINK_CODE_TTL_MINUTES
+  }
+}
+
 function normalizeAvatar(profile = {}) {
   const avatarType = profile.avatarType === 'custom' ? 'custom' : 'preset'
   const avatarPreset = String(profile.avatarPreset || 'rice').slice(0, 40)
@@ -328,6 +446,58 @@ async function fetchAppUserById(appUserId) {
     limit: 1
   })
   return rows && rows[0] ? rows[0] : null
+}
+
+async function fetchIdentityLink(provider, providerUserId) {
+  const rows = await requestJson('identity_links', {
+    select: 'app_user_id,auth_user_id,provider,provider_user_id',
+    provider: `eq.${provider}`,
+    provider_user_id: `eq.${providerUserId}`,
+    limit: 1
+  })
+  return rows && rows[0] ? rows[0] : null
+}
+
+async function ensureSupabaseAuthAppUser(authUser, email) {
+  if (!authUser || !authUser.id) throw new Error('missing_supabase_auth_user')
+  const existingLink = await fetchIdentityLink('supabase_auth', authUser.id)
+  if (existingLink && existingLink.app_user_id) {
+    const existing = await fetchAppUserById(existingLink.app_user_id)
+    if (existing) return existing
+  }
+
+  let appUser = await fetchAppUserById(authUser.id)
+  if (!appUser) {
+    const users = await requestRest('app_users', {
+      method: 'POST',
+      prefer: 'return=representation',
+      body: {
+        id: authUser.id,
+        display_name: normalizeDisplayName((email || authUser.email || '').split('@')[0] || 'ZJU Student'),
+        avatar_type: 'preset',
+        avatar_preset: 'rice',
+        preferences: [],
+        primary_channel: 'supabase_auth'
+      }
+    })
+    appUser = users && users[0]
+    if (!appUser) throw new Error('failed_to_create_email_app_user')
+  }
+
+  await requestRest('identity_links', {
+    method: 'POST',
+    prefer: 'return=minimal',
+    body: {
+      app_user_id: appUser.id,
+      provider: 'supabase_auth',
+      provider_user_id: authUser.id,
+      auth_user_id: authUser.id,
+      metadata: { source: 'mini_program_email_bind' },
+      last_seen_at: new Date().toISOString()
+    }
+  })
+
+  return appUser
 }
 
 async function ensureWechatAppUser(openId) {
@@ -451,6 +621,197 @@ async function uploadAvatar(event = {}) {
   }
 }
 
+async function sendCampusEmailOtp(event = {}) {
+  const email = normalizeEmail(event.email)
+  if (!email || !email.includes('@')) return { ok: false, error: 'invalid_email' }
+  if (!isAllowedCampusEmail(email)) {
+    return {
+      ok: false,
+      error: 'unsupported_campus_email',
+      allowedDomains: getAllowedCampusEmailDomains()
+    }
+  }
+
+  await requestAuth('otp', {
+    body: {
+      email,
+      create_user: true,
+      data: { source: 'eatAtZJU_mini_program' }
+    }
+  })
+
+  return {
+    ok: true,
+    email,
+    allowedDomains: getAllowedCampusEmailDomains()
+  }
+}
+
+async function verifyCampusEmailOtp(event = {}) {
+  const openId = getOpenId(event)
+  const source = await ensureWechatAppUser(openId)
+  const email = normalizeEmail(event.email)
+  const token = String(event.token || event.otp || '').replace(/\D/g, '').slice(0, 8)
+  if (!email || !token) return { ok: false, error: 'missing_email_or_token' }
+  if (!isAllowedCampusEmail(email)) return { ok: false, error: 'unsupported_campus_email', allowedDomains: getAllowedCampusEmailDomains() }
+
+  const verified = await requestAuth('verify', {
+    body: {
+      email,
+      token,
+      type: 'email'
+    }
+  })
+  const authUser = verified && verified.user
+  if (!authUser || !authUser.id) return { ok: false, error: 'email_otp_verify_failed' }
+
+  const target = await ensureSupabaseAuthAppUser(authUser, email)
+  const trustRows = await requestJson('user_trust', {
+    select: 'credit_score,contribution_count',
+    user_id: `eq.${authUser.id}`,
+    limit: 1
+  })
+  const existingTrust = trustRows && trustRows[0] ? trustRows[0] : {}
+  await requestRest('user_trust', {
+    method: 'POST',
+    query: { on_conflict: 'user_id' },
+    prefer: 'resolution=merge-duplicates,return=minimal',
+    body: {
+      user_id: authUser.id,
+      campus_email: email,
+      campus_email_verified: true,
+      credit_score: Math.max(Number(existingTrust.credit_score || 50), 60),
+      contribution_count: Number(existingTrust.contribution_count || 0)
+    }
+  })
+
+  const code = generateLinkCode()
+  const expiresAt = new Date(Date.now() + LINK_CODE_TTL_MINUTES * 60 * 1000).toISOString()
+  await requestRest('account_link_codes', {
+    method: 'POST',
+    prefer: 'return=minimal',
+    body: {
+      code,
+      app_user_id: target.id,
+      created_by_provider: 'supabase_auth',
+      created_by_identity: authUser.id,
+      expires_at: expiresAt,
+      metadata: {
+        purpose: 'mini_campus_email_bind',
+        email,
+        auth_user_id: authUser.id,
+        source_app_user_id: source.id,
+        source_provider: 'wechat_miniapp'
+      }
+    }
+  })
+
+  return {
+    ok: true,
+    mergeToken: code,
+    email,
+    campusEmailVerified: true,
+    preview: buildMergePreview(source, target)
+  }
+}
+
+async function confirmCampusEmailBind(event = {}) {
+  const openId = getOpenId(event)
+  const source = await ensureWechatAppUser(openId)
+  const mergeToken = String(event.mergeToken || event.code || '').trim().toUpperCase()
+  const choices = event.choices || {}
+  if (!mergeToken) return { ok: false, error: 'missing_merge_token' }
+
+  const codes = await requestJson('account_link_codes', {
+    select: 'id,code,app_user_id,metadata,expires_at,consumed_at',
+    code: `eq.${mergeToken}`,
+    consumed_at: 'is.null',
+    limit: 1
+  })
+  const linkCode = codes && codes[0]
+  if (!linkCode) return { ok: false, error: 'invalid_or_consumed_merge_token' }
+  if (new Date(linkCode.expires_at).getTime() < Date.now()) return { ok: false, error: 'expired_merge_token' }
+  if (linkCode.metadata && linkCode.metadata.source_app_user_id && linkCode.metadata.source_app_user_id !== source.id) {
+    return { ok: false, error: 'merge_token_belongs_to_another_wechat_account' }
+  }
+
+  const target = await fetchAppUserById(linkCode.app_user_id)
+  if (!target) return { ok: false, error: 'target_account_not_found' }
+  const preview = buildMergePreview(source, target)
+  const displayNameChoice = choices.displayName === 'source' ? 'source' : 'target'
+  const avatarChoice = choices.avatar === 'source' ? 'source' : 'target'
+  const preferenceChoice = ['source', 'target', 'union'].includes(choices.preferences) ? choices.preferences : 'union'
+
+  const mergedPreferences = preferenceChoice === 'source'
+    ? (source.preferences || [])
+    : preferenceChoice === 'target'
+      ? (target.preferences || [])
+      : preview.unionPreferences
+  const avatarSource = avatarChoice === 'source' ? source : target
+
+  const rows = await requestRest('app_users', {
+    method: 'PATCH',
+    query: { id: `eq.${target.id}` },
+    prefer: 'return=representation',
+    body: {
+      display_name: displayNameChoice === 'source' ? source.display_name : target.display_name,
+      avatar_type: avatarSource.avatar_type || 'preset',
+      avatar_preset: avatarSource.avatar_preset || 'rice',
+      avatar_url: avatarSource.avatar_url || '',
+      preferences: mergedPreferences.slice(0, 20),
+      primary_channel: target.primary_channel === 'supabase_auth' ? 'supabase_auth' : 'wechat_miniapp'
+    }
+  })
+  const merged = rows && rows[0] ? rows[0] : target
+
+  await requestRest('identity_links', {
+    method: 'PATCH',
+    query: {
+      provider: 'eq.wechat_miniapp',
+      provider_user_id: `eq.${openId}`
+    },
+    body: {
+      app_user_id: target.id,
+      metadata: {
+        source: 'mini_program_campus_email_bind',
+        merged_from_app_user_id: source.id
+      },
+      last_seen_at: new Date().toISOString()
+    }
+  })
+
+  await requestRest('account_link_codes', {
+    method: 'PATCH',
+    query: { code: `eq.${mergeToken}` },
+    body: {
+      consumed_at: new Date().toISOString(),
+      consumed_by_provider: 'wechat_miniapp',
+      consumed_by_identity: openId
+    }
+  })
+
+  if (source.id !== target.id) {
+    const remainingLinks = await requestJson('identity_links', {
+      select: 'id',
+      app_user_id: `eq.${source.id}`,
+      limit: 1
+    })
+    if (!remainingLinks || !remainingLinks.length) {
+      await requestRest('app_users', {
+        method: 'DELETE',
+        query: { id: `eq.${source.id}` }
+      })
+    }
+  }
+
+  return {
+    ok: true,
+    profile: mapAppUser(merged),
+    campusEmailVerified: true,
+    source: 'supabase'
+  }
+}
+
 async function fetchPublishedRestaurants(query = {}) {
   const rows = await requestJson('restaurants', {
     select: 'id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,reason,status',
@@ -529,6 +890,9 @@ exports.main = async (event = {}) => {
     if (action === 'getUserProfile') return getUserProfile(event)
     if (action === 'updateUserProfile') return updateUserProfile(event)
     if (action === 'uploadAvatar') return uploadAvatar(event)
+    if (action === 'sendCampusEmailOtp') return sendCampusEmailOtp(event)
+    if (action === 'verifyCampusEmailOtp') return verifyCampusEmailOtp(event)
+    if (action === 'confirmCampusEmailBind') return confirmCampusEmailBind(event)
     return { ok: false, error: 'unknown_action' }
   } catch (error) {
     console.error('[eatAtZjuApi]', action, error)
