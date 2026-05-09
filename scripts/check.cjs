@@ -189,6 +189,11 @@ async function checkApiService() {
 async function checkProfileContracts() {
   const { readJsonBody } = require('../api/_shared/requestBody.cjs')
   const { mapAppUser, updateAppUser } = require('../api/_shared/appProfile.cjs')
+  const webProfileService = fs.readFileSync(path.join(root, 'src/services/appUserProfileService.ts'), 'utf8')
+  const apiProfileService = fs.readFileSync(path.join(root, 'api/_shared/appProfile.cjs'), 'utf8')
+  const avatarHandler = fs.readFileSync(path.join(root, 'api/profile/avatar.js'), 'utf8')
+  const profileRoute = fs.readFileSync(path.join(root, 'src/routes/ProfilePage.tsx'), 'utf8')
+  const miniProfileService = fs.readFileSync(path.join(root, 'services/userProfileService.js'), 'utf8')
 
   const parsedBuffer = await readJsonBody({ body: Buffer.from(JSON.stringify({ displayName: 'BucketSran', avatarPreset: 'duck' })) })
   assert(parsedBuffer.displayName === 'BucketSran', 'request body parser must read Buffer JSON bodies')
@@ -252,6 +257,14 @@ async function checkProfileContracts() {
   assert(updates[0].display_name === 'BucketSran', 'profile update must map displayName to display_name')
   assert(updates[0].avatar_preset === 'frog', 'profile update must map avatarPreset to avatar_preset')
   assert(updated.preferences.length === 2, 'profile update must deduplicate preferences')
+  await updateAppUser(mockClient, 'profile_contract_id', { displayName: 'Only Name' })
+  assert(Object.keys(updates[1]).length === 1 && updates[1].display_name === 'Only Name', 'profile update must PATCH only changed fields')
+  assert(webProfileService.includes('const AVATAR_MAX_BYTES = 512 * 1024'), 'web avatar limit must be 0.5MB')
+  assert(apiProfileService.includes('const MAX_AVATAR_BYTES = 512 * 1024'), 'api avatar limit must be 0.5MB')
+  assert(miniProfileService.includes('const MAX_AVATAR_SIZE = 512 * 1024'), 'mini avatar limit must be 0.5MB')
+  assert(!webProfileService.includes('const current = await ensureAppUserProfile()'), 'profile PATCH should not prefetch current profile before every save')
+  assert(avatarHandler.includes('updateAppUser(auth.client, appUser.id'), 'avatar upload endpoint must persist avatar in the same request')
+  assert(!profileRoute.includes('const avatarUrl = await uploadAppUserAvatar'), 'web avatar upload should not require a second profile PATCH')
 }
 
 function createMockResponse() {

@@ -1,5 +1,5 @@
 const AVATAR_BUCKET = 'app-avatars'
-const MAX_AVATAR_BYTES = 1024 * 1024
+const MAX_AVATAR_BYTES = 512 * 1024
 const ALLOWED_AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
 
 function normalizeDisplayName(value) {
@@ -150,7 +150,7 @@ async function uploadAvatar(client, appUserId, file) {
     throw error
   }
   if (buffer.length > MAX_AVATAR_BYTES) {
-    const error = new Error('头像需小于 1MB')
+    const error = new Error('头像需小于 0.5MB')
     error.status = 413
     throw error
   }

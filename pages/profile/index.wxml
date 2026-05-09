@@ -21,7 +21,7 @@
         <text>{{item.label}}</text>
       </button>
     </view>
-    <button class="upload-button" bindtap="chooseCustomAvatar">上传自定义头像（小于 1MB）</button>
+    <button class="upload-button" bindtap="chooseCustomAvatar">上传自定义头像（小于 0.5MB）</button>
   </view>
 
   <view class="section-title">

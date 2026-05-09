@@ -2,7 +2,7 @@ const { PRESET_AVATARS, getPresetAvatar } = require('../utils/avatar')
 const { getProfile, setProfile, getPreferences, setPreferences } = require('../utils/storage')
 
 const CLOUD_FUNCTION_NAME = 'eatAtZjuApi'
-const MAX_AVATAR_SIZE = 1024 * 1024
+const MAX_AVATAR_SIZE = 512 * 1024
 
 function getCloudReady() {
   const app = typeof getApp === 'function' ? getApp() : null

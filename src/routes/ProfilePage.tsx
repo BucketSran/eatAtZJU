@@ -232,8 +232,7 @@ export function ProfilePage() {
     setProfileAction('uploadingAvatar')
     showAccountStatus('正在上传头像...')
     try {
-      const avatarUrl = await uploadAppUserAvatar(file)
-      const profile = await updateAppUserProfile({ avatarType: 'custom', avatarUrl })
+      const profile = await uploadAppUserAvatar(file)
       setAppProfile(profile)
       showAccountStatus('自定义头像已上传并保存。', 'success')
     } catch (error) {
@@ -327,7 +326,7 @@ export function ProfilePage() {
                 })}
               </div>
               <label className={`avatar-upload-control ${profileAction === 'uploadingAvatar' ? 'is-uploading' : ''}`}>
-                <span>{profileAction === 'uploadingAvatar' ? '上传中...' : '上传自定义头像（小于 1MB）'}</span>
+                <span>{profileAction === 'uploadingAvatar' ? '上传中...' : '上传自定义头像（自动压缩到 0.5MB 内）'}</span>
                 <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" disabled={isProfileBusy} onChange={(event) => uploadCustomAvatar(event.currentTarget.files?.[0] ?? null)} />
               </label>
             </div>

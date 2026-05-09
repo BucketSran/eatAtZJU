@@ -20,7 +20,7 @@ const DEFAULT_AVATAR = {
 
 const DEFAULT_CAMPUS_EMAIL_DOMAINS = ['zju.edu.cn', 'st.zju.edu.cn', 'intl.zju.edu.cn']
 const AVATAR_BUCKET = 'app-avatars'
-const MAX_AVATAR_BYTES = 1024 * 1024
+const MAX_AVATAR_BYTES = 512 * 1024
 const ALLOWED_AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
 const LINK_CODE_TTL_MINUTES = 15
 

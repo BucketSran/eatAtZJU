@@ -2,6 +2,10 @@ import { getPresetAvatar } from '../lib/avatars'
 import { getPreferenceTags, setPreferenceTags } from './preferenceStore'
 import { getSupabaseBrowserClient } from './supabaseBrowserClient'
 
+const AVATAR_MAX_BYTES = 512 * 1024
+const AVATAR_MAX_DIMENSION = 512
+const AVATAR_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+
 export type AppUserProfile = {
   avatarPreset: string
   avatarType: 'preset' | 'custom'
@@ -65,31 +69,19 @@ export async function updateAppUserProfile(profile: Partial<Pick<AppUserProfile,
   const client = getSupabaseBrowserClient()
   if (!client) throw new Error('Supabase browser client is not configured')
 
-  const current = await ensureAppUserProfile()
-  if (!current) throw new Error('Profile is not available')
+  if (!Object.keys(profile).length) throw new Error('没有需要保存的资料变化')
 
   const body = await requestProfileApi<{ profile: Record<string, unknown> }>('/api/profile', {
     method: 'PATCH',
-    body: JSON.stringify({
-      displayName: profile.displayName ?? current.displayName,
-      avatarType: profile.avatarType ?? current.avatarType,
-      avatarPreset: profile.avatarPreset ?? current.avatarPreset,
-      avatarUrl: profile.avatarUrl ?? current.avatarUrl,
-      preferences: profile.preferences ?? current.preferences
-    })
+    body: JSON.stringify(profile)
   })
   const next = normalizeProfile(body.profile)
   setPreferenceTags(next.preferences)
   return next
 }
 
-export async function uploadAppUserAvatar(file: File) {
-  const client = getSupabaseBrowserClient()
-  if (!client) throw new Error('Supabase browser client is not configured')
-  if (file.size > 1024 * 1024) throw new Error('头像需小于 1MB')
-  if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type)) throw new Error('仅支持 JPG / PNG / WebP / GIF')
-
-  const base64Data = await new Promise<string>((resolve, reject) => {
+async function readFileAsBase64(file: File) {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {
       const result = String(reader.result || '')
@@ -98,15 +90,80 @@ export async function uploadAppUserAvatar(file: File) {
     reader.onerror = () => reject(new Error('头像读取失败'))
     reader.readAsDataURL(file)
   })
-  const body = await requestProfileApi<{ avatarUrl: string }>('/api/profile/avatar', {
+}
+
+async function loadImage(file: File) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const url = URL.createObjectURL(file)
+    const image = new Image()
+    image.onload = () => {
+      URL.revokeObjectURL(url)
+      resolve(image)
+    }
+    image.onerror = () => {
+      URL.revokeObjectURL(url)
+      reject(new Error('头像图片解析失败'))
+    }
+    image.src = url
+  })
+}
+
+function canvasToBlob(canvas: HTMLCanvasElement, type: string, quality: number) {
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) reject(new Error('头像压缩失败'))
+      else resolve(blob)
+    }, type, quality)
+  })
+}
+
+async function compressAvatarFile(file: File) {
+  if (file.size <= AVATAR_MAX_BYTES) return file
+  if (file.type === 'image/gif') throw new Error('GIF 头像需小于 0.5MB，或请换 JPG / PNG / WebP')
+
+  const image = await loadImage(file)
+  const scale = Math.min(1, AVATAR_MAX_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight))
+  const width = Math.max(1, Math.round(image.naturalWidth * scale))
+  const height = Math.max(1, Math.round(image.naturalHeight * scale))
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+
+  const context = canvas.getContext('2d')
+  if (!context) throw new Error('当前浏览器不支持头像压缩')
+  context.fillStyle = '#fffaf1'
+  context.fillRect(0, 0, width, height)
+  context.drawImage(image, 0, 0, width, height)
+
+  for (const quality of [0.82, 0.72, 0.62, 0.52, 0.42]) {
+    const blob = await canvasToBlob(canvas, 'image/jpeg', quality)
+    if (blob.size <= AVATAR_MAX_BYTES) {
+      return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' })
+    }
+  }
+
+  throw new Error('头像压缩后仍超过 0.5MB，请换一张更小的图片')
+}
+
+export async function uploadAppUserAvatar(file: File) {
+  const client = getSupabaseBrowserClient()
+  if (!client) throw new Error('Supabase browser client is not configured')
+  if (!AVATAR_ALLOWED_TYPES.includes(file.type)) throw new Error('仅支持 JPG / PNG / WebP / GIF')
+
+  const uploadFile = await compressAvatarFile(file)
+  if (uploadFile.size > AVATAR_MAX_BYTES) throw new Error('头像需小于 0.5MB')
+  const base64Data = await readFileAsBase64(uploadFile)
+  const body = await requestProfileApi<{ avatarUrl: string, profile: Record<string, unknown> }>('/api/profile/avatar', {
     method: 'POST',
     body: JSON.stringify({
       base64Data,
-      contentType: file.type,
-      fileName: file.name
+      contentType: uploadFile.type,
+      fileName: uploadFile.name
     })
   })
-  return body.avatarUrl
+  const profile = normalizeProfile(body.profile)
+  setPreferenceTags(profile.preferences)
+  return profile
 }
 
 export function getProfileAvatar(profile: AppUserProfile | null) {

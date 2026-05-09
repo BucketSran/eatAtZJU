@@ -1,4 +1,4 @@
-const { ensureAppUserForAuth, uploadAvatar } = require('../_shared/appProfile.cjs')
+const { ensureAppUserForAuth, mapAppUser, updateAppUser, uploadAvatar } = require('../_shared/appProfile.cjs')
 const { requireAuthenticatedUser } = require('../_shared/auth.cjs')
 const { readJsonBody } = require('../_shared/requestBody.cjs')
 
@@ -23,7 +23,11 @@ module.exports = async function handler(req, res) {
     }
     const appUser = await ensureAppUserForAuth(auth.client, auth.user)
     const result = await uploadAvatar(auth.client, appUser.id, body)
-    return res.status(200).json(result)
+    const nextUser = await updateAppUser(auth.client, appUser.id, {
+      avatarType: 'custom',
+      avatarUrl: result.avatarUrl
+    })
+    return res.status(200).json({ ...result, profile: mapAppUser(nextUser) })
   } catch (error) {
     if (error instanceof SyntaxError) return res.status(400).json({ error: 'Invalid JSON body' })
     return sendError(res, error)

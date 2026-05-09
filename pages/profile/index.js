@@ -125,7 +125,7 @@ Page({
         const file = res.tempFiles && res.tempFiles[0]
         if (!file) return
         if (file.size > profileService.MAX_AVATAR_SIZE) {
-          wx.showToast({ title: '头像需小于 1MB', icon: 'none' })
+          wx.showToast({ title: '头像需小于 0.5MB', icon: 'none' })
           return
         }
         wx.showLoading({ title: '上传头像' })
