@@ -109,6 +109,31 @@ export async function updateAppUserProfile(profile: Partial<Pick<AppUserProfile,
   return next
 }
 
+export async function uploadAppUserAvatar(file: File) {
+  const client = getSupabaseBrowserClient()
+  if (!client) throw new Error('Supabase browser client is not configured')
+  if (file.size > 1024 * 1024) throw new Error('头像需小于 1MB')
+  if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type)) throw new Error('仅支持 JPG / PNG / WebP / GIF')
+
+  const { data: userData, error: userError } = await client.auth.getUser()
+  if (userError) throw userError
+  if (!userData.user) throw new Error('Please sign in first')
+
+  const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, '-')
+  const objectPath = `${userData.user.id}/${Date.now()}-${safeName || 'avatar.jpg'}`
+  const { error: uploadError } = await client.storage
+    .from('app-avatars')
+    .upload(objectPath, file, {
+      cacheControl: '3600',
+      contentType: file.type,
+      upsert: false
+    })
+
+  if (uploadError) throw uploadError
+  const { data } = client.storage.from('app-avatars').getPublicUrl(objectPath)
+  return data.publicUrl
+}
+
 export function getProfileAvatar(profile: AppUserProfile | null) {
   return getPresetAvatar(profile?.avatarPreset)
 }

@@ -3,7 +3,7 @@ import { GlassCard } from '../components/GlassCard'
 import { getPresetAvatar, presetAvatars } from '../lib/avatars'
 import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
 import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, verifyEmailOtp, type AuthState } from '../services/authService'
-import { ensureAppUserProfile, updateAppUserProfile, type AppUserProfile } from '../services/appUserProfileService'
+import { ensureAppUserProfile, updateAppUserProfile, uploadAppUserAvatar, type AppUserProfile } from '../services/appUserProfileService'
 import { pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
 import { defaultPreferences, getPreferenceTags, resetPreferenceTags, setPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
 import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata } from '../services/restaurantService'
@@ -175,6 +175,19 @@ export function ProfilePage() {
     }
   }
 
+  async function uploadCustomAvatar(file: File | null) {
+    if (!file) return
+    setAccountStatus('正在上传头像...')
+    try {
+      const avatarUrl = await uploadAppUserAvatar(file)
+      const profile = await updateAppUserProfile({ avatarType: 'custom', avatarUrl })
+      setAppProfile(profile)
+      setAccountStatus('自定义头像已同步到 Supabase Storage。')
+    } catch (error) {
+      setAccountStatus(error instanceof Error ? error.message : '头像上传失败')
+    }
+  }
+
   const profileAvatar = getPresetAvatar(appProfile?.avatarPreset)
 
   return (
@@ -223,6 +236,10 @@ export function ProfilePage() {
                 </button>
               ))}
             </div>
+            <label className="avatar-upload-control">
+              <span>上传自定义头像（小于 1MB）</span>
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => uploadCustomAvatar(event.currentTarget.files?.[0] ?? null)} />
+            </label>
             <div className={`trust-pill ${campusTrust?.campusEmailVerified ? 'verified' : ''}`}>
               <strong>{campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'}</strong>
               <span>{campusTrust?.campusEmailVerified ? `${campusTrust.campusEmail} · 信用分 ${campusTrust.creditScore}` : '验证后可用于学生可信贡献、审核优先级和后续约饭身份。'}</span>

@@ -1030,3 +1030,19 @@ p {
     grid-template-columns: 1fr;
   }
 }
+
+.avatar-upload-control {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px dashed rgba(49, 39, 29, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--label-secondary);
+  font-weight: 780;
+}
+
+.avatar-upload-control input {
+  color: var(--label-tertiary);
+  font-size: 13px;
+}

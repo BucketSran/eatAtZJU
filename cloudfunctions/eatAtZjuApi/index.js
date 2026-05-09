@@ -18,6 +18,10 @@ const DEFAULT_AVATAR = {
   color: '#f0aa38'
 }
 
+const AVATAR_BUCKET = 'app-avatars'
+const MAX_AVATAR_BYTES = 1024 * 1024
+const ALLOWED_AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+
 function parseList(value) {
   if (!value) return []
   if (Array.isArray(value)) return value.flatMap(parseList)
@@ -175,6 +179,55 @@ function requestRest(pathname, options = {}) {
   })
 }
 
+function requestStorageObject(bucket, objectPath, options = {}) {
+  const { key, url } = getSupabaseConfig()
+  if (!url || !key) {
+    const error = new Error('Supabase is not configured')
+    error.code = 'supabase_not_configured'
+    throw error
+  }
+
+  const target = new URL(`${url}/storage/v1/object/${bucket}/${objectPath}`)
+  const body = options.body
+
+  return new Promise((resolve, reject) => {
+    const req = https.request(
+      target,
+      {
+        method: options.method || 'POST',
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+          'Content-Type': options.contentType || 'application/octet-stream',
+          'Content-Length': body ? body.length : 0,
+          'x-upsert': options.upsert ? 'true' : 'false'
+        },
+        timeout: 15000
+      },
+      (res) => {
+        let responseBody = ''
+        res.setEncoding('utf8')
+        res.on('data', (chunk) => {
+          responseBody += chunk
+        })
+        res.on('end', () => {
+          if (res.statusCode < 200 || res.statusCode >= 300) {
+            const error = new Error(`Supabase Storage ${res.statusCode}: ${responseBody.slice(0, 300)}`)
+            error.statusCode = res.statusCode
+            reject(error)
+            return
+          }
+          resolve(responseBody)
+        })
+      }
+    )
+    req.on('timeout', () => req.destroy(new Error('Supabase Storage request timeout')))
+    req.on('error', reject)
+    if (body) req.write(body)
+    req.end()
+  })
+}
+
 function toNumber(value) {
   if (value === null || value === undefined) return 0
   return Number(value)
@@ -258,6 +311,14 @@ function mapAppUser(row) {
 
 function getOpenId(event = {}) {
   return event.openId || event.openid || (event.userInfo && (event.userInfo.openId || event.userInfo.openid))
+}
+
+function sanitizePathSegment(value, fallback = 'avatar') {
+  return String(value || fallback)
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 80) || fallback
 }
 
 async function fetchAppUserById(appUserId) {
@@ -360,6 +421,36 @@ async function updateUserProfile(event = {}) {
   }
 }
 
+async function uploadAvatar(event = {}) {
+  const openId = getOpenId(event)
+  const appUser = await ensureWechatAppUser(openId)
+  const contentType = String(event.contentType || 'image/jpeg').toLowerCase()
+  if (!ALLOWED_AVATAR_TYPES.has(contentType)) return { ok: false, error: 'unsupported_avatar_type' }
+
+  const buffer = Buffer.from(String(event.base64Data || ''), 'base64')
+  if (!buffer.length) return { ok: false, error: 'empty_avatar_file' }
+  if (buffer.length > MAX_AVATAR_BYTES) return { ok: false, error: 'avatar_too_large' }
+
+  const fileName = sanitizePathSegment(event.fileName || `avatar.${contentType.split('/')[1] || 'jpg'}`)
+  const ext = sanitizePathSegment(fileName.split('.').pop() || 'jpg', 'jpg')
+  const objectPath = `${appUser.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  await requestStorageObject(AVATAR_BUCKET, objectPath, {
+    method: 'POST',
+    contentType,
+    body: buffer,
+    upsert: false
+  })
+
+  const { url } = getSupabaseConfig()
+  const publicUrl = `${url}/storage/v1/object/public/${AVATAR_BUCKET}/${objectPath}`
+  return {
+    ok: true,
+    avatarUrl: publicUrl,
+    objectPath,
+    source: 'supabase'
+  }
+}
+
 async function fetchPublishedRestaurants(query = {}) {
   const rows = await requestJson('restaurants', {
     select: 'id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,reason,status',
@@ -437,6 +528,7 @@ exports.main = async (event = {}) => {
     if (action === 'getTodayRecommendation') return getTodayRecommendation(event)
     if (action === 'getUserProfile') return getUserProfile(event)
     if (action === 'updateUserProfile') return updateUserProfile(event)
+    if (action === 'uploadAvatar') return uploadAvatar(event)
     return { ok: false, error: 'unknown_action' }
   } catch (error) {
     console.error('[eatAtZjuApi]', action, error)

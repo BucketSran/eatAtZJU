@@ -71,9 +71,27 @@ async function uploadAvatarFile(file) {
   if (!getCloudReady()) throw new Error('cloud_not_ready')
 
   const ext = (file.tempFilePath.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg'
-  const cloudPath = `avatars/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-  const result = await wx.cloud.uploadFile({ cloudPath, filePath: file.tempFilePath })
-  return result.fileID
+  const mimeMap = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    webp: 'image/webp',
+    gif: 'image/gif'
+  }
+  const base64Data = await new Promise((resolve, reject) => {
+    wx.getFileSystemManager().readFile({
+      filePath: file.tempFilePath,
+      encoding: 'base64',
+      success: (res) => resolve(res.data),
+      fail: reject
+    })
+  })
+  const result = await callCloud('uploadAvatar', {
+    fileName: `avatar.${ext}`,
+    contentType: mimeMap[ext] || 'image/jpeg',
+    base64Data
+  })
+  return result.avatarUrl
 }
 
 module.exports = {
