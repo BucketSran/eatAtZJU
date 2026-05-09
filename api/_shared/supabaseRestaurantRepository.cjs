@@ -50,6 +50,7 @@ function mapReview(row) {
     id: row.id,
     restaurantId: row.restaurant_id,
     userName: row.display_name_snapshot,
+    avatarSnapshot: row.avatar_snapshot || undefined,
     text: row.text,
     rating: row.rating,
     status: row.status
@@ -100,7 +101,7 @@ async function getRestaurantDetail(id, query = {}) {
       .eq('status', 'published'),
     client
       .from('reviews')
-      .select('id,restaurant_id,display_name_snapshot,rating,text,status')
+      .select('id,restaurant_id,display_name_snapshot,avatar_snapshot,rating,text,status')
       .eq('restaurant_id', id)
       .eq('status', 'approved')
   ])

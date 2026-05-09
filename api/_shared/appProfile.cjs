@@ -1,6 +1,14 @@
 const AVATAR_BUCKET = 'app-avatars'
 const MAX_AVATAR_BYTES = 512 * 1024
 const ALLOWED_AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+const PRESET_AVATARS = {
+  rice: { text: '饭', color: '#f0aa38' },
+  duck: { text: '鸭', color: '#4d9a8d' },
+  frog: { text: '蛙', color: '#5aa37c' },
+  noodle: { text: '面', color: '#6d8fbd' },
+  chili: { text: '辣', color: '#c84b35' },
+  sleepy: { text: '困', color: '#8c6338' }
+}
 
 function normalizeDisplayName(value) {
   const name = String(value || 'ZJU student').trim().slice(0, 40)
@@ -32,6 +40,19 @@ function mapAppUser(row) {
     displayName: row.display_name || 'ZJU student',
     id: row.id,
     preferences: Array.isArray(row.preferences) ? row.preferences : []
+  }
+}
+
+function getAvatarSnapshot(row) {
+  const avatarType = row?.avatar_type === 'custom' ? 'custom' : 'preset'
+  const presetId = row?.avatar_preset || 'rice'
+  const preset = PRESET_AVATARS[presetId] || PRESET_AVATARS.rice
+  return {
+    type: avatarType,
+    preset: presetId,
+    url: avatarType === 'custom' ? row?.avatar_url || '' : '',
+    text: avatarType === 'custom' ? '' : preset.text,
+    color: preset.color
   }
 }
 
@@ -173,6 +194,7 @@ async function uploadAvatar(client, appUserId, file) {
 
 module.exports = {
   ensureAppUserForAuth,
+  getAvatarSnapshot,
   mapAppUser,
   updateAppUser,
   uploadAvatar

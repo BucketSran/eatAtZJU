@@ -6,6 +6,7 @@ import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
+import { setFavoriteInSupabase } from '../services/favoriteSyncService'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantSummary, SortKey } from '../types'
@@ -138,7 +139,13 @@ export function DiscoverPage() {
   }, [context, filters, randomBudget, randomTag, showRandom])
 
   function toggleFavorite(id: string) {
-    setFavoriteIds(toggleFavoriteRestaurant(id))
+    const nextIds = toggleFavoriteRestaurant(id)
+    setFavoriteIds(nextIds)
+    setFavoriteInSupabase(id, nextIds.includes(id))
+      .then(setFavoriteIds)
+      .catch(() => {
+        setDataSource('收藏已先保存在本地，登录后可同步云端')
+      })
   }
 
   function clearAllFilters() {

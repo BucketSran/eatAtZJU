@@ -2,14 +2,27 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
+import { getPresetAvatar } from '../lib/avatars'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
+import { setFavoriteInSupabase } from '../services/favoriteSyncService'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRestaurantDetail, getRestaurantDetailRemote, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantDetail } from '../services/apiRestaurantClient'
 import type { RestaurantSummary } from '../types'
+import type { Review } from '../types'
 
 function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === 'AbortError'
+}
+
+function ReviewAvatar({ review }: { review: Review }) {
+  const preset = getPresetAvatar(review.avatarSnapshot?.preset)
+  const isCustom = review.avatarSnapshot?.type === 'custom' && review.avatarSnapshot.url
+  return (
+    <span className="review-avatar" style={{ background: isCustom ? undefined : review.avatarSnapshot?.color || preset.color }}>
+      {isCustom ? <img src={review.avatarSnapshot?.url} alt="" /> : review.avatarSnapshot?.text || preset.text}
+    </span>
+  )
 }
 
 export function RestaurantDetailPage() {
@@ -60,7 +73,13 @@ export function RestaurantDetailPage() {
   }, [context, id])
 
   function toggleFavorite(restaurantId: string) {
-    setFavoriteIds(toggleFavoriteRestaurant(restaurantId))
+    const nextIds = toggleFavoriteRestaurant(restaurantId)
+    setFavoriteIds(nextIds)
+    setFavoriteInSupabase(restaurantId, nextIds.includes(restaurantId))
+      .then(setFavoriteIds)
+      .catch(() => {
+        setDataSource('收藏已先保存在本地，登录后可同步云端')
+      })
   }
 
   if (!detail) {
@@ -181,7 +200,10 @@ export function RestaurantDetailPage() {
           {reviews.map((review) => (
             <article className="review-card" key={review.id}>
               <div className="review-meta">
-                <strong>{review.userName}</strong>
+                <div className="review-author">
+                  <ReviewAvatar review={review} />
+                  <strong>{review.userName}</strong>
+                </div>
                 <span>★ {review.rating}</span>
               </div>
               <p>{review.text}</p>

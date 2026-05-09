@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { getPresetAvatar, presetAvatars } from '../lib/avatars'
+import { createAccountLinkCode, type AccountLinkCode } from '../services/accountLinkService'
 import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
 import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, verifyEmailOtp, type AuthState } from '../services/authService'
 import { ensureAppUserProfile, updateAppUserProfile, uploadAppUserAvatar, type AppUserProfile } from '../services/appUserProfileService'
-import { pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
+import { mergeFavoritesWithSupabase, pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
 import { defaultPreferences, getPreferenceTags, resetPreferenceTags, setPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
 import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata } from '../services/restaurantService'
 import type { RestaurantSummary } from '../types'
@@ -14,7 +15,7 @@ function isAbortError(error: unknown) {
 }
 
 type StatusTone = 'info' | 'success' | 'error'
-type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | null
+type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | 'creatingLinkCode' | null
 
 export function ProfilePage() {
   const metadata = getRestaurantMetadata()
@@ -30,6 +31,7 @@ export function ProfilePage() {
   const [accountStatus, setAccountStatus] = useState('')
   const [accountStatusTone, setAccountStatusTone] = useState<StatusTone>('info')
   const [appProfile, setAppProfile] = useState<AppUserProfile | null>(null)
+  const [accountLinkCode, setAccountLinkCode] = useState<AccountLinkCode | null>(null)
   const [displayNameDraft, setDisplayNameDraft] = useState('')
   const [profileAction, setProfileAction] = useState<ProfileAction>(null)
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: [] }), [preferences])
@@ -164,6 +166,33 @@ export function ProfilePage() {
       showAccountStatus(`已拉取 ${result.pulled} 个云端收藏。`, 'success')
     } catch (error) {
       showAccountStatus(error instanceof Error ? error.message : '收藏拉取失败', 'error')
+    } finally {
+      setProfileAction(null)
+    }
+  }
+
+  async function mergeFavorites() {
+    setProfileAction('syncingFavorites')
+    showAccountStatus('正在合并本地与云端收藏...')
+    try {
+      const result = await mergeFavoritesWithSupabase()
+      showAccountStatus(`收藏已合并：本地 ${result.local} 个，云端 ${result.cloud} 个，合并后 ${result.merged} 个。`, 'success')
+    } catch (error) {
+      showAccountStatus(error instanceof Error ? error.message : '收藏合并失败', 'error')
+    } finally {
+      setProfileAction(null)
+    }
+  }
+
+  async function createLinkCode() {
+    setProfileAction('creatingLinkCode')
+    showAccountStatus('正在生成账号合并码...')
+    try {
+      const code = await createAccountLinkCode()
+      setAccountLinkCode(code)
+      showAccountStatus('账号合并码已生成，10 分钟内有效。后续微信小程序接入后可用它绑定同一账号。', 'success')
+    } catch (error) {
+      showAccountStatus(error instanceof Error ? error.message : '账号合并码生成失败', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -337,9 +366,18 @@ export function ProfilePage() {
             <div className="hero-actions compact-actions">
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={verifyCampus}>{profileAction === 'verifyingCampus' ? '验证中...' : '验证校园邮箱'}</button>
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={syncProfile}>{profileAction === 'syncingPreferences' ? '同步中...' : '同步偏好'}</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={mergeFavorites}>合并收藏</button>
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pushFavorites}>推送本地收藏</button>
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pullFavorites}>拉取云端收藏</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={createLinkCode}>{profileAction === 'creatingLinkCode' ? '生成中...' : '生成账号合并码'}</button>
             </div>
+            {accountLinkCode ? (
+              <div className="link-code-panel">
+                <span>账号合并码</span>
+                <strong>{accountLinkCode.code}</strong>
+                <p>有效期至 {new Date(accountLinkCode.expiresAt).toLocaleString()}。这是给后续微信小程序绑定同一 `app_user` 用的临时码。</p>
+              </div>
+            ) : null}
           </div>
         ) : (
           <div className="form-stack">

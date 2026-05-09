@@ -109,12 +109,21 @@ function buildReviewRow(submission) {
   const payload = submission.payload || {}
   const restaurantId = cleanText(payload.restaurantId || payload.restaurant_id)
   if (!restaurantId) return null
+  const avatarSnapshot = payload.avatarSnapshot && typeof payload.avatarSnapshot === 'object'
+    ? payload.avatarSnapshot
+    : {
+        type: 'preset',
+        preset: 'rice',
+        text: '饭',
+        color: '#f0aa38'
+      }
 
   return {
     id: idFromSubmission('rv_sub', submission.id),
     restaurant_id: restaurantId,
     user_id: submission.submitter_id,
     display_name_snapshot: cleanText(payload.displayName, 'ZJU student'),
+    avatar_snapshot: avatarSnapshot,
     rating: Math.round(toNumber(payload.rating, 4, 1, 5)),
     text: cleanText(payload.content, cleanText(payload.title, '学生贡献评价')).slice(0, 500),
     tags: cleanTags(payload.tags),

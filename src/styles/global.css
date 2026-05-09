@@ -895,9 +895,35 @@ p {
 
 .review-meta {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 8px;
+}
+
+.review-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-avatar {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 13px;
+  color: #fffaf1;
+  font-size: 15px;
+  font-weight: 900;
+  box-shadow: inset 0 -6px 14px rgba(49, 39, 29, 0.14);
+}
+
+.review-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .preference-grid {
@@ -924,6 +950,32 @@ p {
   border: 1px solid rgba(255, 149, 0, 0.28);
   border-radius: 18px;
   background: rgba(255, 149, 0, 0.1);
+}
+
+.link-code-panel {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px dashed rgba(10, 132, 255, 0.32);
+  border-radius: 22px;
+  background: rgba(10, 132, 255, 0.08);
+}
+
+.link-code-panel span {
+  color: var(--label-secondary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.link-code-panel strong {
+  font-size: clamp(26px, 6vw, 42px);
+  letter-spacing: 0.14em;
+}
+
+.link-code-panel p {
+  margin-bottom: 0;
+  color: var(--label-secondary);
 }
 
 .trust-pill.verified {

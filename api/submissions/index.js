@@ -1,4 +1,5 @@
 const { requireAuthenticatedUser } = require('../_shared/auth.cjs')
+const { ensureAppUserForAuth, getAvatarSnapshot } = require('../_shared/appProfile.cjs')
 const { readJsonBody } = require('../_shared/requestBody.cjs')
 
 const ALLOWED_TYPES = new Set(['restaurant', 'dish', 'review', 'checkin', 'correction'])
@@ -58,9 +59,16 @@ module.exports = async function handler(req, res) {
     if (validationError) return res.status(400).json({ error: validationError })
     if (Buffer.byteLength(JSON.stringify(payload), 'utf8') > MAX_PAYLOAD_BYTES) return res.status(413).json({ error: 'Payload too large' })
 
+    const appUser = await ensureAppUserForAuth(auth.client, auth.user)
+    const payloadWithSnapshot = {
+      ...payload,
+      displayName: appUser.display_name || 'ZJU student',
+      avatarSnapshot: getAvatarSnapshot(appUser)
+    }
+
     const { data, error } = await auth.client
       .from('submissions')
-      .insert({ type, payload, submitter_id: auth.user.id, status: 'pending' })
+      .insert({ type, payload: payloadWithSnapshot, submitter_id: auth.user.id, status: 'pending' })
       .select('id,status')
       .single()
 
