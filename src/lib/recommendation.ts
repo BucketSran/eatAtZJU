@@ -3,15 +3,24 @@ import type { RecommendationContext, Restaurant, RestaurantSummary } from '../ty
 export function scoreRestaurant(restaurant: Restaurant, context: RecommendationContext = { preferences: [] }) {
   const preferences = context.preferences ?? []
   const favoriteRestaurantIds = context.favoriteRestaurantIds ?? []
-  const preferenceHit = restaurant.tags.filter((tag) => preferences.includes(tag)).length
-  const sceneHit = restaurant.suitedFor.filter((scene) => preferences.includes(scene)).length
+  const preferenceTokens = new Set([
+    ...restaurant.tags,
+    ...restaurant.suitedFor,
+    ...(restaurant.serviceModes ?? []),
+    ...(restaurant.mealPeriods ?? []),
+    ...(restaurant.scenarioTags ?? []),
+    ...(restaurant.preferenceTags ?? [])
+  ])
+  const constraintTokens = new Set(restaurant.constraintTags ?? [])
+  const preferenceHit = preferences.filter((tag) => preferenceTokens.has(tag)).length
+  const constraintHit = preferences.filter((tag) => constraintTokens.has(tag)).length
   const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 10 : 0
   const ratingScore = restaurant.rating * 12
   const studentScore = restaurant.studentScore * 0.35
   const distanceScore = Math.max(0, 30 - restaurant.distance * 8)
   const checkinScore = Math.min(18, restaurant.checkins / 35)
 
-  return Math.round(ratingScore + studentScore + distanceScore + checkinScore + preferenceHit * 18 + sceneHit * 8 + favoriteBoost)
+  return Math.round(ratingScore + studentScore + distanceScore + checkinScore + preferenceHit * 12 + constraintHit * 6 + favoriteBoost)
 }
 
 export function attachRecommendationScore(restaurants: Restaurant[], context: RecommendationContext): RestaurantSummary[] {

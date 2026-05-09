@@ -126,6 +126,11 @@ create table if not exists public.restaurants (
   cover_color text not null,
   tags text[] not null default array[]::text[],
   suited_for text[] not null default array[]::text[],
+  service_modes text[] not null default array[]::text[],
+  meal_periods text[] not null default array[]::text[],
+  scenario_tags text[] not null default array[]::text[],
+  constraint_tags text[] not null default array[]::text[],
+  preference_tags text[] not null default array[]::text[],
   reason text not null,
   source_refs jsonb not null default '[]'::jsonb,
   status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
@@ -136,6 +141,11 @@ create table if not exists public.restaurants (
 
 create index if not exists restaurants_status_idx on public.restaurants(status);
 create index if not exists restaurants_tags_idx on public.restaurants using gin(tags);
+create index if not exists restaurants_service_modes_idx on public.restaurants using gin(service_modes);
+create index if not exists restaurants_meal_periods_idx on public.restaurants using gin(meal_periods);
+create index if not exists restaurants_scenario_tags_idx on public.restaurants using gin(scenario_tags);
+create index if not exists restaurants_constraint_tags_idx on public.restaurants using gin(constraint_tags);
+create index if not exists restaurants_preference_tags_idx on public.restaurants using gin(preference_tags);
 create index if not exists restaurants_area_idx on public.restaurants(area);
 
 create trigger set_restaurants_updated_at

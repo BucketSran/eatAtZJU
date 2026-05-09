@@ -1,5 +1,5 @@
 import type { PriceRange, Restaurant, RestaurantFilters, SortKey } from '../types'
-import { collectFilterTags, taxonomyTagMap } from '../constants/restaurantTaxonomy'
+import { collectHardFilterTags, taxonomyTagMap } from '../constants/restaurantTaxonomy'
 
 const diningModeTagMap: Record<string, string[]> = {
   都可以: [],
@@ -20,7 +20,19 @@ function normalize(value: string) {
 }
 
 function getSearchableTokens(restaurant: Restaurant) {
-  return [restaurant.name, restaurant.area, restaurant.cuisine, restaurant.reason, ...restaurant.tags, ...restaurant.suitedFor]
+  return [
+    restaurant.name,
+    restaurant.area,
+    restaurant.cuisine,
+    restaurant.reason,
+    ...restaurant.tags,
+    ...restaurant.suitedFor,
+    ...(restaurant.serviceModes ?? []),
+    ...(restaurant.mealPeriods ?? []),
+    ...(restaurant.scenarioTags ?? []),
+    ...(restaurant.constraintTags ?? []),
+    ...(restaurant.preferenceTags ?? [])
+  ]
 }
 
 function restaurantContainsToken(restaurant: Restaurant, token: string) {
@@ -60,6 +72,26 @@ export function restaurantMatchesCategory(restaurant: Restaurant, category?: str
   return categoryTags.some((tag) => restaurantMatchesTag(restaurant, tag))
 }
 
+function restaurantMatchesStructuredTag(restaurant: Restaurant, tag: string) {
+  return [
+    ...(restaurant.scenarioTags ?? []),
+    ...(restaurant.constraintTags ?? []),
+    ...(restaurant.preferenceTags ?? [])
+  ].includes(tag)
+}
+
+function restaurantMatchesServiceMode(restaurant: Restaurant, serviceMode?: string) {
+  if (!serviceMode || serviceMode === '都可以' || serviceMode === '全部') return true
+  if (restaurant.serviceModes?.includes(serviceMode)) return true
+  return restaurantMatchesCategory(restaurant, serviceMode, diningModeTagMap)
+}
+
+function restaurantMatchesMealPeriod(restaurant: Restaurant, mealPeriod?: string) {
+  if (!mealPeriod || mealPeriod === '全部') return true
+  if (restaurant.mealPeriods?.includes(mealPeriod)) return true
+  return restaurantMatchesCategory(restaurant, mealPeriod, mealPeriodTagMap)
+}
+
 function restaurantMatchesDistance(restaurant: Restaurant, distanceLabel = '不限') {
   if (distanceLabel === '10分钟内') return restaurant.walkMinutes <= 10
   if (distanceLabel === '20分钟内') return restaurant.walkMinutes <= 20
@@ -73,7 +105,7 @@ export function restaurantMatchesPrice(restaurant: Restaurant, priceRange?: Pric
 
 export function filterRestaurants(restaurants: Restaurant[], filters: RestaurantFilters, priceRanges: PriceRange[]) {
   const priceRange = findPriceRange(priceRanges, filters.priceLabel)
-  const selectedTags = collectFilterTags(filters)
+  const selectedTags = collectHardFilterTags(filters)
   const fallbackTags = selectedTags.length ? selectedTags : filters.tag ? [filters.tag] : []
   const serviceMode = filters.serviceMode || filters.diningMode
 
@@ -81,10 +113,10 @@ export function filterRestaurants(restaurants: Restaurant[], filters: Restaurant
     return (
       restaurant.status === 'published' &&
       restaurantMatchesKeyword(restaurant, filters.keyword) &&
-      restaurantMatchesCategory(restaurant, serviceMode, diningModeTagMap) &&
-      restaurantMatchesCategory(restaurant, filters.mealPeriod, mealPeriodTagMap) &&
+      restaurantMatchesServiceMode(restaurant, serviceMode) &&
+      restaurantMatchesMealPeriod(restaurant, filters.mealPeriod) &&
       restaurantMatchesDistance(restaurant, filters.distanceLabel) &&
-      restaurantMatchesTags(restaurant, fallbackTags) &&
+      fallbackTags.every((tag) => restaurantMatchesStructuredTag(restaurant, tag) || restaurantMatchesTag(restaurant, tag)) &&
       restaurantMatchesPrice(restaurant, priceRange)
     )
   })

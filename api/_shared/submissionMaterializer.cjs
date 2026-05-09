@@ -47,6 +47,15 @@ function buildRestaurantRow(submission, reviewerId) {
   const tags = cleanTags(payload.tags)
   const diningMode = cleanText(payload.serviceMode === '都可以' ? '' : payload.serviceMode, cleanText(payload.diningMode))
   const mealPeriod = cleanText(payload.mealPeriod)
+  const serviceModes = cleanTags(payload.serviceModes || (diningMode ? [diningMode] : []))
+  const mealPeriods = cleanTags(payload.mealPeriods || (mealPeriod ? [mealPeriod] : []))
+  const scenarioTags = cleanTags(payload.scenarioTags)
+  const constraintTags = cleanTags(payload.constraintTags || [
+    payload.spiceLevel && payload.spiceLevel !== '不限' ? payload.spiceLevel : '',
+    payload.loadLevel && payload.loadLevel !== '不限' ? payload.loadLevel : '',
+    ...cleanTags(payload.dietaryTags)
+  ])
+  const preferenceTags = cleanTags(payload.preferenceTags)
   const suitedFor = [...new Set([diningMode, mealPeriod, ...cleanTags(payload.suitedFor)].filter(Boolean))]
 
   return {
@@ -68,6 +77,11 @@ function buildRestaurantRow(submission, reviewerId) {
     cover_color: cleanText(payload.coverColor, '#f0aa38'),
     tags,
     suited_for: suitedFor,
+    service_modes: serviceModes,
+    meal_periods: mealPeriods,
+    scenario_tags: scenarioTags,
+    constraint_tags: constraintTags,
+    preference_tags: preferenceTags,
     reason: cleanText(payload.content, '来自学生贡献，管理员已审核。'),
     source_refs: buildSourceRefs(submission, reviewerId),
     status: 'published',

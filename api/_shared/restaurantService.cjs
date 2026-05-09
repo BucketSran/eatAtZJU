@@ -51,15 +51,24 @@ function parseList(value) {
 }
 
 function scoreRestaurant(restaurant, preferences = [], favoriteRestaurantIds = []) {
-  const preferenceHit = restaurant.tags.filter((tag) => preferences.includes(tag)).length
-  const sceneHit = restaurant.suitedFor.filter((scene) => preferences.includes(scene)).length
+  const preferenceTokens = new Set([
+    ...(restaurant.tags || []),
+    ...(restaurant.suitedFor || []),
+    ...(restaurant.serviceModes || []),
+    ...(restaurant.mealPeriods || []),
+    ...(restaurant.scenarioTags || []),
+    ...(restaurant.preferenceTags || [])
+  ])
+  const constraintTokens = new Set(restaurant.constraintTags || [])
+  const preferenceHit = preferences.filter((tag) => preferenceTokens.has(tag)).length
+  const constraintHit = preferences.filter((tag) => constraintTokens.has(tag)).length
   const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 10 : 0
   const ratingScore = restaurant.rating * 12
   const studentScore = restaurant.studentScore * 0.35
   const distanceScore = Math.max(0, 30 - restaurant.distance * 8)
   const checkinScore = Math.min(18, restaurant.checkins / 35)
 
-  return Math.round(ratingScore + studentScore + distanceScore + checkinScore + preferenceHit * 18 + sceneHit * 8 + favoriteBoost)
+  return Math.round(ratingScore + studentScore + distanceScore + checkinScore + preferenceHit * 12 + constraintHit * 6 + favoriteBoost)
 }
 
 function findPriceRange(label) {
@@ -71,14 +80,26 @@ function matchesKeyword(restaurant, keyword = '') {
   const normalized = String(keyword).trim().toLowerCase()
   if (!normalized) return true
 
-  return [restaurant.name, restaurant.area, restaurant.cuisine, restaurant.reason, restaurant.tags.join(' '), restaurant.suitedFor.join(' ')]
+  return getSearchableTokens(restaurant)
     .join(' ')
     .toLowerCase()
     .includes(normalized)
 }
 
 function getSearchableTokens(restaurant) {
-  return [restaurant.name, restaurant.area, restaurant.cuisine, restaurant.reason, ...(restaurant.tags || []), ...(restaurant.suitedFor || [])]
+  return [
+    restaurant.name,
+    restaurant.area,
+    restaurant.cuisine,
+    restaurant.reason,
+    ...(restaurant.tags || []),
+    ...(restaurant.suitedFor || []),
+    ...(restaurant.serviceModes || []),
+    ...(restaurant.mealPeriods || []),
+    ...(restaurant.scenarioTags || []),
+    ...(restaurant.constraintTags || []),
+    ...(restaurant.preferenceTags || [])
+  ]
 }
 
 function matchesToken(restaurant, token) {
@@ -101,6 +122,26 @@ function matchesCategory(restaurant, category, tagMap) {
   if (categoryTags && categoryTags.length === 0) return true
   if (!categoryTags || !categoryTags.length) return matchesTag(restaurant, category)
   return categoryTags.some((tag) => matchesTag(restaurant, tag))
+}
+
+function matchesStructuredTag(restaurant, tag) {
+  return [
+    ...(restaurant.scenarioTags || []),
+    ...(restaurant.constraintTags || []),
+    ...(restaurant.preferenceTags || [])
+  ].includes(tag)
+}
+
+function matchesServiceMode(restaurant, serviceMode) {
+  if (!serviceMode || serviceMode === '都可以' || serviceMode === '全部') return true
+  if ((restaurant.serviceModes || []).includes(serviceMode)) return true
+  return matchesCategory(restaurant, serviceMode, diningModeTagMap)
+}
+
+function matchesMealPeriod(restaurant, mealPeriod) {
+  if (!mealPeriod || mealPeriod === '全部') return true
+  if ((restaurant.mealPeriods || []).includes(mealPeriod)) return true
+  return matchesCategory(restaurant, mealPeriod, mealPeriodTagMap)
 }
 
 function matchesPrice(restaurant, priceRange) {
@@ -133,10 +174,10 @@ function listRestaurantCollection(restaurants, query = {}) {
     return (
       restaurant.status === 'published' &&
       matchesKeyword(restaurant, query.keyword) &&
-      matchesCategory(restaurant, query.mode, diningModeTagMap) &&
-      matchesCategory(restaurant, query.meal, mealPeriodTagMap) &&
+      matchesServiceMode(restaurant, query.mode) &&
+      matchesMealPeriod(restaurant, query.meal) &&
       matchesDistance(restaurant, query.distance) &&
-      matchesTags(restaurant, selectedTags.length ? selectedTags : fallbackTag) &&
+      (selectedTags.length ? selectedTags : fallbackTag).every((tag) => matchesStructuredTag(restaurant, tag) || matchesTag(restaurant, tag)) &&
       matchesPrice(restaurant, priceRange)
     )
   })

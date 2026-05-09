@@ -109,3 +109,19 @@ export function collectFilterTags(filters: {
     ...(filters.tags ?? [])
   ].filter((tag, index, allTags) => tag && tag !== '全部' && allTags.indexOf(tag) === index)
 }
+
+export function collectHardFilterTags(filters: {
+  scenarioTags?: string[]
+  dietaryTags?: string[]
+  spiceLevel?: string
+  loadLevel?: string
+  tags?: string[]
+}) {
+  return [
+    ...(filters.scenarioTags ?? []),
+    ...(filters.dietaryTags ?? []),
+    ...(filters.spiceLevel && filters.spiceLevel !== '不限' ? [filters.spiceLevel] : []),
+    ...(filters.loadLevel && filters.loadLevel !== '不限' ? [filters.loadLevel] : []),
+    ...(filters.tags ?? [])
+  ].filter((tag, index, allTags) => tag && tag !== '全部' && allTags.indexOf(tag) === index)
+}

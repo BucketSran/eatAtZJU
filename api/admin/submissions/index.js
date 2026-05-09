@@ -2,6 +2,12 @@ const { requirePlatformAdmin } = require('../../_shared/auth.cjs')
 const { readJsonBody } = require('../../_shared/requestBody.cjs')
 const { materializeSubmission } = require('../../_shared/submissionMaterializer.cjs')
 
+const MAX_PAYLOAD_BYTES = 20_000
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
 async function insertAuditLog(client, payload) {
   const { error } = await client.from('audit_logs').insert(payload)
   if (error) throw error
@@ -12,11 +18,17 @@ async function cleanupMaterializedSubmission(client, materialized) {
   await client.from(materialized.targetTable).delete().eq('id', materialized.targetId)
 }
 
-async function restorePendingSubmission(client, id) {
+async function restorePendingSubmission(client, before) {
   await client
     .from('submissions')
-    .update({ status: 'pending', reviewer_id: null, reviewed_at: null, review_note: null })
-    .eq('id', id)
+    .update({
+      status: 'pending',
+      payload: before.payload,
+      reviewer_id: null,
+      reviewed_at: null,
+      review_note: before.review_note || null
+    })
+    .eq('id', before.id)
 }
 
 module.exports = async function handler(req, res) {
@@ -42,19 +54,22 @@ module.exports = async function handler(req, res) {
       const action = body.action === 'approve' || body.action === 'reject' ? body.action : undefined
       const reviewNote = typeof body.reviewNote === 'string' ? body.reviewNote.slice(0, 500) : null
       if (!id || !action) return res.status(400).json({ error: 'Invalid review payload' })
+      const payloadOverride = isPlainObject(body.payload) ? body.payload : null
+      if (payloadOverride && Buffer.byteLength(JSON.stringify(payloadOverride), 'utf8') > MAX_PAYLOAD_BYTES) return res.status(413).json({ error: 'Payload too large' })
 
       const status = action === 'approve' ? 'approved' : 'rejected'
       const { data: before } = await auth.client.from('submissions').select('*').eq('id', id).maybeSingle()
       if (!before) return res.status(404).json({ error: 'Submission not found' })
       if (before.status !== 'pending') return res.status(409).json({ error: 'Submission has already been reviewed' })
+      const reviewTarget = payloadOverride ? { ...before, payload: { ...(before.payload || {}), ...payloadOverride } } : before
 
       const materialized = action === 'approve'
-        ? await materializeSubmission(auth.client, before, auth.user.id)
+        ? await materializeSubmission(auth.client, reviewTarget, auth.user.id)
         : { skipped: true, reason: 'rejected' }
 
       const { data, error } = await auth.client
         .from('submissions')
-        .update({ status, reviewer_id: auth.user.id, reviewed_at: new Date().toISOString(), review_note: reviewNote })
+        .update({ status, payload: reviewTarget.payload, reviewer_id: auth.user.id, reviewed_at: new Date().toISOString(), review_note: reviewNote })
         .eq('id', id)
         .select('id,status,reviewed_at')
         .single()
@@ -88,7 +103,7 @@ module.exports = async function handler(req, res) {
         }
       } catch (auditError) {
         await cleanupMaterializedSubmission(auth.client, materialized)
-        await restorePendingSubmission(auth.client, id)
+        await restorePendingSubmission(auth.client, before)
         throw auditError
       }
 

@@ -17,6 +17,11 @@ export type Restaurant = {
   coverColor: string
   tags: string[]
   suitedFor: string[]
+  serviceModes?: string[]
+  mealPeriods?: string[]
+  scenarioTags?: string[]
+  constraintTags?: string[]
+  preferenceTags?: string[]
   reason: string
   status: RestaurantStatus
 }

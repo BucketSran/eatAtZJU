@@ -42,10 +42,10 @@ export async function listPendingSubmissions() {
   return (body.submissions || []) as AdminSubmission[]
 }
 
-export async function reviewSubmission(id: string, action: 'approve' | 'reject', reviewNote?: string) {
+export async function reviewSubmission(id: string, action: 'approve' | 'reject', reviewNote?: string, payload?: Record<string, unknown>) {
   return adminFetch('/api/admin/submissions', {
     method: 'POST',
-    body: JSON.stringify({ id, action, reviewNote })
+    body: JSON.stringify({ id, action, reviewNote, payload })
   }) as Promise<{
     id: string
     status: 'approved' | 'rejected'

@@ -1,5 +1,5 @@
 import type { Dish, PriceRange, RecommendationContext, RestaurantFilters, RestaurantSummary, Review } from '../types'
-import { collectFilterTags } from '../constants/restaurantTaxonomy'
+import { collectHardFilterTags } from '../constants/restaurantTaxonomy'
 
 export type ApiSource = 'supabase' | 'seed' | 'local-seed'
 
@@ -68,7 +68,7 @@ function appendListParam(params: URLSearchParams, key: string, values?: string[]
 function buildRestaurantParams(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
   const params = new URLSearchParams()
   if (filters.keyword) params.set('keyword', filters.keyword)
-  const tags = collectFilterTags(filters)
+  const tags = collectHardFilterTags(filters)
   appendListParam(params, 'tags', tags)
   if (!filters.tags?.length && filters.tag && filters.tag !== '全部') params.set('tag', filters.tag)
   if (filters.serviceMode && filters.serviceMode !== '都可以') params.set('mode', filters.serviceMode)

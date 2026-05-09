@@ -3,9 +3,9 @@
 begin;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r001', '青芝坞·小院川味', '青芝坞·小院川味', array[]::text[], '青芝坞', 1.8, 22, '川湘菜', 46, 4.7, 96, 328, 30.2749, 120.1238, '辣', '#d95f35', array['辣', '聚餐', '下饭', '人均50内']::text[], array['晚餐聚餐', '想吃辣', '三五好友']::text[], '学生评价集中在“锅气足、分量稳、晚饭不踩雷”，适合约饭和改善伙食。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r001', '青芝坞·小院川味', '青芝坞·小院川味', array[]::text[], '青芝坞', 1.8, 22, '川湘菜', 46, 4.7, 96, 328, 30.2749, 120.1238, '辣', '#d95f35', array['辣', '聚餐', '下饭', '人均50内']::text[], array['晚餐聚餐', '想吃辣', '三五好友']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['辣']::text[], array['下饭']::text[], '学生评价集中在“锅气足、分量稳、晚饭不踩雷”，适合约饭和改善伙食。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -24,14 +24,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r002', '港湾家常菜', '港湾家常菜', array[]::text[], '紫金港北门', 0.7, 9, '家常菜', 28, 4.5, 91, 412, 30.3124, 120.0921, '饭', '#f0aa38', array['近', '实惠', '快餐', '人均30内']::text[], array['下课即吃', '预算友好', '单人吃饭']::text[], '距离近、出餐快，是“今天不想思考”的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r002', '港湾家常菜', '港湾家常菜', array[]::text[], '紫金港北门', 0.7, 9, '家常菜', 28, 4.5, 91, 412, 30.3124, 120.0921, '饭', '#f0aa38', array['近', '实惠', '快餐', '人均30内']::text[], array['下课即吃', '预算友好', '单人吃饭']::text[], array['外卖']::text[], array['早餐', '中餐']::text[], array['一人食', '赶课快吃', '懒得出校']::text[], array[]::text[], array['快餐', '实惠']::text[], '距离近、出餐快，是“今天不想思考”的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -50,14 +55,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r003', '留学生食堂风味档', '留学生食堂风味档', array[]::text[], '校内', 0.4, 6, '融合简餐', 24, 4.4, 88, 285, 30.3088, 120.0865, '校', '#4f8b65', array['校内', '实惠', '清真友好', '人均30内']::text[], array['课间午餐', '多人拼桌', '轻负担']::text[], '校内可达，价格友好，风味档选择比普通窗口更有记忆点。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r003', '留学生食堂风味档', '留学生食堂风味档', array[]::text[], '校内', 0.4, 6, '融合简餐', 24, 4.4, 88, 285, 30.3088, 120.0865, '校', '#4f8b65', array['校内', '实惠', '清真友好', '人均30内']::text[], array['课间午餐', '多人拼桌', '轻负担']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '下午茶']::text[], array['聚餐', '赶课快吃', '运动后', '懒得出校']::text[], array['轻负担', '清真友好']::text[], array['实惠']::text[], '校内可达，价格友好，风味档选择比普通窗口更有记忆点。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -76,14 +86,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r004', '龙湖天街·一碗热汤面', '龙湖天街·一碗热汤面', array[]::text[], '西溪天街', 2.3, 29, '面馆', 33, 4.6, 89, 194, 30.2965, 120.1012, '面', '#6d8fbd', array['面食', '暖胃', '一人食', '人均40内']::text[], array['雨天热汤', '独自觅食', '轻聚餐']::text[], '汤头清爽、座位舒服，适合一个人慢慢吃完再回去写作业。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r004', '龙湖天街·一碗热汤面', '龙湖天街·一碗热汤面', array[]::text[], '西溪天街', 2.3, 29, '面馆', 33, 4.6, 89, 194, 30.2965, 120.1012, '面', '#6d8fbd', array['面食', '暖胃', '一人食', '人均40内']::text[], array['雨天热汤', '独自觅食', '轻聚餐']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '晚餐', '夜宵']::text[], array['一人食', '聚餐']::text[], array[]::text[], array['暖胃', '面食']::text[], '汤头清爽、座位舒服，适合一个人慢慢吃完再回去写作业。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -102,14 +117,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r005', '西园夜市·炸串铺', '西园夜市·炸串铺', array[]::text[], '西园', 1.1, 15, '小吃夜宵', 22, 4.3, 86, 506, 30.3029, 120.0774, '串', '#b85834', array['夜宵', '小吃', '实惠', '快乐碳水']::text[], array['夜跑后', '组队加餐', '嘴馋']::text[], '打卡量很高，学生评价的关键词是“热闹、便宜、快乐”。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r005', '西园夜市·炸串铺', '西园夜市·炸串铺', array[]::text[], '西园', 1.1, 15, '小吃夜宵', 22, 4.3, 86, 506, 30.3029, 120.0774, '串', '#b85834', array['夜宵', '小吃', '实惠', '快乐碳水']::text[], array['夜跑后', '组队加餐', '嘴馋']::text[], array['外卖']::text[], array['中餐', '下午茶', '夜宵']::text[], array['运动后']::text[], array['快乐碳水']::text[], array['小吃', '实惠']::text[], '打卡量很高，学生评价的关键词是“热闹、便宜、快乐”。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -128,14 +148,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r006', '慢吞吞咖喱屋', '慢吞吞咖喱屋', array[]::text[], '申花', 2, 25, '日式简餐', 39, 4.8, 94, 236, 30.3204, 120.1042, '咖', '#8c6338', array['不辣', '一人食', '拍照', '人均50内']::text[], array['独处放空', '不想吃辣', '拍照打卡']::text[], '环境安静、咖喱浓郁，适合想暂时逃离食堂宇宙的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r006', '慢吞吞咖喱屋', '慢吞吞咖喱屋', array[]::text[], '申花', 2, 25, '日式简餐', 39, 4.8, 94, 236, 30.3204, 120.1042, '咖', '#8c6338', array['不辣', '一人食', '拍照', '人均50内']::text[], array['独处放空', '不想吃辣', '拍照打卡']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '约会拍照']::text[], array['辣', '不辣']::text[], array['拍照']::text[], '环境安静、咖喱浓郁，适合想暂时逃离食堂宇宙的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -154,14 +179,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r007', '紫金港北街·砂锅小馆', '紫金港北街·砂锅小馆', array[]::text[], '紫金港北门', 0.9, 11, '砂锅煲', 31, 4.5, 90, 268, 30.3132, 120.0903, '煲', '#a8663c', array['近', '暖胃', '一人食', '人均40内']::text[], array['晚自习前', '雨天热饭', '单人吃饭']::text[], '砂锅类选择多，热乎、出餐稳定，适合不想走太远的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r007', '紫金港北街·砂锅小馆', '紫金港北街·砂锅小馆', array[]::text[], '紫金港北门', 0.9, 11, '砂锅煲', 31, 4.5, 90, 268, 30.3132, 120.0903, '煲', '#a8663c', array['近', '暖胃', '一人食', '人均40内']::text[], array['晚自习前', '雨天热饭', '单人吃饭']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '夜宵']::text[], array['一人食', '自习后', '懒得出校']::text[], array[]::text[], array['暖胃']::text[], '砂锅类选择多，热乎、出餐稳定，适合不想走太远的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -180,14 +210,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r008', '西园路·轻食拌饭', '西园路·轻食拌饭', array[]::text[], '西园', 1, 13, '轻食简餐', 27, 4.2, 84, 221, 30.3035, 120.0788, '轻', '#5aa37c', array['不辣', '一人食', '实惠', '人均30内']::text[], array['健身后', '轻负担', '赶时间']::text[], '拌饭和沙拉组合比较轻，适合想吃得清爽但不想只吃草的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r008', '西园路·轻食拌饭', '西园路·轻食拌饭', array[]::text[], '西园', 1, 13, '轻食简餐', 27, 4.2, 84, 221, 30.3035, 120.0788, '轻', '#5aa37c', array['不辣', '一人食', '实惠', '人均30内']::text[], array['健身后', '轻负担', '赶时间']::text[], array['外卖']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '赶课快吃', '运动后']::text[], array['辣', '不辣', '轻负担']::text[], array['实惠']::text[], '拌饭和沙拉组合比较轻，适合想吃得清爽但不想只吃草的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -206,14 +241,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r009', '申花·港式烧腊饭', '申花·港式烧腊饭', array[]::text[], '申花', 2.1, 26, '港式简餐', 36, 4.6, 89, 238, 30.3211, 120.1055, '叉', '#c75f3a', array['下饭', '快餐', '一人食', '人均40内']::text[], array['想吃肉', '独自觅食', '周末换口味']::text[], '烧腊饭分量扎实，甜口酱汁比较稳，是周末外出顺手的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r009', '申花·港式烧腊饭', '申花·港式烧腊饭', array[]::text[], '申花', 2.1, 26, '港式简餐', 36, 4.6, 89, 238, 30.3211, 120.1055, '叉', '#c75f3a', array['下饭', '快餐', '一人食', '人均40内']::text[], array['想吃肉', '独自觅食', '周末换口味']::text[], array['外卖', '堂食']::text[], array['中餐', '晚餐']::text[], array['一人食', '赶课快吃']::text[], array[]::text[], array['下饭', '快餐']::text[], '烧腊饭分量扎实，甜口酱汁比较稳，是周末外出顺手的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -232,14 +272,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r010', '蓝田街·贵州酸汤粉', '蓝田街·贵州酸汤粉', array[]::text[], '蓝田', 1.4, 18, '米粉', 24, 4.4, 87, 302, 30.2998, 120.0852, '粉', '#d1463b', array['辣', '酸爽', '面食', '人均30内']::text[], array['想吃酸辣', '午餐快吃', '一个人']::text[], '酸汤粉开胃，价格友好，适合食堂吃腻后的快速替代。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r010', '蓝田街·贵州酸汤粉', '蓝田街·贵州酸汤粉', array[]::text[], '蓝田', 1.4, 18, '米粉', 24, 4.4, 87, 302, 30.2998, 120.0852, '粉', '#d1463b', array['辣', '酸爽', '面食', '人均30内']::text[], array['想吃酸辣', '午餐快吃', '一个人']::text[], array['外卖']::text[], array['早餐', '中餐', '晚餐']::text[], array['一人食']::text[], array['辣']::text[], array['面食', '实惠']::text[], '酸汤粉开胃，价格友好，适合食堂吃腻后的快速替代。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -258,14 +303,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r011', '紫金里·东北小炒', '紫金里·东北小炒', array[]::text[], '紫金里', 1.6, 20, '东北菜', 44, 4.5, 88, 176, 30.3068, 120.0969, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['四人聚餐', '想吃大份', '晚饭改善']::text[], '菜量友好，适合多人点菜分摊，人均能压住。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r011', '紫金里·东北小炒', '紫金里·东北小炒', array[]::text[], '紫金里', 1.6, 20, '东北菜', 44, 4.5, 88, 176, 30.3068, 120.0969, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['四人聚餐', '想吃大份', '晚饭改善']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['大份']::text[], array['下饭']::text[], '菜量友好，适合多人点菜分摊，人均能压住。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -284,14 +334,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r012', '城西银泰·越南粉铺', '城西银泰·越南粉铺', array[]::text[], '城西银泰', 2.8, 35, '东南亚', 42, 4.6, 86, 149, 30.296, 120.114, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末逛街', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，商场环境舒服，适合周末顺路吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r012', '城西银泰·越南粉铺', '城西银泰·越南粉铺', array[]::text[], '城西银泰', 2.8, 35, '东南亚', 42, 4.6, 86, 149, 30.296, 120.114, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末逛街', '清爽汤粉', '轻聚餐']::text[], array['堂食']::text[], array['早餐', '晚餐']::text[], array['聚餐']::text[], array['辣', '不辣']::text[], array['面食', '清爽']::text[], '汤粉清爽，商场环境舒服，适合周末顺路吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -310,14 +365,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r013', '北门口·重庆小面', '北门口·重庆小面', array[]::text[], '紫金港北门', 0.8, 10, '重庆小面', 19, 4.3, 85, 389, 30.3128, 120.0915, '辣', '#bb3f31', array['辣', '面食', '实惠', '人均30内']::text[], array['赶课午饭', '想吃辣', '预算友好']::text[], '小面便宜直接，辣度醒脑，适合一个人快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r013', '北门口·重庆小面', '北门口·重庆小面', array[]::text[], '紫金港北门', 0.8, 10, '重庆小面', 19, 4.3, 85, 389, 30.3128, 120.0915, '辣', '#bb3f31', array['辣', '面食', '实惠', '人均30内']::text[], array['赶课午饭', '想吃辣', '预算友好']::text[], array['外卖']::text[], array['早餐', '中餐', '晚餐']::text[], array['赶课快吃']::text[], array['辣']::text[], array['面食', '实惠']::text[], '小面便宜直接，辣度醒脑，适合一个人快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -336,14 +396,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r014', '校内·西式简餐窗口', '校内·西式简餐窗口', array[]::text[], '校内', 0.3, 5, '西式简餐', 26, 4.1, 82, 330, 30.3092, 120.0871, '堡', '#5f7fbd', array['校内', '快餐', '不辣', '人均30内']::text[], array['课间午餐', '懒得出校', '单人吃饭']::text[], '校内可达，选择简单，适合只是想换个窗口。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r014', '校内·西式简餐窗口', '校内·西式简餐窗口', array[]::text[], '校内', 0.3, 5, '西式简餐', 26, 4.1, 82, 330, 30.3092, 120.0871, '堡', '#5f7fbd', array['校内', '快餐', '不辣', '人均30内']::text[], array['课间午餐', '懒得出校', '单人吃饭']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '晚餐']::text[], array['一人食', '赶课快吃', '懒得出校']::text[], array['辣', '不辣']::text[], array['快餐', '实惠']::text[], '校内可达，选择简单，适合只是想换个窗口。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -362,14 +427,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r015', '古墩路·泰式咖喱饭', '古墩路·泰式咖喱饭', array[]::text[], '古墩路', 2.4, 31, '泰式简餐', 41, 4.7, 90, 205, 30.3021, 120.1038, '泰', '#d9852b', array['咖喱', '微辣', '拍照', '人均50内']::text[], array['周末约饭', '想吃咖喱', '两人小聚']::text[], '咖喱香料感更明显，店面小但氛围适合轻约饭。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r015', '古墩路·泰式咖喱饭', '古墩路·泰式咖喱饭', array[]::text[], '古墩路', 2.4, 31, '泰式简餐', 41, 4.7, 90, 205, 30.3021, 120.1038, '泰', '#d9852b', array['咖喱', '微辣', '拍照', '人均50内']::text[], array['周末约饭', '想吃咖喱', '两人小聚']::text[], array['堂食']::text[], array['下午茶', '晚餐']::text[], array['聚餐', '约会拍照']::text[], array['辣']::text[], array['拍照']::text[], '咖喱香料感更明显，店面小但氛围适合轻约饭。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -388,14 +458,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r016', '西溪湿地口·手工水饺', '西溪湿地口·手工水饺', array[]::text[], '西溪', 2.6, 33, '饺子面点', 25, 4.4, 87, 157, 30.2889, 120.082, '饺', '#6d9b71', array['不辣', '实惠', '面食', '人均30内']::text[], array['清淡晚饭', '一个人', '预算友好']::text[], '水饺口味朴素，价格稳，适合不想吃油重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r016', '西溪湿地口·手工水饺', '西溪湿地口·手工水饺', array[]::text[], '西溪', 2.6, 33, '饺子面点', 25, 4.4, 87, 157, 30.2889, 120.082, '饺', '#6d9b71', array['不辣', '实惠', '面食', '人均30内']::text[], array['清淡晚饭', '一个人', '预算友好']::text[], array['外卖']::text[], array['早餐', '中餐', '晚餐']::text[], array['一人食']::text[], array['辣', '不辣']::text[], array['面食', '实惠']::text[], '水饺口味朴素，价格稳，适合不想吃油重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -414,14 +489,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r017', '天目里·烤肉拌饭', '天目里·烤肉拌饭', array[]::text[], '天目里', 3, 38, '韩式简餐', 34, 4.5, 86, 190, 30.2853, 120.1185, '拌', '#8d5a3b', array['下饭', '一人食', '微辣', '人均40内']::text[], array['周末换口味', '独自觅食', '想吃肉']::text[], '酱料和烤肉香气足，比较适合一个人吃得满足。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r017', '天目里·烤肉拌饭', '天目里·烤肉拌饭', array[]::text[], '天目里', 3, 38, '韩式简餐', 34, 4.5, 86, 190, 30.2853, 120.1185, '拌', '#8d5a3b', array['下饭', '一人食', '微辣', '人均40内']::text[], array['周末换口味', '独自觅食', '想吃肉']::text[], array['外卖', '堂食']::text[], array['中餐', '晚餐']::text[], array['一人食']::text[], array['辣']::text[], array['下饭']::text[], '酱料和烤肉香气足，比较适合一个人吃得满足。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -440,14 +520,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r018', '紫金港南门·兰州牛肉面', '紫金港南门·兰州牛肉面', array[]::text[], '紫金港南门', 1.2, 16, '牛肉面', 21, 4.3, 86, 355, 30.3006, 120.091, '牛', '#5b82a9', array['面食', '清真友好', '实惠', '人均30内']::text[], array['午餐快吃', '清真友好', '预算友好']::text[], '牛肉面是稳妥选项，出餐快，价格也适合日常。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r018', '紫金港南门·兰州牛肉面', '紫金港南门·兰州牛肉面', array[]::text[], '紫金港南门', 1.2, 16, '牛肉面', 21, 4.3, 86, 355, 30.3006, 120.091, '牛', '#5b82a9', array['面食', '清真友好', '实惠', '人均30内']::text[], array['午餐快吃', '清真友好', '预算友好']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐']::text[], array[]::text[], array['清真友好']::text[], array['面食', '实惠']::text[], '牛肉面是稳妥选项，出餐快，价格也适合日常。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -466,14 +551,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r019', '三墩·潮汕砂锅粥', '三墩·潮汕砂锅粥', array[]::text[], '三墩', 3.2, 40, '潮汕粥铺', 47, 4.6, 88, 133, 30.3245, 120.0745, '粥', '#c0955f', array['暖胃', '聚餐', '不辣', '人均50内']::text[], array['晚归加餐', '清淡聚餐', '生病恢复']::text[], '砂锅粥适合多人分食，口味清淡但有鲜味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r019', '三墩·潮汕砂锅粥', '三墩·潮汕砂锅粥', array[]::text[], '三墩', 3.2, 40, '潮汕粥铺', 47, 4.6, 88, 133, 30.3245, 120.0745, '粥', '#c0955f', array['暖胃', '聚餐', '不辣', '人均50内']::text[], array['晚归加餐', '清淡聚餐', '生病恢复']::text[], array['堂食']::text[], array['早餐', '晚餐', '夜宵']::text[], array['聚餐']::text[], array['辣', '不辣']::text[], array['暖胃']::text[], '砂锅粥适合多人分食，口味清淡但有鲜味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -492,14 +582,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r020', '文一西路·新疆炒米粉', '文一西路·新疆炒米粉', array[]::text[], '文一西路', 2.7, 34, '新疆米粉', 29, 4.5, 89, 247, 30.2926, 120.0974, '米', '#b83a2e', array['辣', '下饭', '一人食', '人均30内']::text[], array['重口晚饭', '想吃辣', '独自觅食']::text[], '炒米粉酱香重，辣度有存在感，适合想吃点刺激的晚上。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r020', '文一西路·新疆炒米粉', '文一西路·新疆炒米粉', array[]::text[], '文一西路', 2.7, 34, '新疆米粉', 29, 4.5, 89, 247, 30.2926, 120.0974, '米', '#b83a2e', array['辣', '下饭', '一人食', '人均30内']::text[], array['重口晚饭', '想吃辣', '独自觅食']::text[], array['外卖', '堂食']::text[], array['中餐', '晚餐']::text[], array['一人食']::text[], array['辣']::text[], array['下饭', '面食', '实惠']::text[], '炒米粉酱香重，辣度有存在感，适合想吃点刺激的晚上。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -518,14 +613,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r021', '蒋村·日式拉面屋', '蒋村·日式拉面屋', array[]::text[], '蒋村', 2.2, 28, '日式拉面', 43, 4.7, 91, 184, 30.2978, 120.0736, '拉', '#7b5f4a', array['面食', '暖胃', '一人食', '人均50内']::text[], array['雨天热汤', '一个人', '周末出门']::text[], '拉面汤底浓，座位适合一个人慢慢吃完。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r021', '蒋村·日式拉面屋', '蒋村·日式拉面屋', array[]::text[], '蒋村', 2.2, 28, '日式拉面', 43, 4.7, 91, 184, 30.2978, 120.0736, '拉', '#7b5f4a', array['面食', '暖胃', '一人食', '人均50内']::text[], array['雨天热汤', '一个人', '周末出门']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '晚餐', '夜宵']::text[], array['一人食']::text[], array[]::text[], array['暖胃', '面食']::text[], '拉面汤底浓，座位适合一个人慢慢吃完。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -544,14 +644,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r022', '紫金港东门·麻辣烫', '紫金港东门·麻辣烫', array[]::text[], '紫金港东门', 1, 14, '麻辣烫', 26, 4.2, 83, 448, 30.3069, 120.0981, '麻', '#c2473c', array['辣', '实惠', '快餐', '人均30内']::text[], array['自由搭配', '晚饭快吃', '嘴馋']::text[], '选择自由、价格可控，是不知道吃什么时的高容错解。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r022', '紫金港东门·麻辣烫', '紫金港东门·麻辣烫', array[]::text[], '紫金港东门', 1, 14, '麻辣烫', 26, 4.2, 83, 448, 30.3069, 120.0981, '麻', '#c2473c', array['辣', '实惠', '快餐', '人均30内']::text[], array['自由搭配', '晚饭快吃', '嘴馋']::text[], array['外卖']::text[], array['中餐', '下午茶', '晚餐']::text[], array['赶课快吃']::text[], array['辣']::text[], array['快餐', '实惠']::text[], '选择自由、价格可控，是不知道吃什么时的高容错解。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -570,14 +675,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r023', '莲花街·烤鱼小桌', '莲花街·烤鱼小桌', array[]::text[], '莲花街', 2.5, 32, '烤鱼', 59, 4.6, 87, 166, 30.2865, 120.0989, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['四人约饭', '夜宵改善', '想吃鱼']::text[], '适合多人分一条鱼，价格比日常饭高一点但氛围好。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r023', '莲花街·烤鱼小桌', '莲花街·烤鱼小桌', array[]::text[], '莲花街', 2.5, 32, '烤鱼', 59, 4.6, 87, 166, 30.2865, 120.0989, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['四人约饭', '夜宵改善', '想吃鱼']::text[], array['堂食']::text[], array['晚餐', '夜宵']::text[], array['聚餐']::text[], array['辣']::text[], array[]::text[], '适合多人分一条鱼，价格比日常饭高一点但氛围好。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -596,14 +706,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r024', '校内·深夜粥面档', '校内·深夜粥面档', array[]::text[], '校内', 0.5, 7, '粥面夜宵', 18, 4.1, 82, 520, 30.3076, 120.0868, '夜', '#4d6078', array['校内', '夜宵', '实惠', '人均30内']::text[], array['晚课后', '夜宵', '轻负担']::text[], '校内夜宵兜底选项，便宜、近、不会太撑。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r024', '校内·深夜粥面档', '校内·深夜粥面档', array[]::text[], '校内', 0.5, 7, '粥面夜宵', 18, 4.1, 82, 520, 30.3076, 120.0868, '夜', '#4d6078', array['校内', '夜宵', '实惠', '人均30内']::text[], array['晚课后', '夜宵', '轻负担']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '下午茶', '夜宵']::text[], array['自习后', '运动后', '懒得出校']::text[], array['轻负担']::text[], array['面食', '实惠']::text[], '校内夜宵兜底选项，便宜、近、不会太撑。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -622,14 +737,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r025', '紫金港北门·川湘小炒一号店', '紫金港北门·川湘小炒一号店', array[]::text[], '紫金港北门', 0.8, 10, '川湘小炒', 40, 4.2, 88, 125, 30.313, 120.0882, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r025', '紫金港北门·川湘小炒一号店', '紫金港北门·川湘小炒一号店', array[]::text[], '紫金港北门', 0.8, 10, '川湘小炒', 40, 4.2, 88, 125, 30.313, 120.0882, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['辣']::text[], array['下饭']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -648,14 +768,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r026', '紫金港南门·家常盖饭小馆', '紫金港南门·家常盖饭小馆', array[]::text[], '紫金港南门', 1.3, 18, '家常盖饭', 23, 4.3, 89, 162, 30.2998, 120.0874, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r026', '紫金港南门·家常盖饭小馆', '紫金港南门·家常盖饭小馆', array[]::text[], '紫金港南门', 1.3, 18, '家常盖饭', 23, 4.3, 89, 162, 30.2998, 120.0874, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], array['外卖']::text[], array['中餐']::text[], array['一人食', '赶课快吃']::text[], array[]::text[], array['快餐', '实惠']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -674,14 +799,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r027', '校内·面馆粉铺饭铺', '校内·面馆粉铺饭铺', array[]::text[], '校内', 0.3, 4, '面馆粉铺', 27, 4.3, 90, 199, 30.3094, 120.0872, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r027', '校内·面馆粉铺饭铺', '校内·面馆粉铺饭铺', array[]::text[], '校内', 0.3, 4, '面馆粉铺', 27, 4.3, 90, 199, 30.3094, 120.0872, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '夜宵']::text[], array['一人食', '赶课快吃', '懒得出校']::text[], array[]::text[], array['暖胃', '面食', '快餐', '实惠']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -700,14 +830,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r028', '西园·夜宵小吃食堂外档', '西园·夜宵小吃食堂外档', array[]::text[], '西园', 1.1, 15, '夜宵小吃', 23, 4.4, 91, 236, 30.307, 120.0733, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r028', '西园·夜宵小吃食堂外档', '西园·夜宵小吃食堂外档', array[]::text[], '西园', 1.1, 15, '夜宵小吃', 23, 4.4, 91, 236, 30.307, 120.0733, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], array['外卖']::text[], array['中餐', '下午茶', '夜宵']::text[], array['自习后']::text[], array[]::text[], array['小吃', '实惠']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -726,14 +861,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r029', '青芝坞·轻食简餐街角店', '青芝坞·轻食简餐街角店', array[]::text[], '青芝坞', 1.9, 24, '轻食简餐', 31, 4.5, 92, 273, 30.2782, 120.1263, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r029', '青芝坞·轻食简餐街角店', '青芝坞·轻食简餐街角店', array[]::text[], '青芝坞', 1.9, 24, '轻食简餐', 31, 4.5, 92, 273, 30.2782, 120.1263, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], array['外卖']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '运动后']::text[], array['辣', '不辣', '轻负担']::text[], array['清爽', '实惠']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -752,14 +892,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r030', '申花·日韩简餐小桌', '申花·日韩简餐小桌', array[]::text[], '申花', 1.9, 23, '日韩简餐', 36, 4.6, 93, 310, 30.319, 120.1038, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r030', '申花·日韩简餐小桌', '申花·日韩简餐小桌', array[]::text[], '申花', 1.9, 23, '日韩简餐', 36, 4.6, 93, 310, 30.319, 120.1038, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '聚餐', '约会拍照']::text[], array[]::text[], array['下饭', '拍照']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -778,14 +923,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r031', '蒋村·清真友好便当社', '蒋村·清真友好便当社', array[]::text[], '蒋村', 2.2, 28, '清真友好', 23, 4.7, 94, 347, 30.3004, 120.0692, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r031', '蒋村·清真友好便当社', '蒋村·清真友好便当社', array[]::text[], '蒋村', 2.2, 28, '清真友好', 23, 4.7, 94, 347, 30.3004, 120.0692, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐']::text[], array[]::text[], array['清真友好']::text[], array['面食', '实惠']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -804,14 +954,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r032', '文一西路·聚餐烤鱼热饭局', '文一西路·聚餐烤鱼热饭局', array[]::text[], '文一西路', 2.8, 36, '聚餐烤鱼', 58, 4.1, 95, 384, 30.2936, 120.095, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r032', '文一西路·聚餐烤鱼热饭局', '文一西路·聚餐烤鱼热饭局', array[]::text[], '文一西路', 2.8, 36, '聚餐烤鱼', 58, 4.1, 95, 384, 30.2936, 120.095, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], array['堂食']::text[], array['晚餐', '夜宵']::text[], array['聚餐']::text[], array['辣']::text[], array[]::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -830,14 +985,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r033', '城西银泰·粥面暖胃风味档', '城西银泰·粥面暖胃风味档', array[]::text[], '城西银泰', 2.7, 33, '粥面暖胃', 20, 4.2, 96, 421, 30.2968, 120.1128, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r033', '城西银泰·粥面暖胃风味档', '城西银泰·粥面暖胃风味档', array[]::text[], '城西银泰', 2.7, 33, '粥面暖胃', 20, 4.2, 96, 421, 30.2968, 120.1128, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '下午茶', '晚餐', '夜宵']::text[], array['自习后', '运动后']::text[], array['辣', '不辣', '轻负担']::text[], array['暖胃', '面食', '实惠']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -856,14 +1016,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r034', '三墩·咖啡甜点深夜档', '三墩·咖啡甜点深夜档', array[]::text[], '三墩', 3.2, 40, '咖啡甜点', 38, 4.3, 80, 458, 30.3227, 120.0745, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r034', '三墩·咖啡甜点深夜档', '三墩·咖啡甜点深夜档', array[]::text[], '三墩', 3.2, 40, '咖啡甜点', 38, 4.3, 80, 458, 30.3227, 120.0745, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '自习后', '约会拍照']::text[], array['辣', '不辣']::text[], array['拍照']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -882,14 +1047,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r035', '紫金港北门·东南亚风味一号店', '紫金港北门·东南亚风味一号店', array[]::text[], '紫金港北门', 0.9, 12, '东南亚风味', 41, 4.3, 81, 495, 30.3121, 120.0881, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r035', '紫金港北门·东南亚风味一号店', '紫金港北门·东南亚风味一号店', array[]::text[], '紫金港北门', 0.9, 12, '东南亚风味', 41, 4.3, 81, 495, 30.3121, 120.0881, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], array['堂食']::text[], array['早餐', '晚餐']::text[], array['聚餐']::text[], array['辣', '不辣']::text[], array['面食', '清爽']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -908,14 +1078,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r036', '紫金港南门·东北大份菜小馆', '紫金港南门·东北大份菜小馆', array[]::text[], '紫金港南门', 1.1, 14, '东北大份菜', 44, 4.4, 82, 532, 30.3053, 120.0934, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r036', '紫金港南门·东北大份菜小馆', '紫金港南门·东北大份菜小馆', array[]::text[], '紫金港南门', 1.1, 14, '东北大份菜', 44, 4.4, 82, 532, 30.3053, 120.0934, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['大份']::text[], array['下饭']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -934,14 +1109,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r037', '校内·川湘小炒饭铺', '校内·川湘小炒饭铺', array[]::text[], '校内', 0.4, 6, '川湘小炒', 42, 4.5, 83, 569, 30.3067, 120.0836, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r037', '校内·川湘小炒饭铺', '校内·川湘小炒饭铺', array[]::text[], '校内', 0.4, 6, '川湘小炒', 42, 4.5, 83, 569, 30.3067, 120.0836, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], array['堂食']::text[], array['早餐', '中餐', '晚餐']::text[], array['聚餐', '懒得出校']::text[], array['辣']::text[], array['下饭']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -960,14 +1140,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r038', '西园·家常盖饭食堂外档', '西园·家常盖饭食堂外档', array[]::text[], '西园', 1.2, 17, '家常盖饭', 25, 4.6, 84, 146, 30.3008, 120.0737, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r038', '西园·家常盖饭食堂外档', '西园·家常盖饭食堂外档', array[]::text[], '西园', 1.2, 17, '家常盖饭', 25, 4.6, 84, 146, 30.3008, 120.0737, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], array['外卖']::text[], array['中餐']::text[], array['一人食', '赶课快吃']::text[], array[]::text[], array['快餐', '实惠']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -986,14 +1171,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r039', '青芝坞·面馆粉铺街角店', '青芝坞·面馆粉铺街角店', array[]::text[], '青芝坞', 1.7, 20, '面馆粉铺', 29, 4.7, 85, 183, 30.277, 120.1193, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r039', '青芝坞·面馆粉铺街角店', '青芝坞·面馆粉铺街角店', array[]::text[], '青芝坞', 1.7, 20, '面馆粉铺', 29, 4.7, 85, 183, 30.277, 120.1193, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '夜宵']::text[], array['一人食', '赶课快吃']::text[], array[]::text[], array['暖胃', '面食', '快餐', '实惠']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1012,14 +1202,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r040', '申花·夜宵小吃小桌', '申花·夜宵小吃小桌', array[]::text[], '申花', 2, 25, '夜宵小吃', 20, 4.1, 86, 220, 30.32, 120.1022, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r040', '申花·夜宵小吃小桌', '申花·夜宵小吃小桌', array[]::text[], '申花', 2, 25, '夜宵小吃', 20, 4.1, 86, 220, 30.32, 120.1022, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], array['外卖']::text[], array['中餐', '下午茶', '夜宵']::text[], array['自习后']::text[], array[]::text[], array['小吃', '实惠']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1038,14 +1233,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r041', '蒋村·轻食简餐便当社', '蒋村·轻食简餐便当社', array[]::text[], '蒋村', 2.3, 30, '轻食简餐', 28, 4.2, 87, 257, 30.2961, 120.0752, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r041', '蒋村·轻食简餐便当社', '蒋村·轻食简餐便当社', array[]::text[], '蒋村', 2.3, 30, '轻食简餐', 28, 4.2, 87, 257, 30.2961, 120.0752, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], array['外卖']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '运动后']::text[], array['辣', '不辣', '轻负担']::text[], array['清爽', '实惠']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1064,14 +1264,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r042', '文一西路·日韩简餐热饭局', '文一西路·日韩简餐热饭局', array[]::text[], '文一西路', 2.6, 32, '日韩简餐', 38, 4.3, 88, 294, 30.2893, 120.0921, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r042', '文一西路·日韩简餐热饭局', '文一西路·日韩简餐热饭局', array[]::text[], '文一西路', 2.6, 32, '日韩简餐', 38, 4.3, 88, 294, 30.2893, 120.0921, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '聚餐', '约会拍照']::text[], array[]::text[], array['下饭', '拍照']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1090,14 +1295,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r043', '城西银泰·清真友好风味档', '城西银泰·清真友好风味档', array[]::text[], '城西银泰', 2.8, 35, '清真友好', 25, 4.3, 89, 331, 30.2957, 120.1184, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r043', '城西银泰·清真友好风味档', '城西银泰·清真友好风味档', array[]::text[], '城西银泰', 2.8, 35, '清真友好', 25, 4.3, 89, 331, 30.2957, 120.1184, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐']::text[], array[]::text[], array['清真友好']::text[], array['面食', '实惠']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1116,14 +1326,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r044', '三墩·聚餐烤鱼深夜档', '三墩·聚餐烤鱼深夜档', array[]::text[], '三墩', 3.3, 42, '聚餐烤鱼', 60, 4.4, 90, 368, 30.3209, 120.0773, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r044', '三墩·聚餐烤鱼深夜档', '三墩·聚餐烤鱼深夜档', array[]::text[], '三墩', 3.3, 42, '聚餐烤鱼', 60, 4.4, 90, 368, 30.3209, 120.0773, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], array['堂食']::text[], array['晚餐', '夜宵']::text[], array['聚餐']::text[], array['辣']::text[], array[]::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1142,14 +1357,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r045', '紫金港北门·粥面暖胃一号店', '紫金港北门·粥面暖胃一号店', array[]::text[], '紫金港北门', 0.7, 8, '粥面暖胃', 17, 4.5, 91, 405, 30.3133, 120.0875, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r045', '紫金港北门·粥面暖胃一号店', '紫金港北门·粥面暖胃一号店', array[]::text[], '紫金港北门', 0.7, 8, '粥面暖胃', 17, 4.5, 91, 405, 30.3133, 120.0875, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '下午茶', '晚餐', '夜宵']::text[], array['自习后', '运动后']::text[], array['辣', '不辣', '轻负担']::text[], array['暖胃', '面食', '实惠']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1168,14 +1388,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r046', '紫金港南门·咖啡甜点小馆', '紫金港南门·咖啡甜点小馆', array[]::text[], '紫金港南门', 1.2, 16, '咖啡甜点', 35, 4.6, 92, 442, 30.297, 120.0884, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r046', '紫金港南门·咖啡甜点小馆', '紫金港南门·咖啡甜点小馆', array[]::text[], '紫金港南门', 1.2, 16, '咖啡甜点', 35, 4.6, 92, 442, 30.297, 120.0884, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '自习后', '约会拍照']::text[], array['辣', '不辣']::text[], array['拍照']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1194,14 +1419,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r047', '校内·东南亚风味饭铺', '校内·东南亚风味饭铺', array[]::text[], '校内', 0.5, 8, '东南亚风味', 43, 4.7, 93, 479, 30.31, 120.0821, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r047', '校内·东南亚风味饭铺', '校内·东南亚风味饭铺', array[]::text[], '校内', 0.5, 8, '东南亚风味', 43, 4.7, 93, 479, 30.31, 120.0821, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], array['堂食']::text[], array['早餐', '中餐', '晚餐']::text[], array['聚餐', '懒得出校']::text[], array['辣', '不辣']::text[], array['面食', '清爽']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1220,14 +1450,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r048', '西园·东北大份菜食堂外档', '西园·东北大份菜食堂外档', array[]::text[], '西园', 1, 13, '东北大份菜', 46, 4.1, 94, 516, 30.2983, 120.0758, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r048', '西园·东北大份菜食堂外档', '西园·东北大份菜食堂外档', array[]::text[], '西园', 1, 13, '东北大份菜', 46, 4.1, 94, 516, 30.2983, 120.0758, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['大份']::text[], array['下饭']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1246,14 +1481,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r049', '青芝坞·川湘小炒街角店', '青芝坞·川湘小炒街角店', array[]::text[], '青芝坞', 1.8, 22, '川湘小炒', 44, 4.2, 95, 553, 30.2758, 120.1242, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r049', '青芝坞·川湘小炒街角店', '青芝坞·川湘小炒街角店', array[]::text[], '青芝坞', 1.8, 22, '川湘小炒', 44, 4.2, 95, 553, 30.2758, 120.1242, '辣', '#c84b35', array['辣', '下饭', '聚餐', '人均50内']::text[], array['晚饭改善', '想吃辣', '三五好友']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['辣']::text[], array['下饭']::text[], '锅气足、味道直接，适合想把米饭认真吃完的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1272,14 +1512,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r050', '申花·家常盖饭小桌', '申花·家常盖饭小桌', array[]::text[], '申花', 2.1, 27, '家常盖饭', 22, 4.3, 96, 130, 30.3168, 120.1091, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r050', '申花·家常盖饭小桌', '申花·家常盖饭小桌', array[]::text[], '申花', 2.1, 27, '家常盖饭', 22, 4.3, 96, 130, 30.3168, 120.1091, '饭', '#e0a23a', array['实惠', '快餐', '一人食', '人均30内']::text[], array['赶课午餐', '预算友好', '单人吃饭']::text[], array['外卖']::text[], array['中餐']::text[], array['一人食', '赶课快吃']::text[], array[]::text[], array['快餐', '实惠']::text[], '出餐快、价格稳，是日常不知道吃什么时的安全牌。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1298,14 +1543,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r051', '蒋村·面馆粉铺便当社', '蒋村·面馆粉铺便当社', array[]::text[], '蒋村', 2.1, 26, '面馆粉铺', 26, 4.3, 80, 167, 30.3017, 120.0753, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r051', '蒋村·面馆粉铺便当社', '蒋村·面馆粉铺便当社', array[]::text[], '蒋村', 2.1, 26, '面馆粉铺', 26, 4.3, 80, 167, 30.3017, 120.0753, '面', '#6688bd', array['面食', '暖胃', '一人食', '人均30内']::text[], array['雨天热汤', '一个人', '快速解决']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '夜宵']::text[], array['一人食', '赶课快吃']::text[], array[]::text[], array['暖胃', '面食', '快餐', '实惠']::text[], '热汤和碳水都到位，适合课间或晚自习前快速补能。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1324,14 +1574,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r052', '文一西路·夜宵小吃热饭局', '文一西路·夜宵小吃热饭局', array[]::text[], '文一西路', 2.7, 34, '夜宵小吃', 22, 4.4, 81, 204, 30.2941, 120.0963, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r052', '文一西路·夜宵小吃热饭局', '文一西路·夜宵小吃热饭局', array[]::text[], '文一西路', 2.7, 34, '夜宵小吃', 22, 4.4, 81, 204, 30.2941, 120.0963, '夜', '#5c6078', array['夜宵', '小吃', '实惠', '人均30内']::text[], array['晚课后', '嘴馋', '组队加餐']::text[], array['外卖']::text[], array['中餐', '下午茶', '夜宵']::text[], array['自习后']::text[], array[]::text[], array['小吃', '实惠']::text[], '便宜、热闹、快乐，适合晚上给自己一点小奖励。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1350,14 +1605,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r053', '城西银泰·轻食简餐风味档', '城西银泰·轻食简餐风味档', array[]::text[], '城西银泰', 2.9, 37, '轻食简餐', 30, 4.5, 82, 241, 30.2922, 120.1116, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r053', '城西银泰·轻食简餐风味档', '城西银泰·轻食简餐风味档', array[]::text[], '城西银泰', 2.9, 37, '轻食简餐', 30, 4.5, 82, 241, 30.2922, 120.1116, '轻', '#5aa37c', array['不辣', '一人食', '轻负担', '人均30内']::text[], array['健身后', '清爽午餐', '不想太油']::text[], array['外卖']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '运动后']::text[], array['辣', '不辣', '轻负担']::text[], array['清爽', '实惠']::text[], '口味清爽，饱腹感比沙拉强，适合想吃轻一点的时候。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1376,14 +1636,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r054', '三墩·日韩简餐深夜档', '三墩·日韩简餐深夜档', array[]::text[], '三墩', 3.1, 38, '日韩简餐', 40, 4.6, 83, 278, 30.327, 120.0745, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r054', '三墩·日韩简餐深夜档', '三墩·日韩简餐深夜档', array[]::text[], '三墩', 3.1, 38, '日韩简餐', 40, 4.6, 83, 278, 30.327, 120.0745, '拌', '#8d5a3b', array['一人食', '下饭', '拍照', '人均50内']::text[], array['周末换口味', '独自觅食', '两人小聚']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '聚餐', '约会拍照']::text[], array[]::text[], array['下饭', '拍照']::text[], '酱汁和主食都比较稳，店面氛围适合慢慢吃。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1402,14 +1667,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r055', '紫金港北门·清真友好一号店', '紫金港北门·清真友好一号店', array[]::text[], '紫金港北门', 0.8, 10, '清真友好', 22, 4.7, 84, 315, 30.3136, 120.0925, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r055', '紫金港北门·清真友好一号店', '紫金港北门·清真友好一号店', array[]::text[], '紫金港北门', 0.8, 10, '清真友好', 22, 4.7, 84, 315, 30.3136, 120.0925, '牛', '#4f8b65', array['清真友好', '面食', '实惠', '人均30内']::text[], array['清真友好', '午餐快吃', '预算友好']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐']::text[], array[]::text[], array['清真友好']::text[], array['面食', '实惠']::text[], '选择稳定、价格友好，适合日常快速解决。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1428,14 +1698,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r056', '紫金港南门·聚餐烤鱼小馆', '紫金港南门·聚餐烤鱼小馆', array[]::text[], '紫金港南门', 1.3, 18, '聚餐烤鱼', 57, 4.1, 85, 352, 30.296, 120.0918, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r056', '紫金港南门·聚餐烤鱼小馆', '紫金港南门·聚餐烤鱼小馆', array[]::text[], '紫金港南门', 1.3, 18, '聚餐烤鱼', 57, 4.1, 85, 352, 30.296, 120.0918, '鱼', '#3d7f8f', array['聚餐', '辣', '夜宵', '50+']::text[], array['多人约饭', '夜宵改善', '想吃鱼']::text[], array['堂食']::text[], array['晚餐', '夜宵']::text[], array['聚餐']::text[], array['辣']::text[], array[]::text[], '更适合多人分食，氛围感比日常快餐强。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1454,14 +1729,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r057', '校内·粥面暖胃饭铺', '校内·粥面暖胃饭铺', array[]::text[], '校内', 0.3, 4, '粥面暖胃', 19, 4.2, 86, 389, 30.3073, 120.0886, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r057', '校内·粥面暖胃饭铺', '校内·粥面暖胃饭铺', array[]::text[], '校内', 0.3, 4, '粥面暖胃', 19, 4.2, 86, 389, 30.3073, 120.0886, '粥', '#c0955f', array['暖胃', '不辣', '实惠', '人均30内']::text[], array['晚课后', '胃口一般', '轻负担']::text[], array['外卖', '堂食']::text[], array['早餐', '中餐', '下午茶', '晚餐', '夜宵']::text[], array['自习后', '运动后', '懒得出校']::text[], array['辣', '不辣', '轻负担']::text[], array['暖胃', '面食', '实惠']::text[], '清淡、近、负担小，适合不想吃太重的一餐。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1480,14 +1760,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r058', '西园·咖啡甜点食堂外档', '西园·咖啡甜点食堂外档', array[]::text[], '西园', 1.1, 15, '咖啡甜点', 37, 4.3, 87, 426, 30.3066, 120.0773, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r058', '西园·咖啡甜点食堂外档', '西园·咖啡甜点食堂外档', array[]::text[], '西园', 1.1, 15, '咖啡甜点', 37, 4.3, 87, 426, 30.3066, 120.0773, '咖', '#8c6338', array['拍照', '不辣', '一人食', '人均50内']::text[], array['下午自习', '独处放空', '轻约会']::text[], array['外卖', '堂食']::text[], array['中餐', '下午茶', '晚餐']::text[], array['一人食', '自习后', '约会拍照']::text[], array['辣', '不辣']::text[], array['拍照']::text[], '适合坐一会儿，把吃饭和自习之间的缝隙填满。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1506,14 +1791,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r059', '青芝坞·东南亚风味街角店', '青芝坞·东南亚风味街角店', array[]::text[], '青芝坞', 1.9, 24, '东南亚风味', 45, 4.3, 88, 463, 30.2745, 120.1241, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r059', '青芝坞·东南亚风味街角店', '青芝坞·东南亚风味街角店', array[]::text[], '青芝坞', 1.9, 24, '东南亚风味', 45, 4.3, 88, 463, 30.2745, 120.1241, '越', '#4d9a8d', array['不辣', '清爽', '面食', '人均50内']::text[], array['周末换口味', '清爽汤粉', '轻聚餐']::text[], array['堂食']::text[], array['早餐', '晚餐']::text[], array['聚餐']::text[], array['辣', '不辣']::text[], array['面食', '清爽']::text[], '汤粉清爽，香料感轻，适合吃腻重口后的换口味。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1532,14 +1822,19 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
 
 insert into public.restaurants (
-  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, reason, source_refs, status
+  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status
 ) values (
-  'r060', '申花·东北大份菜小桌', '申花·东北大份菜小桌', array[]::text[], '申花', 1.9, 23, '东北大份菜', 43, 4.4, 89, 500, 30.3242, 120.1036, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
+  'r060', '申花·东北大份菜小桌', '申花·东北大份菜小桌', array[]::text[], '申花', 1.9, 23, '东北大份菜', 43, 4.4, 89, 500, 30.3242, 120.1036, '锅', '#b06a36', array['聚餐', '下饭', '大份', '人均50内']::text[], array['寝室聚餐', '大份下饭', '晚饭改善']::text[], array['堂食']::text[], array['晚餐']::text[], array['聚餐']::text[], array['大份']::text[], array['下饭']::text[], '菜量友好，人多分摊很合适，适合寝室饭局。', '[{"type":"demo_seed","path":"seed/restaurants.json"}]'::jsonb, 'published'
 )
 on conflict (id) do update set
   name = excluded.name,
@@ -1558,6 +1853,11 @@ on conflict (id) do update set
   cover_color = excluded.cover_color,
   tags = excluded.tags,
   suited_for = excluded.suited_for,
+  service_modes = excluded.service_modes,
+  meal_periods = excluded.meal_periods,
+  scenario_tags = excluded.scenario_tags,
+  constraint_tags = excluded.constraint_tags,
+  preference_tags = excluded.preference_tags,
   reason = excluded.reason,
   source_refs = excluded.source_refs,
   status = excluded.status;
