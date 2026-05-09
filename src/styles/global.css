@@ -446,6 +446,11 @@ p {
   gap: 8px;
 }
 
+.restaurant-list .restaurant-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 176px;
+}
+
 .score-pill,
 .trust-pill {
   min-height: 32px;
@@ -465,6 +470,15 @@ p {
 .trust-pill {
   background: rgba(52, 199, 89, 0.12);
   color: var(--student-green);
+}
+
+.score-explain {
+  max-width: 190px;
+  color: var(--label-tertiary);
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1.35;
+  text-align: right;
 }
 
 .favorite-button {
@@ -892,6 +906,31 @@ p {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.score-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.score-breakdown-grid span {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--separator);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--label-secondary);
+  font-size: 13px;
+  font-weight: 720;
+}
+
+.score-breakdown-grid strong {
+  color: var(--label-primary);
+  font-size: 20px;
+  letter-spacing: -0.04em;
+}
+
 .stat-card {
   display: grid;
   gap: 8px;
@@ -1139,10 +1178,16 @@ p {
     flex-wrap: wrap;
   }
 
+  .score-explain {
+    max-width: 100%;
+    text-align: left;
+  }
+
   .stats-grid,
   .preference-grid,
   .quick-filter-grid,
-  .note-grid {
+  .note-grid,
+  .score-breakdown-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1176,7 +1221,8 @@ p {
   .stats-grid,
   .preference-grid,
   .quick-filter-grid,
-  .note-grid {
+  .note-grid,
+  .score-breakdown-grid {
     grid-template-columns: 1fr;
   }
 

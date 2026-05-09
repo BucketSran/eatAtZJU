@@ -21,7 +21,9 @@ function unique(values) {
 }
 
 function writeJson(relativePath, value) {
-  fs.writeFileSync(path.join(root, relativePath), `${JSON.stringify(value, null, 2)}\n`)
+  const targetPath = path.join(root, relativePath)
+  fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+  fs.writeFileSync(targetPath, `${JSON.stringify(value, null, 2)}\n`)
 }
 
 function normalizeReview(review) {
@@ -86,13 +88,32 @@ writeJson('seed/restaurants.json', {
     { label: '50+', min: 51, max: 999 }
   ]
 })
+writeJson('public/seed/restaurants.json', {
+  schemaVersion: 1,
+  restaurants,
+  tasteTags,
+  priceRanges: [
+    { label: '不限', min: 0, max: 999 },
+    { label: '30以内', min: 0, max: 30 },
+    { label: '30-50', min: 31, max: 50 },
+    { label: '50+', min: 51, max: 999 }
+  ]
+})
 
 writeJson('seed/dishes.json', {
   schemaVersion: 1,
   dishes: []
 })
+writeJson('public/seed/dishes.json', {
+  schemaVersion: 1,
+  dishes: []
+})
 
 writeJson('seed/reviews.json', {
+  schemaVersion: 1,
+  reviews
+})
+writeJson('public/seed/reviews.json', {
   schemaVersion: 1,
   reviews
 })

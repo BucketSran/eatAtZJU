@@ -44,7 +44,7 @@ export function ContributePage() {
       return
     }
 
-    setStatus('正在提交...')
+    setStatus('正在提交…')
 
     try {
       const result = await submitContribution(type, {
@@ -126,19 +126,19 @@ export function ContributePage() {
             <div className="form-grid">
               <label>
                 <span className="search-label">标题</span>
-                <input className="search-input" value={title} maxLength={80} placeholder="例如：北门新开的砂锅店" onChange={(event) => setTitle(event.target.value)} required />
+                <input name="submission-title" className="search-input" value={title} maxLength={80} autoComplete="off" placeholder="例如：北门新开的砂锅店" onChange={(event) => setTitle(event.target.value)} required />
               </label>
               <label>
                 <span className="search-label">人均价格</span>
-                <input className="search-input" value={price} inputMode="numeric" placeholder="例如：28" onChange={(event) => setPrice(event.target.value)} />
+                <input name="submission-price" className="search-input" value={price} inputMode="numeric" autoComplete="off" placeholder="例如：28" onChange={(event) => setPrice(event.target.value)} />
               </label>
               <label>
                 <span className="search-label">区域</span>
-                <input className="search-input" value={area} maxLength={40} placeholder="例如：紫金港北门 / 校内" onChange={(event) => setArea(event.target.value)} />
+                <input name="submission-area" className="search-input" value={area} maxLength={40} autoComplete="off" placeholder="例如：紫金港北门 / 校内" onChange={(event) => setArea(event.target.value)} />
               </label>
               <label>
                 <span className="search-label">菜系/类型</span>
-                <input className="search-input" value={cuisine} maxLength={40} placeholder="例如：川湘小炒 / 咖啡甜点" onChange={(event) => setCuisine(event.target.value)} />
+                <input name="submission-cuisine" className="search-input" value={cuisine} maxLength={40} autoComplete="off" placeholder="例如：川湘小炒 / 咖啡甜点" onChange={(event) => setCuisine(event.target.value)} />
               </label>
             </div>
 
@@ -146,11 +146,11 @@ export function ContributePage() {
               <div className="form-grid compact-form-grid">
                 <label>
                   <span className="search-label">关联餐厅 ID</span>
-                  <input className="search-input" value={restaurantId} placeholder="例如：r001" onChange={(event) => setRestaurantId(event.target.value)} />
+                  <input name="submission-restaurant-id" className="search-input" value={restaurantId} autoComplete="off" placeholder="例如：r001" onChange={(event) => setRestaurantId(event.target.value)} />
                 </label>
                 <label>
                   <span className="search-label">评分</span>
-                  <input className="search-input" value={rating} inputMode="numeric" placeholder="1-5" onChange={(event) => setRating(event.target.value)} />
+                  <input name="submission-rating" className="search-input" value={rating} inputMode="decimal" autoComplete="off" placeholder="1-5" onChange={(event) => setRating(event.target.value)} />
                 </label>
               </div>
             ) : null}
@@ -223,7 +223,7 @@ export function ContributePage() {
           </div>
 
           <button className="primary-action" type="submit">提交到审核队列</button>
-          {status ? <p className="helper-text">{status}</p> : null}
+          {status ? <p className="helper-text" aria-live="polite">{status}</p> : null}
         </form>
 
         <aside className="submission-preview">

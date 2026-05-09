@@ -100,6 +100,7 @@ function restaurantMatchesDistance(restaurant: Restaurant, distanceLabel = '不�
 
 function restaurantMatchesCampus(restaurant: Restaurant, campus?: string) {
   if (!campus) return true
+  if (restaurant.campusLabel === campus || restaurant.campusKey === campus) return true
   return (
     restaurant.area.startsWith(`${campus}校内`) ||
     restaurant.area.startsWith(`${campus}周边`) ||

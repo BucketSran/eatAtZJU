@@ -36,7 +36,7 @@ export function App() {
       </header>
 
       <main className="page-container">
-        <Suspense fallback={<div className="route-loading">正在准备饭点地图...</div>}>
+        <Suspense fallback={<div className="route-loading">正在准备饭点地图…</div>}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/discover" element={<DiscoverPage />} />

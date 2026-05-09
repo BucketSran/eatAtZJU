@@ -10,6 +10,9 @@ function mapRestaurant(row) {
   return {
     id: row.id,
     name: row.name,
+    campusKey: row.campus_key || undefined,
+    campusLabel: row.campus_label || undefined,
+    campusDistance: row.campus_distance === null || row.campus_distance === undefined ? undefined : toNumber(row.campus_distance),
     area: row.area,
     distance: toNumber(row.distance),
     walkMinutes: row.walk_minutes,
@@ -72,7 +75,7 @@ async function listRestaurants(query = {}) {
   const client = getClientOrThrow()
   const { data, error } = await client
     .from('restaurants')
-    .select('id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
+    .select('id,name,campus_key,campus_label,campus_distance,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
     .eq('status', 'published')
 
   if (error) throw error
@@ -83,7 +86,7 @@ async function getRestaurantDetail(id, query = {}) {
   const client = getClientOrThrow()
   const { data: restaurantRow, error: restaurantError } = await client
     .from('restaurants')
-    .select('id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
+    .select('id,name,campus_key,campus_label,campus_distance,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
     .eq('id', id)
     .eq('status', 'published')
     .maybeSingle()

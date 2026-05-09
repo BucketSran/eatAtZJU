@@ -43,10 +43,12 @@ export function scoreRestaurantBreakdown(restaurant: Restaurant, context: Recomm
   const constraintHit = preferences.filter((tag) => constraintTokens.has(tag)).length
   const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 6 : 0
   const ratingScore = (restaurant.rating / 5) * 36
-  const distanceScore = Math.max(0, 32 - restaurant.distance * 12)
+  const campusDistance = restaurant.campusDistance ?? restaurant.distance
+  const distanceScore = Math.max(0, 32 - campusDistance * 12)
   const priceScore = Math.max(0, 18 - restaurant.price / 5)
   const preferenceScore = Math.min(14, preferenceHit * 5 + constraintHit * 3)
-  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost + categoryScore(restaurant, preferences))
+  const categoryBoost = categoryScore(restaurant, preferences)
+  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost + categoryBoost)
   const hasStudentSignal = restaurant.studentScore > 0 || restaurant.checkins > 0
   const studentScore = hasStudentSignal
     ? clampScore(restaurant.studentScore * 0.75 + Math.min(100, restaurant.checkins / 2) * 0.25 + favoriteBoost)
@@ -57,7 +59,13 @@ export function scoreRestaurantBreakdown(restaurant: Restaurant, context: Recomm
     publicScore,
     publicWeight: hasStudentSignal ? 0.2 : 1,
     studentScore,
-    studentWeight: hasStudentSignal ? 0.8 : 0
+    studentWeight: hasStudentSignal ? 0.8 : 0,
+    ratingScore: clampScore(ratingScore),
+    distanceScore: clampScore(distanceScore),
+    priceScore: clampScore(priceScore),
+    preferenceScore: clampScore(preferenceScore),
+    categoryScore: categoryBoost,
+    favoriteBoost
   }
 }
 

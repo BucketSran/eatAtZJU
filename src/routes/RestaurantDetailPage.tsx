@@ -29,6 +29,27 @@ function SourceSummary({ sourceRefs }: { sourceRefs?: unknown[] }) {
   return <strong>{count ? `${count} 条` : '待补充'}</strong>
 }
 
+function ScoreExplain({ restaurant }: { restaurant: RestaurantSummary }) {
+  const breakdown = restaurant.matchBreakdown
+  if (!breakdown) return null
+  const isBlended = breakdown.mode === 'blended'
+  return (
+    <GlassCard>
+      <p className="eyebrow">WHY THIS SCORE</p>
+      <h2>推荐分怎么来的</h2>
+      <p>{isBlended ? '这家店已经有学生信号，所以学生评价占主要权重。' : '这家店还没有学生评价，当前只把公开 POI 当作冷启动参考。'}</p>
+      <div className="score-breakdown-grid">
+        <span>学生权重 <strong>{Math.round(breakdown.studentWeight * 100)}%</strong></span>
+        <span>公开权重 <strong>{Math.round(breakdown.publicWeight * 100)}%</strong></span>
+        <span>公开评分 <strong>{breakdown.ratingScore ?? '-'}</strong></span>
+        <span>距离便利 <strong>{breakdown.distanceScore ?? '-'}</strong></span>
+        <span>价格友好 <strong>{breakdown.priceScore ?? '-'}</strong></span>
+        <span>偏好匹配 <strong>{breakdown.preferenceScore ?? '-'}</strong></span>
+      </div>
+    </GlassCard>
+  )
+}
+
 export function RestaurantDetailPage() {
   const { id } = useParams()
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
@@ -92,7 +113,7 @@ export function RestaurantDetailPage() {
       <div className="route-stack">
         <div className="page-heading">
           <p className="eyebrow">RESTAURANT</p>
-          <h1>{isLoading ? '正在加载餐厅...' : '没有找到这家餐厅'}</h1>
+          <h1>{isLoading ? '正在加载餐厅…' : '没有找到这家餐厅'}</h1>
           <p>{isLoading ? '正在向后端确认餐厅详情。' : '可能是 demo seed 里还没有录入，或链接里的餐厅 ID 不存在。'}</p>
         </div>
         <GlassCard>
@@ -113,7 +134,7 @@ export function RestaurantDetailPage() {
   return (
     <div className="route-stack">
       <div className="status-strip">
-        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
       </div>
 
       <section className="detail-hero glass-card">
@@ -176,6 +197,8 @@ export function RestaurantDetailPage() {
           ))}
         </div>
       </GlassCard>
+
+      <ScoreExplain restaurant={restaurant} />
 
       <GlassCard>
         <div className="section-heading card-heading">

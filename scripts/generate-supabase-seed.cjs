@@ -28,6 +28,26 @@ function sqlJson(value) {
   return `${sqlString(JSON.stringify(value))}::jsonb`
 }
 
+function inferCampusLabel(restaurant) {
+  if (restaurant.campusLabel) return restaurant.campusLabel
+  const campus = ['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁'].find((label) => {
+    const values = [restaurant.area, restaurant.reason, ...(restaurant.tags || []), ...(restaurant.suitedFor || [])]
+    return values.some((value) => String(value || '').includes(label))
+  })
+  return campus || null
+}
+
+function campusKeyFor(label) {
+  return {
+    紫金港: 'zijingang',
+    玉泉: 'yuquan',
+    西溪: 'xixi',
+    华家池: 'huajiachi',
+    之江: 'zhijiang',
+    海宁: 'haining'
+  }[label] || null
+}
+
 function hasAny(values, candidates) {
   const text = values.join(' ')
   return candidates.some((candidate) => text.includes(candidate))
@@ -120,14 +140,20 @@ function buildSeedSql() {
 
   for (const restaurant of restaurants) {
     const taxonomy = deriveTaxonomy(restaurant)
+    const campusLabel = inferCampusLabel(restaurant)
+    const campusKey = restaurant.campusKey || campusKeyFor(campusLabel)
+    const campusDistance = typeof restaurant.campusDistance === 'number' ? restaurant.campusDistance : restaurant.distance
     lines.push(`insert into public.restaurants (`)
-    lines.push('  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status')
+    lines.push('  id, name, canonical_name, aliases, campus_key, campus_label, campus_distance, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status')
     lines.push(') values (')
-    lines.push(`  ${sqlString(restaurant.id)}, ${sqlString(restaurant.name)}, ${sqlString(restaurant.name)}, array[]::text[], ${sqlString(restaurant.area)}, ${sqlNumber(restaurant.distance)}, ${sqlNumber(restaurant.walkMinutes)}, ${sqlString(restaurant.cuisine)}, ${sqlNumber(restaurant.price)}, ${sqlNumber(restaurant.rating)}, ${sqlNumber(restaurant.studentScore)}, ${sqlNumber(restaurant.checkins)}, ${sqlNumber(restaurant.latitude)}, ${sqlNumber(restaurant.longitude)}, ${sqlString(restaurant.coverIcon)}, ${sqlString(restaurant.coverColor)}, ${sqlArray(restaurant.tags)}, ${sqlArray(restaurant.suitedFor)}, ${sqlArray(taxonomy.serviceModes)}, ${sqlArray(taxonomy.mealPeriods)}, ${sqlArray(taxonomy.scenarioTags)}, ${sqlArray(taxonomy.constraintTags)}, ${sqlArray(taxonomy.preferenceTags)}, ${sqlString(restaurant.reason)}, ${sqlJson(restaurant.sourceRefs && restaurant.sourceRefs.length ? restaurant.sourceRefs : [{ type: 'seed', path: 'seed/restaurants.json' }])}, ${sqlString(restaurant.status)}`)
+    lines.push(`  ${sqlString(restaurant.id)}, ${sqlString(restaurant.name)}, ${sqlString(restaurant.name)}, array[]::text[], ${sqlString(campusKey)}, ${sqlString(campusLabel)}, ${sqlNumber(campusDistance)}, ${sqlString(restaurant.area)}, ${sqlNumber(restaurant.distance)}, ${sqlNumber(restaurant.walkMinutes)}, ${sqlString(restaurant.cuisine)}, ${sqlNumber(restaurant.price)}, ${sqlNumber(restaurant.rating)}, ${sqlNumber(restaurant.studentScore)}, ${sqlNumber(restaurant.checkins)}, ${sqlNumber(restaurant.latitude)}, ${sqlNumber(restaurant.longitude)}, ${sqlString(restaurant.coverIcon)}, ${sqlString(restaurant.coverColor)}, ${sqlArray(restaurant.tags)}, ${sqlArray(restaurant.suitedFor)}, ${sqlArray(taxonomy.serviceModes)}, ${sqlArray(taxonomy.mealPeriods)}, ${sqlArray(taxonomy.scenarioTags)}, ${sqlArray(taxonomy.constraintTags)}, ${sqlArray(taxonomy.preferenceTags)}, ${sqlString(restaurant.reason)}, ${sqlJson(restaurant.sourceRefs && restaurant.sourceRefs.length ? restaurant.sourceRefs : [{ type: 'seed', path: 'seed/restaurants.json' }])}, ${sqlString(restaurant.status)}`)
     lines.push(')')
     lines.push('on conflict (id) do update set')
     lines.push('  name = excluded.name,')
     lines.push('  canonical_name = excluded.canonical_name,')
+    lines.push('  campus_key = excluded.campus_key,')
+    lines.push('  campus_label = excluded.campus_label,')
+    lines.push('  campus_distance = excluded.campus_distance,')
     lines.push('  area = excluded.area,')
     lines.push('  distance = excluded.distance,')
     lines.push('  walk_minutes = excluded.walk_minutes,')

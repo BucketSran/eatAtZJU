@@ -47,9 +47,9 @@ export function getRestaurantDetail(id: string, context?: Partial<Recommendation
 
 async function listRestaurantsFromSeed(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
   const [{ listSeedRestaurants, getSeedMetadata }] = await Promise.all([import('./seedRepository')])
-  const metadata = getSeedMetadata()
+  const [seedRestaurants, metadata] = await Promise.all([listSeedRestaurants(), getSeedMetadata()])
   const resolvedContext = getContext(context)
-  const filtered = filterRestaurants(listSeedRestaurants(), filters, metadata.priceRanges)
+  const filtered = filterRestaurants(seedRestaurants, filters, metadata.priceRanges)
   const scored = attachRecommendationScore(filtered, resolvedContext)
   const sorted = sortRestaurants(scored, filters.sort)
   return markFavorites(sorted, resolvedContext.favoriteRestaurantIds ?? [])
@@ -57,15 +57,16 @@ async function listRestaurantsFromSeed(filters: RestaurantFilters = {}, context?
 
 async function getRestaurantDetailFromSeed(id: string, context?: Partial<RecommendationContext>) {
   const { getSeedRestaurant, listSeedDishes, listSeedReviews } = await import('./seedRepository')
-  const restaurant = getSeedRestaurant(id)
+  const restaurant = await getSeedRestaurant(id)
   if (!restaurant || restaurant.status !== 'published') return null
 
   const resolvedContext = getContext(context)
   const [summary] = markFavorites(attachRecommendationScore([restaurant], resolvedContext), resolvedContext.favoriteRestaurantIds ?? [])
+  const [dishes, reviews] = await Promise.all([listSeedDishes(), listSeedReviews()])
   return {
     restaurant: summary,
-    dishes: listSeedDishes().filter((dish) => dish.restaurantId === id && dish.status === 'published'),
-    reviews: listSeedReviews().filter((review) => review.restaurantId === id && review.status === 'approved')
+    dishes: dishes.filter((dish) => dish.restaurantId === id && dish.status === 'published'),
+    reviews: reviews.filter((review) => review.restaurantId === id && review.status === 'approved')
   }
 }
 

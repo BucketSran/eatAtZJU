@@ -491,6 +491,9 @@ function candidateToRestaurant(candidate, index) {
   const restaurant = {
     id,
     name: candidate.name,
+    campusKey: candidate.campusKey,
+    campusLabel: candidate.campusLabel,
+    campusDistance: Number((candidate.distanceMeters / 1000).toFixed(2)),
     area: inferArea(candidate),
     distance: Number((candidate.distanceMeters / 1000).toFixed(2)),
     walkMinutes: Math.max(2, Math.round(candidate.distanceMeters / 75)),

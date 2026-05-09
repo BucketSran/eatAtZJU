@@ -4,6 +4,8 @@ const { spawnSync } = require('child_process')
 
 const root = path.resolve(__dirname, '..')
 const EXPECTED_SCHEMA_VERSION = 1
+const CAMPUS_LABELS = ['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁']
+const BAD_PUBLIC_NAME_PATTERN = /停车场|公共厕所|厕所|入口|出口|充电|公司|学校|宿舍|银行|超市|暂停营业|已停业|停业|歇业|撤店|建设中|装修|招商|取餐点|提货点|配送站|外卖柜|骑手/
 
 function walk(dir, matcher, acc = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -121,6 +123,18 @@ function checkSeedData() {
   for (const restaurant of restaurantSeed.restaurants) {
     validateRestaurantShape(restaurant, 'seed restaurant')
     assert(restaurant.status === 'published', `seed restaurant ${restaurant.id} must be published for demo`)
+    assert(!BAD_PUBLIC_NAME_PATTERN.test(restaurant.name), `seed restaurant ${restaurant.id} looks closed/non-restaurant: ${restaurant.name}`)
+    assert(CAMPUS_LABELS.includes(restaurant.campusLabel), `seed restaurant ${restaurant.id} missing valid campusLabel`)
+    assert(typeof restaurant.campusKey === 'string' && restaurant.campusKey.length > 0, `seed restaurant ${restaurant.id} missing campusKey`)
+    assert(typeof restaurant.campusDistance === 'number' && restaurant.campusDistance >= 0, `seed restaurant ${restaurant.id} missing valid campusDistance`)
+    assert(restaurant.tags.includes(restaurant.campusLabel), `seed restaurant ${restaurant.id} tags must include campusLabel`)
+    const campusTagCount = restaurant.tags.filter((tag) => CAMPUS_LABELS.includes(tag)).length
+    assert(campusTagCount === 1, `seed restaurant ${restaurant.id} must contain exactly one campus tag`)
+    const categoryCount = Number(restaurant.tags.includes('正餐')) + Number(restaurant.tags.includes('饮品'))
+    assert(categoryCount === 1, `seed restaurant ${restaurant.id} must be exactly one of 正餐/饮品`)
+    if (restaurant.tags.includes('饮品')) {
+      assert(!restaurant.mealPeriods?.includes('中餐') && !restaurant.mealPeriods?.includes('晚餐'), `drink seed ${restaurant.id} must not be mixed into lunch/dinner meal periods`)
+    }
     if (restaurant.sourceRefs !== undefined) {
       assert(Array.isArray(restaurant.sourceRefs) && restaurant.sourceRefs.length > 0, `seed restaurant ${restaurant.id} sourceRefs must not be empty`)
     }
@@ -128,6 +142,8 @@ function checkSeedData() {
     if (!hasStudentUgcSource) {
       assert(restaurant.studentScore === 0, `seed restaurant ${restaurant.id} must not invent studentScore without student_ugc source`)
       assert(restaurant.checkins === 0, `seed restaurant ${restaurant.id} must not invent checkins without student_ugc source`)
+      assert(restaurant.reason.includes('公开信息整理'), `seed restaurant ${restaurant.id} must disclose public-source reason`)
+      assert(!/学生打卡|学生评价|学生评分/.test(restaurant.reason), `seed restaurant ${restaurant.id} must not imply student feedback without student_ugc source`)
     }
     assert(!restaurantIds.has(restaurant.id), `duplicate seed restaurant id: ${restaurant.id}`)
     restaurantIds.add(restaurant.id)
@@ -176,9 +192,18 @@ async function checkApiService() {
   const all = apiService.listRestaurants({ preferences: '近,实惠,辣' })
   assert(all.length > 0, 'api listRestaurants should return published restaurants')
   assert(typeof all[0].recommendationScore === 'number', 'api listRestaurants should decorate recommendationScore')
+  for (let index = 1; index < all.length; index += 1) {
+    assert((all[index - 1].recommendationScore || 0) >= (all[index].recommendationScore || 0), 'api listRestaurants default order must be recommendationScore desc')
+  }
 
   const filtered = apiService.listRestaurants({ tag: '实惠', price: '30以内', sort: 'recommended' })
   assert(filtered.length > 0, 'api filtered list should return restaurants')
+  const meals = apiService.listRestaurants({ tag: '正餐', sort: 'recommended' })
+  const drinks = apiService.listRestaurants({ tag: '饮品', sort: 'recommended' })
+  const zijingangMeals = apiService.listRestaurants({ campus: '紫金港', tag: '正餐', sort: 'recommended' })
+  assert(meals.length > 0 && meals.every((restaurant) => restaurant.tags.includes('正餐') && !restaurant.tags.includes('饮品')), 'api 正餐 filter must not mix drinks')
+  assert(drinks.length > 0 && drinks.every((restaurant) => restaurant.tags.includes('饮品') && !restaurant.tags.includes('正餐')), 'api 饮品 filter must not mix meals')
+  assert(zijingangMeals.length > 0 && zijingangMeals.every((restaurant) => restaurant.campusLabel === '紫金港'), 'api campus filter must keep results inside selected campus')
 
   const detail = apiService.getRestaurantDetail('r001', { preferences: '近,实惠' })
   assert(detail && detail.restaurant.id === 'r001', 'api getRestaurantDetail should return r001')

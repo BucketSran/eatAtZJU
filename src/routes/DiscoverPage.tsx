@@ -16,6 +16,12 @@ const sortOptions: Array<{ label: string; value: SortKey }> = [
   { label: '价格', value: 'price' }
 ]
 
+const mealCategoryOptions = [
+  { label: '先找正餐', value: '正餐' },
+  { label: '饮品甜点', value: '饮品' },
+  { label: '全部', value: '全部' }
+]
+
 function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === 'AbortError'
 }
@@ -75,7 +81,12 @@ export function DiscoverPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const metadata = getRestaurantMetadata()
   const [keyword, setKeyword] = useState(() => searchParams.get('keyword') ?? '')
+  const [campus, setCampus] = useState<CampusOption>(() => {
+    const initialCampus = searchParams.get('campus') ?? readStoredCampus()
+    return campusOptions.includes(initialCampus as CampusOption) ? (initialCampus as CampusOption) : '紫金港'
+  })
   const [serviceMode, setServiceMode] = useState(() => searchParams.get('mode') ?? '都可以')
+  const [mealCategory, setMealCategory] = useState(() => searchParams.get('category') ?? '正餐')
   const [mealPeriod, setMealPeriod] = useState(() => searchParams.get('meal') ?? getCurrentMealPeriod())
   const initialTags = useMemo(() => {
     const tags = [
@@ -104,7 +115,8 @@ export function DiscoverPage() {
   const [randomTags, setRandomTags] = useState<string[]>(() => getInitialRandomTags(searchParams))
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
-  const initialFilters = { keyword, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort }
+  const getCategoryTags = (category = mealCategory) => (category === '全部' ? [] : [category])
+  const initialFilters = { keyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: getCategoryTags() }
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(initialFilters, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
   const [randomMessage, setRandomMessage] = useState('')
@@ -117,14 +129,16 @@ export function DiscoverPage() {
   const dietaryKey = dietaryTags.join(',')
   const preferenceKey = preferenceTags.join(',')
   const randomTagKey = randomTags.join(',')
-  const filters = useMemo(() => ({ keyword, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort }), [dietaryKey, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, priceLabel, scenarioKey, serviceMode, sort, spiceLevel])
-  const context = useMemo(() => ({ preferences: [...preferences, serviceMode, mealPeriod, ...scenarioTags, ...preferenceTags], favoriteRestaurantIds: favoriteIds }), [favoriteIds, mealPeriod, preferenceKey, preferences, scenarioKey, serviceMode])
+  const filters = useMemo(() => ({ keyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: getCategoryTags(mealCategory) }), [campus, dietaryKey, distanceLabel, keyword, loadLevel, mealCategory, mealPeriod, preferenceKey, priceLabel, scenarioKey, serviceMode, sort, spiceLevel])
+  const context = useMemo(() => ({ preferences: [...preferences, campus, serviceMode, mealPeriod, mealCategory, ...scenarioTags, ...preferenceTags], favoriteRestaurantIds: favoriteIds }), [campus, favoriteIds, mealCategory, mealPeriod, preferenceKey, preferences, scenarioKey, serviceMode])
   const showRandom = searchParams.get('random') === '1'
-  const summaryItems = [serviceMode, mealPeriod, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
+  const summaryItems = [campus, mealCategory, serviceMode, mealPeriod, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
 
   useEffect(() => {
     const next = new URLSearchParams()
     if (keyword) next.set('keyword', keyword)
+    if (campus !== '紫金港') next.set('campus', campus)
+    if (mealCategory !== '正餐') next.set('category', mealCategory)
     if (serviceMode !== '都可以') next.set('mode', serviceMode)
     if (mealPeriod !== getCurrentMealPeriod()) next.set('meal', mealPeriod)
     if (scenarioTags.length) next.set('scenario', scenarioTags.join(','))
@@ -140,7 +154,7 @@ export function DiscoverPage() {
     if (showRandom && randomBudget !== '不限') next.set('randomBudget', randomBudget)
     if (showRandom && randomTags.length) next.set('randomTags', randomTags.join(','))
     setSearchParams(next, { replace: true })
-  }, [dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, preferenceTags, priceLabel, randomBudget, randomCampus, randomTagKey, randomTags, scenarioKey, scenarioTags, serviceMode, setSearchParams, showRandom, sort, spiceLevel])
+  }, [campus, dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealCategory, mealPeriod, preferenceKey, preferenceTags, priceLabel, randomBudget, randomCampus, randomTagKey, randomTags, scenarioKey, scenarioTags, serviceMode, setSearchParams, showRandom, sort, spiceLevel])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -209,7 +223,9 @@ export function DiscoverPage() {
   }
 
   function clearAllFilters() {
+    setCampus(readStoredCampus())
     setServiceMode('都可以')
+    setMealCategory('正餐')
     setMealPeriod(getCurrentMealPeriod())
     setScenarioTags([])
     setDietaryTags([])
@@ -218,6 +234,12 @@ export function DiscoverPage() {
     setSpiceLevel('不限')
     setLoadLevel('不限')
     setPriceLabel('不限')
+  }
+
+  function selectCampus(nextCampus: string) {
+    const resolvedCampus = campusOptions.includes(nextCampus as CampusOption) ? (nextCampus as CampusOption) : '紫金港'
+    setCampus(resolvedCampus)
+    persistCampus(resolvedCampus)
   }
 
   function selectRandomCampus(campus: string) {
@@ -278,7 +300,7 @@ export function DiscoverPage() {
       </div>
 
       <div className="status-strip">
-        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
       </div>
 
       <GlassCard className="filters-card">
@@ -350,18 +372,31 @@ export function DiscoverPage() {
         <label className="search-label" htmlFor="restaurant-search">
           搜索餐厅、标签或场景
         </label>
-        <input id="restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食" onChange={(event) => setKeyword(event.target.value)} />
+        <input id="restaurant-search" name="restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
         <div className="filter-flow">
           <div className="flow-step">
             <span className="flow-step-index">1</span>
-            <SegmentedControl label="怎么吃" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
+            <div className="filter-section">
+              <div className="filter-section-head">
+                <div>
+                  <span className="filter-section-label">先定校区和大类</span>
+                  <p>默认看当前校区的正餐，下午茶或奶茶再切到饮品甜点。</p>
+                </div>
+              </div>
+              <SegmentedControl label="校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={selectCampus} />
+              <SegmentedControl label="餐饮大类" options={mealCategoryOptions} value={mealCategory} onChange={setMealCategory} />
+            </div>
           </div>
           <div className="flow-step">
             <span className="flow-step-index">2</span>
-            <SegmentedControl label="什么时候吃" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
+            <SegmentedControl label="怎么吃" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
           </div>
           <div className="flow-step">
             <span className="flow-step-index">3</span>
+            <SegmentedControl label="什么时候吃" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
+          </div>
+          <div className="flow-step">
+            <span className="flow-step-index">4</span>
             <div className="filter-section">
               <div className="filter-section-head">
                 <div>
@@ -381,7 +416,7 @@ export function DiscoverPage() {
             </div>
           </div>
           <div className="flow-step">
-            <span className="flow-step-index">4</span>
+            <span className="flow-step-index">5</span>
             <div className="filter-section">
               <div className="filter-section-head">
                 <div>
@@ -405,7 +440,7 @@ export function DiscoverPage() {
             </div>
           </div>
           <div className="flow-step">
-            <span className="flow-step-index">5</span>
+            <span className="flow-step-index">6</span>
             <div className="filter-section">
               <div className="filter-section-head">
                 <div>

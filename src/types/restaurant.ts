@@ -3,6 +3,9 @@ export type RestaurantStatus = 'published' | 'draft' | 'archived'
 export type Restaurant = {
   id: string
   name: string
+  campusKey?: string
+  campusLabel?: string
+  campusDistance?: number
   area: string
   distance: number
   walkMinutes: number
@@ -34,6 +37,12 @@ export type RestaurantSummary = Restaurant & {
     publicWeight: number
     studentScore: number
     studentWeight: number
+    ratingScore?: number
+    distanceScore?: number
+    priceScore?: number
+    preferenceScore?: number
+    categoryScore?: number
+    favoriteBoost?: number
   }
   recommendationScore?: number
   isFavorite?: boolean

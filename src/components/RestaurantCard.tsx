@@ -6,8 +6,18 @@ type RestaurantCardProps = {
   onToggleFavorite?: (id: string) => void
 }
 
+function describeScore(restaurant: RestaurantSummary) {
+  const breakdown = restaurant.matchBreakdown
+  if (!breakdown) return ''
+  if (breakdown.mode === 'blended') {
+    return `学生 ${Math.round(breakdown.studentWeight * 100)}% + 公开 ${Math.round(breakdown.publicWeight * 100)}%`
+  }
+  return `公开信息主导：评分 ${breakdown.ratingScore ?? '-'} · 距离 ${breakdown.distanceScore ?? '-'} · 价格 ${breakdown.priceScore ?? '-'}`
+}
+
 export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardProps) {
   const isColdStart = restaurant.matchBreakdown?.mode !== 'blended'
+  const scoreDescription = describeScore(restaurant)
   return (
     <article className="restaurant-card">
       <Link to={`/restaurants/${restaurant.id}`} className="restaurant-card-main" aria-label={`查看 ${restaurant.name}`}>
@@ -34,8 +44,13 @@ export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardP
       </Link>
       <div className="restaurant-card-side">
         <span className="score-pill">高德 {restaurant.rating}</span>
-        {typeof restaurant.recommendationScore === 'number' ? <span className="score-pill warm">{isColdStart ? '冷启动' : '混合'} {restaurant.recommendationScore}</span> : null}
-        <button className={`favorite-button ${restaurant.isFavorite ? 'active' : ''}`} type="button" onClick={() => onToggleFavorite?.(restaurant.id)}>
+        {typeof restaurant.recommendationScore === 'number' ? (
+          <span className="score-pill warm" title={scoreDescription}>
+            {isColdStart ? '冷启动' : '混合'} {restaurant.recommendationScore}
+          </span>
+        ) : null}
+        {scoreDescription ? <small className="score-explain">{scoreDescription}</small> : null}
+        <button className={`favorite-button ${restaurant.isFavorite ? 'active' : ''}`} type="button" aria-label={`${restaurant.isFavorite ? '取消收藏' : '收藏'} ${restaurant.name}`} onClick={() => onToggleFavorite?.(restaurant.id)}>
           {restaurant.isFavorite ? '已收藏' : '收藏'}
         </button>
       </div>

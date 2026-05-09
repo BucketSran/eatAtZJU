@@ -1,32 +1,55 @@
-import dishesSeed from '../../seed/dishes.json'
-import restaurantsSeed from '../../seed/restaurants.json'
-import reviewsSeed from '../../seed/reviews.json'
 import type { DishesSeed, RestaurantsSeed, ReviewsSeed } from '../types'
 
-const restaurantData = restaurantsSeed as RestaurantsSeed
-const dishData = dishesSeed as DishesSeed
-const reviewData = reviewsSeed as ReviewsSeed
+let restaurantsPromise: Promise<RestaurantsSeed> | null = null
+let dishesPromise: Promise<DishesSeed> | null = null
+let reviewsPromise: Promise<ReviewsSeed> | null = null
 
-export function listSeedRestaurants() {
-  return restaurantData.restaurants
+async function readSeedJson<T>(path: string): Promise<T> {
+  const response = await fetch(path, { headers: { accept: 'application/json' } })
+  if (!response.ok) throw new Error(`Seed fallback ${path} returned ${response.status}`)
+  return (await response.json()) as T
 }
 
-export function listSeedDishes() {
-  return dishData.dishes
+function getRestaurantsData() {
+  restaurantsPromise ??= readSeedJson<RestaurantsSeed>('/seed/restaurants.json')
+  return restaurantsPromise
 }
 
-export function listSeedReviews() {
-  return reviewData.reviews
+function getDishesData() {
+  dishesPromise ??= readSeedJson<DishesSeed>('/seed/dishes.json')
+  return dishesPromise
 }
 
-export function getSeedRestaurant(id: string) {
-  return restaurantData.restaurants.find((restaurant) => restaurant.id === id) ?? null
+function getReviewsData() {
+  reviewsPromise ??= readSeedJson<ReviewsSeed>('/seed/reviews.json')
+  return reviewsPromise
 }
 
-export function getSeedMetadata() {
+export async function listSeedRestaurants() {
+  const data = await getRestaurantsData()
+  return data.restaurants
+}
+
+export async function listSeedDishes() {
+  const data = await getDishesData()
+  return data.dishes
+}
+
+export async function listSeedReviews() {
+  const data = await getReviewsData()
+  return data.reviews
+}
+
+export async function getSeedRestaurant(id: string) {
+  const data = await getRestaurantsData()
+  return data.restaurants.find((restaurant) => restaurant.id === id) ?? null
+}
+
+export async function getSeedMetadata() {
+  const data = await getRestaurantsData()
   return {
-    schemaVersion: restaurantData.schemaVersion,
-    tasteTags: restaurantData.tasteTags,
-    priceRanges: restaurantData.priceRanges
+    schemaVersion: data.schemaVersion,
+    tasteTags: data.tasteTags,
+    priceRanges: data.priceRanges
   }
 }

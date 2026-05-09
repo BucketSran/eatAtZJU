@@ -66,7 +66,7 @@ export function FavoritesPage() {
       </div>
 
       <div className="status-strip">
-        <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
       </div>
 
       {restaurants.length ? (
