@@ -56,6 +56,20 @@ Before building the demo UI, read:
 - `docs/UI_STYLE_GUIDE.md` for visual direction and component style.
 - `docs/MCP_USAGE_PLAN.md` for tool usage boundaries.
 
+## Installed Agent Skills
+
+This project includes Vercel Labs agent skills under `.agents/skills/`, installed from `https://github.com/vercel-labs/agent-skills`.
+
+Use them as project-local references when relevant:
+
+- `vercel-react-best-practices`: use for React component work, data fetching, rendering performance, bundle/perceived-speed optimization, and profile/dashboard UI refactors.
+- `vercel-composition-patterns`: use when refactoring reusable React components or avoiding prop-heavy component APIs.
+- `deploy-to-vercel`: use when creating preview/production deployments or checking Vercel project linkage.
+- `vercel-cli-with-tokens`: use when managing Vercel via CLI with `VERCEL_TOKEN` or project/team IDs. Never pass tokens as command arguments.
+- `web-design-guidelines`: use for UI/UX/accessibility review. Fetch the latest guideline source before doing the review.
+- `vercel-react-view-transitions`: use only when adding route/shared-element/state transitions that communicate clear spatial continuity.
+- `vercel-react-native-skills`: not part of the current Web/PWA path; only use if the project later adds React Native/Expo.
+
 ## AI Coding Workflow
 
 - Start with a spec or issue for non-trivial work.

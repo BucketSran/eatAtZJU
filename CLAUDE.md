@@ -57,6 +57,20 @@ Use tools deliberately:
 
 Do not treat MCP as product runtime infrastructure. The product runtime should call browser-safe SDKs, Vercel APIs, Supabase with RLS, or backend-only integrations.
 
+## Project Agent Skills
+
+Vercel Labs agent skills are installed locally under `.agents/skills/`.
+
+Use them proactively:
+
+- React/Vercel implementation or performance work: read `.agents/skills/vercel-react-best-practices/SKILL.md`.
+- Reusable component/API refactors: read `.agents/skills/vercel-composition-patterns/SKILL.md`.
+- Vercel deployments: read `.agents/skills/deploy-to-vercel/SKILL.md` first. Prefer preview deployments unless the user explicitly asks for production.
+- Vercel CLI with non-interactive auth: read `.agents/skills/vercel-cli-with-tokens/SKILL.md`; never put tokens in CLI args.
+- UI/UX/accessibility review: read `.agents/skills/web-design-guidelines/SKILL.md` and fetch the latest guideline source before reviewing.
+- View transitions: read `.agents/skills/vercel-react-view-transitions/SKILL.md` only when transitions meaningfully communicate navigation or state continuity.
+- React Native skills are installed but out of scope for the current Web/PWA unless the product direction changes.
+
 ## Non-Negotiable Security Rules
 
 - Never expose Supabase service-role keys, AI provider keys, or admin credentials in frontend code.
