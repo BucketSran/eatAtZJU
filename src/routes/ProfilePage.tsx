@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
+import { getPresetAvatar, presetAvatars } from '../lib/avatars'
 import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
 import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, verifyEmailOtp, type AuthState } from '../services/authService'
+import { ensureAppUserProfile, updateAppUserProfile, type AppUserProfile } from '../services/appUserProfileService'
 import { pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
-import { defaultPreferences, getPreferenceTags, resetPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
+import { defaultPreferences, getPreferenceTags, resetPreferenceTags, setPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
 import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata } from '../services/restaurantService'
 import type { RestaurantSummary } from '../types'
 
@@ -23,6 +25,8 @@ export function ProfilePage() {
   const [otpCode, setOtpCode] = useState('')
   const [otpEmail, setOtpEmail] = useState('')
   const [accountStatus, setAccountStatus] = useState('')
+  const [appProfile, setAppProfile] = useState<AppUserProfile | null>(null)
+  const [displayNameDraft, setDisplayNameDraft] = useState('')
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: [] }), [preferences])
 
   useEffect(() => {
@@ -32,7 +36,15 @@ export function ProfilePage() {
         setCampusTrust(null)
         return
       }
-      await ensureProfile(state.user)
+      const profile = await ensureProfile(state.user)
+      if (profile && 'avatarPreset' in profile) {
+        setAppProfile(profile)
+        setDisplayNameDraft(profile.displayName)
+      } else {
+        const appUserProfile = await ensureAppUserProfile(state.user)
+        setAppProfile(appUserProfile)
+        setDisplayNameDraft(appUserProfile?.displayName ?? '')
+      }
       setCampusTrust(await fetchCampusTrustStatus())
     }
 
@@ -101,6 +113,7 @@ export function ProfilePage() {
     setAccountStatus('正在同步偏好...')
     try {
       await syncPreferencesToProfile(preferences)
+      if (appProfile) setAppProfile(await updateAppUserProfile({ preferences }))
       setAccountStatus('偏好已同步到 Supabase profile。')
     } catch (error) {
       setAccountStatus(error instanceof Error ? error.message : '同步失败')
@@ -138,6 +151,32 @@ export function ProfilePage() {
     }
   }
 
+  async function saveDisplayName(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setAccountStatus('正在保存名片...')
+    try {
+      const profile = await updateAppUserProfile({ displayName: displayNameDraft.trim().slice(0, 40) || 'ZJU student' })
+      setAppProfile(profile)
+      setDisplayNameDraft(profile.displayName)
+      setAccountStatus('用户名已同步到 app_users。')
+    } catch (error) {
+      setAccountStatus(error instanceof Error ? error.message : '用户名保存失败')
+    }
+  }
+
+  async function chooseAvatarPreset(avatarPreset: string) {
+    setAccountStatus('正在同步头像...')
+    try {
+      const profile = await updateAppUserProfile({ avatarType: 'preset', avatarPreset, avatarUrl: '' })
+      setAppProfile(profile)
+      setAccountStatus('头像已同步到 app_users。')
+    } catch (error) {
+      setAccountStatus(error instanceof Error ? error.message : '头像同步失败')
+    }
+  }
+
+  const profileAvatar = getPresetAvatar(appProfile?.avatarPreset)
+
   return (
     <div className="route-stack">
       <div className="page-heading split-heading">
@@ -166,6 +205,24 @@ export function ProfilePage() {
         {authState.user ? (
           <div className="form-stack">
             <p className="helper-text">当前账号：{authState.user.email}</p>
+            <div className="web-profile-card">
+              <div className="web-avatar" style={{ background: appProfile?.avatarType === 'preset' ? profileAvatar.color : undefined }}>
+                {appProfile?.avatarType === 'custom' && appProfile.avatarUrl ? <img src={appProfile.avatarUrl} alt="" /> : profileAvatar.text}
+              </div>
+              <form className="form-stack web-profile-form" onSubmit={saveDisplayName}>
+                <label className="search-label" htmlFor="display-name">用户名</label>
+                <input id="display-name" className="search-input" value={displayNameDraft} maxLength={40} placeholder="取一个浙大饭搭子昵称" onChange={(event) => setDisplayNameDraft(event.target.value)} />
+                <button className="secondary-action" type="submit">保存用户名</button>
+              </form>
+            </div>
+            <div className="avatar-preset-grid">
+              {presetAvatars.map((avatar) => (
+                <button key={avatar.id} className={`avatar-preset-button ${appProfile?.avatarPreset === avatar.id ? 'active' : ''}`} type="button" onClick={() => chooseAvatarPreset(avatar.id)}>
+                  <span style={{ background: avatar.color }}>{avatar.text}</span>
+                  {avatar.label}
+                </button>
+              ))}
+            </div>
             <div className={`trust-pill ${campusTrust?.campusEmailVerified ? 'verified' : ''}`}>
               <strong>{campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'}</strong>
               <span>{campusTrust?.campusEmailVerified ? `${campusTrust.campusEmail} · 信用分 ${campusTrust.creditScore}` : '验证后可用于学生可信贡献、审核优先级和后续约饭身份。'}</span>

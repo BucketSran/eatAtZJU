@@ -1,6 +1,7 @@
 import type { User } from '@supabase/supabase-js'
 import { getPreferenceTags, setPreferenceTags } from './preferenceStore'
 import { getSupabaseBrowserClient, isSupabaseBrowserConfigured } from './supabaseBrowserClient'
+import { ensureAppUserProfile, updateAppUserProfile } from './appUserProfileService'
 
 export type AuthState = {
   isConfigured: boolean
@@ -62,6 +63,8 @@ export async function ensureProfile(user: User) {
   const client = getSupabaseBrowserClient()
   if (!client) return null
 
+  const appProfile = await ensureAppUserProfile(user)
+
   const { data: existingProfile, error: selectError } = await client
     .from('profiles')
     .select('id,display_name,preferences')
@@ -70,8 +73,9 @@ export async function ensureProfile(user: User) {
 
   if (selectError) throw selectError
   if (existingProfile) {
-    if (Array.isArray(existingProfile.preferences)) setPreferenceTags(existingProfile.preferences)
-    return existingProfile
+    if (appProfile?.preferences?.length) setPreferenceTags(appProfile.preferences)
+    else if (Array.isArray(existingProfile.preferences)) setPreferenceTags(existingProfile.preferences)
+    return appProfile ?? existingProfile
   }
 
   const { data, error } = await client
@@ -81,8 +85,9 @@ export async function ensureProfile(user: User) {
     .single()
 
   if (error) throw error
-  if (Array.isArray(data.preferences)) setPreferenceTags(data.preferences)
-  return data
+  if (appProfile?.preferences?.length) setPreferenceTags(appProfile.preferences)
+  else if (Array.isArray(data.preferences)) setPreferenceTags(data.preferences)
+  return appProfile ?? data
 }
 
 export async function syncPreferencesToProfile(tags: string[]) {
@@ -98,6 +103,7 @@ export async function syncPreferencesToProfile(tags: string[]) {
     .upsert({ id: userData.user.id, display_name: userData.user.email?.split('@')[0] || 'ZJU student', preferences: tags }, { onConflict: 'id' })
 
   if (error) throw error
+  await updateAppUserProfile({ preferences: tags })
 }
 
 export { isSupabaseBrowserConfigured }
