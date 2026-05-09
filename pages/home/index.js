@@ -4,8 +4,15 @@ const { getMealContext } = require('../../utils/timeContext')
 
 const TAG_CONFLICTS = {
   '辣': ['不辣'],
-  '不辣': ['辣']
+  '不辣': ['辣'],
+  '轻负担': ['大份', '快乐碳水'],
+  '大份': ['轻负担'],
+  '快乐碳水': ['轻负担']
 }
+
+const DINING_MODE_OPTIONS = ['堂食', '外卖']
+const MEAL_PERIOD_OPTIONS = ['早餐', '中餐', '下午茶', '晚餐', '夜宵']
+const FINE_TAGS = ['近', '校内', '实惠', '轻负担', '辣', '不辣', '暖胃', '下饭', '清真友好', '一人食', '聚餐', '夜宵', '快餐', '面食', '拍照', '清爽', '小吃', '快乐碳水', '大份']
 
 function buildTagItems(tasteTags, activeTags) {
   return tasteTags.map(tag => ({
@@ -27,6 +34,13 @@ function resolveTagSelection(currentTags, tag) {
     .concat(tag)
 }
 
+function buildOptionItems(options, activeValue) {
+  return options.map(option => ({
+    label: option,
+    active: option === activeValue
+  }))
+}
+
 function getSearchPlaceholder(mealContext) {
   const examples = {
     breakfast: '搜早餐、热汤、面食，例如：暖胃 / 面 / 校内',
@@ -41,9 +55,13 @@ function getSearchPlaceholder(mealContext) {
 Page({
   data: {
     keyword: '',
+    diningMode: '堂食',
+    mealPeriod: '中餐',
+    diningModeOptions: buildOptionItems(DINING_MODE_OPTIONS, '堂食'),
+    mealPeriodOptions: buildOptionItems(MEAL_PERIOD_OPTIONS, '中餐'),
     activeTags: [],
     activePriceIndex: 0,
-    tasteTags: buildTagItems(service.tasteTags, []),
+    tasteTags: buildTagItems(FINE_TAGS, []),
     priceRanges: service.priceRanges,
     restaurants: [],
     topPick: null,
@@ -63,10 +81,12 @@ Page({
     const mealContext = getMealContext()
     const filters = {
       keyword: this.data.keyword,
+      diningMode: this.data.diningMode,
+      mealPeriod: this.data.mealPeriod,
       tags: this.data.activeTags,
       priceRange: service.priceRanges[this.data.activePriceIndex]
     }
-    const restaurants = await service.listRestaurants(filters, preferences.concat(mealContext.tags))
+    const restaurants = await service.listRestaurants(filters, preferences.concat(mealContext.tags, this.data.diningMode, this.data.mealPeriod))
     this.setData({
       mealContext,
       searchPlaceholder: getSearchPlaceholder(mealContext),
@@ -91,6 +111,24 @@ Page({
     this.refreshRestaurants()
   },
 
+  chooseDiningMode(event) {
+    const diningMode = event.currentTarget.dataset.mode
+    this.setData({
+      diningMode,
+      diningModeOptions: buildOptionItems(DINING_MODE_OPTIONS, diningMode)
+    })
+    this.refreshRestaurants()
+  },
+
+  chooseMealPeriod(event) {
+    const mealPeriod = event.currentTarget.dataset.meal
+    this.setData({
+      mealPeriod,
+      mealPeriodOptions: buildOptionItems(MEAL_PERIOD_OPTIONS, mealPeriod)
+    })
+    this.refreshRestaurants()
+  },
+
   choosePrice(event) {
     this.setData({ activePriceIndex: Number(event.currentTarget.dataset.index) })
     this.refreshRestaurants()
@@ -99,9 +137,11 @@ Page({
   async surpriseMe() {
     const randomPick = await service.randomRestaurant({
       keyword: this.data.keyword,
+      diningMode: this.data.diningMode,
+      mealPeriod: this.data.mealPeriod,
       tags: this.data.activeTags,
       priceRange: service.priceRanges[this.data.activePriceIndex]
-    }, this.data.preferences.concat(this.data.mealContext.tags))
+    }, this.data.preferences.concat(this.data.mealContext.tags, this.data.diningMode, this.data.mealPeriod))
 
     if (!randomPick) {
       wx.showToast({ title: '没有匹配餐厅', icon: 'none' })

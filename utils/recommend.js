@@ -17,6 +17,26 @@ function withRecommendationScore(restaurants, preferences = []) {
     .sort((a, b) => b.recommendationScore - a.recommendationScore)
 }
 
+const DINING_MODE_TAGS = {
+  '堂食': ['校内', '聚餐', '下饭', '拍照', '暖胃', '清真友好'],
+  '外卖': ['快餐', '一人食', '实惠', '人均30内', '轻负担']
+}
+
+const MEAL_PERIOD_TAGS = {
+  '早餐': ['暖胃', '面食', '校内', '近', '清真友好'],
+  '中餐': ['午餐快吃', '课间午餐', '赶课午餐', '快餐', '实惠', '一人食', '校内', '人均30内'],
+  '下午茶': ['下午自习', '咖啡', '甜品', '拍照', '轻负担', '嘴馋'],
+  '晚餐': ['晚饭快吃', '晚饭改善', '晚餐聚餐', '聚餐', '下饭', '辣', '人均50内'],
+  '夜宵': ['夜宵', '夜宵改善', '晚归加餐', '小吃', '暖胃']
+}
+
+function matchesCategory(searchableTags, category, tagMap) {
+  if (!category) return true
+  const mappedTags = tagMap[category]
+  if (!mappedTags || !mappedTags.length) return searchableTags.includes(category)
+  return mappedTags.some(tag => searchableTags.includes(tag))
+}
+
 function filterRestaurants(restaurants, filters = {}) {
   const keyword = (filters.keyword || '').trim().toLowerCase()
   const selectedTags = Array.isArray(filters.tags)
@@ -40,10 +60,12 @@ function filterRestaurants(restaurants, filters = {}) {
       item.tags.join(' '),
       (item.suitedFor || []).join(' ')
     ].join(' ')
+    const matchMode = matchesCategory(searchableTags, filters.diningMode || filters.mode, DINING_MODE_TAGS)
+    const matchMeal = matchesCategory(searchableTags, filters.mealPeriod || filters.meal, MEAL_PERIOD_TAGS)
     const matchTag = !selectedTags.length || selectedTags.every(tag => searchableTags.includes(tag))
     const matchPrice = !priceRange || (item.price >= priceRange.min && item.price <= priceRange.max)
 
-    return matchKeyword && matchTag && matchPrice
+    return matchKeyword && matchMode && matchMeal && matchTag && matchPrice
   })
 }
 

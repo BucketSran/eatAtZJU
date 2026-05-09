@@ -143,6 +143,10 @@
   font-weight: 800;
 }
 
+.compact-section-title {
+  margin-top: 24rpx;
+}
+
 .price-row {
   display: flex;
   gap: 14rpx;

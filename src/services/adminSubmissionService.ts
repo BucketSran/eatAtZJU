@@ -46,5 +46,14 @@ export async function reviewSubmission(id: string, action: 'approve' | 'reject',
   return adminFetch('/api/admin/submissions', {
     method: 'POST',
     body: JSON.stringify({ id, action, reviewNote })
-  }) as Promise<{ id: string; status: 'approved' | 'rejected' }>
+  }) as Promise<{
+    id: string
+    status: 'approved' | 'rejected'
+    materialized?: {
+      skipped: boolean
+      reason?: string
+      targetTable?: string
+      targetId?: string
+    }
+  }>
 }

@@ -1,4 +1,5 @@
 import type { Dish, PriceRange, RecommendationContext, RestaurantFilters, RestaurantSummary, Review } from '../types'
+import { collectFilterTags } from '../constants/restaurantTaxonomy'
 
 export type ApiSource = 'supabase' | 'seed' | 'local-seed'
 
@@ -67,7 +68,13 @@ function appendListParam(params: URLSearchParams, key: string, values?: string[]
 function buildRestaurantParams(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
   const params = new URLSearchParams()
   if (filters.keyword) params.set('keyword', filters.keyword)
-  if (filters.tag && filters.tag !== '全部') params.set('tag', filters.tag)
+  const tags = collectFilterTags(filters)
+  appendListParam(params, 'tags', tags)
+  if (!filters.tags?.length && filters.tag && filters.tag !== '全部') params.set('tag', filters.tag)
+  if (filters.serviceMode && filters.serviceMode !== '都可以') params.set('mode', filters.serviceMode)
+  if (!filters.serviceMode && filters.diningMode && filters.diningMode !== '全部') params.set('mode', filters.diningMode)
+  if (filters.mealPeriod && filters.mealPeriod !== '全部') params.set('meal', filters.mealPeriod)
+  if (filters.distanceLabel && filters.distanceLabel !== '不限') params.set('distance', filters.distanceLabel)
   if (filters.priceLabel && filters.priceLabel !== '不限') params.set('priceLabel', filters.priceLabel)
   if (filters.sort && filters.sort !== 'recommended') params.set('sort', filters.sort)
   appendListParam(params, 'preferences', context?.preferences)

@@ -4,6 +4,7 @@ import { FilterChips } from '../components/FilterChips'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
+import { dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -20,37 +21,77 @@ function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === 'AbortError'
 }
 
+function splitInitialTags(tags: string[]) {
+  return {
+    scenarioTags: tags.filter((tag) => scenarioTagGroups.some((group) => group.tags.includes(tag as never))),
+    dietaryTags: tags.filter((tag) => dietaryConstraintTags.includes(tag as never)),
+    preferenceTags: tags.filter((tag) => preferenceTagGroups.some((group) => group.tags.includes(tag as never))),
+    spiceLevel: tags.includes('辣') ? '辣' : tags.includes('不辣') ? '不辣' : '不限',
+    loadLevel: tags.includes('轻负担') ? '轻负担' : tags.includes('大份') ? '大份' : tags.includes('快乐碳水') ? '快乐碳水' : '不限'
+  }
+}
+
 export function DiscoverPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const metadata = getRestaurantMetadata()
   const [keyword, setKeyword] = useState(() => searchParams.get('keyword') ?? '')
-  const [tag, setTag] = useState(() => searchParams.get('tag') ?? '全部')
+  const [serviceMode, setServiceMode] = useState(() => searchParams.get('mode') ?? '都可以')
+  const [mealPeriod, setMealPeriod] = useState(() => searchParams.get('meal') ?? getCurrentMealPeriod())
+  const initialTags = useMemo(() => {
+    const tags = [
+      ...parseTagsParam(searchParams.get('tags')),
+      ...parseTagsParam(searchParams.get('scenario')),
+      ...parseTagsParam(searchParams.get('dietary')),
+      ...parseTagsParam(searchParams.get('preference'))
+    ]
+    const legacyTag = searchParams.get('tag')
+    return splitInitialTags(tags.length || !legacyTag || legacyTag === '全部' ? tags : [legacyTag])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  const [scenarioTags, setScenarioTags] = useState(() => initialTags.scenarioTags)
+  const [dietaryTags, setDietaryTags] = useState(() => initialTags.dietaryTags)
+  const [preferenceTags, setPreferenceTags] = useState(() => initialTags.preferenceTags)
+  const [distanceLabel, setDistanceLabel] = useState(() => searchParams.get('distance') ?? '不限')
+  const [spiceLevel, setSpiceLevel] = useState(() => searchParams.get('spice') ?? initialTags.spiceLevel)
+  const [loadLevel, setLoadLevel] = useState(() => searchParams.get('load') ?? initialTags.loadLevel)
   const [priceLabel, setPriceLabel] = useState(() => searchParams.get('price') ?? '不限')
   const [sort, setSort] = useState<SortKey>(() => (searchParams.get('sort') as SortKey) || 'recommended')
   const [randomBudget, setRandomBudget] = useState(() => searchParams.get('randomBudget') ?? '不限')
   const [randomTag, setRandomTag] = useState(() => searchParams.get('randomTag') ?? '全部')
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
-  const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants({ keyword, tag, priceLabel, sort }, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const initialFilters = { keyword, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort }
+  const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(initialFilters, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
 
-  const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
-  const filters = useMemo(() => ({ keyword, tag, priceLabel, sort }), [keyword, priceLabel, sort, tag])
+  const scenarioKey = scenarioTags.join(',')
+  const dietaryKey = dietaryTags.join(',')
+  const preferenceKey = preferenceTags.join(',')
+  const filters = useMemo(() => ({ keyword, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort }), [dietaryKey, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, priceLabel, scenarioKey, serviceMode, sort, spiceLevel])
+  const context = useMemo(() => ({ preferences: [...preferences, serviceMode, mealPeriod, ...scenarioTags, ...preferenceTags], favoriteRestaurantIds: favoriteIds }), [favoriteIds, mealPeriod, preferenceKey, preferences, scenarioKey, serviceMode])
   const showRandom = searchParams.get('random') === '1'
+  const summaryItems = [serviceMode, mealPeriod, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
 
   useEffect(() => {
     const next = new URLSearchParams()
     if (keyword) next.set('keyword', keyword)
-    if (tag !== '全部') next.set('tag', tag)
+    if (serviceMode !== '都可以') next.set('mode', serviceMode)
+    if (mealPeriod !== getCurrentMealPeriod()) next.set('meal', mealPeriod)
+    if (scenarioTags.length) next.set('scenario', scenarioTags.join(','))
+    if (dietaryTags.length) next.set('dietary', dietaryTags.join(','))
+    if (preferenceTags.length) next.set('preference', preferenceTags.join(','))
+    if (distanceLabel !== '不限') next.set('distance', distanceLabel)
+    if (spiceLevel !== '不限') next.set('spice', spiceLevel)
+    if (loadLevel !== '不限') next.set('load', loadLevel)
     if (priceLabel !== '不限') next.set('price', priceLabel)
     if (sort !== 'recommended') next.set('sort', sort)
     if (showRandom) next.set('random', '1')
     if (showRandom && randomBudget !== '不限') next.set('randomBudget', randomBudget)
     if (showRandom && randomTag !== '全部') next.set('randomTag', randomTag)
     setSearchParams(next, { replace: true })
-  }, [keyword, priceLabel, randomBudget, randomTag, setSearchParams, showRandom, sort, tag])
+  }, [dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, preferenceTags, priceLabel, randomBudget, randomTag, scenarioKey, scenarioTags, serviceMode, setSearchParams, showRandom, sort, spiceLevel])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -81,7 +122,7 @@ export function DiscoverPage() {
     const randomFilters = {
       ...filters,
       priceLabel: randomBudget,
-      tag: randomTag
+      preferenceTags: randomTag === '全部' ? preferenceTags : [...preferenceTags, randomTag]
     }
 
     getRandomRestaurantRemote(randomFilters, context, controller.signal)
@@ -98,6 +139,18 @@ export function DiscoverPage() {
 
   function toggleFavorite(id: string) {
     setFavoriteIds(toggleFavoriteRestaurant(id))
+  }
+
+  function clearAllFilters() {
+    setServiceMode('都可以')
+    setMealPeriod(getCurrentMealPeriod())
+    setScenarioTags([])
+    setDietaryTags([])
+    setPreferenceTags([])
+    setDistanceLabel('不限')
+    setSpiceLevel('不限')
+    setLoadLevel('不限')
+    setPriceLabel('不限')
   }
 
   return (
@@ -151,8 +204,89 @@ export function DiscoverPage() {
           搜索餐厅、标签或场景
         </label>
         <input id="restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食" onChange={(event) => setKeyword(event.target.value)} />
-        <FilterChips items={metadata.tasteTags} active={tag} onChange={setTag} />
-        <SegmentedControl label="预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={priceLabel} onChange={setPriceLabel} />
+        <div className="filter-flow">
+          <div className="flow-step">
+            <span className="flow-step-index">1</span>
+            <SegmentedControl label="怎么吃" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
+          </div>
+          <div className="flow-step">
+            <span className="flow-step-index">2</span>
+            <SegmentedControl label="什么时候吃" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
+          </div>
+          <div className="flow-step">
+            <span className="flow-step-index">3</span>
+            <div className="filter-section">
+              <div className="filter-section-head">
+                <div>
+                  <span className="filter-section-label">这顿饭的场景</span>
+                  <p>同一层可以叠加，比如“一人食 + 赶课快吃”。</p>
+                </div>
+              </div>
+              {scenarioTagGroups.map((group) => (
+                <div className="chip-row" aria-label={group.title} key={group.title}>
+                  {group.tags.map((tag) => (
+                    <button key={tag} className={`chip ${scenarioTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={scenarioTags.includes(tag)} onClick={() => setScenarioTags((tags) => toggleMultiTag(tags, tag))}>
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flow-step">
+            <span className="flow-step-index">4</span>
+            <div className="filter-section">
+              <div className="filter-section-head">
+                <div>
+                  <span className="filter-section-label">硬条件</span>
+                  <p>这些条件会直接缩小结果。冲突项已经做成单选。</p>
+                </div>
+              </div>
+              <SegmentedControl label="预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={priceLabel} onChange={setPriceLabel} />
+              {hardFilterGroups.map((group) => {
+                const value = group.key === 'distanceLabel' ? distanceLabel : group.key === 'spiceLevel' ? spiceLevel : loadLevel
+                const onChange = group.key === 'distanceLabel' ? setDistanceLabel : group.key === 'spiceLevel' ? setSpiceLevel : setLoadLevel
+                return <SegmentedControl key={group.key} label={group.title} options={group.options.map((option) => ({ label: option, value: option }))} value={value} onChange={onChange} />
+              })}
+              <div className="chip-row" aria-label="饮食限制">
+                {dietaryConstraintTags.map((tag) => (
+                  <button key={tag} className={`chip ${dietaryTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={dietaryTags.includes(tag)} onClick={() => setDietaryTags((tags) => toggleMultiTag(tags, tag))}>
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="flow-step">
+            <span className="flow-step-index">5</span>
+            <div className="filter-section">
+              <div className="filter-section-head">
+                <div>
+                  <span className="filter-section-label">偏好加分</span>
+                  <p>这些更像“我想吃什么”，主要影响推荐排序。</p>
+                </div>
+              </div>
+              {preferenceTagGroups.map((group) => (
+                <div className="chip-row" aria-label={group.title} key={group.title}>
+                  {group.tags.map((tag) => (
+                    <button key={tag} className={`chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleMultiTag(tags, tag))}>
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="filter-summary">
+          <div className="filter-section-head">
+            <div>
+              <span className="filter-section-label">当前路径</span>
+              <p>{summaryItems.length ? summaryItems.join(' > ') : '未设置额外筛选'}</p>
+            </div>
+            <button className="text-action" type="button" onClick={clearAllFilters}>重置筛选</button>
+          </div>
+        </div>
         <SegmentedControl label="排序" options={sortOptions} value={sort} onChange={setSort} />
       </GlassCard>
 

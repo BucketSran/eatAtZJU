@@ -15,6 +15,8 @@ function buildQuery(filters = {}, preferences = []) {
     keyword: filters.keyword || '',
     tag: filters.tag || tags[0] || '全部',
     tags: tags.join(','),
+    mode: filters.diningMode || filters.mode || '',
+    meal: filters.mealPeriod || filters.meal || '',
     price: filters.priceRange && filters.priceRange.label,
     preferences: preferences.join(','),
     favorites: getFavorites().join(',')

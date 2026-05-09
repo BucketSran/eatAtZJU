@@ -11,6 +11,19 @@ const METADATA = {
   ]
 }
 
+const DINING_MODE_TAGS = {
+  '堂食': ['校内', '聚餐', '下饭', '拍照', '暖胃', '清真友好'],
+  '外卖': ['快餐', '一人食', '实惠', '人均30内', '轻负担']
+}
+
+const MEAL_PERIOD_TAGS = {
+  '早餐': ['暖胃', '面食', '校内', '近', '清真友好'],
+  '中餐': ['午餐快吃', '课间午餐', '赶课午餐', '快餐', '实惠', '一人食', '校内', '人均30内'],
+  '下午茶': ['下午自习', '咖啡', '甜品', '拍照', '轻负担', '嘴馋'],
+  '晚餐': ['晚饭快吃', '晚饭改善', '晚餐聚餐', '聚餐', '下饭', '辣', '人均50内'],
+  '夜宵': ['夜宵', '夜宵改善', '晚归加餐', '小吃', '暖胃']
+}
+
 const DEFAULT_AVATAR = {
   type: 'preset',
   preset: 'rice',
@@ -61,12 +74,20 @@ function matchesKeyword(restaurant, keyword = '') {
 }
 
 function matchesTag(restaurant, tag = '全部') {
-  return tag === '全部' || restaurant.tags.includes(tag) || restaurant.cuisine.includes(tag) || restaurant.suitedFor.includes(tag)
+  return tag === '全部' || [restaurant.area, restaurant.cuisine, restaurant.reason, ...(restaurant.tags || []), ...(restaurant.suitedFor || [])].some((value) => String(value).includes(tag))
 }
 
 function matchesTags(restaurant, tags = []) {
   if (!tags.length) return true
   return tags.every((tag) => matchesTag(restaurant, tag))
+}
+
+function matchesCategory(restaurant, category, tagMap) {
+  if (!category) return true
+  const mappedTags = tagMap[category]
+  if (mappedTags && mappedTags.length === 0) return true
+  if (!mappedTags || !mappedTags.length) return matchesTag(restaurant, category)
+  return mappedTags.some((tag) => matchesTag(restaurant, tag))
 }
 
 function matchesPrice(restaurant, priceRange) {
@@ -92,6 +113,8 @@ function listRestaurantCollection(restaurants, query = {}) {
     return (
       restaurant.status === 'published' &&
       matchesKeyword(restaurant, query.keyword) &&
+      matchesCategory(restaurant, query.mode, DINING_MODE_TAGS) &&
+      matchesCategory(restaurant, query.meal, MEAL_PERIOD_TAGS) &&
       matchesTag(restaurant, selectedTags.length ? '全部' : (query.tag || '全部')) &&
       matchesTags(restaurant, selectedTags) &&
       matchesPrice(restaurant, priceRange)

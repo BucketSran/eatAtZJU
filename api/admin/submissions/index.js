@@ -1,5 +1,23 @@
 const { requirePlatformAdmin } = require('../../_shared/auth.cjs')
 const { readJsonBody } = require('../../_shared/requestBody.cjs')
+const { materializeSubmission } = require('../../_shared/submissionMaterializer.cjs')
+
+async function insertAuditLog(client, payload) {
+  const { error } = await client.from('audit_logs').insert(payload)
+  if (error) throw error
+}
+
+async function cleanupMaterializedSubmission(client, materialized) {
+  if (!materialized || materialized.skipped || !materialized.targetTable || !materialized.targetId) return
+  await client.from(materialized.targetTable).delete().eq('id', materialized.targetId)
+}
+
+async function restorePendingSubmission(client, id) {
+  await client
+    .from('submissions')
+    .update({ status: 'pending', reviewer_id: null, reviewed_at: null, review_note: null })
+    .eq('id', id)
+}
 
 module.exports = async function handler(req, res) {
   const auth = await requirePlatformAdmin(req)
@@ -27,26 +45,54 @@ module.exports = async function handler(req, res) {
 
       const status = action === 'approve' ? 'approved' : 'rejected'
       const { data: before } = await auth.client.from('submissions').select('*').eq('id', id).maybeSingle()
+      if (!before) return res.status(404).json({ error: 'Submission not found' })
+      if (before.status !== 'pending') return res.status(409).json({ error: 'Submission has already been reviewed' })
+
+      const materialized = action === 'approve'
+        ? await materializeSubmission(auth.client, before, auth.user.id)
+        : { skipped: true, reason: 'rejected' }
+
       const { data, error } = await auth.client
         .from('submissions')
         .update({ status, reviewer_id: auth.user.id, reviewed_at: new Date().toISOString(), review_note: reviewNote })
         .eq('id', id)
-        .select('id,status')
+        .select('id,status,reviewed_at')
         .single()
 
-      if (error) throw error
+      if (error) {
+        await cleanupMaterializedSubmission(auth.client, materialized)
+        throw error
+      }
 
-      await auth.client.from('audit_logs').insert({
-        actor_id: auth.user.id,
-        action,
-        target_table: 'submissions',
-        target_id: id,
-        before_data: before || null,
-        after_data: data,
-        reason: reviewNote
-      })
+      try {
+        await insertAuditLog(auth.client, {
+          actor_id: auth.user.id,
+          action,
+          target_table: 'submissions',
+          target_id: id,
+          before_data: before || null,
+          after_data: { ...data, materialized },
+          reason: reviewNote
+        })
 
-      return res.status(200).json(data)
+        if (!materialized.skipped) {
+          await insertAuditLog(auth.client, {
+            actor_id: auth.user.id,
+            action: `materialize_${before.type}`,
+            target_table: materialized.targetTable,
+            target_id: materialized.targetId,
+            before_data: null,
+            after_data: materialized.data,
+            reason: `Approved submission ${id}`
+          })
+        }
+      } catch (auditError) {
+        await cleanupMaterializedSubmission(auth.client, materialized)
+        await restorePendingSubmission(auth.client, id)
+        throw auditError
+      }
+
+      return res.status(200).json({ ...data, materialized })
     } catch (error) {
       if (error instanceof SyntaxError) return res.status(400).json({ error: 'Invalid JSON body' })
       return res.status(500).json({ error: 'Failed to review submission' })

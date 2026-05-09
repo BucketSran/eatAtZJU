@@ -30,8 +30,24 @@
   </view>
 
   <view class="section-title">
-    <text class="section-title-main">口味雷达</text>
-    <text class="section-title-sub">可多选，辣/不辣会互斥</text>
+    <text class="section-title-main">先定大类</text>
+    <text class="section-title-sub">外卖 / 堂食先分流</text>
+  </view>
+  <scroll-view scroll-x enable-flex class="chip-row">
+    <button wx:for="{{diningModeOptions}}" wx:key="label" class="chip {{item.active ? 'active' : ''}}" data-mode="{{item.label}}" bindtap="chooseDiningMode">{{item.label}}</button>
+  </scroll-view>
+
+  <view class="section-title compact-section-title">
+    <text class="section-title-main">再选餐段</text>
+    <text class="section-title-sub">早餐到夜宵分开看</text>
+  </view>
+  <scroll-view scroll-x enable-flex class="chip-row">
+    <button wx:for="{{mealPeriodOptions}}" wx:key="label" class="chip {{item.active ? 'active' : ''}}" data-meal="{{item.label}}" bindtap="chooseMealPeriod">{{item.label}}</button>
+  </scroll-view>
+
+  <view class="section-title">
+    <text class="section-title-main">精细标签</text>
+    <text class="section-title-sub">可多选，冲突项会互斥</text>
   </view>
   <scroll-view scroll-x enable-flex class="chip-row">
     <button wx:for="{{tasteTags}}" wx:key="label" class="chip {{item.active ? 'active' : ''}}" data-tag="{{item.label}}" bindtap="chooseTag">{{item.label}}</button>

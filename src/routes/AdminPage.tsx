@@ -7,7 +7,9 @@ import { isSupabaseBrowserConfigured } from '../services/supabaseBrowserClient'
 function stringifyPayload(payload: Record<string, unknown>) {
   const title = typeof payload.title === 'string' ? payload.title : '未命名提交'
   const content = typeof payload.content === 'string' ? payload.content : JSON.stringify(payload)
-  return { title, content }
+  const tags = Array.isArray(payload.tags) ? payload.tags.filter((tag) => typeof tag === 'string').join(' / ') : ''
+  const meta = [payload.serviceMode || payload.diningMode, payload.mealPeriod, tags].filter((item) => typeof item === 'string' && item).join(' · ')
+  return { title, content, meta }
 }
 
 export function AdminPage() {
@@ -35,9 +37,14 @@ export function AdminPage() {
   async function handleReview(id: string, action: 'approve' | 'reject') {
     setStatus(action === 'approve' ? '正在通过提交...' : '正在拒绝提交...')
     try {
-      await reviewSubmission(id, action)
+      const result = await reviewSubmission(id, action)
       setItems((current) => current.filter((item) => item.id !== id))
-      setStatus(action === 'approve' ? '已通过并记录审计日志。' : '已拒绝并记录审计日志。')
+      const materializedText = result.materialized && !result.materialized.skipped
+        ? `已写入 ${result.materialized.targetTable}/${result.materialized.targetId}。`
+        : result.materialized?.reason
+          ? `未自动落库：${result.materialized.reason}。`
+          : ''
+      setStatus(action === 'approve' ? `已通过并记录审计日志。${materializedText}` : '已拒绝并记录审计日志。')
       loadAuditLogs().catch(() => {})
     } catch (error) {
       setStatus(error instanceof Error ? error.message : '审核失败')
@@ -117,6 +124,7 @@ export function AdminPage() {
                 <div>
                   <span>{item.type}</span>
                   <strong>{payload.title}</strong>
+                  {payload.meta ? <p>{payload.meta}</p> : null}
                   <p>{payload.content}</p>
                 </div>
                 <div className="hero-actions compact-actions">
