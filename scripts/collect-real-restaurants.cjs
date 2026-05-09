@@ -3,8 +3,8 @@ const path = require('path')
 
 const root = path.resolve(__dirname, '..')
 const center = { longitude: 120.081964, latitude: 30.302761 }
-const radiusMeters = 3000
-const maxPublishedRestaurants = 60
+const radiusMeters = 3500
+const maxPublishedRestaurants = 120
 const minAutoPublishConfidence = 0.78
 const amapRequestDelayMs = 450
 const amapMaxRetries = 4
@@ -19,7 +19,22 @@ const aroundKeywords = [
   '快餐',
   '小吃',
   '面馆',
+  '米线',
+  '粉面',
+  '馄饨',
+  '水饺',
+  '砂锅',
+  '黄焖鸡',
+  '酸菜鱼',
+  '麻辣烫',
+  '冒菜',
+  '自选快餐',
+  '盖浇饭',
+  '炒饭',
+  '炸鸡',
+  '汉堡',
   '烧烤',
+  '烤肉',
   '火锅',
   '咖啡',
   '甜品',
@@ -272,11 +287,11 @@ function inferArea(candidate) {
 
 function inferCuisine(candidate) {
   const text = `${candidate.name} ${candidate.type} ${candidate.tag}`
-  if (/食堂|餐饮中心|银泉|澄月|临湖|麦思威/.test(text) && /浙江大学|紫金港|校区/.test(text)) return '校内食堂'
-  if (/墨西哥|印度|韩国|日本|日料|寿司|东南亚|外国|西餐/.test(text)) return '异国简餐'
-  if (/古茗|蜜雪冰城|爷爷不泡茶|厝内小眷村|奶茶|茶饮|饮品|冷饮/.test(text)) return '茶饮'
+  if (/古茗|蜜雪冰城|爷爷不泡茶|厝内小眷村|CoCo|都可|沪上阿姨|茶百道|霸王茶姬|茉莉奶白|茶颜|奶茶|茶饮|饮品|冷饮/.test(text)) return '茶饮'
   if (/咖啡|Coffee|COFFEE/i.test(text)) return '咖啡'
   if (/甜品|蛋糕|面包|烘焙|糕点/.test(text)) return '甜品烘焙'
+  if (/食堂|餐饮中心|澄月食堂|临湖餐厅|风味餐厅|银泉餐厅|玉湖餐厅|麦香餐厅|休闲餐厅/.test(text) && /浙江大学|紫金港|校区/.test(text)) return '校内食堂'
+  if (/墨西哥|印度|韩国|日本|日料|寿司|东南亚|外国|西餐/.test(text)) return '异国简餐'
   if (/烧烤|烤肉|烤串|纸包鱼/.test(text)) return '烧烤烤肉'
   if (/火锅|冒菜|麻辣烫|串串/.test(text)) return '火锅麻辣烫'
   if (/面|粉|米线|馄饨|水饺|饺子|拉面/.test(text)) return '面食粉面'
@@ -285,9 +300,23 @@ function inferCuisine(candidate) {
   return '中餐简餐'
 }
 
+function isDrinkOrSnackCuisine(cuisine) {
+  return /茶饮|咖啡|甜品烘焙/.test(cuisine)
+}
+
+function isCanteenCuisine(cuisine) {
+  return cuisine === '校内食堂'
+}
+
+function isMealCuisine(cuisine) {
+  return !isDrinkOrSnackCuisine(cuisine)
+}
+
 function inferTags(candidate, cuisine, price) {
   const text = `${candidate.name} ${candidate.type} ${candidate.tag} ${cuisine}`
   const tags = []
+  if (isMealCuisine(cuisine)) tags.push('正餐')
+  else tags.push('饮品')
   if (candidate.distanceMeters <= 900) tags.push('近')
   if (price <= 30) tags.push('实惠', '人均30内')
   else if (price <= 50) tags.push('人均50内')
@@ -314,6 +343,7 @@ function inferTags(candidate, cuisine, price) {
 
 function inferTaxonomy(candidate, tags, cuisine) {
   const text = `${candidate.name} ${candidate.type} ${candidate.tag} ${cuisine} ${tags.join(' ')}`
+  const isDrinkOrSnack = isDrinkOrSnackCuisine(cuisine)
   const serviceModes = unique([
     tags.some((tag) => ['快餐', '一人食', '实惠', '人均30内', '轻负担'].includes(tag)) ? '外卖' : '',
     '堂食'
@@ -322,8 +352,8 @@ function inferTaxonomy(candidate, tags, cuisine) {
     /咖啡|甜品|奶茶|面包|烘焙/.test(text) ? '下午茶' : '',
     /烧烤|烤肉|火锅|夜宵|餐吧/.test(text) ? '夜宵' : '',
     /早餐|包子|豆浆|粥|面包|咖啡/.test(text) ? '早餐' : '',
-    '中餐',
-    /聚餐|烤肉|火锅|烧烤|西餐|墨西哥|印度|餐厅/.test(text) ? '晚餐' : ''
+    isDrinkOrSnack ? '' : '中餐',
+    !isDrinkOrSnack && /聚餐|烤肉|火锅|烧烤|西餐|墨西哥|印度|餐厅|饭|菜|面|粉|小吃|快餐/.test(text) ? '晚餐' : ''
   ])
   const scenarioTags = unique([
     tags.includes('一人食') || tags.includes('快餐') ? '一人食' : '',
@@ -369,11 +399,13 @@ function confidenceFor(candidate, tags) {
 }
 
 function publishScoreFor(candidate, confidence) {
+  const cuisine = inferCuisine(candidate)
   const ratingScore = (candidate.rating || 3.8) * 6
   const distanceScore = Math.max(0, radiusMeters - candidate.distanceMeters) / 90
   const priceScore = candidate.cost ? Math.max(0, 90 - candidate.cost) / 4 : 8
   const sourceScore = candidate.sourceRefs.some((source) => source.query?.type === 'web_clue') ? 5 : 0
-  return confidence * 100 + ratingScore + distanceScore + priceScore + sourceScore
+  const mealScore = isMealCuisine(cuisine) ? 18 : -18
+  return confidence * 100 + ratingScore + distanceScore + priceScore + sourceScore + mealScore
 }
 
 function coverFor(tags, cuisine) {
@@ -451,7 +483,7 @@ function isGoodCandidate(candidate) {
   if (!candidate.name || !candidate.address) return false
   if (!candidate.type.includes('餐饮服务')) return false
   if (candidate.distanceMeters > radiusMeters) return false
-  if (/停车场|公共厕所|厕所|入口|出口|充电|公司|学校|宿舍|银行|超市|堕落街|暂停营业|建设中/.test(candidate.name)) return false
+  if (/停车场|公共厕所|厕所|入口|出口|充电|公司|学校|宿舍|银行|超市|堕落街|暂停营业|建设中|取餐点|提货点|配送站/.test(candidate.name)) return false
   return true
 }
 
@@ -467,23 +499,36 @@ function diversifyScoredCandidates(scored) {
   const selected = []
   const cuisineCounts = new Map()
   const brandCounts = new Map()
-  const cuisineLimit = 9
+  const groupCounts = new Map()
+  const cuisineLimit = 18
   const brandLimit = 3
+  const groupLimits = {
+    meal: 90,
+    canteen: 12,
+    drink: 18
+  }
 
   for (const item of scored) {
     const cuisine = inferCuisine(item.candidate)
+    const group = isCanteenCuisine(cuisine) ? 'canteen' : isDrinkOrSnackCuisine(cuisine) ? 'drink' : 'meal'
     const brand = brandKey(item.candidate.name)
     if ((cuisineCounts.get(cuisine) || 0) >= cuisineLimit) continue
     if ((brandCounts.get(brand) || 0) >= brandLimit) continue
+    if ((groupCounts.get(group) || 0) >= groupLimits[group]) continue
     selected.push(item)
     cuisineCounts.set(cuisine, (cuisineCounts.get(cuisine) || 0) + 1)
     brandCounts.set(brand, (brandCounts.get(brand) || 0) + 1)
+    groupCounts.set(group, (groupCounts.get(group) || 0) + 1)
     if (selected.length >= maxPublishedRestaurants) return selected
   }
 
   for (const item of scored) {
     if (selected.includes(item)) continue
+    const cuisine = inferCuisine(item.candidate)
+    const group = isCanteenCuisine(cuisine) ? 'canteen' : isDrinkOrSnackCuisine(cuisine) ? 'drink' : 'meal'
+    if ((groupCounts.get(group) || 0) >= groupLimits[group]) continue
     selected.push(item)
+    groupCounts.set(group, (groupCounts.get(group) || 0) + 1)
     if (selected.length >= maxPublishedRestaurants) return selected
   }
 

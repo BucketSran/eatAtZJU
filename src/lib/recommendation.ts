@@ -6,6 +6,27 @@ function clampScore(value: number) {
   return Math.max(0, Math.min(100, Math.round(value)))
 }
 
+function isDrinkOrSnack(restaurant: Restaurant) {
+  const text = [restaurant.name, restaurant.cuisine, ...restaurant.tags, ...(restaurant.preferenceTags ?? [])].join(' ')
+  return /饮品|茶饮|咖啡|奶茶|甜品|烘焙|蛋糕|面包|鲜奶/.test(text)
+}
+
+function hasDrinkIntent(preferences: string[]) {
+  return preferences.some((tag) => /饮品|茶饮|咖啡|奶茶|甜品|下午茶|拍照|轻负担/.test(tag))
+}
+
+function hasMealIntent(preferences: string[]) {
+  return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|外卖|堂食/.test(tag))
+}
+
+function categoryScore(restaurant: Restaurant, preferences: string[]) {
+  const drinkOrSnack = isDrinkOrSnack(restaurant)
+  if (drinkOrSnack && hasDrinkIntent(preferences) && !hasMealIntent(preferences)) return 8
+  if (drinkOrSnack && hasMealIntent(preferences)) return -22
+  if (drinkOrSnack) return -16
+  return 8
+}
+
 export function scoreRestaurantBreakdown(restaurant: Restaurant, context: RecommendationContext = { preferences: [] }): MatchBreakdown {
   const preferences = context.preferences ?? []
   const favoriteRestaurantIds = context.favoriteRestaurantIds ?? []
@@ -25,7 +46,7 @@ export function scoreRestaurantBreakdown(restaurant: Restaurant, context: Recomm
   const distanceScore = Math.max(0, 32 - restaurant.distance * 12)
   const priceScore = Math.max(0, 18 - restaurant.price / 5)
   const preferenceScore = Math.min(14, preferenceHit * 5 + constraintHit * 3)
-  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost)
+  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost + categoryScore(restaurant, preferences))
   const hasStudentSignal = restaurant.studentScore > 0 || restaurant.checkins > 0
   const studentScore = hasStudentSignal
     ? clampScore(restaurant.studentScore * 0.75 + Math.min(100, restaurant.checkins / 2) * 0.25 + favoriteBoost)

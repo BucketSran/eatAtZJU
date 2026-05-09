@@ -49,6 +49,8 @@ if (restaurants.length !== reviews.length) {
 
 const tasteTags = unique([
   '全部',
+  '正餐',
+  '饮品',
   '近',
   '实惠',
   '辣',

@@ -6,6 +6,8 @@ const taxonomyTagMap = {
   都可以: [],
   近: ['近', '校内', '懒得出校'],
   校内: ['校内', '食堂', '校内食堂', '懒得出校'],
+  正餐: ['正餐', '中餐简餐', '校内食堂', '快餐小吃', '面食粉面', '烧烤烤肉', '火锅麻辣烫', '下饭'],
+  饮品: ['饮品', '茶饮', '咖啡', '甜品烘焙', '奶茶', '甜品'],
   一人食: ['一人食', '一个人', '单人吃饭', '独自觅食'],
   聚餐: ['聚餐', '多人拼桌', '多人约饭', '四人聚餐'],
   赶课快吃: ['赶课午餐', '赶课午饭', '课间午餐', '快速解决', '快餐'],
@@ -63,6 +65,32 @@ function clampScore(value) {
   return Math.max(0, Math.min(100, Math.round(value)))
 }
 
+function isDrinkOrSnackRestaurant(restaurant) {
+  const text = [
+    restaurant.name,
+    restaurant.cuisine,
+    ...(restaurant.tags || []),
+    ...(restaurant.preferenceTags || [])
+  ].join(' ')
+  return /饮品|茶饮|咖啡|奶茶|甜品|烘焙|蛋糕|面包|鲜奶/.test(text)
+}
+
+function hasDrinkIntent(preferences) {
+  return preferences.some((tag) => /饮品|茶饮|咖啡|奶茶|甜品|下午茶|拍照|轻负担/.test(tag))
+}
+
+function hasMealIntent(preferences) {
+  return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|外卖|堂食/.test(tag))
+}
+
+function categoryScore(restaurant, preferences) {
+  const drinkOrSnack = isDrinkOrSnackRestaurant(restaurant)
+  if (drinkOrSnack && hasDrinkIntent(preferences) && !hasMealIntent(preferences)) return 8
+  if (drinkOrSnack && hasMealIntent(preferences)) return -22
+  if (drinkOrSnack) return -16
+  return 8
+}
+
 function scoreRestaurantBreakdown(restaurant, preferences = [], favoriteRestaurantIds = []) {
   const preferenceTokens = new Set([
     ...(restaurant.tags || []),
@@ -80,7 +108,7 @@ function scoreRestaurantBreakdown(restaurant, preferences = [], favoriteRestaura
   const distanceScore = Math.max(0, 32 - restaurant.distance * 12)
   const priceScore = Math.max(0, 18 - restaurant.price / 5)
   const preferenceScore = Math.min(14, preferenceHit * 5 + constraintHit * 3)
-  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost)
+  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost + categoryScore(restaurant, preferences))
   const hasStudentSignal = restaurant.studentScore > 0 || restaurant.checkins > 0
   const studentScore = hasStudentSignal
     ? clampScore(restaurant.studentScore * 0.75 + Math.min(100, restaurant.checkins / 2) * 0.25 + favoriteBoost)
@@ -169,7 +197,7 @@ function matchesServiceMode(restaurant, serviceMode) {
 
 function matchesMealPeriod(restaurant, mealPeriod) {
   if (!mealPeriod || mealPeriod === '全部') return true
-  if ((restaurant.mealPeriods || []).includes(mealPeriod)) return true
+  if ((restaurant.mealPeriods || []).length) return (restaurant.mealPeriods || []).includes(mealPeriod)
   return matchesCategory(restaurant, mealPeriod, mealPeriodTagMap)
 }
 

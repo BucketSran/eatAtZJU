@@ -34,6 +34,22 @@ function hasAny(values, candidates) {
 }
 
 function deriveTaxonomy(restaurant) {
+  if (
+    Array.isArray(restaurant.serviceModes) &&
+    Array.isArray(restaurant.mealPeriods) &&
+    Array.isArray(restaurant.scenarioTags) &&
+    Array.isArray(restaurant.constraintTags) &&
+    Array.isArray(restaurant.preferenceTags)
+  ) {
+    return {
+      serviceModes: restaurant.serviceModes,
+      mealPeriods: restaurant.mealPeriods,
+      scenarioTags: restaurant.scenarioTags,
+      constraintTags: restaurant.constraintTags,
+      preferenceTags: restaurant.preferenceTags
+    }
+  }
+
   const values = [restaurant.area, restaurant.cuisine, ...(restaurant.tags || []), ...(restaurant.suitedFor || [])]
   const pick = (entries) => entries.filter((entry) => hasAny(values, entry.matches)).map((entry) => entry.label)
 

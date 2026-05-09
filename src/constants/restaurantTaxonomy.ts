@@ -13,7 +13,7 @@ export const campusCenters: Record<CampusOption, { latitude: number; longitude: 
   海宁: { latitude: 30.512801, longitude: 120.681777, dataStatus: 'collecting' }
 }
 
-export const quickRandomTags = ['近', '校内', '外卖', '堂食', '一人食', '聚餐', '夜宵', '面食', '下饭', '实惠', '辣', '不辣'] as const
+export const quickRandomTags = ['正餐', '近', '校内', '外卖', '堂食', '一人食', '聚餐', '夜宵', '面食', '下饭', '实惠', '辣', '不辣', '饮品'] as const
 export const quickRandomExclusiveGroups = [
   ['辣', '不辣'],
   ['外卖', '堂食']
@@ -67,6 +67,8 @@ export const taxonomyTagMap: Record<string, string[]> = {
   下午茶: ['下午自习', '咖啡', '甜品', '奶茶', '拍照', '轻负担', '嘴馋'],
   晚餐: ['晚饭快吃', '晚饭改善', '晚餐聚餐', '聚餐', '下饭', '辣', '火锅', '烧烤', '人均50内'],
   夜宵: ['夜宵', '夜宵改善', '晚归加餐', '小吃', '烧烤', '火锅', '奶茶', '暖胃'],
+  正餐: ['正餐', '中餐简餐', '校内食堂', '快餐小吃', '面食粉面', '烧烤烤肉', '火锅麻辣烫', '下饭'],
+  饮品: ['饮品', '茶饮', '咖啡', '甜品烘焙', '奶茶', '甜品'],
   近: ['近', '校内', '懒得出校'],
   校内: ['校内', '食堂', '校内食堂', '懒得出校'],
   一人食: ['一人食', '一个人', '单人吃饭', '独自觅食'],

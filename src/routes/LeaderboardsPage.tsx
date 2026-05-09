@@ -40,7 +40,7 @@ export function LeaderboardsPage() {
                       {restaurant.area} · ¥{restaurant.price}/人 · 高德 {restaurant.rating}
                     </p>
                   </div>
-                  <b>{restaurant.recommendationScore ?? '-'}</b>
+                  <b>{restaurant.boardScore}</b>
                 </Link>
               ))}
               {!board.restaurants.length ? <p className="helper-text">真实数据进来后，这个榜单会自动丰富。</p> : null}

@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-05-09T10:27:20.645Z",
+  "generatedAt": "2026-05-09T15:16:33.521Z",
   "center": {
     "longitude": 120.081964,
     "latitude": 30.302761
   },
-  "radiusMeters": 3000,
-  "rawRows": 2311,
-  "uniqueCandidates": 1386,
-  "autoPublished": 60,
+  "radiusMeters": 3500,
+  "rawRows": 3818,
+  "uniqueCandidates": 2132,
+  "autoPublished": 120,
   "minAutoPublishConfidence": 0.78,
-  "rejectedOrPending": 1326,
+  "rejectedOrPending": 2012,
   "sources": {
-    "amapAroundRows": 2301,
+    "amapAroundRows": 3808,
     "webClueRows": 10
   },
   "sample": [
@@ -23,14 +23,14 @@
       "price": 23,
       "distance": 0.37,
       "tags": [
+        "正餐",
         "近",
         "实惠",
         "人均30内",
         "校内",
         "聚餐",
         "食堂",
-        "一人食",
-        "下饭"
+        "一人食"
       ],
       "sourceTypes": [
         "amap_around",
@@ -39,20 +39,20 @@
     },
     {
       "id": "r002",
-      "name": "古茗(浙大银泉校内店)",
+      "name": "浙大紫金港澄月食堂(留学生食堂)",
       "confidence": 1,
-      "rating": 4.4,
-      "price": 16,
-      "distance": 0.75,
+      "rating": 4.7,
+      "price": 30,
+      "distance": 0.73,
       "tags": [
+        "正餐",
         "近",
         "实惠",
         "人均30内",
         "校内",
-        "拍照",
-        "咖啡",
-        "奶茶",
-        "轻负担"
+        "辣",
+        "火锅",
+        "面食"
       ],
       "sourceTypes": [
         "amap_around",
@@ -61,75 +61,13 @@
     },
     {
       "id": "r003",
-      "name": "浙大紫金港澄月食堂(留学生食堂)",
-      "confidence": 1,
-      "rating": 4.7,
-      "price": 30,
-      "distance": 0.73,
-      "tags": [
-        "近",
-        "实惠",
-        "人均30内",
-        "校内",
-        "辣",
-        "火锅",
-        "面食",
-        "暖胃"
-      ],
-      "sourceTypes": [
-        "amap_around",
-        "web_clue"
-      ]
-    },
-    {
-      "id": "r004",
-      "name": "库迪咖啡(浙大紫金港启真湖店)",
-      "confidence": 0.95,
-      "rating": 4.4,
-      "price": 9,
-      "distance": 0.37,
-      "tags": [
-        "近",
-        "实惠",
-        "人均30内",
-        "校内",
-        "拍照",
-        "咖啡",
-        "奶茶",
-        "轻负担"
-      ],
-      "sourceTypes": [
-        "amap_around"
-      ]
-    },
-    {
-      "id": "r005",
-      "name": "爷爷不泡茶NOYEYENOTEA(浙大紫金港校内店)",
-      "confidence": 0.95,
-      "rating": 4.6,
-      "price": 13,
-      "distance": 0.4,
-      "tags": [
-        "近",
-        "实惠",
-        "人均30内",
-        "校内",
-        "拍照",
-        "奶茶",
-        "一人食"
-      ],
-      "sourceTypes": [
-        "amap_around"
-      ]
-    },
-    {
-      "id": "r006",
       "name": "吉祥馄饨(杭州浙大紫金港店)",
       "confidence": 1,
       "rating": 3.3,
       "price": 14,
       "distance": 0.87,
       "tags": [
+        "正餐",
         "近",
         "实惠",
         "人均30内",
@@ -144,21 +82,84 @@
       ]
     },
     {
-      "id": "r007",
-      "name": "luckin coffee 瑞幸咖啡(紫金港校区西区浙江大学店)",
+      "id": "r004",
+      "name": "紫金港餐饮中心-风味餐厅(浙江大学紫金港校区店)",
       "confidence": 0.95,
-      "rating": 4.5,
-      "price": 17,
-      "distance": 0.56,
+      "rating": 4.6,
+      "price": 16,
+      "distance": 0.66,
       "tags": [
+        "正餐",
         "近",
         "实惠",
         "人均30内",
         "校内",
-        "拍照",
-        "咖啡",
+        "面食",
+        "暖胃",
+        "聚餐"
+      ],
+      "sourceTypes": [
+        "amap_around"
+      ]
+    },
+    {
+      "id": "r005",
+      "name": "浙江大学(紫金港校区)休闲餐厅",
+      "confidence": 0.95,
+      "rating": 4.4,
+      "price": 14,
+      "distance": 0.6,
+      "tags": [
+        "正餐",
+        "近",
+        "实惠",
+        "人均30内",
+        "校内",
+        "聚餐",
         "轻负担",
-        "一人食"
+        "食堂"
+      ],
+      "sourceTypes": [
+        "amap_around"
+      ]
+    },
+    {
+      "id": "r006",
+      "name": "奈哥老坛酸菜鱼(望月店)",
+      "confidence": 1,
+      "rating": 3.8,
+      "price": 23,
+      "distance": 1.04,
+      "tags": [
+        "正餐",
+        "实惠",
+        "人均30内",
+        "快餐",
+        "一人食",
+        "聚餐",
+        "下饭"
+      ],
+      "sourceTypes": [
+        "amap_around",
+        "web_clue"
+      ]
+    },
+    {
+      "id": "r007",
+      "name": "浙江大学紫金港校区麦香餐厅",
+      "confidence": 0.95,
+      "rating": 4.5,
+      "price": 9,
+      "distance": 0.88,
+      "tags": [
+        "正餐",
+        "近",
+        "实惠",
+        "人均30内",
+        "校内",
+        "面食",
+        "暖胃",
+        "聚餐"
       ],
       "sourceTypes": [
         "amap_around"
@@ -166,20 +167,20 @@
     },
     {
       "id": "r008",
-      "name": "紫金港餐饮中心-风味餐厅(浙江大学紫金港校区店)",
+      "name": "浙江大学紫金港校区东区食堂",
       "confidence": 0.95,
-      "rating": 4.6,
-      "price": 16,
+      "rating": 4.7,
+      "price": 30,
       "distance": 0.66,
       "tags": [
+        "正餐",
         "近",
         "实惠",
         "人均30内",
         "校内",
-        "面食",
-        "暖胃",
         "聚餐",
-        "食堂"
+        "食堂",
+        "一人食"
       ],
       "sourceTypes": [
         "amap_around"

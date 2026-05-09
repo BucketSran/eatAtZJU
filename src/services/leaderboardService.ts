@@ -4,11 +4,15 @@ import { listRestaurants } from './restaurantService'
 
 export type LeaderboardKey = 'lunch' | 'dinner' | 'night' | 'delivery' | 'qizhen' | 'exam'
 
+export type LeaderboardRestaurant = RestaurantSummary & {
+  boardScore: number
+}
+
 export type Leaderboard = {
   description: string
   id: LeaderboardKey
   isTimePriority: boolean
-  restaurants: RestaurantSummary[]
+  restaurants: LeaderboardRestaurant[]
   title: string
 }
 
@@ -65,7 +69,17 @@ const leaderboardSpecs: LeaderboardSpec[] = [
 ]
 
 function hasAnyTag(restaurant: RestaurantSummary, tags: string[]) {
-  const haystack = [restaurant.area, restaurant.cuisine, ...restaurant.tags, ...restaurant.suitedFor].join(' ')
+  const haystack = [
+    restaurant.area,
+    restaurant.cuisine,
+    ...restaurant.tags,
+    ...restaurant.suitedFor,
+    ...(restaurant.serviceModes ?? []),
+    ...(restaurant.mealPeriods ?? []),
+    ...(restaurant.scenarioTags ?? []),
+    ...(restaurant.constraintTags ?? []),
+    ...(restaurant.preferenceTags ?? [])
+  ].join(' ')
   return tags.some((tag) => haystack.includes(tag))
 }
 

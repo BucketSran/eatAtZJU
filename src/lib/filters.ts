@@ -88,7 +88,7 @@ function restaurantMatchesServiceMode(restaurant: Restaurant, serviceMode?: stri
 
 function restaurantMatchesMealPeriod(restaurant: Restaurant, mealPeriod?: string) {
   if (!mealPeriod || mealPeriod === '全部') return true
-  if (restaurant.mealPeriods?.includes(mealPeriod)) return true
+  if (restaurant.mealPeriods?.length) return restaurant.mealPeriods.includes(mealPeriod)
   return restaurantMatchesCategory(restaurant, mealPeriod, mealPeriodTagMap)
 }
 
