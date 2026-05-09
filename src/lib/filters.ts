@@ -98,6 +98,11 @@ function restaurantMatchesDistance(restaurant: Restaurant, distanceLabel = '不�
   return true
 }
 
+function restaurantMatchesCampus(restaurant: Restaurant, campus?: string) {
+  if (!campus || campus === '紫金港') return true
+  return getSearchableTokens(restaurant).some((value) => value.includes(campus))
+}
+
 export function restaurantMatchesPrice(restaurant: Restaurant, priceRange?: PriceRange) {
   if (!priceRange) return true
   return restaurant.price >= priceRange.min && restaurant.price <= priceRange.max
@@ -112,6 +117,7 @@ export function filterRestaurants(restaurants: Restaurant[], filters: Restaurant
   return restaurants.filter((restaurant) => {
     return (
       restaurant.status === 'published' &&
+      restaurantMatchesCampus(restaurant, filters.campus) &&
       restaurantMatchesKeyword(restaurant, filters.keyword) &&
       restaurantMatchesServiceMode(restaurant, serviceMode) &&
       restaurantMatchesMealPeriod(restaurant, filters.mealPeriod) &&

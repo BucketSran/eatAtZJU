@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
-import { collectFilterTags, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
+import { campusOptions, collectFilterTags, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
 import { submitContribution, type SubmissionType } from '../services/submissionService'
 import { isSupabaseBrowserConfigured } from '../services/supabaseBrowserClient'
 
@@ -22,6 +22,7 @@ export function ContributePage() {
   const [price, setPrice] = useState('')
   const [restaurantId, setRestaurantId] = useState('')
   const [rating, setRating] = useState('4')
+  const [campus, setCampus] = useState('紫金港')
   const [serviceMode, setServiceMode] = useState('都可以')
   const [mealPeriod, setMealPeriod] = useState(() => getCurrentMealPeriod())
   const [scenarioTags, setScenarioTags] = useState<string[]>([])
@@ -52,6 +53,7 @@ export function ContributePage() {
         area: area.trim() || undefined,
         cuisine: cuisine.trim() || undefined,
         price: price ? Number(price) : undefined,
+        campus,
         restaurantId: needsRestaurantId ? restaurantId.trim() || undefined : undefined,
         rating: needsRestaurantId && rating ? Number(rating) : undefined,
         serviceMode,
@@ -73,6 +75,7 @@ export function ContributePage() {
       setPrice('')
       setRestaurantId('')
       setRating('4')
+      setCampus('紫金港')
       setScenarioTags([])
       setDietaryTags([])
       setPreferenceTags([])
@@ -110,6 +113,8 @@ export function ContributePage() {
                 <p>先把管理员最需要判断的信息写清楚。餐厅投稿审核通过后会直接进入正式餐厅表。</p>
               </div>
             </div>
+
+            <SegmentedControl label="所在校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={setCampus} />
 
             <label className="search-label" htmlFor="submission-type">提交类型</label>
             <select id="submission-type" className="search-input" value={type} onChange={(event) => setType(event.target.value as SubmissionType)}>
@@ -228,6 +233,7 @@ export function ContributePage() {
           <div className="preview-meta">
             <span>{serviceMode}</span>
             <span>{mealPeriod}</span>
+            <span>{campus}</span>
             <span>{price ? `¥${price}/人` : '价格待补充'}</span>
             <span>{area || '区域待补充'}</span>
           </div>

@@ -63,7 +63,7 @@ function buildRestaurantRow(submission, reviewerId) {
     name: title,
     canonical_name: title,
     aliases: [],
-    area: cleanText(payload.area, '待补充区域'),
+    area: cleanText(payload.area, cleanText(payload.campus, '待补充区域')),
     distance,
     walk_minutes: Math.max(1, Math.round(toNumber(payload.walkMinutes, distance * 12, 1, 240))),
     cuisine: cleanText(payload.cuisine, '学生推荐'),

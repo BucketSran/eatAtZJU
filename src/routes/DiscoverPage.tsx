@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { FilterChips } from '../components/FilterChips'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
-import { dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
+import { campusCenters, campusOptions, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleMultiTag, type CampusOption } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -31,6 +30,47 @@ function splitInitialTags(tags: string[]) {
   }
 }
 
+function readStoredCampus(): CampusOption {
+  if (typeof window === 'undefined') return '紫金港'
+  const stored = window.localStorage.getItem('eatAtZjuCampus')
+  return campusOptions.includes(stored as CampusOption) ? (stored as CampusOption) : '紫金港'
+}
+
+function persistCampus(campus: string) {
+  if (typeof window !== 'undefined') window.localStorage.setItem('eatAtZjuCampus', campus)
+}
+
+function toggleQuickRandomTag(currentTags: string[], tag: string) {
+  const exclusiveGroup = quickRandomExclusiveGroups.find((group) => group.includes(tag as never))
+  if (currentTags.includes(tag)) return currentTags.filter((currentTag) => currentTag !== tag)
+  if (!exclusiveGroup) return [...currentTags, tag]
+  return [...currentTags.filter((currentTag) => !exclusiveGroup.includes(currentTag as never)), tag]
+}
+
+function getInitialRandomTags(searchParams: URLSearchParams) {
+  const tags = parseTagsParam(searchParams.get('randomTags'))
+  const legacyTag = searchParams.get('randomTag')
+  if (tags.length) return tags
+  return legacyTag && legacyTag !== '全部' ? [legacyTag] : []
+}
+
+function distanceKm(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
+  const radius = 6371
+  const toRadians = (degree: number) => (degree * Math.PI) / 180
+  const deltaLatitude = toRadians(b.latitude - a.latitude)
+  const deltaLongitude = toRadians(b.longitude - a.longitude)
+  const latitude1 = toRadians(a.latitude)
+  const latitude2 = toRadians(b.latitude)
+  const h = Math.sin(deltaLatitude / 2) ** 2 + Math.cos(latitude1) * Math.cos(latitude2) * Math.sin(deltaLongitude / 2) ** 2
+  return 2 * radius * Math.asin(Math.sqrt(h))
+}
+
+function getNearestCampus(position: { latitude: number; longitude: number }) {
+  return campusOptions
+    .map((campus) => ({ campus, distance: distanceKm(position, campusCenters[campus]) }))
+    .sort((a, b) => a.distance - b.distance)[0]
+}
+
 export function DiscoverPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const metadata = getRestaurantMetadata()
@@ -55,20 +95,28 @@ export function DiscoverPage() {
   const [spiceLevel, setSpiceLevel] = useState(() => searchParams.get('spice') ?? initialTags.spiceLevel)
   const [loadLevel, setLoadLevel] = useState(() => searchParams.get('load') ?? initialTags.loadLevel)
   const [priceLabel, setPriceLabel] = useState(() => searchParams.get('price') ?? '不限')
+  const [randomCampus, setRandomCampus] = useState<CampusOption>(() => {
+    const campus = searchParams.get('randomCampus') ?? readStoredCampus()
+    return campusOptions.includes(campus as CampusOption) ? (campus as CampusOption) : '紫金港'
+  })
   const [sort, setSort] = useState<SortKey>(() => (searchParams.get('sort') as SortKey) || 'recommended')
   const [randomBudget, setRandomBudget] = useState(() => searchParams.get('randomBudget') ?? '不限')
-  const [randomTag, setRandomTag] = useState(() => searchParams.get('randomTag') ?? '全部')
+  const [randomTags, setRandomTags] = useState<string[]>(() => getInitialRandomTags(searchParams))
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
   const initialFilters = { keyword, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort }
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(initialFilters, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
+  const [randomMessage, setRandomMessage] = useState('')
+  const [randomNonce, setRandomNonce] = useState(0)
+  const [locationStatus, setLocationStatus] = useState('')
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
 
   const scenarioKey = scenarioTags.join(',')
   const dietaryKey = dietaryTags.join(',')
   const preferenceKey = preferenceTags.join(',')
+  const randomTagKey = randomTags.join(',')
   const filters = useMemo(() => ({ keyword, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort }), [dietaryKey, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, priceLabel, scenarioKey, serviceMode, sort, spiceLevel])
   const context = useMemo(() => ({ preferences: [...preferences, serviceMode, mealPeriod, ...scenarioTags, ...preferenceTags], favoriteRestaurantIds: favoriteIds }), [favoriteIds, mealPeriod, preferenceKey, preferences, scenarioKey, serviceMode])
   const showRandom = searchParams.get('random') === '1'
@@ -88,10 +136,11 @@ export function DiscoverPage() {
     if (priceLabel !== '不限') next.set('price', priceLabel)
     if (sort !== 'recommended') next.set('sort', sort)
     if (showRandom) next.set('random', '1')
+    if (showRandom && randomCampus !== '紫金港') next.set('randomCampus', randomCampus)
     if (showRandom && randomBudget !== '不限') next.set('randomBudget', randomBudget)
-    if (showRandom && randomTag !== '全部') next.set('randomTag', randomTag)
+    if (showRandom && randomTags.length) next.set('randomTags', randomTags.join(','))
     setSearchParams(next, { replace: true })
-  }, [dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, preferenceTags, priceLabel, randomBudget, randomTag, scenarioKey, scenarioTags, serviceMode, setSearchParams, showRandom, sort, spiceLevel])
+  }, [dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealPeriod, preferenceKey, preferenceTags, priceLabel, randomBudget, randomCampus, randomTagKey, randomTags, scenarioKey, scenarioTags, serviceMode, setSearchParams, showRandom, sort, spiceLevel])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -119,23 +168,34 @@ export function DiscoverPage() {
     }
 
     const controller = new AbortController()
+    const serviceTags = randomTags.filter((tag) => tag === '外卖' || tag === '堂食')
+    const randomMealPeriod = randomTags.includes('夜宵') ? '夜宵' : undefined
     const randomFilters = {
-      ...filters,
+      campus: randomCampus,
       priceLabel: randomBudget,
-      preferenceTags: randomTag === '全部' ? preferenceTags : [...preferenceTags, randomTag]
+      serviceMode: serviceTags.length === 1 ? serviceTags[0] : '都可以',
+      mealPeriod: randomMealPeriod,
+      tags: randomTags
     }
+    const randomContext = { ...context, preferences: [...context.preferences, ...randomTags, randomCampus] }
+    setRandomMessage('正在按条件摇一餐...')
 
-    getRandomRestaurantRemote(randomFilters, context, controller.signal)
+    getRandomRestaurantRemote(randomFilters, randomContext, controller.signal)
       .then((result) => {
         setRandomPick(result.data)
+        setRandomMessage(result.data ? '' : '这个组合暂时没有匹配餐厅，可以放宽校区、预算或标签。')
         setDataSource(describeApiSource(result.source, result.fallbackReason))
       })
       .catch((error: unknown) => {
-        if (!isAbortError(error)) setRandomPick(getRandomRestaurant(randomFilters, context))
+        if (!isAbortError(error)) {
+          const fallback = getRandomRestaurant(randomFilters, randomContext)
+          setRandomPick(fallback)
+          setRandomMessage(fallback ? '' : '这个组合暂时没有匹配餐厅，可以放宽校区、预算或标签。')
+        }
       })
 
     return () => controller.abort()
-  }, [context, filters, randomBudget, randomTag, showRandom])
+  }, [context, randomBudget, randomCampus, randomNonce, randomTagKey, showRandom])
 
   function toggleFavorite(id: string) {
     const nextIds = toggleFavoriteRestaurant(id)
@@ -160,6 +220,52 @@ export function DiscoverPage() {
     setPriceLabel('不限')
   }
 
+  function selectRandomCampus(campus: string) {
+    const nextCampus = campusOptions.includes(campus as CampusOption) ? (campus as CampusOption) : '紫金港'
+    setRandomCampus(nextCampus)
+    persistCampus(nextCampus)
+    setLocationStatus(nextCampus === '紫金港' ? '已切到紫金港。当前真实数据主要覆盖紫金港。' : `${nextCampus} 数据正在采集中，当前可能没有结果。`)
+  }
+
+  function requestCurrentLocation() {
+    if (!navigator.geolocation) {
+      setLocationStatus('当前浏览器不支持定位，请手动选择校区。')
+      return
+    }
+
+    setLocationStatus('正在请求浏览器定位，只用于判断最近校区，不会上传精确位置。')
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const nearest = getNearestCampus({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        })
+        selectRandomCampus(nearest.campus)
+        setLocationStatus(`已根据当前位置选择 ${nearest.campus}，约 ${nearest.distance.toFixed(1)}km。精确位置未上传。`)
+      },
+      () => {
+        setLocationStatus('定位被拒绝或超时。没关系，可以手动选择校区继续摇。')
+      },
+      { enableHighAccuracy: false, maximumAge: 1000 * 60 * 10, timeout: 5000 }
+    )
+  }
+
+  function triggerRandomPick() {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current)
+      next.set('random', '1')
+      if (randomCampus !== '紫金港') next.set('randomCampus', randomCampus)
+      else next.delete('randomCampus')
+      if (randomBudget !== '不限') next.set('randomBudget', randomBudget)
+      else next.delete('randomBudget')
+      if (randomTags.length) next.set('randomTags', randomTags.join(','))
+      else next.delete('randomTags')
+      next.delete('randomTag')
+      return next
+    })
+    setRandomNonce((nonce) => nonce + 1)
+  }
+
   return (
     <div className="route-stack">
       <div className="page-heading split-heading">
@@ -175,36 +281,70 @@ export function DiscoverPage() {
         <span>{isLoading ? '正在同步后端数据...' : dataSource}</span>
       </div>
 
-      {randomPick ? (
-        <GlassCard className="result-card">
-          <p className="eyebrow">RANDOM PICK</p>
-          <h2>{randomPick.name}</h2>
-          <p>
-            当前筛选下的随机结果：{randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。
-          </p>
-        </GlassCard>
-      ) : null}
-
       <GlassCard className="filters-card">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">DECISION HELPER</p>
             <h2>随机吃什么增强</h2>
-            <p>先给随机一餐加一点边界：预算和场景定住，选择困难就少一半。</p>
+            <p>三行约束就够了：先定校区，再定预算，最后加几个关键标签。定位只在你点击时请求。</p>
           </div>
         </div>
-        <SegmentedControl label="随机预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={randomBudget} onChange={setRandomBudget} />
-        <FilterChips items={metadata.tasteTags.slice(0, 10)} active={randomTag} onChange={setRandomTag} />
-        <button className="primary-action" type="button" onClick={() => setSearchParams((current) => {
-          const next = new URLSearchParams(current)
-          next.set('random', '1')
-          if (randomBudget !== '不限') next.set('randomBudget', randomBudget)
-          if (randomTag !== '全部') next.set('randomTag', randomTag)
-          return next
-        })}>
+        <div className="quick-random-panel">
+          <div className="quick-random-row">
+            <div className="quick-random-copy">
+              <strong>校区</strong>
+              <span>默认不拿定位；想找附近再点右侧按钮。</span>
+            </div>
+            <div className="quick-random-controls">
+              <SegmentedControl label="随机校区" options={campusOptions.map((campus) => ({ label: campus, value: campus }))} value={randomCampus} onChange={selectRandomCampus} />
+              <button className="secondary-action compact-action" type="button" onClick={requestCurrentLocation}>使用当前位置</button>
+            </div>
+          </div>
+          <div className="quick-random-row">
+            <div className="quick-random-copy">
+              <strong>预算</strong>
+              <span>快速收窄候选，不用填很精确。</span>
+            </div>
+            <SegmentedControl label="随机预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={randomBudget} onChange={setRandomBudget} />
+          </div>
+          <div className="quick-random-row">
+            <div className="quick-random-copy">
+              <strong>标签</strong>
+              <span>可多选；辣/不辣、外卖/堂食会自动互斥。</span>
+            </div>
+            <div className="chip-row" aria-label="随机关键标签">
+              {quickRandomTags.map((tag) => (
+                <button key={tag} className={`chip ${randomTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={randomTags.includes(tag)} onClick={() => setRandomTags((tags) => toggleQuickRandomTag(tags, tag))}>
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        {locationStatus ? <p className="helper-text subtle-helper">{locationStatus}</p> : null}
+        <button className="primary-action" type="button" onClick={triggerRandomPick}>
           按条件摇一餐
         </button>
       </GlassCard>
+
+      {showRandom ? (
+        <GlassCard className="result-card">
+          <p className="eyebrow">RANDOM PICK</p>
+          {randomPick ? (
+            <>
+              <h2>{randomPick.name}</h2>
+              <p>
+                当前条件：{randomCampus} · {randomBudget}{randomTags.length ? ` · ${randomTags.join(' / ')}` : ''}。结果：{randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。
+              </p>
+            </>
+          ) : (
+            <>
+              <h2>还没有摇到合适结果</h2>
+              <p>{randomMessage || '点击上面的按钮后，结果会出现在这里。'}</p>
+            </>
+          )}
+        </GlassCard>
+      ) : null}
 
       <GlassCard className="filters-card">
         <label className="search-label" htmlFor="restaurant-search">

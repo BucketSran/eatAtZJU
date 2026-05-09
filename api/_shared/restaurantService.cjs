@@ -4,6 +4,8 @@ const reviewsSeed = require('../../seed/reviews.json')
 
 const taxonomyTagMap = {
   都可以: [],
+  近: ['近', '校内', '懒得出校'],
+  校内: ['校内', '食堂', '校内食堂', '懒得出校'],
   一人食: ['一人食', '一个人', '单人吃饭', '独自觅食'],
   聚餐: ['聚餐', '多人拼桌', '多人约饭', '四人聚餐'],
   赶课快吃: ['赶课午餐', '赶课午饭', '课间午餐', '快速解决', '快餐'],
@@ -182,6 +184,11 @@ function matchesDistance(restaurant, distanceLabel = '不限') {
   return true
 }
 
+function matchesCampus(restaurant, campus) {
+  if (!campus || campus === '紫金港') return true
+  return getSearchableTokens(restaurant).some((value) => String(value).includes(campus))
+}
+
 function sortRestaurants(restaurants, sort = 'recommended') {
   return [...restaurants].sort((a, b) => {
     if (sort === 'distance') return a.distance - b.distance
@@ -200,6 +207,7 @@ function listRestaurantCollection(restaurants, query = {}) {
   const filtered = restaurants.filter((restaurant) => {
     return (
       restaurant.status === 'published' &&
+      matchesCampus(restaurant, query.campus) &&
       matchesKeyword(restaurant, query.keyword) &&
       matchesServiceMode(restaurant, query.mode) &&
       matchesMealPeriod(restaurant, query.meal) &&

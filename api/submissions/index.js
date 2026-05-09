@@ -6,6 +6,7 @@ const ALLOWED_TYPES = new Set(['restaurant', 'dish', 'review', 'checkin', 'corre
 const TAG_REQUIRED_TYPES = new Set(ALLOWED_TYPES)
 const ALLOWED_DINING_MODES = new Set(['堂食', '外卖'])
 const ALLOWED_MEAL_PERIODS = new Set(['早餐', '中餐', '下午茶', '晚餐', '夜宵'])
+const ALLOWED_CAMPUSES = new Set(['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁'])
 const MAX_PAYLOAD_BYTES = 20_000
 const MAX_TAGS = 12
 const MAX_TAG_LENGTH = 24
@@ -30,6 +31,7 @@ function validatePayload(type, payload) {
   if (!content || content.length > 1000) return 'Content is required and must be 1000 characters or less'
   if (payload.serviceMode && payload.serviceMode !== '都可以' && !ALLOWED_DINING_MODES.has(payload.serviceMode)) return 'Invalid service mode'
   if (payload.diningMode && !ALLOWED_DINING_MODES.has(payload.diningMode)) return 'Invalid dining mode'
+  if (payload.campus && !ALLOWED_CAMPUSES.has(payload.campus)) return 'Invalid campus'
   if (payload.mealPeriod && !ALLOWED_MEAL_PERIODS.has(payload.mealPeriod)) return 'Invalid meal period'
   if (TAG_REQUIRED_TYPES.has(type) && !tags.length) return 'At least one tag is required'
   if (tags.length > MAX_TAGS) return 'Too many tags'

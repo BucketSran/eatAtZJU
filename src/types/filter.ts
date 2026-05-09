@@ -6,6 +6,7 @@ export type RestaurantFilters = {
   tags?: string[]
   serviceMode?: string
   diningMode?: string
+  campus?: string
   mealPeriod?: string
   scenarioTags?: string[]
   dietaryTags?: string[]

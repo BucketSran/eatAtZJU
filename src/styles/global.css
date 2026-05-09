@@ -551,6 +551,52 @@ p {
   gap: 18px;
 }
 
+.quick-random-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-random-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.24fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--separator);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.quick-random-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.quick-random-copy strong {
+  color: var(--label-primary);
+  font-size: 14px;
+  font-weight: 840;
+}
+
+.quick-random-copy span,
+.subtle-helper {
+  color: var(--label-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.quick-random-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.compact-action {
+  min-height: 38px;
+  padding-inline: 14px;
+}
+
 .filter-flow {
   display: grid;
   gap: 14px;
@@ -1140,10 +1186,12 @@ p {
 
   .filter-section-head,
   .filter-tag-group,
+  .quick-random-row,
   .flow-step {
     flex-direction: column;
   }
 
+  .quick-random-row,
   .flow-step {
     grid-template-columns: 1fr;
   }

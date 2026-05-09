@@ -71,6 +71,7 @@ function buildRestaurantParams(filters: RestaurantFilters = {}, context?: Partia
   const tags = collectHardFilterTags(filters)
   appendListParam(params, 'tags', tags)
   if (!filters.tags?.length && filters.tag && filters.tag !== '全部') params.set('tag', filters.tag)
+  if (filters.campus) params.set('campus', filters.campus)
   if (filters.serviceMode && filters.serviceMode !== '都可以') params.set('mode', filters.serviceMode)
   if (!filters.serviceMode && filters.diningMode && filters.diningMode !== '全部') params.set('mode', filters.diningMode)
   if (filters.mealPeriod && filters.mealPeriod !== '全部') params.set('meal', filters.mealPeriod)

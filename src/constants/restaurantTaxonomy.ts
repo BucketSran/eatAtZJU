@@ -1,5 +1,23 @@
 export const serviceModeOptions = ['都可以', '堂食', '外卖'] as const
 export const mealPeriodOptions = ['早餐', '中餐', '下午茶', '晚餐', '夜宵'] as const
+export const campusOptions = ['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁'] as const
+
+export type CampusOption = (typeof campusOptions)[number]
+
+export const campusCenters: Record<CampusOption, { latitude: number; longitude: number; dataStatus: 'ready' | 'collecting' }> = {
+  紫金港: { latitude: 30.302761, longitude: 120.081964, dataStatus: 'ready' },
+  玉泉: { latitude: 30.263801, longitude: 120.123563, dataStatus: 'collecting' },
+  西溪: { latitude: 30.275303, longitude: 120.142375, dataStatus: 'collecting' },
+  华家池: { latitude: 30.269386, longitude: 120.196807, dataStatus: 'collecting' },
+  之江: { latitude: 30.191619, longitude: 120.12779, dataStatus: 'collecting' },
+  海宁: { latitude: 30.512801, longitude: 120.681777, dataStatus: 'collecting' }
+}
+
+export const quickRandomTags = ['近', '校内', '外卖', '堂食', '一人食', '聚餐', '夜宵', '面食', '下饭', '实惠', '辣', '不辣'] as const
+export const quickRandomExclusiveGroups = [
+  ['辣', '不辣'],
+  ['外卖', '堂食']
+] as const
 
 export const scenarioTagGroups = [
   {
@@ -49,6 +67,8 @@ export const taxonomyTagMap: Record<string, string[]> = {
   下午茶: ['下午自习', '咖啡', '甜品', '奶茶', '拍照', '轻负担', '嘴馋'],
   晚餐: ['晚饭快吃', '晚饭改善', '晚餐聚餐', '聚餐', '下饭', '辣', '火锅', '烧烤', '人均50内'],
   夜宵: ['夜宵', '夜宵改善', '晚归加餐', '小吃', '烧烤', '火锅', '奶茶', '暖胃'],
+  近: ['近', '校内', '懒得出校'],
+  校内: ['校内', '食堂', '校内食堂', '懒得出校'],
   一人食: ['一人食', '一个人', '单人吃饭', '独自觅食'],
   聚餐: ['聚餐', '多人拼桌', '多人约饭', '四人聚餐'],
   赶课快吃: ['赶课午餐', '赶课午饭', '课间午餐', '快速解决', '快餐'],
