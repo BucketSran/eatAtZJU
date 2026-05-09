@@ -19,6 +19,9 @@ const navItems = [
   { to: '/profile', label: '我的' }
 ]
 
+const githubRepoUrl = 'https://github.com/BucketSran/eatAtZJU'
+const githubIssuesUrl = `${githubRepoUrl}/issues`
+
 export function App() {
   return (
     <div className="app-shell">
@@ -49,6 +52,21 @@ export function App() {
           </Routes>
         </Suspense>
       </main>
+
+      <footer className="app-footer">
+        <div>
+          <strong>这个项目正在持续迭代。</strong>
+          <span>如果发现餐厅信息错误、功能异常或有新想法，欢迎到 GitHub 提 Issue。</span>
+        </div>
+        <div className="footer-links">
+          <a href={githubRepoUrl} target="_blank" rel="noreferrer">
+            GitHub 仓库
+          </a>
+          <a href={githubIssuesUrl} target="_blank" rel="noreferrer">
+            提交 Issue
+          </a>
+        </div>
+      </footer>
 
       <nav className="mobile-tab-bar" aria-label="移动端导航">
         {navItems.map((item) => (
