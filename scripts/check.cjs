@@ -124,6 +124,11 @@ function checkSeedData() {
     if (restaurant.sourceRefs !== undefined) {
       assert(Array.isArray(restaurant.sourceRefs) && restaurant.sourceRefs.length > 0, `seed restaurant ${restaurant.id} sourceRefs must not be empty`)
     }
+    const hasStudentUgcSource = Array.isArray(restaurant.sourceRefs) && restaurant.sourceRefs.some((source) => source?.type === 'student_ugc')
+    if (!hasStudentUgcSource) {
+      assert(restaurant.studentScore === 0, `seed restaurant ${restaurant.id} must not invent studentScore without student_ugc source`)
+      assert(restaurant.checkins === 0, `seed restaurant ${restaurant.id} must not invent checkins without student_ugc source`)
+    }
     assert(!restaurantIds.has(restaurant.id), `duplicate seed restaurant id: ${restaurant.id}`)
     restaurantIds.add(restaurant.id)
   }

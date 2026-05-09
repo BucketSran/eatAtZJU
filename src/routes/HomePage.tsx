@@ -66,7 +66,7 @@ export function HomePage() {
       <section className="hero-panel">
         <p className="eyebrow">ZJU FOOD DEMO</p>
         <h1>今天吃什么？</h1>
-        <p className="hero-copy">用学生口碑、距离和偏好标签，帮你在 30 秒内做出一顿饭的决定。</p>
+        <p className="hero-copy">推荐分采用“学生评价 80% + 公开信息 20%”的长期模型；当前学生评价还在积累，所以先由公开 POI 做冷启动。</p>
         <div className="hero-actions">
           <button className="primary-action" type="button" onClick={surpriseMe}>
             随机一餐
@@ -129,7 +129,7 @@ export function HomePage() {
       <GlassCard className="demo-note">
         <p className="eyebrow">RANKINGS</p>
         <h2>五个榜单，快速解释产品价值</h2>
-        <p>本周热吃、30 元以内、夜宵、一人食、聚餐场景已经整理成榜单，适合 demo 时快速展示“学生到底怎么做饭点决策”。</p>
+        <p>午饭速决、30 元以内、夜宵、一人食、聚餐场景已经整理成榜单，适合 demo 时快速展示“如何把选择变少”。</p>
         <Link className="secondary-action inline-action" to="/leaderboards">
           打开校园美食榜
         </Link>
@@ -137,8 +137,8 @@ export function HomePage() {
 
       <div className="section-heading">
         <div>
-          <p className="eyebrow">STUDENT SIGNALS</p>
-          <h2>学生口碑热推</h2>
+          <p className="eyebrow">PUBLIC SIGNALS</p>
+          <h2>公开信息优先推荐</h2>
         </div>
       </div>
       <div className="restaurant-list">

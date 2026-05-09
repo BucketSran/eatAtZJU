@@ -6,9 +6,9 @@
 
 把 Web/PWA demo 从“React 骨架 + seed 数据”推进到可演示纵切：
 
-- 首页可展示推荐、随机一餐、快捷筛选和学生口碑热推。
+- 首页可展示推荐、随机一餐、快捷筛选和公开信息优先推荐。
 - 发现页可搜索、筛选、排序，并展示随机结果。
-- 详情页可展示餐厅基本信息、标签、推荐分、菜品和学生短评。
+- 详情页可展示餐厅基本信息、标签、匹配分、公开来源和系统整理说明。
 - 收藏页可读取本地收藏，空状态可引导回发现页。
 - 我的页可配置本地偏好，并实时影响推荐结果。
 - Vercel API Functions 可提供餐厅列表、餐厅详情和今日推荐接口。
@@ -27,7 +27,7 @@
 
 ### API
 
-- `GET /api/restaurants`：列表、筛选、排序、推荐分和 metadata。
+- `GET /api/restaurants`：列表、筛选、排序、匹配分和 metadata。
 - `GET /api/restaurants/[id]`：详情、菜品、审核通过评论。
 - `GET /api/recommend/today`：今日推荐，支持 `strategy=random`。
 - `api/_shared/restaurantService.cjs` 复用 seed 数据并封装 API 侧规则。

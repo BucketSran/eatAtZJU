@@ -29,6 +29,7 @@ function mapRestaurant(row) {
     scenarioTags: row.scenario_tags || [],
     constraintTags: row.constraint_tags || [],
     preferenceTags: row.preference_tags || [],
+    sourceRefs: row.source_refs || [],
     reason: row.reason,
     status: row.status
   }
@@ -71,7 +72,7 @@ async function listRestaurants(query = {}) {
   const client = getClientOrThrow()
   const { data, error } = await client
     .from('restaurants')
-    .select('id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,status')
+    .select('id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
     .eq('status', 'published')
 
   if (error) throw error
@@ -82,7 +83,7 @@ async function getRestaurantDetail(id, query = {}) {
   const client = getClientOrThrow()
   const { data: restaurantRow, error: restaurantError } = await client
     .from('restaurants')
-    .select('id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,status')
+    .select('id,name,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
     .eq('id', id)
     .eq('status', 'published')
     .maybeSingle()

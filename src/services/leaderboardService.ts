@@ -73,7 +73,7 @@ function scoreForBoard(restaurant: RestaurantSummary, spec: LeaderboardSpec, mea
   const tagHits = spec.tags.filter((tag) => hasAnyTag(restaurant, [tag])).length
   const mealBoost = spec.mealKeys?.includes(mealContext.key) ? 28 : 0
   const deliveryBoost = spec.id === 'delivery' && restaurant.distance <= 1.5 ? 8 : 0
-  const baseScore = (restaurant.recommendationScore ?? 0) + restaurant.rating * 8 + restaurant.studentScore * 0.25
+  const baseScore = (restaurant.recommendationScore ?? 0) + restaurant.rating * 8
   return Math.round(baseScore + tagHits * 18 + mealBoost + deliveryBoost)
 }
 

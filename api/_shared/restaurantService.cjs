@@ -57,7 +57,11 @@ function parseList(value) {
     .filter(Boolean)
 }
 
-function scoreRestaurant(restaurant, preferences = [], favoriteRestaurantIds = []) {
+function clampScore(value) {
+  return Math.max(0, Math.min(100, Math.round(value)))
+}
+
+function scoreRestaurantBreakdown(restaurant, preferences = [], favoriteRestaurantIds = []) {
   const preferenceTokens = new Set([
     ...(restaurant.tags || []),
     ...(restaurant.suitedFor || []),
@@ -69,13 +73,29 @@ function scoreRestaurant(restaurant, preferences = [], favoriteRestaurantIds = [
   const constraintTokens = new Set(restaurant.constraintTags || [])
   const preferenceHit = preferences.filter((tag) => preferenceTokens.has(tag)).length
   const constraintHit = preferences.filter((tag) => constraintTokens.has(tag)).length
-  const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 10 : 0
-  const ratingScore = restaurant.rating * 12
-  const studentScore = restaurant.studentScore * 0.35
-  const distanceScore = Math.max(0, 30 - restaurant.distance * 8)
-  const checkinScore = Math.min(18, restaurant.checkins / 35)
+  const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 6 : 0
+  const ratingScore = (restaurant.rating / 5) * 36
+  const distanceScore = Math.max(0, 32 - restaurant.distance * 12)
+  const priceScore = Math.max(0, 18 - restaurant.price / 5)
+  const preferenceScore = Math.min(14, preferenceHit * 5 + constraintHit * 3)
+  const publicScore = clampScore(ratingScore + distanceScore + priceScore + preferenceScore + favoriteBoost)
+  const hasStudentSignal = restaurant.studentScore > 0 || restaurant.checkins > 0
+  const studentScore = hasStudentSignal
+    ? clampScore(restaurant.studentScore * 0.75 + Math.min(100, restaurant.checkins / 2) * 0.25 + favoriteBoost)
+    : 0
 
-  return Math.round(ratingScore + studentScore + distanceScore + checkinScore + preferenceHit * 12 + constraintHit * 6 + favoriteBoost)
+  return {
+    mode: hasStudentSignal ? 'blended' : 'cold_start',
+    publicScore,
+    publicWeight: hasStudentSignal ? 0.2 : 1,
+    studentScore,
+    studentWeight: hasStudentSignal ? 0.8 : 0
+  }
+}
+
+function scoreRestaurant(restaurant, preferences = [], favoriteRestaurantIds = []) {
+  const breakdown = scoreRestaurantBreakdown(restaurant, preferences, favoriteRestaurantIds)
+  return clampScore(breakdown.studentScore * breakdown.studentWeight + breakdown.publicScore * breakdown.publicWeight)
 }
 
 function findPriceRange(label) {
@@ -190,6 +210,7 @@ function listRestaurantCollection(restaurants, query = {}) {
   })
   const scored = filtered.map((restaurant) => ({
     ...restaurant,
+    matchBreakdown: scoreRestaurantBreakdown(restaurant, preferences, favoriteRestaurantIds),
     recommendationScore: scoreRestaurant(restaurant, preferences, favoriteRestaurantIds),
     isFavorite: favoriteRestaurantIds.includes(restaurant.id)
   }))

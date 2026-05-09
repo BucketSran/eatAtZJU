@@ -7,6 +7,7 @@ type RestaurantCardProps = {
 }
 
 export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardProps) {
+  const isColdStart = restaurant.matchBreakdown?.mode !== 'blended'
   return (
     <article className="restaurant-card">
       <Link to={`/restaurants/${restaurant.id}`} className="restaurant-card-main" aria-label={`查看 ${restaurant.name}`}>
@@ -32,9 +33,8 @@ export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardP
         </div>
       </Link>
       <div className="restaurant-card-side">
-        <span className="score-pill">★ {restaurant.rating}</span>
-        <span className="trust-pill">学生 {restaurant.studentScore}</span>
-        {typeof restaurant.recommendationScore === 'number' ? <span className="score-pill warm">推荐 {restaurant.recommendationScore}</span> : null}
+        <span className="score-pill">高德 {restaurant.rating}</span>
+        {typeof restaurant.recommendationScore === 'number' ? <span className="score-pill warm">{isColdStart ? '冷启动' : '混合'} {restaurant.recommendationScore}</span> : null}
         <button className={`favorite-button ${restaurant.isFavorite ? 'active' : ''}`} type="button" onClick={() => onToggleFavorite?.(restaurant.id)}>
           {restaurant.isFavorite ? '已收藏' : '收藏'}
         </button>

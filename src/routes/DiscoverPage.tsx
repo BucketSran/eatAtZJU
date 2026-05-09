@@ -166,7 +166,7 @@ export function DiscoverPage() {
         <div>
           <p className="eyebrow">DISCOVER</p>
           <h1>发现餐厅</h1>
-          <p>按口味、预算和学生口碑筛选，先把选择变少一点。</p>
+          <p>按口味、预算、距离和公开 POI 信息筛选；后续有真实 UGC 后，学生评价会占推荐权重的 80%。</p>
         </div>
         <span className="count-badge">{restaurants.length} 家匹配</span>
       </div>

@@ -28,6 +28,13 @@ export type Restaurant = {
 }
 
 export type RestaurantSummary = Restaurant & {
+  matchBreakdown?: {
+    mode: 'cold_start' | 'blended'
+    publicScore: number
+    publicWeight: number
+    studentScore: number
+    studentWeight: number
+  }
   recommendationScore?: number
   isFavorite?: boolean
 }

@@ -24,6 +24,11 @@ function ReviewAvatar({ review }: { review: Review }) {
   )
 }
 
+function SourceSummary({ sourceRefs }: { sourceRefs?: unknown[] }) {
+  const count = sourceRefs?.length ?? 0
+  return <strong>{count ? `${count} 条` : '待补充'}</strong>
+}
+
 export function RestaurantDetailPage() {
   const { id } = useParams()
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
@@ -100,6 +105,10 @@ export function RestaurantDetailPage() {
   }
 
   const { restaurant, dishes, reviews } = detail
+  const scoreMode = restaurant.matchBreakdown?.mode === 'blended' ? '混合推荐分' : '冷启动分'
+  const scoreDescription = restaurant.matchBreakdown?.mode === 'blended'
+    ? `学生 ${(restaurant.matchBreakdown.studentWeight * 100).toFixed(0)}% + 公开信息 ${(restaurant.matchBreakdown.publicWeight * 100).toFixed(0)}%`
+    : '暂无学生评价，暂由公开信息主导'
 
   return (
     <div className="route-stack">
@@ -138,20 +147,21 @@ export function RestaurantDetailPage() {
 
       <div className="stats-grid">
         <GlassCard className="stat-card">
-          <span>评分</span>
+          <span>高德评分</span>
           <strong>{restaurant.rating}</strong>
         </GlassCard>
         <GlassCard className="stat-card">
-          <span>学生可信分</span>
-          <strong>{restaurant.studentScore}</strong>
+          <span>公开来源</span>
+          <SourceSummary sourceRefs={restaurant.sourceRefs} />
         </GlassCard>
         <GlassCard className="stat-card">
-          <span>打卡量</span>
-          <strong>{restaurant.checkins}</strong>
-        </GlassCard>
-        <GlassCard className="stat-card">
-          <span>推荐分</span>
+          <span>{scoreMode}</span>
           <strong>{restaurant.recommendationScore ?? '-'}</strong>
+          <small>{scoreDescription}</small>
+        </GlassCard>
+        <GlassCard className="stat-card">
+          <span>学生打卡</span>
+          <strong>{restaurant.checkins > 0 ? restaurant.checkins : '待补充'}</strong>
         </GlassCard>
       </div>
 
@@ -206,7 +216,7 @@ export function RestaurantDetailPage() {
                   <ReviewAvatar review={review} />
                   <strong>{review.userName}</strong>
                 </div>
-                <span>★ {review.rating}</span>
+                <span>{review.tags?.includes('系统整理') ? '公开整理' : `★ ${review.rating}`}</span>
               </div>
               <p>{review.text}</p>
             </article>
