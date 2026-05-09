@@ -1,5 +1,4 @@
 {
-  "schemaVersion": 1,
   "restaurants": [
     {
       "id": "r001",
@@ -5212,51 +5211,486 @@
       "status": "published"
     }
   ],
-  "tasteTags": [
-    "全部",
-    "近",
-    "实惠",
-    "辣",
-    "不辣",
-    "夜宵",
-    "一人食",
-    "聚餐",
-    "校内",
-    "面食",
-    "暖胃",
-    "下饭",
-    "快餐",
-    "拍照",
-    "轻负担",
-    "清真友好",
-    "咖啡",
-    "甜品",
-    "奶茶",
-    "烧烤",
-    "火锅",
-    "食堂",
-    "异国料理"
-  ],
-  "priceRanges": [
+  "reviews": [
     {
-      "label": "不限",
-      "min": 0,
-      "max": 999
+      "id": "rv_r001_internet",
+      "restaurantId": "r001",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥23，地址为宜山路与迪臣南路交叉口东160米。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
     },
     {
-      "label": "30以内",
-      "min": 0,
-      "max": 30
+      "id": "rv_r002_internet",
+      "restaurantId": "r002",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为浙江大学紫金港校区银泉食堂对面1幢1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
     },
     {
-      "label": "30-50",
-      "min": 31,
-      "max": 50
+      "id": "rv_r003_internet",
+      "restaurantId": "r003",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为余杭塘路925号澄月食堂3层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
     },
     {
-      "label": "50+",
-      "min": 51,
-      "max": 999
+      "id": "rv_r004_internet",
+      "restaurantId": "r004",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥9，地址为余杭塘路866号浙江大学紫金港校区浙大超市启真湖店内。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r005_internet",
+      "restaurantId": "r005",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥13，地址为三墩镇浙江大学紫金港校区学生活动中心B1号楼106。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r006_internet",
+      "restaurantId": "r006",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.3、人均约 ¥14，地址为泰和路港湾家园29幢1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 3,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r007_internet",
+      "restaurantId": "r007",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为紫金港路浙大紫金港校区文科组团人文学院大楼一层大厅。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r008_internet",
+      "restaurantId": "r008",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为申花路796号紫金港国际饭店1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r009_internet",
+      "restaurantId": "r009",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥14，地址为三墩镇余杭塘路866号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r010_internet",
+      "restaurantId": "r010",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥14，地址为余杭塘路866号浙江大学紫金港校区东二教学楼。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r011_internet",
+      "restaurantId": "r011",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.8、人均约 ¥23，地址为三墩镇龙宇街望月商品17号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r012_internet",
+      "restaurantId": "r012",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥14，地址为余杭塘路929号浙江大学紫金港校区成均苑7幢一层1号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r013_internet",
+      "restaurantId": "r013",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为三墩镇余杭塘路866号浙江大学紫金港校区医学院图书馆旁。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r014_internet",
+      "restaurantId": "r014",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥14，地址为浙大医学院店。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r015_internet",
+      "restaurantId": "r015",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥13，地址为余杭塘路866号浙江大学紫金港校区白沙综合楼二楼。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r016_internet",
+      "restaurantId": "r016",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥13，地址为余杭塘路与紫金港路隧道交叉口西320米。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r017_internet",
+      "restaurantId": "r017",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥13，地址为余杭塘路388号浙大紫金港校区蓝田6幢1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r018_internet",
+      "restaurantId": "r018",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r019_internet",
+      "restaurantId": "r019",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥15，地址为浙大紫金港校区翠柏1舍1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r020_internet",
+      "restaurantId": "r020",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为浙江大学紫金港校区店。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r021_internet",
+      "restaurantId": "r021",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r022_internet",
+      "restaurantId": "r022",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥9，地址为三墩镇望月公寓20号商铺。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r023_internet",
+      "restaurantId": "r023",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥8，地址为育英路望月公寓55号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r024_internet",
+      "restaurantId": "r024",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.8、人均约 ¥8，地址为西溪银泰城1号楼3-南112室。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r025_internet",
+      "restaurantId": "r025",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥20，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r026_internet",
+      "restaurantId": "r026",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区银泉餐厅一楼C区。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r027_internet",
+      "restaurantId": "r027",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为三墩镇浙大紫金港望月公寓南门32A号(浙大紫金港校区坠落街)。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r028_internet",
+      "restaurantId": "r028",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥12，地址为三墩镇望月公寓商业用房29号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r029_internet",
+      "restaurantId": "r029",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥13，地址为三墩镇龙宇街望月商铺11号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r030_internet",
+      "restaurantId": "r030",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥14，地址为龙宇街望月商铺4号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r031_internet",
+      "restaurantId": "r031",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥19，地址为三墩镇余杭塘路866号浙江大学紫金港校区银泉学院S3104商铺。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r032_internet",
+      "restaurantId": "r032",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥17，地址为留石高架路与留石高架路出口交叉口东南260米。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r033_internet",
+      "restaurantId": "r033",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥22，地址为浙大紫金港校区港湾家园19幢11-12商铺。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r034_internet",
+      "restaurantId": "r034",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为望月商铺28号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r035_internet",
+      "restaurantId": "r035",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.8、人均约 ¥44，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r036_internet",
+      "restaurantId": "r036",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为泰和路港湾家园19幢13一14号商铺。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r037_internet",
+      "restaurantId": "r037",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥26，地址为余杭塘路与紫金港路隧道交叉口西南240米。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r038_internet",
+      "restaurantId": "r038",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.9、人均约 ¥16，地址为石祥西路港湾家园29幢3单元1层1号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r039_internet",
+      "restaurantId": "r039",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥12，地址为三墩紫荆花城1号楼101室(浙港国际)。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r040_internet",
+      "restaurantId": "r040",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r041_internet",
+      "restaurantId": "r041",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为三墩镇望月公寓商业用房60-64号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r042_internet",
+      "restaurantId": "r042",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥18，地址为三墩紫荆花城2号楼128室内。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r043_internet",
+      "restaurantId": "r043",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为浙港国际1号楼136室。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r044_internet",
+      "restaurantId": "r044",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥32，地址为石祥西路859号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r045_internet",
+      "restaurantId": "r045",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥19，地址为浙港国际2号楼109号(虾龙圩地铁站B口步行490米)。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r046_internet",
+      "restaurantId": "r046",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥26，地址为紫荆花北路188号4幢一层麦当劳餐厅。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r047_internet",
+      "restaurantId": "r047",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥20，地址为望月公寓12号商铺。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r048_internet",
+      "restaurantId": "r048",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为望月商铺49号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r049_internet",
+      "restaurantId": "r049",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.8、人均约 ¥19，地址为港湾家园29幢。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r050_internet",
+      "restaurantId": "r050",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥11，地址为龙宇街48号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r051_internet",
+      "restaurantId": "r051",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为光明路望月公寓37-38号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r052_internet",
+      "restaurantId": "r052",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.6、人均约 ¥19，地址为紫金创业园B座101-105室。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r053_internet",
+      "restaurantId": "r053",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为双龙街588号杭州西溪银泰城西区(弘德路店)B1层BF022。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r054_internet",
+      "restaurantId": "r054",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥28，地址为三墩镇紫蝶苑10号楼206室。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r055_internet",
+      "restaurantId": "r055",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥18，地址为盛龙街浙港国际1号楼140号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r056_internet",
+      "restaurantId": "r056",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥30，地址为望月商铺5-6号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r057_internet",
+      "restaurantId": "r057",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为三墩镇望月公寓商业用房30号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r058_internet",
+      "restaurantId": "r058",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为三墩镇望月公寓商业用房75号铺位1楼。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r059_internet",
+      "restaurantId": "r059",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥25，地址为余杭塘路与崇仁路交叉口西溪银泰城地下一层铺位号BF038。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
+    },
+    {
+      "id": "rv_r060_internet",
+      "restaurantId": "r060",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥33，地址为三墩镇港湾家园29幢3单元1楼7号。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 4,
+      "status": "approved"
     }
   ]
 }

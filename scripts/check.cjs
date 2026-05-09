@@ -121,6 +121,9 @@ function checkSeedData() {
   for (const restaurant of restaurantSeed.restaurants) {
     validateRestaurantShape(restaurant, 'seed restaurant')
     assert(restaurant.status === 'published', `seed restaurant ${restaurant.id} must be published for demo`)
+    if (restaurant.sourceRefs !== undefined) {
+      assert(Array.isArray(restaurant.sourceRefs) && restaurant.sourceRefs.length > 0, `seed restaurant ${restaurant.id} sourceRefs must not be empty`)
+    }
     assert(!restaurantIds.has(restaurant.id), `duplicate seed restaurant id: ${restaurant.id}`)
     restaurantIds.add(restaurant.id)
   }
@@ -147,11 +150,14 @@ function checkSeedData() {
     assert(restaurantIds.has(review.restaurantId), `review ${review.id} references missing restaurant ${review.restaurantId}`)
     assert(review.text, `review ${review.id} missing text`)
     assert(review.rating >= 1 && review.rating <= 5, `review ${review.id} rating out of range`)
+    if (review.userName === '互联网小助手') {
+      assert(review.text.includes('公开信息整理'), `system review ${review.id} must disclose public-source summary`)
+      assert(Array.isArray(review.tags) && review.tags.includes('系统整理'), `system review ${review.id} must include 系统整理 tag`)
+    }
     reviewCounts.set(review.restaurantId, (reviewCounts.get(review.restaurantId) || 0) + 1)
   }
 
   for (const restaurantId of restaurantIds) {
-    assert((dishCounts.get(restaurantId) || 0) > 0, `restaurant ${restaurantId} must have at least one dish`)
     assert((reviewCounts.get(restaurantId) || 0) > 0, `restaurant ${restaurantId} must have at least one review`)
   }
 }
@@ -171,7 +177,7 @@ async function checkApiService() {
 
   const detail = apiService.getRestaurantDetail('r001', { preferences: '近,实惠' })
   assert(detail && detail.restaurant.id === 'r001', 'api getRestaurantDetail should return r001')
-  assert(detail.dishes.length > 0, 'api detail should include dishes')
+  assert(Array.isArray(detail.dishes), 'api detail should expose dishes array')
   assert(detail.reviews.length > 0, 'api detail should include reviews')
 
   assert(apiService.getRecommendedRestaurant({ preferences: '近,实惠' }), 'api recommended restaurant failed')

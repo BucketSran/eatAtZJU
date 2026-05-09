@@ -39,15 +39,15 @@ function deriveTaxonomy(restaurant) {
 
   return {
     serviceModes: pick([
-      { label: '外卖', matches: ['快餐', '一人食', '实惠', '人均30内', '轻负担', '快速解决', '单人吃饭', '懒得出校', '赶时间'] },
-      { label: '堂食', matches: ['校内', '聚餐', '下饭', '拍照', '暖胃', '清真友好', '多人拼桌', '多人约饭', '四人聚餐', '拍照打卡'] }
+      { label: '外卖', matches: ['快餐', '一人食', '实惠', '人均30内', '轻负担', '快速解决', '单人吃饭', '懒得出校', '赶时间', '奶茶', '咖啡', '甜品'] },
+      { label: '堂食', matches: ['校内', '食堂', '聚餐', '下饭', '拍照', '暖胃', '清真友好', '多人拼桌', '多人约饭', '四人聚餐', '拍照打卡', '烧烤', '火锅', '异国料理'] }
     ]),
     mealPeriods: pick([
       { label: '早餐', matches: ['暖胃', '面食', '校内', '近', '清真友好', '雨天热汤', '雨天热饭'] },
       { label: '中餐', matches: ['快餐', '实惠', '一人食', '校内', '人均30内', '午餐快吃', '课间午餐', '赶课午餐', '赶课午饭'] },
-      { label: '下午茶', matches: ['咖啡', '甜品', '拍照', '轻负担', '下午自习', '拍照打卡', '嘴馋'] },
-      { label: '晚餐', matches: ['聚餐', '下饭', '辣', '人均50内', '晚饭快吃', '晚饭改善', '晚餐聚餐', '重口晚饭'] },
-      { label: '夜宵', matches: ['夜宵', '小吃', '暖胃', '晚归加餐', '夜跑后'] }
+      { label: '下午茶', matches: ['咖啡', '甜品', '奶茶', '拍照', '轻负担', '下午自习', '拍照打卡', '嘴馋'] },
+      { label: '晚餐', matches: ['聚餐', '下饭', '辣', '火锅', '烧烤', '人均50内', '晚饭快吃', '晚饭改善', '晚餐聚餐', '重口晚饭'] },
+      { label: '夜宵', matches: ['夜宵', '小吃', '烧烤', '火锅', '奶茶', '暖胃', '晚归加餐', '夜跑后'] }
     ]),
     scenarioTags: pick([
       { label: '一人食', matches: ['一人食', '一个人', '单人吃饭', '独自觅食', '独处放空'] },
@@ -74,7 +74,14 @@ function deriveTaxonomy(restaurant) {
       { label: '拍照', matches: ['拍照', '拍照打卡'] },
       { label: '清爽', matches: ['清爽', '清爽午餐', '清爽汤粉'] },
       { label: '快餐', matches: ['快餐', '快速解决'] },
-      { label: '实惠', matches: ['实惠', '预算友好', '人均30内'] }
+      { label: '实惠', matches: ['实惠', '预算友好', '人均30内'] },
+      { label: '咖啡', matches: ['咖啡'] },
+      { label: '甜品', matches: ['甜品'] },
+      { label: '奶茶', matches: ['奶茶', '茶饮'] },
+      { label: '烧烤', matches: ['烧烤'] },
+      { label: '火锅', matches: ['火锅', '麻辣烫'] },
+      { label: '异国料理', matches: ['异国料理', '异国简餐'] },
+      { label: '食堂', matches: ['食堂', '校内食堂'] }
     ])
   }
 }
@@ -88,6 +95,10 @@ function buildSeedSql() {
     '-- Generated from seed/*.json by scripts/generate-supabase-seed.cjs.',
     '-- Re-run `npm run seed:sql:write` after editing seed JSON.',
     'begin;',
+    '',
+    "delete from public.dishes where id ~ '^d[0-9]{5}$';",
+    "delete from public.reviews where id ~ '^rv[0-9]{5}$';",
+    `update public.restaurants set status = 'archived' where id ~ '^r[0-9]{3}$' and id not in (${restaurants.map((restaurant) => sqlString(restaurant.id)).join(', ')});`,
     ''
   ]
 
@@ -96,7 +107,7 @@ function buildSeedSql() {
     lines.push(`insert into public.restaurants (`)
     lines.push('  id, name, canonical_name, aliases, area, distance, walk_minutes, cuisine, price, rating, student_score, checkins, latitude, longitude, cover_icon, cover_color, tags, suited_for, service_modes, meal_periods, scenario_tags, constraint_tags, preference_tags, reason, source_refs, status')
     lines.push(') values (')
-    lines.push(`  ${sqlString(restaurant.id)}, ${sqlString(restaurant.name)}, ${sqlString(restaurant.name)}, array[]::text[], ${sqlString(restaurant.area)}, ${sqlNumber(restaurant.distance)}, ${sqlNumber(restaurant.walkMinutes)}, ${sqlString(restaurant.cuisine)}, ${sqlNumber(restaurant.price)}, ${sqlNumber(restaurant.rating)}, ${sqlNumber(restaurant.studentScore)}, ${sqlNumber(restaurant.checkins)}, ${sqlNumber(restaurant.latitude)}, ${sqlNumber(restaurant.longitude)}, ${sqlString(restaurant.coverIcon)}, ${sqlString(restaurant.coverColor)}, ${sqlArray(restaurant.tags)}, ${sqlArray(restaurant.suitedFor)}, ${sqlArray(taxonomy.serviceModes)}, ${sqlArray(taxonomy.mealPeriods)}, ${sqlArray(taxonomy.scenarioTags)}, ${sqlArray(taxonomy.constraintTags)}, ${sqlArray(taxonomy.preferenceTags)}, ${sqlString(restaurant.reason)}, ${sqlJson([{ type: 'demo_seed', path: 'seed/restaurants.json' }])}, ${sqlString(restaurant.status)}`)
+    lines.push(`  ${sqlString(restaurant.id)}, ${sqlString(restaurant.name)}, ${sqlString(restaurant.name)}, array[]::text[], ${sqlString(restaurant.area)}, ${sqlNumber(restaurant.distance)}, ${sqlNumber(restaurant.walkMinutes)}, ${sqlString(restaurant.cuisine)}, ${sqlNumber(restaurant.price)}, ${sqlNumber(restaurant.rating)}, ${sqlNumber(restaurant.studentScore)}, ${sqlNumber(restaurant.checkins)}, ${sqlNumber(restaurant.latitude)}, ${sqlNumber(restaurant.longitude)}, ${sqlString(restaurant.coverIcon)}, ${sqlString(restaurant.coverColor)}, ${sqlArray(restaurant.tags)}, ${sqlArray(restaurant.suitedFor)}, ${sqlArray(taxonomy.serviceModes)}, ${sqlArray(taxonomy.mealPeriods)}, ${sqlArray(taxonomy.scenarioTags)}, ${sqlArray(taxonomy.constraintTags)}, ${sqlArray(taxonomy.preferenceTags)}, ${sqlString(restaurant.reason)}, ${sqlJson(restaurant.sourceRefs && restaurant.sourceRefs.length ? restaurant.sourceRefs : [{ type: 'seed', path: 'seed/restaurants.json' }])}, ${sqlString(restaurant.status)}`)
     lines.push(')')
     lines.push('on conflict (id) do update set')
     lines.push('  name = excluded.name,')
@@ -141,12 +152,13 @@ function buildSeedSql() {
   }
 
   for (const review of reviews) {
-    lines.push('insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, rating, text, tags, status) values (')
-    lines.push(`  ${sqlString(review.id)}, ${sqlString(review.restaurantId)}, null, ${sqlString(review.userName)}, ${sqlNumber(review.rating)}, ${sqlString(review.text)}, array[]::text[], ${sqlString(review.status)}`)
+    lines.push('insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (')
+    lines.push(`  ${sqlString(review.id)}, ${sqlString(review.restaurantId)}, null, ${sqlString(review.userName)}, ${sqlJson(review.avatarSnapshot || { type: 'preset', preset: 'rice', text: '搜', color: '#2f7df6' })}, ${sqlNumber(review.rating)}, ${sqlString(review.text)}, ${sqlArray(review.tags || [])}, ${sqlString(review.status)}`)
     lines.push(')')
     lines.push('on conflict (id) do update set')
     lines.push('  restaurant_id = excluded.restaurant_id,')
     lines.push('  display_name_snapshot = excluded.display_name_snapshot,')
+    lines.push('  avatar_snapshot = excluded.avatar_snapshot,')
     lines.push('  rating = excluded.rating,')
     lines.push('  text = excluded.text,')
     lines.push('  tags = excluded.tags,')

@@ -176,7 +176,7 @@ export function RestaurantDetailPage() {
           <span className="count-badge">{dishes.length} 道</span>
         </div>
         <div className="dish-list">
-          {dishes.map((dish) => (
+          {dishes.length ? dishes.map((dish) => (
             <div className="dish-row" key={dish.id}>
               <div>
                 <strong>{dish.name}</strong>
@@ -184,7 +184,9 @@ export function RestaurantDetailPage() {
               </div>
               <b>¥{dish.price}</b>
             </div>
-          ))}
+          )) : (
+            <p className="helper-text">菜品暂不从公开搜索中自动生成，等学生投稿或管理员审核后再展示，避免把未经验证的菜品写成事实。</p>
+          )}
         </div>
       </GlassCard>
 
@@ -192,7 +194,7 @@ export function RestaurantDetailPage() {
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">REVIEWS</p>
-            <h2>学生短评</h2>
+            <h2>短评与公开整理</h2>
           </div>
           <span className="count-badge">{reviews.length} 条</span>
         </div>

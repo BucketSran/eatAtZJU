@@ -2,964 +2,1084 @@
   "schemaVersion": 1,
   "reviews": [
     {
-      "id": "rv00101",
+      "id": "rv_r001_internet",
       "restaurantId": "r001",
-      "userName": "紫金港饭搭子",
-      "text": "辣度可以备注，米饭很香，四个人点三个菜刚刚好。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv00102",
-      "restaurantId": "r001",
-      "userName": "赶DDL的研一",
-      "text": "高峰要等位，但翻台快。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥23，地址为宜山路与迪臣南路交叉口东160米。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00201",
+      "id": "rv_r002_internet",
       "restaurantId": "r002",
-      "userName": "十分钟吃完",
-      "text": "性价比稳定，适合赶课。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv00202",
-      "restaurantId": "r002",
-      "userName": "不吃香菜",
-      "text": "口味偏家常，重口党可能觉得淡。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为浙江大学紫金港校区银泉食堂对面1幢1层。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00301",
+      "id": "rv_r003_internet",
       "restaurantId": "r003",
-      "userName": "玉泉路过",
-      "text": "比想象中丰富，咖喱饭很稳。",
-      "rating": 4,
-      "status": "approved"
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为余杭塘路925号澄月食堂3层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00302",
-      "restaurantId": "r003",
-      "userName": "早八幸存者",
-      "text": "中午排队略长，建议错峰。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv00401",
+      "id": "rv_r004_internet",
       "restaurantId": "r004",
-      "userName": "爱喝汤",
-      "text": "番茄汤底很舒服，冬天尤其加分。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv00402",
-      "restaurantId": "r004",
-      "userName": "小份就够",
-      "text": "商场价，但环境比路边店好。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥9，地址为余杭塘路866号浙江大学紫金港校区浙大超市启真湖店内。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00501",
+      "id": "rv_r005_internet",
       "restaurantId": "r005",
-      "userName": "今晚不减脂",
-      "text": "快乐是真的，罪恶感也是真的。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥13，地址为三墩镇浙江大学紫金港校区学生活动中心B1号楼106。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00502",
-      "restaurantId": "r005",
-      "userName": "夜宵观察员",
-      "text": "建议两三个人拼，不然容易点多。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv00601",
+      "id": "rv_r006_internet",
       "restaurantId": "r006",
-      "userName": "咖喱信徒",
-      "text": "猪排脆，咖喱很厚，适合慢慢吃。",
-      "rating": 5,
-      "status": "approved"
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.3、人均约 ¥14，地址为泰和路港湾家园29幢1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 3,
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00602",
-      "restaurantId": "r006",
-      "userName": "论文卡住了",
-      "text": "一个人坐窗边挺治愈。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv00701",
+      "id": "rv_r007_internet",
       "restaurantId": "r007",
-      "userName": "复习到饿",
-      "text": "热气很足，冬天吃完很舒服。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为紫金港路浙大紫金港校区文科组团人文学院大楼一层大厅。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00702",
-      "restaurantId": "r007",
-      "userName": "北门十分钟",
-      "text": "价格还行，高峰期略挤。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv00801",
+      "id": "rv_r008_internet",
       "restaurantId": "r008",
-      "userName": "想少油一点",
-      "text": "拌饭比沙拉顶饱，午饭合适。",
-      "rating": 4,
-      "status": "approved"
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为申花路796号紫金港国际饭店1层。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv00802",
-      "restaurantId": "r008",
-      "userName": "训练完路过",
-      "text": "口味清淡，酱可以少放。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv00901",
+      "id": "rv_r009_internet",
       "restaurantId": "r009",
-      "userName": "肉食爱好者",
-      "text": "叉烧偏甜，米饭够吸汁。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv00902",
-      "restaurantId": "r009",
-      "userName": "周末出门",
-      "text": "比校内贵一点，但换口味不错。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥14，地址为三墩镇余杭塘路866号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01001",
+      "id": "rv_r010_internet",
       "restaurantId": "r010",
-      "userName": "酸辣脑袋",
-      "text": "酸味很开胃，辣度可调。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥14，地址为余杭塘路866号浙江大学紫金港校区东二教学楼。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01002",
-      "restaurantId": "r010",
-      "userName": "下课冲刺",
-      "text": "出餐快，位置不算宽。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv01101",
+      "id": "rv_r011_internet",
       "restaurantId": "r011",
-      "userName": "东北菜雷达",
-      "text": "锅包肉量不错，酸甜口。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv01102",
-      "restaurantId": "r011",
-      "userName": "寝室聚餐",
-      "text": "四个人点三菜刚好。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.8、人均约 ¥23，地址为三墩镇龙宇街望月商品17号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01201",
+      "id": "rv_r012_internet",
       "restaurantId": "r012",
-      "userName": "汤粉爱好者",
-      "text": "汤底清爽，粉量刚好。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv01202",
-      "restaurantId": "r012",
-      "userName": "逛街顺路",
-      "text": "价格商场水平，环境加分。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥14，地址为余杭塘路929号浙江大学紫金港校区成均苑7幢一层1号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01301",
+      "id": "rv_r013_internet",
       "restaurantId": "r013",
-      "userName": "辣椒油爱好者",
-      "text": "豌杂很香，辣度别逞强。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为三墩镇余杭塘路866号浙江大学紫金港校区医学院图书馆旁。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01302",
-      "restaurantId": "r013",
-      "userName": "十分钟吃完",
-      "text": "便宜快，但饭点排队。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv01401",
+      "id": "rv_r014_internet",
       "restaurantId": "r014",
-      "userName": "早八幸存者",
-      "text": "胜在近，口味稳定。",
-      "rating": 4,
-      "status": "approved"
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥14，地址为浙大医学院店。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01402",
-      "restaurantId": "r014",
-      "userName": "不想出校",
-      "text": "偶尔换换口味可以。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv01501",
+      "id": "rv_r015_internet",
       "restaurantId": "r015",
-      "userName": "咖喱第二人格",
-      "text": "黄咖喱很下饭，甜辣平衡。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv01502",
-      "restaurantId": "r015",
-      "userName": "拍照党",
-      "text": "灯光好看，座位不多。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥13，地址为余杭塘路866号浙江大学紫金港校区白沙综合楼二楼。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01601",
+      "id": "rv_r016_internet",
       "restaurantId": "r016",
-      "userName": "清淡派",
-      "text": "饺子皮还可以，汤免费更好。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥13，地址为余杭塘路与紫金港路隧道交叉口西320米。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01602",
-      "restaurantId": "r016",
-      "userName": "散步路过",
-      "text": "吃完去西溪走走挺舒服。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv01701",
+      "id": "rv_r017_internet",
       "restaurantId": "r017",
-      "userName": "拌饭巡逻员",
-      "text": "烤肉香，酱略甜。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥13，地址为余杭塘路388号浙大紫金港校区蓝田6幢1层。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01702",
-      "restaurantId": "r017",
-      "userName": "一个人也行",
-      "text": "位置舒服，饭量够。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv01801",
+      "id": "rv_r018_internet",
       "restaurantId": "r018",
-      "userName": "面食党",
-      "text": "面拉得不错，汤偏清。",
-      "rating": 4,
-      "status": "approved"
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv01802",
-      "restaurantId": "r018",
-      "userName": "南门路过",
-      "text": "胜在快和便宜。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv01901",
+      "id": "rv_r019_internet",
       "restaurantId": "r019",
-      "userName": "胃不舒服",
-      "text": "粥很热，分量适合两三人。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv01902",
-      "restaurantId": "r019",
-      "userName": "夜归人",
-      "text": "不算近，但吃完很舒坦。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥15，地址为浙大紫金港校区翠柏1舍1层。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02001",
+      "id": "rv_r020_internet",
       "restaurantId": "r020",
-      "userName": "辣到清醒",
-      "text": "中辣已经够了，米粉很吸酱。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为浙江大学紫金港校区店。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02002",
-      "restaurantId": "r020",
-      "userName": "DDL续命",
-      "text": "适合晚上吃，吃完有战斗力。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02101",
+      "id": "rv_r021_internet",
       "restaurantId": "r021",
-      "userName": "拉面巡礼",
-      "text": "汤底浓，叉烧厚度可以。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv02102",
-      "restaurantId": "r021",
-      "userName": "窗边座位",
-      "text": "一个人吃不尴尬。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02201",
+      "id": "rv_r022_internet",
       "restaurantId": "r022",
-      "userName": "选择困难",
-      "text": "自己夹菜最省脑子。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥9，地址为三墩镇望月公寓20号商铺。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02202",
-      "restaurantId": "r022",
-      "userName": "加班回来",
-      "text": "汤底还行，别夹太多。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02301",
+      "id": "rv_r023_internet",
       "restaurantId": "r023",
-      "userName": "四人桌刚好",
-      "text": "人多分摊比较合适。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥8，地址为育英路望月公寓55号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02302",
-      "restaurantId": "r023",
-      "userName": "夜宵局",
-      "text": "香辣口比较下饭。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02401",
+      "id": "rv_r024_internet",
       "restaurantId": "r024",
-      "userName": "晚课结束",
-      "text": "不用出校就是最大优点。",
-      "rating": 4,
-      "status": "approved"
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.8、人均约 ¥8，地址为西溪银泰城1号楼3-南112室。本条是公开信息整理，不代表学生实地体验。",
+      "rating": 5,
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02402",
-      "restaurantId": "r024",
-      "userName": "不想吃炸串",
-      "text": "粥很适合收尾。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02501",
+      "id": "rv_r025_internet",
       "restaurantId": "r025",
-      "userName": "周末出门",
-      "text": "味道不算惊艳，但胜在稳妥。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥20，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02502",
-      "restaurantId": "r025",
-      "userName": "一个人也行",
-      "text": "整体体验舒服，适合周末换口味。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02601",
+      "id": "rv_r026_internet",
       "restaurantId": "r026",
-      "userName": "一个人也行",
-      "text": "离校区不远，赶时间也能接受。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02602",
-      "restaurantId": "r026",
-      "userName": "预算守门员",
-      "text": "推荐先点招牌，不太容易踩雷。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区银泉餐厅一楼C区。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02701",
+      "id": "rv_r027_internet",
       "restaurantId": "r027",
-      "userName": "预算守门员",
-      "text": "建议错峰，饭点人会比较多。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为三墩镇浙大紫金港望月公寓南门32A号(浙大紫金港校区坠落街)。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02702",
-      "restaurantId": "r027",
-      "userName": "酸辣脑袋",
-      "text": "口味稳定，适合不知道吃什么的时候。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv02801",
+      "id": "rv_r028_internet",
       "restaurantId": "r028",
-      "userName": "酸辣脑袋",
-      "text": "整体体验舒服，适合周末换口味。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥12，地址为三墩镇望月公寓商业用房29号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv02802",
-      "restaurantId": "r028",
-      "userName": "复习到饿",
-      "text": "高峰期会排队，但翻台还算快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv02901",
+      "id": "rv_r029_internet",
       "restaurantId": "r029",
-      "userName": "复习到饿",
-      "text": "推荐先点招牌，不太容易踩雷。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv02902",
-      "restaurantId": "r029",
-      "userName": "紫金港饭搭子",
-      "text": "价格对学生比较友好，分量也够。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥13，地址为三墩镇龙宇街望月商铺11号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03001",
+      "id": "rv_r030_internet",
       "restaurantId": "r030",
-      "userName": "紫金港饭搭子",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥14，地址为龙宇街望月商铺4号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03002",
-      "restaurantId": "r030",
-      "userName": "赶DDL的研一",
-      "text": "一个人来吃不会尴尬，座位周转快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03101",
+      "id": "rv_r031_internet",
       "restaurantId": "r031",
-      "userName": "赶DDL的研一",
-      "text": "高峰期会排队，但翻台还算快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03102",
-      "restaurantId": "r031",
-      "userName": "不吃香菜",
-      "text": "适合和朋友一起点几样分着吃。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥19，地址为三墩镇余杭塘路866号浙江大学紫金港校区银泉学院S3104商铺。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03201",
+      "id": "rv_r032_internet",
       "restaurantId": "r032",
-      "userName": "不吃香菜",
-      "text": "价格对学生比较友好，分量也够。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥17，地址为留石高架路与留石高架路出口交叉口东南260米。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03202",
-      "restaurantId": "r032",
-      "userName": "夜宵观察员",
-      "text": "味道不算惊艳，但胜在稳妥。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03301",
+      "id": "rv_r033_internet",
       "restaurantId": "r033",
-      "userName": "夜宵观察员",
-      "text": "一个人来吃不会尴尬，座位周转快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03302",
-      "restaurantId": "r033",
-      "userName": "早八幸存者",
-      "text": "离校区不远，赶时间也能接受。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥22，地址为浙大紫金港校区港湾家园19幢11-12商铺。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03401",
+      "id": "rv_r034_internet",
       "restaurantId": "r034",
-      "userName": "早八幸存者",
-      "text": "适合和朋友一起点几样分着吃。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为望月商铺28号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03402",
-      "restaurantId": "r034",
-      "userName": "周末出门",
-      "text": "建议错峰，饭点人会比较多。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03501",
+      "id": "rv_r035_internet",
       "restaurantId": "r035",
-      "userName": "周末出门",
-      "text": "味道不算惊艳，但胜在稳妥。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.8、人均约 ¥44，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03502",
-      "restaurantId": "r035",
-      "userName": "一个人也行",
-      "text": "整体体验舒服，适合周末换口味。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv03601",
+      "id": "rv_r036_internet",
       "restaurantId": "r036",
-      "userName": "一个人也行",
-      "text": "离校区不远，赶时间也能接受。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv03602",
-      "restaurantId": "r036",
-      "userName": "预算守门员",
-      "text": "推荐先点招牌，不太容易踩雷。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为泰和路港湾家园19幢13一14号商铺。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03701",
+      "id": "rv_r037_internet",
       "restaurantId": "r037",
-      "userName": "预算守门员",
-      "text": "建议错峰，饭点人会比较多。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03702",
-      "restaurantId": "r037",
-      "userName": "酸辣脑袋",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥26，地址为余杭塘路与紫金港路隧道交叉口西南240米。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03801",
+      "id": "rv_r038_internet",
       "restaurantId": "r038",
-      "userName": "酸辣脑袋",
-      "text": "整体体验舒服，适合周末换口味。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.9、人均约 ¥16，地址为石祥西路港湾家园29幢3单元1层1号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03802",
-      "restaurantId": "r038",
-      "userName": "复习到饿",
-      "text": "高峰期会排队，但翻台还算快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv03901",
+      "id": "rv_r039_internet",
       "restaurantId": "r039",
-      "userName": "复习到饿",
-      "text": "推荐先点招牌，不太容易踩雷。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥12，地址为三墩紫荆花城1号楼101室(浙港国际)。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv03902",
-      "restaurantId": "r039",
-      "userName": "紫金港饭搭子",
-      "text": "价格对学生比较友好，分量也够。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv04001",
+      "id": "rv_r040_internet",
       "restaurantId": "r040",
-      "userName": "紫金港饭搭子",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04002",
-      "restaurantId": "r040",
-      "userName": "赶DDL的研一",
-      "text": "一个人来吃不会尴尬，座位周转快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv04101",
+      "id": "rv_r041_internet",
       "restaurantId": "r041",
-      "userName": "赶DDL的研一",
-      "text": "高峰期会排队，但翻台还算快。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为三墩镇望月公寓商业用房60-64号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04102",
-      "restaurantId": "r041",
-      "userName": "不吃香菜",
-      "text": "适合和朋友一起点几样分着吃。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv04201",
+      "id": "rv_r042_internet",
       "restaurantId": "r042",
-      "userName": "不吃香菜",
-      "text": "价格对学生比较友好，分量也够。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv04202",
-      "restaurantId": "r042",
-      "userName": "夜宵观察员",
-      "text": "味道不算惊艳，但胜在稳妥。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥18，地址为三墩紫荆花城2号楼128室内。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04301",
+      "id": "rv_r043_internet",
       "restaurantId": "r043",
-      "userName": "夜宵观察员",
-      "text": "一个人来吃不会尴尬，座位周转快。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为浙港国际1号楼136室。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04302",
-      "restaurantId": "r043",
-      "userName": "早八幸存者",
-      "text": "离校区不远，赶时间也能接受。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv04401",
+      "id": "rv_r044_internet",
       "restaurantId": "r044",
-      "userName": "早八幸存者",
-      "text": "适合和朋友一起点几样分着吃。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥32，地址为石祥西路859号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04402",
-      "restaurantId": "r044",
-      "userName": "周末出门",
-      "text": "建议错峰，饭点人会比较多。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv04501",
+      "id": "rv_r045_internet",
       "restaurantId": "r045",
-      "userName": "周末出门",
-      "text": "味道不算惊艳，但胜在稳妥。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥19，地址为浙港国际2号楼109号(虾龙圩地铁站B口步行490米)。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04502",
-      "restaurantId": "r045",
-      "userName": "一个人也行",
-      "text": "整体体验舒服，适合周末换口味。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv04601",
+      "id": "rv_r046_internet",
       "restaurantId": "r046",
-      "userName": "一个人也行",
-      "text": "离校区不远，赶时间也能接受。",
-      "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv04602",
-      "restaurantId": "r046",
-      "userName": "预算守门员",
-      "text": "推荐先点招牌，不太容易踩雷。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.6、人均约 ¥26，地址为紫荆花北路188号4幢一层麦当劳餐厅。本条是公开信息整理，不代表学生实地体验。",
       "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04701",
+      "id": "rv_r047_internet",
       "restaurantId": "r047",
-      "userName": "预算守门员",
-      "text": "建议错峰，饭点人会比较多。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv04702",
-      "restaurantId": "r047",
-      "userName": "酸辣脑袋",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥20，地址为望月公寓12号商铺。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04801",
+      "id": "rv_r048_internet",
       "restaurantId": "r048",
-      "userName": "酸辣脑袋",
-      "text": "整体体验舒服，适合周末换口味。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为望月商铺49号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv04802",
-      "restaurantId": "r048",
-      "userName": "复习到饿",
-      "text": "高峰期会排队，但翻台还算快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv04901",
+      "id": "rv_r049_internet",
       "restaurantId": "r049",
-      "userName": "复习到饿",
-      "text": "推荐先点招牌，不太容易踩雷。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv04902",
-      "restaurantId": "r049",
-      "userName": "紫金港饭搭子",
-      "text": "价格对学生比较友好，分量也够。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.8、人均约 ¥19，地址为港湾家园29幢。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05001",
+      "id": "rv_r050_internet",
       "restaurantId": "r050",
-      "userName": "紫金港饭搭子",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥11，地址为龙宇街48号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05002",
-      "restaurantId": "r050",
-      "userName": "赶DDL的研一",
-      "text": "一个人来吃不会尴尬，座位周转快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05101",
+      "id": "rv_r051_internet",
       "restaurantId": "r051",
-      "userName": "赶DDL的研一",
-      "text": "高峰期会排队，但翻台还算快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05102",
-      "restaurantId": "r051",
-      "userName": "不吃香菜",
-      "text": "适合和朋友一起点几样分着吃。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为光明路望月公寓37-38号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05201",
+      "id": "rv_r052_internet",
       "restaurantId": "r052",
-      "userName": "不吃香菜",
-      "text": "价格对学生比较友好，分量也够。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 3.6、人均约 ¥19，地址为紫金创业园B座101-105室。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05202",
-      "restaurantId": "r052",
-      "userName": "夜宵观察员",
-      "text": "味道不算惊艳，但胜在稳妥。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05301",
+      "id": "rv_r053_internet",
       "restaurantId": "r053",
-      "userName": "夜宵观察员",
-      "text": "一个人来吃不会尴尬，座位周转快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05302",
-      "restaurantId": "r053",
-      "userName": "早八幸存者",
-      "text": "离校区不远，赶时间也能接受。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为双龙街588号杭州西溪银泰城西区(弘德路店)B1层BF022。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05401",
+      "id": "rv_r054_internet",
       "restaurantId": "r054",
-      "userName": "早八幸存者",
-      "text": "适合和朋友一起点几样分着吃。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥28，地址为三墩镇紫蝶苑10号楼206室。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05402",
-      "restaurantId": "r054",
-      "userName": "周末出门",
-      "text": "建议错峰，饭点人会比较多。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05501",
+      "id": "rv_r055_internet",
       "restaurantId": "r055",
-      "userName": "周末出门",
-      "text": "味道不算惊艳，但胜在稳妥。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05502",
-      "restaurantId": "r055",
-      "userName": "一个人也行",
-      "text": "整体体验舒服，适合周末换口味。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.2、人均约 ¥18，地址为盛龙街浙港国际1号楼140号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05601",
+      "id": "rv_r056_internet",
       "restaurantId": "r056",
-      "userName": "一个人也行",
-      "text": "离校区不远，赶时间也能接受。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.3、人均约 ¥30，地址为望月商铺5-6号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05602",
-      "restaurantId": "r056",
-      "userName": "预算守门员",
-      "text": "推荐先点招牌，不太容易踩雷。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05701",
+      "id": "rv_r057_internet",
       "restaurantId": "r057",
-      "userName": "预算守门员",
-      "text": "建议错峰，饭点人会比较多。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05702",
-      "restaurantId": "r057",
-      "userName": "酸辣脑袋",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为三墩镇望月公寓商业用房30号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05801",
+      "id": "rv_r058_internet",
       "restaurantId": "r058",
-      "userName": "酸辣脑袋",
-      "text": "整体体验舒服，适合周末换口味。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为三墩镇望月公寓商业用房75号铺位1楼。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv05802",
-      "restaurantId": "r058",
-      "userName": "复习到饿",
-      "text": "高峰期会排队，但翻台还算快。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05901",
+      "id": "rv_r059_internet",
       "restaurantId": "r059",
-      "userName": "复习到饿",
-      "text": "推荐先点招牌，不太容易踩雷。",
-      "rating": 5,
-      "status": "approved"
-    },
-    {
-      "id": "rv05902",
-      "restaurantId": "r059",
-      "userName": "紫金港饭搭子",
-      "text": "价格对学生比较友好，分量也够。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.4、人均约 ¥25，地址为余杭塘路与崇仁路交叉口西溪银泰城地下一层铺位号BF038。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     },
     {
-      "id": "rv06001",
+      "id": "rv_r060_internet",
       "restaurantId": "r060",
-      "userName": "紫金港饭搭子",
-      "text": "口味稳定，适合不知道吃什么的时候。",
+      "userName": "互联网小助手",
+      "text": "系统整理：高德 POI 显示评分 4.1、人均约 ¥33，地址为三墩镇港湾家园29幢3单元1楼7号。本条是公开信息整理，不代表学生实地体验。",
       "rating": 4,
-      "status": "approved"
-    },
-    {
-      "id": "rv06002",
-      "restaurantId": "r060",
-      "userName": "赶DDL的研一",
-      "text": "一个人来吃不会尴尬，座位周转快。",
-      "rating": 5,
-      "status": "approved"
+      "status": "approved",
+      "avatarSnapshot": {
+        "type": "preset",
+        "preset": "rice",
+        "text": "搜",
+        "color": "#2f7df6"
+      },
+      "tags": [
+        "系统整理",
+        "公开信息"
+      ]
     }
   ]
 }

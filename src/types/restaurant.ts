@@ -23,6 +23,7 @@ export type Restaurant = {
   constraintTags?: string[]
   preferenceTags?: string[]
   reason: string
+  sourceRefs?: unknown[]
   status: RestaurantStatus
 }
 

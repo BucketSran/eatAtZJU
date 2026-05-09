@@ -10,6 +10,8 @@
     "check": "node scripts/check.cjs && tsc -b --pretty false",
     "seed:sql": "node scripts/generate-supabase-seed.cjs",
     "seed:sql:write": "node scripts/generate-supabase-seed.cjs --write",
+    "real-data:collect": "node scripts/collect-real-restaurants.cjs",
+    "real-data:write-seed": "node scripts/write-real-data-seed.cjs",
     "supabase:apply": "node scripts/apply-supabase.cjs",
     "supabase:apply:seed": "node scripts/apply-supabase.cjs --seed",
     "smoke:api": "node scripts/smoke-api.cjs",

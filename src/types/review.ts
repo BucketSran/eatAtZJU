@@ -15,6 +15,7 @@ export type Review = {
   userName: string
   text: string
   rating: number
+  tags?: string[]
   status: ReviewStatus
 }
 
