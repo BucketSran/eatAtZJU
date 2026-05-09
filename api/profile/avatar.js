@@ -18,6 +18,9 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = await readJsonBody(req)
+    if (!body || typeof body !== 'object' || !body.base64Data) {
+      return res.status(400).json({ error: 'Avatar upload payload is empty' })
+    }
     const appUser = await ensureAppUserForAuth(auth.client, auth.user)
     const result = await uploadAvatar(auth.client, appUser.id, body)
     return res.status(200).json(result)

@@ -2,9 +2,15 @@ const { ensureAppUserForAuth, mapAppUser, updateAppUser } = require('../_shared/
 const { requireAuthenticatedUser } = require('../_shared/auth.cjs')
 const { readJsonBody } = require('../_shared/requestBody.cjs')
 
+const PROFILE_PATCH_KEYS = new Set(['avatarPreset', 'avatarType', 'avatarUrl', 'displayName', 'preferences'])
+
 function sendError(res, error, fallback = 'Profile request failed') {
   const status = error.status || error.statusCode || 500
   return res.status(status).json({ error: error.message || fallback })
+}
+
+function hasProfilePatch(body) {
+  return Boolean(body && typeof body === 'object' && Object.keys(body).some((key) => PROFILE_PATCH_KEYS.has(key)))
 }
 
 module.exports = async function handler(req, res) {
@@ -20,6 +26,7 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'PATCH') {
       const body = await readJsonBody(req)
+      if (!hasProfilePatch(body)) return res.status(400).json({ error: 'Profile update payload is empty' })
       const nextUser = await updateAppUser(auth.client, appUser.id, body)
       return res.status(200).json({ profile: mapAppUser(nextUser) })
     }
