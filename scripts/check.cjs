@@ -340,6 +340,21 @@ function checkLeaderboardContracts() {
   assert(apiClient.includes('API_CACHE_TTL_MS') && apiClient.includes('API_CACHE_MAX_ENTRIES') && apiClient.includes('setCachedResponse'), 'api client must cache repeated GET requests with a bounded cache')
 }
 
+function checkMapNavigationContracts() {
+  const mapLinks = fs.readFileSync(path.join(root, 'src/lib/mapLinks.ts'), 'utf8')
+  const mapComponent = fs.readFileSync(path.join(root, 'src/components/MapNavigationLinks.tsx'), 'utf8')
+  const detailRoute = fs.readFileSync(path.join(root, 'src/routes/RestaurantDetailPage.tsx'), 'utf8')
+  const restaurantCard = fs.readFileSync(path.join(root, 'src/components/RestaurantCard.tsx'), 'utf8')
+
+  assert(mapLinks.includes('uri.amap.com/navigation'), 'map links must include AMap navigation URI')
+  assert(mapLinks.includes('api.map.baidu.com/direction'), 'map links must include Baidu direction URI')
+  assert(mapLinks.includes('maps.apple.com'), 'map links must include Apple Maps URI')
+  assert(mapLinks.includes('gcj02ToBd09'), 'Baidu links should convert GCJ-02 coordinates to BD-09')
+  assert(mapComponent.includes('target="_blank"') && mapComponent.includes('rel="noreferrer"'), 'map links must open safely in a new tab')
+  assert(detailRoute.includes('MapNavigationLinks restaurant={restaurant}'), 'restaurant detail page must expose map navigation links')
+  assert(restaurantCard.includes('MapNavigationLinks compact'), 'restaurant cards must expose compact map navigation menu')
+}
+
 function createMockResponse() {
   return {
     body: undefined,
@@ -478,6 +493,7 @@ async function main() {
   await checkApiService()
   await checkProfileContracts()
   checkLeaderboardContracts()
+  checkMapNavigationContracts()
   await checkApiHandlers()
   checkSupabaseFiles()
   checkDeploymentScripts()

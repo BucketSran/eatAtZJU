@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { MapNavigationLinks } from './MapNavigationLinks'
 import type { RestaurantSummary } from '../types'
 
 type RestaurantCardProps = {
@@ -53,6 +54,7 @@ export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardP
         <button className={`favorite-button ${restaurant.isFavorite ? 'active' : ''}`} type="button" aria-label={`${restaurant.isFavorite ? '取消收藏' : '收藏'} ${restaurant.name}`} onClick={() => onToggleFavorite?.(restaurant.id)}>
           {restaurant.isFavorite ? '已收藏' : '收藏'}
         </button>
+        <MapNavigationLinks compact restaurant={restaurant} />
       </div>
     </article>
   )

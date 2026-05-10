@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
+import { MapNavigationLinks } from '../components/MapNavigationLinks'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getPresetAvatar } from '../lib/avatars'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
@@ -163,6 +164,7 @@ export function RestaurantDetailPage() {
               继续发现
             </Link>
           </div>
+          <MapNavigationLinks restaurant={restaurant} />
         </div>
       </section>
 

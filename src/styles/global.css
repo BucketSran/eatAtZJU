@@ -264,6 +264,74 @@ p {
   color: var(--label-primary);
 }
 
+.map-link-panel {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.6fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid rgba(10, 132, 255, 0.14);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.08), rgba(255, 255, 255, 0.68));
+}
+
+.map-link-panel strong,
+.map-link-panel span {
+  display: block;
+}
+
+.map-link-panel strong {
+  color: var(--label-primary);
+  font-weight: 840;
+}
+
+.map-link-panel span {
+  color: var(--label-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.map-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.map-link-button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid var(--separator);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--label-primary);
+  font-size: 14px;
+  font-weight: 760;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.map-link-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(10, 132, 255, 0.24);
+  background: #ffffff;
+}
+
+.map-link-button.amap {
+  color: #007aff;
+}
+
+.map-link-button.baidu {
+  color: #2454ff;
+}
+
+.map-link-button.apple {
+  color: #1c1c1e;
+}
+
 .inline-action {
   margin-top: 10px;
 }
@@ -500,6 +568,60 @@ p {
   flex-direction: column;
   align-items: flex-end;
   gap: 8px;
+  position: relative;
+}
+
+.map-link-menu {
+  position: relative;
+}
+
+.map-link-menu summary {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border: 1px solid var(--separator);
+  border-radius: 999px;
+  background: var(--surface-elevated);
+  color: var(--label-primary);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 780;
+  list-style: none;
+}
+
+.map-link-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.map-link-popover {
+  position: absolute;
+  right: 0;
+  z-index: 12;
+  display: grid;
+  min-width: 132px;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid var(--separator);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(18px);
+}
+
+.map-link-popover a {
+  padding: 8px 10px;
+  border-radius: 12px;
+  color: var(--label-primary);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.map-link-popover a:hover {
+  background: rgba(10, 132, 255, 0.08);
+  color: var(--accent);
 }
 
 .restaurant-list .restaurant-card {
@@ -1494,6 +1616,14 @@ p {
 
   .leaderboard-toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .map-link-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .map-link-row {
+    justify-content: flex-start;
   }
 }
 
