@@ -14,6 +14,7 @@
     "real-data:write-seed": "node scripts/write-real-data-seed.cjs",
     "supabase:apply": "node scripts/apply-supabase.cjs",
     "supabase:apply:seed": "node scripts/apply-supabase.cjs --seed",
+    "net:campus": "node scripts/network-campus-check.cjs",
     "smoke:api": "node scripts/smoke-api.cjs",
     "smoke:auth": "node scripts/smoke-auth.cjs"
   },
