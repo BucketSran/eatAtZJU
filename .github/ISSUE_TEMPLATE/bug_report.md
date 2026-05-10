@@ -32,3 +32,10 @@ assignees: ''
 - [ ] 影响数据准确性
 - [ ] 影响隐私/合规
 - [ ] 仅体验瑕疵
+
+## 归属与防回归
+
+- Feature ID：
+- 相关里程碑：
+- [ ] 已确认是否需要更新 `docs/FEATURE_REGISTRY.md`
+- [ ] 已新增/更新会捕获该问题的 `scripts/check.cjs`、smoke 或手动验收项

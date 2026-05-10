@@ -55,6 +55,10 @@ Before building the demo UI, read:
 - `docs/DEMO_PLAN.md` for v0.1 scope and acceptance criteria.
 - `docs/UI_STYLE_GUIDE.md` for visual direction and component style.
 - `docs/MCP_USAGE_PLAN.md` for tool usage boundaries.
+- `docs/FEATURE_REGISTRY.md` before changing an existing feature or adding a new one.
+- `docs/FEATURE_WORKFLOW.md` for the required feature/bug/data/ops delivery flow.
+- `docs/MCP_INTEGRATION_MATRIX.md` before writing custom code that may be covered by an existing tool or provider.
+- `docs/ROADMAP.md` to map the work to the right milestone.
 
 ## Installed Agent Skills
 
@@ -73,8 +77,11 @@ Use them as project-local references when relevant:
 ## AI Coding Workflow
 
 - Start with a spec or issue for non-trivial work.
+- Register non-trivial feature, bug, data, ops, and risk work in `docs/FEATURE_REGISTRY.md`.
+- For each non-trivial slice, identify whether MCP/tools can accelerate planning, testing, deployment, or provider integration before writing custom code.
 - Clarify ambiguous product decisions before coding.
 - Implement in small slices and verify after each slice.
 - Prefer official documentation or current repository patterns over memory when integrating third-party libraries.
 - Explicitly state what not to do when delegating AI work.
 - Do not rewrite unrelated files, do not hide failures, and do not claim production readiness without checks.
+- Add or update durable contract checks in `scripts/check.cjs` for behavior that should not regress.

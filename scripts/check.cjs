@@ -485,6 +485,41 @@ function checkDeploymentScripts() {
   assert(smokeScript.includes('API_BASE_URL'), 'smoke script must support remote API_BASE_URL')
 }
 
+function checkFeatureWorkflowDocs() {
+  const requiredDocs = [
+    'docs/FEATURE_REGISTRY.md',
+    'docs/FEATURE_WORKFLOW.md',
+    'docs/MCP_INTEGRATION_MATRIX.md',
+    'docs/ROADMAP.md'
+  ]
+
+  for (const relativePath of requiredDocs) {
+    assert(fs.existsSync(path.join(root, relativePath)), `missing workflow doc: ${relativePath}`)
+  }
+
+  const registry = fs.readFileSync(path.join(root, 'docs/FEATURE_REGISTRY.md'), 'utf8')
+  const workflow = fs.readFileSync(path.join(root, 'docs/FEATURE_WORKFLOW.md'), 'utf8')
+  const matrix = fs.readFileSync(path.join(root, 'docs/MCP_INTEGRATION_MATRIX.md'), 'utf8')
+  const roadmap = fs.readFileSync(path.join(root, 'docs/ROADMAP.md'), 'utf8')
+  const agents = fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8')
+  const featureTemplate = fs.readFileSync(path.join(root, '.github/ISSUE_TEMPLATE/feature_request.md'), 'utf8')
+  const bugTemplate = fs.readFileSync(path.join(root, '.github/ISSUE_TEMPLATE/bug_report.md'), 'utf8')
+  const prTemplate = fs.readFileSync(path.join(root, '.github/pull_request_template.md'), 'utf8')
+
+  for (const id of ['F01', 'F03', 'F06', 'F08', 'F11', 'F15']) {
+    assert(registry.includes(id), `feature registry missing ${id}`)
+  }
+  for (const milestone of ['M0', 'M1', 'M2', 'M3', 'M4', 'M5']) {
+    assert(roadmap.includes(milestone), `roadmap missing ${milestone}`)
+  }
+  assert(workflow.includes('MCP') && workflow.includes('scripts/check.cjs'), 'feature workflow must require MCP review and contract checks')
+  assert(matrix.includes('Browser Use') && matrix.includes('Supabase') && matrix.includes('Vercel') && matrix.includes('Maps'), 'MCP matrix must cover browser, Supabase, Vercel, and maps')
+  assert(agents.includes('docs/FEATURE_REGISTRY.md') && agents.includes('docs/MCP_INTEGRATION_MATRIX.md'), 'AGENTS.md must reference feature workflow docs')
+  assert(featureTemplate.includes('MCP / Tool Review') && featureTemplate.includes('Feature Registry'), 'feature issue template must include registry and MCP review')
+  assert(bugTemplate.includes('归属与防回归') && bugTemplate.includes('Feature ID'), 'bug issue template must include ownership and regression guard')
+  assert(prTemplate.includes('Feature Workflow') && prTemplate.includes('docs/MCP_INTEGRATION_MATRIX.md'), 'PR template must include feature workflow checks')
+}
+
 async function main() {
   checkJavaScript()
   checkJson()
@@ -497,6 +532,7 @@ async function main() {
   await checkApiHandlers()
   checkSupabaseFiles()
   checkDeploymentScripts()
+  checkFeatureWorkflowDocs()
   console.log('check ok')
 }
 
