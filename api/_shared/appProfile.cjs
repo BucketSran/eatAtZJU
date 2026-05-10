@@ -9,6 +9,7 @@ const PRESET_AVATARS = {
   chili: { text: '辣', color: '#c84b35' },
   sleepy: { text: '困', color: '#8c6338' }
 }
+const CAMPUS_LABELS = new Set(['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁'])
 
 function normalizeDisplayName(value) {
   const name = String(value || 'ZJU student').trim().slice(0, 40)
@@ -32,11 +33,17 @@ function normalizeAvatarUrl(value) {
   return String(value || '').trim().slice(0, 800)
 }
 
+function normalizeDefaultCampus(value) {
+  const campus = String(value || '紫金港').trim()
+  return CAMPUS_LABELS.has(campus) ? campus : '紫金港'
+}
+
 function mapAppUser(row) {
   return {
     avatarPreset: row.avatar_preset || 'rice',
     avatarType: row.avatar_type === 'custom' ? 'custom' : 'preset',
     avatarUrl: row.avatar_url || '',
+    defaultCampus: normalizeDefaultCampus(row.default_campus),
     displayName: row.display_name || 'ZJU student',
     id: row.id,
     preferences: Array.isArray(row.preferences) ? row.preferences : []
@@ -59,7 +66,7 @@ function getAvatarSnapshot(row) {
 async function fetchAppUserById(client, appUserId) {
   const { data, error } = await client
     .from('app_users')
-    .select('id,display_name,avatar_url,avatar_type,avatar_preset,preferences,primary_channel')
+    .select('id,display_name,avatar_url,avatar_type,avatar_preset,default_campus,preferences,primary_channel')
     .eq('id', appUserId)
     .maybeSingle()
 
@@ -102,10 +109,11 @@ async function ensureAppUserForAuth(client, user) {
         display_name: normalizeDisplayName(user.email?.split('@')[0] || 'ZJU student'),
         avatar_type: 'preset',
         avatar_preset: 'rice',
+        default_campus: '紫金港',
         preferences: [],
         primary_channel: 'supabase_auth'
       })
-      .select('id,display_name,avatar_url,avatar_type,avatar_preset,preferences,primary_channel')
+      .select('id,display_name,avatar_url,avatar_type,avatar_preset,default_campus,preferences,primary_channel')
       .single()
 
     if (error) throw error
@@ -133,6 +141,7 @@ async function updateAppUser(client, appUserId, patch) {
   if (patch.avatarType !== undefined) body.avatar_type = normalizeAvatarType(patch.avatarType)
   if (patch.avatarPreset !== undefined) body.avatar_preset = normalizeAvatarPreset(patch.avatarPreset)
   if (patch.avatarUrl !== undefined) body.avatar_url = normalizeAvatarUrl(patch.avatarUrl)
+  if (patch.defaultCampus !== undefined) body.default_campus = normalizeDefaultCampus(patch.defaultCampus)
   if (patch.preferences !== undefined) body.preferences = normalizePreferences(patch.preferences)
 
   if (!Object.keys(body).length) return fetchAppUserById(client, appUserId)
@@ -141,7 +150,7 @@ async function updateAppUser(client, appUserId, patch) {
     .from('app_users')
     .update(body)
     .eq('id', appUserId)
-    .select('id,display_name,avatar_url,avatar_type,avatar_preset,preferences,primary_channel')
+    .select('id,display_name,avatar_url,avatar_type,avatar_preset,default_campus,preferences,primary_channel')
     .single()
 
   if (error) throw error

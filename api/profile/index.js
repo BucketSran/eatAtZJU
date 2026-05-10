@@ -2,7 +2,7 @@ const { ensureAppUserForAuth, mapAppUser, updateAppUser } = require('../_shared/
 const { requireAuthenticatedUser } = require('../_shared/auth.cjs')
 const { readJsonBody } = require('../_shared/requestBody.cjs')
 
-const PROFILE_PATCH_KEYS = new Set(['avatarPreset', 'avatarType', 'avatarUrl', 'displayName', 'preferences'])
+const PROFILE_PATCH_KEYS = new Set(['avatarPreset', 'avatarType', 'avatarUrl', 'defaultCampus', 'displayName', 'preferences'])
 
 function sendError(res, error, fallback = 'Profile request failed') {
   const status = error.status || error.statusCode || 500

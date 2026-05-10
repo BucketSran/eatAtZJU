@@ -227,8 +227,13 @@ async function checkProfileContracts() {
   const { mapAppUser, updateAppUser } = require('../api/_shared/appProfile.cjs')
   const webProfileService = fs.readFileSync(path.join(root, 'src/services/appUserProfileService.ts'), 'utf8')
   const apiProfileService = fs.readFileSync(path.join(root, 'api/_shared/appProfile.cjs'), 'utf8')
+  const apiProfileRoute = fs.readFileSync(path.join(root, 'api/profile/index.js'), 'utf8')
   const avatarHandler = fs.readFileSync(path.join(root, 'api/profile/avatar.js'), 'utf8')
   const profileRoute = fs.readFileSync(path.join(root, 'src/routes/ProfilePage.tsx'), 'utf8')
+  const homeRoute = fs.readFileSync(path.join(root, 'src/routes/HomePage.tsx'), 'utf8')
+  const discoverRoute = fs.readFileSync(path.join(root, 'src/routes/DiscoverPage.tsx'), 'utf8')
+  const onboardingDialog = fs.readFileSync(path.join(root, 'src/components/OnboardingDialog.tsx'), 'utf8')
+  const preferenceStore = fs.readFileSync(path.join(root, 'src/services/preferenceStore.ts'), 'utf8')
   const miniProfileService = fs.readFileSync(path.join(root, 'services/userProfileService.js'), 'utf8')
 
   const parsedBuffer = await readJsonBody({ body: Buffer.from(JSON.stringify({ displayName: 'BucketSran', avatarPreset: 'duck' })) })
@@ -244,11 +249,13 @@ async function checkProfileContracts() {
     avatar_type: 'preset',
     avatar_preset: 'duck',
     avatar_url: '',
+    default_campus: '玉泉',
     preferences: ['近', '辣']
   })
   assert(apiProfile.displayName === 'BucketSran', 'profile API contract must expose displayName')
   assert(apiProfile.avatarPreset === 'duck', 'profile API contract must expose avatarPreset')
   assert(apiProfile.avatarType === 'preset', 'profile API contract must expose avatarType')
+  assert(apiProfile.defaultCampus === '玉泉', 'profile API contract must expose defaultCampus')
 
   const updates = []
   const mockClient = {
@@ -269,6 +276,7 @@ async function checkProfileContracts() {
                         avatar_type: body.avatar_type,
                         avatar_preset: body.avatar_preset,
                         avatar_url: body.avatar_url,
+                        default_campus: body.default_campus,
                         preferences: body.preferences
                       },
                       error: null
@@ -288,10 +296,13 @@ async function checkProfileContracts() {
     avatarType: 'preset',
     avatarPreset: 'frog',
     avatarUrl: '',
+    defaultCampus: '玉泉',
     preferences: ['近', '近', '实惠']
   })
   assert(updates[0].display_name === 'BucketSran', 'profile update must map displayName to display_name')
   assert(updates[0].avatar_preset === 'frog', 'profile update must map avatarPreset to avatar_preset')
+  assert(updates[0].default_campus === '玉泉', 'profile update must map defaultCampus to default_campus')
+  assert(updated.default_campus === '玉泉' && mapAppUser(updated).defaultCampus === '玉泉', 'profile update must return mappable defaultCampus')
   assert(updated.preferences.length === 2, 'profile update must deduplicate preferences')
   await updateAppUser(mockClient, 'profile_contract_id', { displayName: 'Only Name' })
   assert(Object.keys(updates[1]).length === 1 && updates[1].display_name === 'Only Name', 'profile update must PATCH only changed fields')
@@ -301,6 +312,12 @@ async function checkProfileContracts() {
   assert(!webProfileService.includes('const current = await ensureAppUserProfile()'), 'profile PATCH should not prefetch current profile before every save')
   assert(avatarHandler.includes('updateAppUser(auth.client, appUser.id'), 'avatar upload endpoint must persist avatar in the same request')
   assert(!profileRoute.includes('const avatarUrl = await uploadAppUserAvatar'), 'web avatar upload should not require a second profile PATCH')
+  assert(apiProfileRoute.includes('defaultCampus'), 'profile PATCH allowlist must include defaultCampus')
+  assert(preferenceStore.includes('getDefaultCampus') && preferenceStore.includes('setDefaultCampus'), 'preference store must expose default campus helpers')
+  assert(profileRoute.includes('DEFAULT CAMPUS') && profileRoute.includes('chooseDefaultCampus'), 'profile page must expose default campus selector')
+  assert(homeRoute.includes("tag: '正餐'") && homeRoute.includes('defaultCampus'), 'home page recommendations must be constrained by default campus and meal category')
+  assert(discoverRoute.includes('查看详情') && discoverRoute.includes('/restaurants/${randomPick.id}'), 'discover random pick must link to restaurant detail')
+  assert(onboardingDialog.includes('你好，灿若星辰的浙大人') && onboardingDialog.includes('eatAtZju:web:onboarding:v1'), 'onboarding dialog must include intro copy and one-time localStorage guard')
 }
 
 function createMockResponse() {
@@ -415,6 +432,9 @@ function checkSupabaseFiles() {
   assert(migration.includes('constraint profiles_preferences_length'), 'migration missing preferences length guard')
   assert(migration.includes('constraint submissions_payload_size'), 'migration missing submissions payload size guard')
   assert(migration.includes("restaurants.status = 'published'"), 'migration missing published restaurant guard')
+  const campusMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605100002_app_user_default_campus.sql'), 'utf8')
+  assert(campusMigration.includes('default_campus'), 'campus migration must add app_users.default_campus')
+  assert(campusMigration.includes('app_users_default_campus_valid'), 'campus migration must constrain valid campus values')
 
   run(process.execPath, ['scripts/generate-supabase-seed.cjs', '--check'])
 }

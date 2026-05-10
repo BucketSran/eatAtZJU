@@ -19,12 +19,21 @@ function createPassword() {
 }
 
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options)
-  const body = await response.json().catch(() => ({}))
-  if (!response.ok) {
-    throw new Error(`${options.method || 'GET'} ${url} returned ${response.status}: ${body.error || 'unknown error'}`)
+  let lastError
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await fetch(url, options)
+      const body = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(`${options.method || 'GET'} ${url} returned ${response.status}: ${body.error || 'unknown error'}`)
+      }
+      return body
+    } catch (error) {
+      lastError = error
+      if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, attempt * 1000))
+    }
   }
-  return body
+  throw lastError
 }
 
 async function main() {
@@ -81,12 +90,13 @@ async function main() {
         avatarPreset: 'duck',
         avatarType: 'preset',
         avatarUrl: '',
+        defaultCampus: '玉泉',
         displayName,
         preferences: ['实惠', '近', '下饭']
       })
     })
-    if (updatedProfile.profile?.displayName !== displayName || updatedProfile.profile?.avatarPreset !== 'duck') {
-      throw new Error('Profile PATCH did not persist display name/avatar preset')
+    if (updatedProfile.profile?.displayName !== displayName || updatedProfile.profile?.avatarPreset !== 'duck' || updatedProfile.profile?.defaultCampus !== '玉泉') {
+      throw new Error('Profile PATCH did not persist display name/avatar preset/default campus')
     }
 
     const favoriteSet = await fetchJson(`${apiBaseUrl}/api/favorites`, {
@@ -119,6 +129,7 @@ async function main() {
         id: appUserId,
         displayName: updatedProfile.profile.displayName,
         avatarPreset: updatedProfile.profile.avatarPreset,
+        defaultCampus: updatedProfile.profile.defaultCampus,
         preferences: updatedProfile.profile.preferences
       },
       favorites: favoriteMerge.restaurantIds,

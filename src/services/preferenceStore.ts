@@ -1,5 +1,9 @@
+import { campusOptions, type CampusOption } from '../constants/restaurantTaxonomy'
+
 const PREFERENCES_KEY = 'eatAtZju:web:preferences'
+const DEFAULT_CAMPUS_KEY = 'eatAtZjuCampus'
 export const defaultPreferences = ['近', '实惠', '辣']
+export const defaultCampus: CampusOption = '紫金港'
 
 function canUseStorage() {
   return typeof window !== 'undefined' && Boolean(window.localStorage)
@@ -32,4 +36,19 @@ export function togglePreferenceTag(tag: string) {
 export function resetPreferenceTags() {
   setPreferenceTags(defaultPreferences)
   return defaultPreferences
+}
+
+export function normalizeCampus(value: unknown): CampusOption {
+  return campusOptions.includes(value as CampusOption) ? (value as CampusOption) : defaultCampus
+}
+
+export function getDefaultCampus() {
+  if (!canUseStorage()) return defaultCampus
+  return normalizeCampus(window.localStorage.getItem(DEFAULT_CAMPUS_KEY))
+}
+
+export function setDefaultCampus(campus: string) {
+  const normalized = normalizeCampus(campus)
+  if (canUseStorage()) window.localStorage.setItem(DEFAULT_CAMPUS_KEY, normalized)
+  return normalized
 }

@@ -1,6 +1,7 @@
 import { getPresetAvatar } from '../lib/avatars'
-import { getPreferenceTags, setPreferenceTags } from './preferenceStore'
+import { getDefaultCampus, getPreferenceTags, normalizeCampus, setDefaultCampus, setPreferenceTags } from './preferenceStore'
 import { getSupabaseBrowserClient } from './supabaseBrowserClient'
+import type { CampusOption } from '../constants/restaurantTaxonomy'
 
 const AVATAR_MAX_BYTES = 512 * 1024
 const AVATAR_MAX_DIMENSION = 512
@@ -10,6 +11,7 @@ export type AppUserProfile = {
   avatarPreset: string
   avatarType: 'preset' | 'custom'
   avatarUrl: string
+  defaultCampus: CampusOption
   displayName: string
   id: string
   preferences: string[]
@@ -20,12 +22,14 @@ function normalizeProfile(row: Record<string, unknown>): AppUserProfile {
   const avatarType = row.avatarType ?? row.avatar_type
   const avatarPreset = row.avatarPreset ?? row.avatar_preset
   const avatarUrl = row.avatarUrl ?? row.avatar_url
+  const defaultCampus = row.defaultCampus ?? row.default_campus
   return {
     id: String(row.id),
     displayName: String(displayName || 'ZJU student'),
     avatarType: avatarType === 'custom' ? 'custom' : 'preset',
     avatarPreset: String(avatarPreset || 'rice'),
     avatarUrl: String(avatarUrl || ''),
+    defaultCampus: normalizeCampus(defaultCampus || getDefaultCampus()),
     preferences: Array.isArray(row.preferences) ? row.preferences.filter((tag): tag is string => typeof tag === 'string') : []
   }
 }
@@ -62,10 +66,11 @@ export async function ensureAppUserProfile() {
   const body = await requestProfileApi<{ profile: Record<string, unknown> }>('/api/profile')
   const profile = normalizeProfile(body.profile)
   if (profile.preferences.length) setPreferenceTags(profile.preferences)
+  setDefaultCampus(profile.defaultCampus)
   return profile
 }
 
-export async function updateAppUserProfile(profile: Partial<Pick<AppUserProfile, 'avatarPreset' | 'avatarType' | 'avatarUrl' | 'displayName' | 'preferences'>>) {
+export async function updateAppUserProfile(profile: Partial<Pick<AppUserProfile, 'avatarPreset' | 'avatarType' | 'avatarUrl' | 'defaultCampus' | 'displayName' | 'preferences'>>) {
   const client = getSupabaseBrowserClient()
   if (!client) throw new Error('Supabase browser client is not configured')
 
@@ -77,6 +82,7 @@ export async function updateAppUserProfile(profile: Partial<Pick<AppUserProfile,
   })
   const next = normalizeProfile(body.profile)
   setPreferenceTags(next.preferences)
+  setDefaultCampus(next.defaultCampus)
   return next
 }
 
@@ -163,6 +169,7 @@ export async function uploadAppUserAvatar(file: File) {
   })
   const profile = normalizeProfile(body.profile)
   setPreferenceTags(profile.preferences)
+  setDefaultCampus(profile.defaultCampus)
   return profile
 }
 

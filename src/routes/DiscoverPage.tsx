@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
@@ -354,10 +354,20 @@ export function DiscoverPage() {
           <p className="eyebrow">RANDOM PICK</p>
           {randomPick ? (
             <>
-              <h2>{randomPick.name}</h2>
+              <Link className="random-result-link" to={`/restaurants/${randomPick.id}`} aria-label={`查看 ${randomPick.name} 详情`}>
+                <h2>{randomPick.name}</h2>
+              </Link>
               <p>
                 当前条件：{randomCampus} · {randomBudget}{randomTags.length ? ` · ${randomTags.join(' / ')}` : ''}。结果：{randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。
               </p>
+              <div className="hero-actions compact-actions">
+                <Link className="primary-action" to={`/restaurants/${randomPick.id}`}>
+                  查看详情
+                </Link>
+                <button className="secondary-action" type="button" onClick={triggerRandomPick}>
+                  不满意，再摇一次
+                </button>
+              </div>
             </>
           ) : (
             <>

@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
+import { OnboardingDialog } from './components/OnboardingDialog'
 
 const AdminPage = lazy(() => import('./routes/AdminPage').then((module) => ({ default: module.AdminPage })))
 const ContributePage = lazy(() => import('./routes/ContributePage').then((module) => ({ default: module.ContributePage })))
@@ -75,6 +76,8 @@ export function App() {
           </NavLink>
         ))}
       </nav>
+
+      <OnboardingDialog />
     </div>
   )
 }

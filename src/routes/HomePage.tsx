@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
-import { getPreferenceTags } from '../services/preferenceStore'
+import { getDefaultCampus, getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurantRemote, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantSummary } from '../types'
 
@@ -15,20 +15,22 @@ export function HomePage() {
   const navigate = useNavigate()
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
+  const [defaultCampus] = useState(() => getDefaultCampus())
   const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
-  const [topRestaurants, setTopRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }).slice(0, 3))
-  const [topPick, setTopPick] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const homeFilters = useMemo(() => ({ campus: defaultCampus, tag: '正餐' }), [defaultCampus])
+  const [topRestaurants, setTopRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(homeFilters, { preferences: [getDefaultCampus(), ...getPreferenceTags()], favoriteRestaurantIds: getFavoriteRestaurantIds() }).slice(0, 3))
+  const [topPick, setTopPick] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant(homeFilters, { preferences: [getDefaultCampus(), ...getPreferenceTags()], favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
   const metadata = getRestaurantMetadata()
 
-  const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
+  const context = useMemo(() => ({ preferences: [defaultCampus, ...preferences], favoriteRestaurantIds: favoriteIds }), [defaultCampus, favoriteIds, preferences])
 
   useEffect(() => {
     const controller = new AbortController()
     setIsLoading(true)
 
-    Promise.all([listRestaurantsRemote({}, context, controller.signal), getRecommendedRestaurantRemote({}, context, controller.signal)])
+    Promise.all([listRestaurantsRemote(homeFilters, context, controller.signal), getRecommendedRestaurantRemote(homeFilters, context, controller.signal)])
       .then(([listResult, pickResult]) => {
         setTopRestaurants(listResult.data.slice(0, 3))
         setTopPick(pickResult.data)
@@ -42,7 +44,7 @@ export function HomePage() {
       })
 
     return () => controller.abort()
-  }, [context])
+  }, [context, homeFilters])
 
   function toggleFavorite(id: string) {
     const nextIds = toggleFavoriteRestaurant(id)
@@ -56,7 +58,7 @@ export function HomePage() {
   }
 
   async function surpriseMe() {
-    const result = await getRandomRestaurantRemote({}, context)
+    const result = await getRandomRestaurantRemote(homeFilters, context)
     setRandomPick(result.data)
     setDataSource(describeApiSource(result.source, result.fallbackReason))
   }
@@ -66,7 +68,7 @@ export function HomePage() {
       <section className="hero-panel">
         <p className="eyebrow">ZJU FOOD DEMO</p>
         <h1>今天吃什么？</h1>
-        <p className="hero-copy">推荐分采用“学生评价 80% + 公开信息 20%”的长期模型；当前学生评价还在积累，所以先由公开 POI 做冷启动。</p>
+        <p className="hero-copy">推荐分采用“学生评价 80% + 公开信息 20%”的长期模型；当前先按你的默认校区「{defaultCampus}」推荐正餐，避免饭点随机远征。</p>
         <div className="hero-actions">
           <button className="primary-action" type="button" onClick={surpriseMe}>
             随机一餐
@@ -76,6 +78,9 @@ export function HomePage() {
           </button>
           <button className="secondary-action" type="button" onClick={() => navigate('/leaderboards')}>
             看榜单
+          </button>
+          <button className="secondary-action" type="button" onClick={() => navigate('/profile')}>
+            切换校区
           </button>
         </div>
       </section>
@@ -89,7 +94,7 @@ export function HomePage() {
           <p className="eyebrow">RANDOM PICK</p>
           <h2>{randomPick.name}</h2>
           <p>
-            {randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。{randomPick.reason}
+            {defaultCampus} · 正餐随机结果：{randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。{randomPick.reason}
           </p>
           <div className="hero-actions compact-actions">
             <Link className="primary-action" to={`/restaurants/${randomPick.id}`}>
@@ -106,6 +111,7 @@ export function HomePage() {
         <div>
           <p className="eyebrow">TOP PICK</p>
           <h2>今日首推</h2>
+          <p>{defaultCampus} · 正餐优先</p>
         </div>
         <Link className="text-link" to="/discover">
           查看全部

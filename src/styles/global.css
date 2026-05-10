@@ -558,6 +558,15 @@ p {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(0, 122, 255, 0.08));
 }
 
+.random-result-link {
+  display: inline-block;
+  border-radius: 18px;
+}
+
+.random-result-link:hover h2 {
+  color: var(--accent);
+}
+
 .status-strip {
   display: inline-flex;
   width: fit-content;
@@ -584,6 +593,65 @@ p {
   color: var(--label-secondary);
   font-weight: 800;
   box-shadow: var(--shadow-card);
+}
+
+.onboarding-backdrop {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(246, 247, 251, 0.62);
+  backdrop-filter: blur(18px);
+}
+
+.onboarding-dialog {
+  width: min(100%, 680px);
+  padding: clamp(28px, 6vw, 48px);
+  border: 1px solid var(--separator);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(0, 122, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 0% 100%, rgba(255, 122, 26, 0.14), transparent 30%),
+    rgba(255, 255, 255, 0.9);
+  box-shadow: 0 34px 90px rgba(31, 35, 42, 0.18);
+}
+
+.onboarding-dialog h2 {
+  margin-bottom: 12px;
+  font-size: clamp(30px, 7vw, 52px);
+  line-height: 1.02;
+}
+
+.onboarding-steps {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.onboarding-steps span {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--separator);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--label-secondary);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.onboarding-steps strong {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--label-primary);
+  color: #ffffff;
 }
 
 .compact-actions {
@@ -1317,6 +1385,10 @@ p {
 
   .submission-preview {
     position: static;
+  }
+
+  .onboarding-dialog {
+    border-radius: 26px;
   }
 }
 
