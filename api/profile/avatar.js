@@ -1,6 +1,7 @@
 const { ensureAppUserForAuth, mapAppUser, updateAppUser, uploadAvatar } = require('../_shared/appProfile.cjs')
 const { requireAuthenticatedUser } = require('../_shared/auth.cjs')
 const { readJsonBody } = require('../_shared/requestBody.cjs')
+const { applyRateLimit, checkRateLimit, getClientKey } = require('../_shared/rateLimit.cjs')
 
 function sendError(res, error, fallback = 'Avatar upload failed') {
   const status = error.status || error.statusCode || 500
@@ -12,6 +13,9 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ error: 'Method not allowed' })
   }
+
+  const rateLimit = checkRateLimit(getClientKey(req, 'avatar-upload'), { limit: 12, windowMs: 60 * 60 * 1000 })
+  if (applyRateLimit(res, rateLimit)) return
 
   const auth = await requireAuthenticatedUser(req)
   if (auth.error) return res.status(auth.status).json({ error: auth.error })

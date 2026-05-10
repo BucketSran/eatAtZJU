@@ -1,8 +1,10 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { campusOptions, collectFilterTags, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
+import { listRestaurantsRemote } from '../services/restaurantService'
 import { submitContribution, type SubmissionType } from '../services/submissionService'
+import type { RestaurantSummary } from '../types'
 import { isSupabaseBrowserConfigured } from '../services/supabaseBrowserClient'
 
 const typeOptions: Array<{ label: string; value: SubmissionType }> = [
@@ -31,10 +33,20 @@ export function ContributePage() {
   const [spiceLevel, setSpiceLevel] = useState('不限')
   const [loadLevel, setLoadLevel] = useState('不限')
   const [status, setStatus] = useState('')
+  const [restaurantOptions, setRestaurantOptions] = useState<RestaurantSummary[]>([])
   const configured = isSupabaseBrowserConfigured()
   const needsRestaurantId = type === 'dish' || type === 'review' || type === 'checkin'
   const selectedTags = collectFilterTags({ scenarioTags, dietaryTags, preferenceTags, spiceLevel, loadLevel })
   const needsTags = selectedTags.length === 0
+
+  useEffect(() => {
+    if (!needsRestaurantId) return undefined
+    const controller = new AbortController()
+    listRestaurantsRemote({ campus, sort: 'recommended' }, undefined, controller.signal)
+      .then((result) => setRestaurantOptions(result.data.slice(0, 80)))
+      .catch(() => setRestaurantOptions([]))
+    return () => controller.abort()
+  }, [campus, needsRestaurantId])
 
   async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -145,8 +157,13 @@ export function ContributePage() {
             {needsRestaurantId ? (
               <div className="form-grid compact-form-grid">
                 <label>
-                  <span className="search-label">关联餐厅 ID</span>
-                  <input name="submission-restaurant-id" className="search-input" value={restaurantId} autoComplete="off" placeholder="例如：r001" onChange={(event) => setRestaurantId(event.target.value)} />
+                  <span className="search-label">关联餐厅</span>
+                  <input name="submission-restaurant-id" className="search-input" value={restaurantId} list="restaurant-id-options" autoComplete="off" placeholder="输入或选择餐厅 ID" onChange={(event) => setRestaurantId(event.target.value)} />
+                  <datalist id="restaurant-id-options">
+                    {restaurantOptions.map((restaurant) => (
+                      <option key={restaurant.id} value={restaurant.id}>{restaurant.name} · {restaurant.area}</option>
+                    ))}
+                  </datalist>
                 </label>
                 <label>
                   <span className="search-label">评分</span>
@@ -240,7 +257,7 @@ export function ContributePage() {
           <div className="tag-row roomy-tags">
             {selectedTags.length ? selectedTags.map((tag) => <span className="tag strong" key={tag}>{tag}</span>) : <span className="tag">至少选择 1 个标签</span>}
           </div>
-          <p className="helper-text">审核通过后：餐厅投稿会进入正式餐厅表；菜品/评论需要有关联餐厅 ID 才会自动落库。</p>
+          <p className="helper-text">审核通过后：餐厅投稿会进入正式餐厅表；菜品/评论需要有关联餐厅 ID 才会自动落库。已有餐厅候选会随校区变化自动刷新。</p>
         </aside>
       </GlassCard>
     </div>

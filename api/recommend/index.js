@@ -7,16 +7,15 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const result = await listRestaurants(req.query)
-    const limit = Number(req.query?.limit)
-    const restaurants = Number.isFinite(limit) && limit > 0 ? result.data.slice(0, Math.min(Math.round(limit), 100)) : result.data
+    const result = await listRestaurants({ ...req.query, sort: req.query?.sort || 'recommended' })
+    const limit = Math.min(Math.max(Number(req.query?.limit) || 10, 1), 50)
     return res.status(200).json({
-      restaurants,
+      restaurants: result.data.slice(0, limit),
       metadata: getMetadata(),
       source: result.source,
       fallbackReason: result.fallbackReason
     })
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to list restaurants' })
+    return res.status(500).json({ error: 'Failed to load recommendations' })
   }
 }

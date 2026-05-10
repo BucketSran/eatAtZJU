@@ -71,6 +71,7 @@ module.exports = async function handler(req, res) {
         .from('submissions')
         .update({ status, payload: reviewTarget.payload, reviewer_id: auth.user.id, reviewed_at: new Date().toISOString(), review_note: reviewNote })
         .eq('id', id)
+        .eq('status', 'pending')
         .select('id,status,reviewed_at')
         .single()
 

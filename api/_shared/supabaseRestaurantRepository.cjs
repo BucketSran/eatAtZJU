@@ -1,6 +1,21 @@
 const { createServerSupabaseClient, getSupabaseConfig } = require('./supabaseClient.cjs')
 const { getMetadata, listRestaurantCollection } = require('./restaurantService.cjs')
 
+const CAMPUS_ALIASES = {
+  紫金港: 'zijingang',
+  zijingang: 'zijingang',
+  玉泉: 'yuquan',
+  yuquan: 'yuquan',
+  西溪: 'xixi',
+  xixi: 'xixi',
+  华家池: 'huajiachi',
+  huajiachi: 'huajiachi',
+  之江: 'zhijiang',
+  zhijiang: 'zhijiang',
+  海宁: 'haining',
+  haining: 'haining'
+}
+
 function toNumber(value) {
   if (value === null || value === undefined) return 0
   return Number(value)
@@ -71,12 +86,35 @@ function isSupabaseConfigured() {
   return getSupabaseConfig().hasConfig
 }
 
+function findPriceRange(label) {
+  if (!label || label === '不限') return undefined
+  return getMetadata().priceRanges.find((range) => range.label === label)
+}
+
+function applyServerSideFilters(builder, query = {}) {
+  let next = builder.eq('status', 'published')
+  const campusKey = CAMPUS_ALIASES[query.campus]
+  if (campusKey) next = next.eq('campus_key', campusKey)
+  if (query.mode && query.mode !== '都可以' && query.mode !== '全部') next = next.contains('service_modes', [query.mode])
+  if (query.meal && query.meal !== '全部') next = next.contains('meal_periods', [query.meal])
+
+  // Keep multi-tag matching in shared service for now because tags can live in
+  // tags, scenario_tags, constraint_tags, or preference_tags. A narrow SQL
+  // prefilter here could drop valid matches.
+
+  const priceRange = findPriceRange(query.priceLabel || query.price)
+  if (priceRange) next = next.gte('price', priceRange.min).lte('price', priceRange.max)
+
+  return next.limit(1000)
+}
+
 async function listRestaurants(query = {}) {
   const client = getClientOrThrow()
-  const { data, error } = await client
+  const builder = client
     .from('restaurants')
     .select('id,name,campus_key,campus_label,campus_distance,area,distance,walk_minutes,cuisine,price,rating,student_score,checkins,latitude,longitude,cover_icon,cover_color,tags,suited_for,service_modes,meal_periods,scenario_tags,constraint_tags,preference_tags,reason,source_refs,status')
-    .eq('status', 'published')
+
+  const { data, error } = await applyServerSideFilters(builder, query)
 
   if (error) throw error
   return listRestaurantCollection((data || []).map(mapRestaurant), query)

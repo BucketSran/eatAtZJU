@@ -1,7 +1,12 @@
-const DEFAULT_COORDS = {
-  latitude: 30.3088,
-  longitude: 120.0865
+const DEFAULT_COORDS_BY_CAMPUS = {
+  紫金港: { latitude: 30.3088, longitude: 120.0865 },
+  玉泉: { latitude: 30.2654, longitude: 120.1236 },
+  西溪: { latitude: 30.2767, longitude: 120.1392 },
+  华家池: { latitude: 30.2693, longitude: 120.1969 },
+  之江: { latitude: 30.1974, longitude: 120.1292 },
+  海宁: { latitude: 30.5164, longitude: 120.6798 }
 }
+const DEFAULT_COORDS = DEFAULT_COORDS_BY_CAMPUS.紫金港
 
 function cleanText(value, fallback = '') {
   return typeof value === 'string' && value.trim() ? value.trim() : fallback
@@ -28,6 +33,10 @@ function getCoverIcon(title) {
   return first || '饭'
 }
 
+function getCampusCoords(campus) {
+  return DEFAULT_COORDS_BY_CAMPUS[cleanText(campus)] || DEFAULT_COORDS
+}
+
 function buildSourceRefs(submission, reviewerId) {
   return [
     {
@@ -43,6 +52,8 @@ function buildSourceRefs(submission, reviewerId) {
 function buildRestaurantRow(submission, reviewerId) {
   const payload = submission.payload || {}
   const title = cleanText(payload.title, '学生推荐餐厅')
+  const campus = cleanText(payload.campus, '紫金港')
+  const campusCoords = getCampusCoords(campus)
   const distance = toNumber(payload.distance, 1, 0, 20)
   const tags = cleanTags(payload.tags)
   const diningMode = cleanText(payload.serviceMode === '都可以' ? '' : payload.serviceMode, cleanText(payload.diningMode))
@@ -63,16 +74,19 @@ function buildRestaurantRow(submission, reviewerId) {
     name: title,
     canonical_name: title,
     aliases: [],
-    area: cleanText(payload.area, cleanText(payload.campus, '待补充区域')),
+    campus_label: campus,
+    campus_key: cleanText(payload.campusKey || payload.campus_key),
+    campus_distance: distance,
+    area: cleanText(payload.area, campus ? `${campus}待补充区域` : '待补充区域'),
     distance,
     walk_minutes: Math.max(1, Math.round(toNumber(payload.walkMinutes, distance * 12, 1, 240))),
     cuisine: cleanText(payload.cuisine, '学生推荐'),
     price: Math.round(toNumber(payload.price, 30, 1, 999)),
     rating: toNumber(payload.rating, 4.2, 0, 5),
-    student_score: Math.round(toNumber(payload.studentScore, 0, 0, 100)),
-    checkins: Math.round(toNumber(payload.checkins, 0, 0, 999999)),
-    latitude: toNumber(payload.latitude, DEFAULT_COORDS.latitude, -90, 90),
-    longitude: toNumber(payload.longitude, DEFAULT_COORDS.longitude, -180, 180),
+    student_score: 0,
+    checkins: 0,
+    latitude: toNumber(payload.latitude, campusCoords.latitude, -90, 90),
+    longitude: toNumber(payload.longitude, campusCoords.longitude, -180, 180),
     cover_icon: cleanText(payload.coverIcon, getCoverIcon(title)),
     cover_color: cleanText(payload.coverColor, '#f0aa38'),
     tags,

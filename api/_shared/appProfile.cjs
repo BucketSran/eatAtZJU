@@ -1,6 +1,12 @@
 const AVATAR_BUCKET = 'app-avatars'
 const MAX_AVATAR_BYTES = 512 * 1024
 const ALLOWED_AVATAR_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+const AVATAR_SIGNATURES = {
+  'image/jpeg': (buffer) => buffer.length > 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff,
+  'image/png': (buffer) => buffer.length > 8 && buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
+  'image/webp': (buffer) => buffer.length > 12 && buffer.subarray(0, 4).toString('ascii') === 'RIFF' && buffer.subarray(8, 12).toString('ascii') === 'WEBP',
+  'image/gif': (buffer) => buffer.length > 6 && ['GIF87a', 'GIF89a'].includes(buffer.subarray(0, 6).toString('ascii'))
+}
 const PRESET_AVATARS = {
   rice: { text: '饭', color: '#f0aa38' },
   duck: { text: '鸭', color: '#4d9a8d' },
@@ -182,6 +188,11 @@ async function uploadAvatar(client, appUserId, file) {
   if (buffer.length > MAX_AVATAR_BYTES) {
     const error = new Error('头像需小于 0.5MB')
     error.status = 413
+    throw error
+  }
+  if (!AVATAR_SIGNATURES[contentType]?.(buffer)) {
+    const error = new Error('头像文件内容与格式不匹配')
+    error.status = 400
     throw error
   }
 

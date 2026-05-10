@@ -310,7 +310,7 @@ export function ProfilePage() {
         <div>
           <p className="eyebrow">PROFILE</p>
           <h1>偏好与说明</h1>
-          <p>这里先用本地偏好驱动推荐排序，等 Supabase Auth 接入后再同步到用户资料。</p>
+          <p>登录后会同步用户名、头像、默认校区、偏好和收藏；未登录时先保存在本地浏览器。</p>
         </div>
         <span className="count-badge">{preferences.length} 个偏好</span>
       </div>
@@ -471,7 +471,7 @@ export function ProfilePage() {
       <GlassCard className="demo-note">
         <p className="eyebrow">DEMO BOUNDARY</p>
         <h2>当前演示边界</h2>
-        <p>当前已加入登录、收藏/偏好同步、UGC 提交和审核 API 骨架；在配置真实 Supabase/Vercel 前，它们保持安全降级。</p>
+        <p>当前已接入登录、头像、默认校区、收藏/偏好同步、UGC 提交和审核 API；仍需继续补充真实学生评价、数据巡检和小程序主链路。</p>
         <div className="note-grid">
           <span>Supabase Auth</span>
           <span>submissions 审核</span>

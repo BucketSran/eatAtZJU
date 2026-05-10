@@ -1,6 +1,7 @@
 const { requireAuthenticatedUser } = require('../_shared/auth.cjs')
 const { ensureAppUserForAuth, getAvatarSnapshot } = require('../_shared/appProfile.cjs')
 const { readJsonBody } = require('../_shared/requestBody.cjs')
+const { applyRateLimit, checkRateLimit, getClientKey } = require('../_shared/rateLimit.cjs')
 
 const ALLOWED_TYPES = new Set(['restaurant', 'dish', 'review', 'checkin', 'correction'])
 const TAG_REQUIRED_TYPES = new Set(ALLOWED_TYPES)
@@ -18,6 +19,25 @@ function isPlainObject(value) {
 function getStringArray(value) {
   if (!Array.isArray(value)) return []
   return value.filter((item) => typeof item === 'string').map((item) => item.trim()).filter(Boolean)
+}
+
+function normalizeTitle(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ')
+}
+
+async function findDuplicateRestaurant(client, payload) {
+  const title = normalizeTitle(payload.title)
+  if (!title) return null
+  let query = client
+    .from('restaurants')
+    .select('id,name,campus_label,status')
+    .ilike('name', title)
+    .eq('status', 'published')
+    .limit(1)
+  if (payload.campus) query = query.eq('campus_label', payload.campus)
+  const { data, error } = await query
+  if (error) throw error
+  return data?.[0] || null
 }
 
 function validatePayload(type, payload) {
@@ -47,6 +67,9 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  const rateLimit = checkRateLimit(getClientKey(req, 'submissions'), { limit: 20, windowMs: 60 * 60 * 1000 })
+  if (applyRateLimit(res, rateLimit)) return
+
   const auth = await requireAuthenticatedUser(req)
   if (auth.error) return res.status(auth.status).json({ error: auth.error })
 
@@ -60,6 +83,13 @@ module.exports = async function handler(req, res) {
     const validationError = validatePayload(type, payload)
     if (validationError) return res.status(400).json({ error: validationError })
     if (Buffer.byteLength(JSON.stringify(payload), 'utf8') > MAX_PAYLOAD_BYTES) return res.status(413).json({ error: 'Payload too large' })
+
+    if (type === 'restaurant') {
+      const duplicate = await findDuplicateRestaurant(auth.client, payload)
+      if (duplicate) {
+        return res.status(409).json({ error: `餐厅可能已存在：${duplicate.name}`, duplicate })
+      }
+    }
 
     const appUser = await ensureAppUserForAuth(auth.client, auth.user)
     const payloadWithSnapshot = {
