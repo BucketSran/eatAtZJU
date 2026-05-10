@@ -15,7 +15,7 @@ function sleep(ms) {
 
 function fetchJsonWithCurl(url) {
   return new Promise((resolve, reject) => {
-    execFile('curl', ['-sS', '-L', '--max-time', '20', '-w', '\n__HTTP_STATUS__:%{http_code}', url], { maxBuffer: 5 * 1024 * 1024 }, (error, stdout, stderr) => {
+    execFile('curl', ['-sS', '-L', '--retry', '3', '--retry-delay', '1', '--connect-timeout', '10', '--max-time', '30', '-w', '\n__HTTP_STATUS__:%{http_code}', url], { maxBuffer: 5 * 1024 * 1024 }, (error, stdout, stderr) => {
       if (error) return reject(new Error(stderr || error.message))
       const marker = '\n__HTTP_STATUS__:'
       const markerIndex = stdout.lastIndexOf(marker)
