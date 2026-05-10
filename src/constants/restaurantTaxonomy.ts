@@ -53,10 +53,33 @@ export const dietaryConstraintTags = ['清真友好'] as const
 
 export const preferenceTagGroups = [
   {
-    title: '偏好加分',
-    hint: '不强行过滤，更多用于排序和推荐理由',
-    tags: ['暖胃', '下饭', '面食', '小吃', '拍照', '清爽', '快餐', '实惠', '咖啡', '甜品', '奶茶', '烧烤', '火锅', '食堂', '非食堂', '异国料理']
+    title: '常用决策',
+    hint: '高频选择优先放这里，适合快速建立推荐画像',
+    tags: ['近', '实惠', '一人食', '聚餐', '夜宵', '下饭'],
+    maxVisible: 6
+  },
+  {
+    title: '口味与体感',
+    hint: '这些标签可以叠加，比如“暖胃 + 面食”',
+    tags: ['暖胃', '面食', '小吃', '清爽', '快餐', '拍照'],
+    maxVisible: 6
+  },
+  {
+    title: '饮品甜点',
+    hint: '避免奶茶咖啡和正餐偏好混在一排',
+    tags: ['咖啡', '甜品', '奶茶'],
+    maxVisible: 6
+  },
+  {
+    title: '品类与排雷',
+    hint: '食堂/非食堂是互斥项；其余用于排序加权',
+    tags: ['烧烤', '火锅', '食堂', '非食堂', '异国料理', '清真友好'],
+    maxVisible: 6
   }
+] as const
+
+export const preferenceExclusiveGroups = [
+  ['食堂', '非食堂']
 ] as const
 
 export const taxonomyTagMap: Record<string, string[]> = {
@@ -112,6 +135,22 @@ export function parseTagsParam(value: string | null) {
 
 export function toggleMultiTag(currentTags: string[], tag: string) {
   return currentTags.includes(tag) ? currentTags.filter((currentTag) => currentTag !== tag) : [...currentTags, tag]
+}
+
+export function toggleGroupedTag(currentTags: string[], tag: string, exclusiveGroups: readonly (readonly string[])[] = preferenceExclusiveGroups) {
+  if (currentTags.includes(tag)) return currentTags.filter((currentTag) => currentTag !== tag)
+  const exclusiveGroup = exclusiveGroups.find((group) => group.includes(tag))
+  const nextTags = exclusiveGroup ? currentTags.filter((currentTag) => !exclusiveGroup.includes(currentTag)) : currentTags
+  return [...nextTags, tag]
+}
+
+export function normalizeGroupedTags(tags: string[], exclusiveGroups: readonly (readonly string[])[] = preferenceExclusiveGroups) {
+  return tags.reduce<string[]>((currentTags, tag) => {
+    if (currentTags.includes(tag)) return currentTags
+    const exclusiveGroup = exclusiveGroups.find((group) => group.includes(tag))
+    if (!exclusiveGroup) return [...currentTags, tag]
+    return [...currentTags.filter((currentTag) => !exclusiveGroup.includes(currentTag)), tag]
+  }, [])
 }
 
 export function getCurrentMealPeriod(date = new Date()) {

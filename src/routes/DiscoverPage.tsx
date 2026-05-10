@@ -6,8 +6,9 @@ import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { SkeletonList } from '../components/Skeleton'
+import { TagGroupSelector } from '../components/TagGroupSelector'
 import { showToast } from '../lib/toast'
-import { campusCenters, campusOptions, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleMultiTag, type CampusOption } from '../constants/restaurantTaxonomy'
+import { campusCenters, campusOptions, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleMultiTag, type CampusOption } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -25,6 +26,8 @@ const mealCategoryOptions = [
   { label: '饮品甜点', value: '饮品' },
   { label: '全部', value: '全部' }
 ]
+
+const RESTAURANT_RENDER_STEP = 12
 
 function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === 'AbortError'
@@ -130,6 +133,7 @@ export function DiscoverPage() {
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(RESTAURANT_RENDER_STEP)
 
   const scenarioKey = scenarioTags.join(',')
   const dietaryKey = dietaryTags.join(',')
@@ -139,6 +143,8 @@ export function DiscoverPage() {
   const context = useMemo(() => ({ preferences: [...preferences, campus, serviceMode, mealPeriod, mealCategory, ...scenarioTags, ...preferenceTags], favoriteRestaurantIds: favoriteIds }), [campus, favoriteIds, mealCategory, mealPeriod, preferenceKey, preferences, scenarioKey, serviceMode])
   const showRandom = searchParams.get('random') === '1'
   const summaryItems = [campus, mealCategory, serviceMode, mealPeriod, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
+  const visibleRestaurants = useMemo(() => restaurants.slice(0, visibleCount), [restaurants, visibleCount])
+  const hasMoreRestaurants = visibleCount < restaurants.length
 
   useEffect(() => {
     const next = new URLSearchParams()
@@ -180,6 +186,10 @@ export function DiscoverPage() {
 
     return () => controller.abort()
   }, [context, filters])
+
+  useEffect(() => {
+    setVisibleCount(RESTAURANT_RENDER_STEP)
+  }, [filters])
 
   useEffect(() => {
     if (!showRandom) {
@@ -345,27 +355,11 @@ export function DiscoverPage() {
           })}
           <div className="filter-section">
             <span className="filter-section-label">场景可多选</span>
-            {scenarioTagGroups.map((group) => (
-              <div className="chip-row" aria-label={group.title} key={group.title}>
-                {group.tags.map((tag) => (
-                  <button key={tag} className={`chip ${scenarioTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={scenarioTags.includes(tag)} onClick={() => setScenarioTags((tags) => toggleMultiTag(tags, tag))}>
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            ))}
+            <TagGroupSelector groups={scenarioTagGroups} selectedTags={scenarioTags} onChange={setScenarioTags} />
           </div>
           <div className="filter-section">
             <span className="filter-section-label">偏好加分</span>
-            {preferenceTagGroups.slice(0, 2).map((group) => (
-              <div className="chip-row" aria-label={group.title} key={group.title}>
-                {group.tags.map((tag) => (
-                  <button key={tag} className={`chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleMultiTag(tags, tag))}>
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            ))}
+            <TagGroupSelector exclusiveGroups={preferenceExclusiveGroups} groups={preferenceTagGroups} selectedTags={preferenceTags} onChange={setPreferenceTags} />
           </div>
           <SegmentedControl label="排序" options={sortOptions} value={sort} onChange={setSort} />
           <div className="sheet-actions">
@@ -490,15 +484,7 @@ export function DiscoverPage() {
                   <p>同一层可以叠加，比如“一人食 + 赶课快吃”。</p>
                 </div>
               </div>
-              {scenarioTagGroups.map((group) => (
-                <div className="chip-row" aria-label={group.title} key={group.title}>
-                  {group.tags.map((tag) => (
-                    <button key={tag} className={`chip ${scenarioTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={scenarioTags.includes(tag)} onClick={() => setScenarioTags((tags) => toggleMultiTag(tags, tag))}>
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              ))}
+              <TagGroupSelector groups={scenarioTagGroups} selectedTags={scenarioTags} onChange={setScenarioTags} />
             </div>
           </div>
           <div className="flow-step">
@@ -534,15 +520,7 @@ export function DiscoverPage() {
                   <p>这些更像“我想吃什么”，主要影响推荐排序。</p>
                 </div>
               </div>
-              {preferenceTagGroups.map((group) => (
-                <div className="chip-row" aria-label={group.title} key={group.title}>
-                  {group.tags.map((tag) => (
-                    <button key={tag} className={`chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleMultiTag(tags, tag))}>
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              ))}
+              <TagGroupSelector exclusiveGroups={preferenceExclusiveGroups} groups={preferenceTagGroups} selectedTags={preferenceTags} onChange={setPreferenceTags} />
             </div>
           </div>
         </div>
@@ -559,12 +537,19 @@ export function DiscoverPage() {
       </GlassCard>
 
       {restaurants.length ? (
-        <div className="restaurant-list">
-          {isLoading ? <SkeletonList count={2} /> : null}
-          {restaurants.map((restaurant) => (
-            <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
-          ))}
-        </div>
+        <>
+          <div className="restaurant-list">
+            {isLoading ? <SkeletonList count={2} /> : null}
+            {visibleRestaurants.map((restaurant) => (
+              <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
+            ))}
+          </div>
+          {hasMoreRestaurants ? (
+            <button className="secondary-action load-more-action" type="button" onClick={() => setVisibleCount((count) => count + RESTAURANT_RENDER_STEP)}>
+              再显示 {Math.min(RESTAURANT_RENDER_STEP, restaurants.length - visibleCount)} 家
+            </button>
+          ) : null}
+        </>
       ) : (
         <EmptyState
           title="这个组合暂时没有结果"

@@ -1,4 +1,4 @@
-import { campusOptions, type CampusOption } from '../constants/restaurantTaxonomy'
+import { campusOptions, normalizeGroupedTags, type CampusOption } from '../constants/restaurantTaxonomy'
 
 const PREFERENCES_KEY = 'eatAtZju:web:preferences'
 const DEFAULT_CAMPUS_KEY = 'eatAtZjuCampus'
@@ -14,23 +14,23 @@ export function getPreferenceTags() {
   try {
     const raw = window.localStorage.getItem(PREFERENCES_KEY)
     const parsed = raw ? JSON.parse(raw) : defaultPreferences
-    return Array.isArray(parsed) ? parsed.filter((tag): tag is string => typeof tag === 'string') : defaultPreferences
+    return Array.isArray(parsed) ? normalizeGroupedTags(parsed.filter((tag): tag is string => typeof tag === 'string')) : defaultPreferences
   } catch {
     return defaultPreferences
   }
 }
 
 export function setPreferenceTags(tags: string[]) {
-  if (!canUseStorage()) return tags
-  window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify([...new Set(tags)]))
-  return tags
+  const normalizedTags = normalizeGroupedTags(tags)
+  if (!canUseStorage()) return normalizedTags
+  window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify(normalizedTags))
+  return normalizedTags
 }
 
 export function togglePreferenceTag(tag: string) {
   const tags = getPreferenceTags()
   const next = tags.includes(tag) ? tags.filter((item) => item !== tag) : [...tags, tag]
-  setPreferenceTags(next)
-  return next
+  return setPreferenceTags(next)
 }
 
 export function resetPreferenceTags() {

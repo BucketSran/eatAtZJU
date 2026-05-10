@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { MapNavigationLinks } from './MapNavigationLinks'
 import type { RestaurantSummary } from '../types'
@@ -16,7 +17,7 @@ function describeScore(restaurant: RestaurantSummary) {
   return `公开信息主导：评分 ${breakdown.ratingScore ?? '-'} · 距离 ${breakdown.distanceScore ?? '-'} · 价格 ${breakdown.priceScore ?? '-'}`
 }
 
-export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardProps) {
+export const RestaurantCard = memo(function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardProps) {
   const isColdStart = restaurant.matchBreakdown?.mode !== 'blended'
   const scoreDescription = describeScore(restaurant)
   const visibleTags = restaurant.tags.slice(0, 6)
@@ -62,4 +63,4 @@ export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardP
       </div>
     </article>
   )
-}
+}, (previous, next) => previous.restaurant === next.restaurant)

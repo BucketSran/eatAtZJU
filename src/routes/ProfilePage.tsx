@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
+import { TagGroupSelector } from '../components/TagGroupSelector'
 import { getPresetAvatar, presetAvatars } from '../lib/avatars'
 import { createAccountLinkCode, type AccountLinkCode } from '../services/accountLinkService'
 import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
 import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuthChange, signInWithEmail, signOut, syncPreferencesToProfile, verifyEmailOtp, type AuthState } from '../services/authService'
 import { ensureAppUserProfile, updateAppUserProfile, uploadAppUserAvatar, type AppUserProfile } from '../services/appUserProfileService'
 import { mergeFavoritesWithSupabase, pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
-import { defaultPreferences, getDefaultCampus, getPreferenceTags, resetPreferenceTags, setDefaultCampus, setPreferenceTags, togglePreferenceTag } from '../services/preferenceStore'
-import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata } from '../services/restaurantService'
+import { defaultPreferences, getDefaultCampus, getPreferenceTags, resetPreferenceTags, setDefaultCampus, setPreferenceTags } from '../services/preferenceStore'
+import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote } from '../services/restaurantService'
 import type { RestaurantSummary } from '../types'
-import { campusOptions, type CampusOption } from '../constants/restaurantTaxonomy'
+import { campusOptions, preferenceExclusiveGroups, preferenceTagGroups, type CampusOption } from '../constants/restaurantTaxonomy'
 
 function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === 'AbortError'
@@ -20,7 +21,6 @@ type StatusTone = 'info' | 'success' | 'error'
 type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'savingCampus' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | 'creatingLinkCode' | null
 
 export function ProfilePage() {
-  const metadata = getRestaurantMetadata()
   const [preferences, setPreferences] = useState(() => getPreferenceTags())
   const [defaultCampus, setDefaultCampusState] = useState<CampusOption>(() => getDefaultCampus())
   const [recommended, setRecommended] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({ campus: getDefaultCampus(), tag: '正餐' }, { preferences: getPreferenceTags(), favoriteRestaurantIds: [] }))
@@ -103,8 +103,8 @@ export function ProfilePage() {
     return () => controller.abort()
   }, [context, defaultCampus])
 
-  function toggleTag(tag: string) {
-    setPreferences(togglePreferenceTag(tag))
+  function updatePreferenceSelection(tags: string[]) {
+    setPreferences(setPreferenceTags(tags))
   }
 
   function resetTags() {
@@ -452,13 +452,7 @@ export function ProfilePage() {
             恢复默认
           </button>
         </div>
-        <div className="preference-grid">
-          {metadata.tasteTags.filter((tag) => tag !== '全部').map((tag) => (
-            <button key={tag} className={`preference-chip ${preferences.includes(tag) ? 'active' : ''}`} type="button" onClick={() => toggleTag(tag)}>
-              {tag}
-            </button>
-          ))}
-        </div>
+        <TagGroupSelector exclusiveGroups={preferenceExclusiveGroups} groups={preferenceTagGroups} selectedTags={preferences} onChange={updatePreferenceSelection} />
         <p className="helper-text">默认偏好：{defaultPreferences.join('、')}。偏好会和默认校区一起影响“今日首推”和推荐排序。</p>
       </GlassCard>
 
