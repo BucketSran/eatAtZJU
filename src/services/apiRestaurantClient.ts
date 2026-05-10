@@ -58,6 +58,7 @@ export class ApiHttpError extends Error {
 }
 
 const API_CACHE_TTL_MS = 20_000
+const API_CACHE_MAX_ENTRIES = 80
 const responseCache = new Map<string, { expiresAt: number; promise?: Promise<unknown>; value?: unknown }>()
 
 function getApiBaseUrl() {
@@ -110,6 +111,21 @@ function withAbort<T>(promise: Promise<T>, signal?: AbortSignal) {
   })
 }
 
+function setCachedResponse(cacheKey: string, entry: { expiresAt: number; promise?: Promise<unknown>; value?: unknown }) {
+  responseCache.set(cacheKey, entry)
+  if (responseCache.size <= API_CACHE_MAX_ENTRIES) return
+
+  const now = Date.now()
+  for (const [key, cached] of responseCache) {
+    if (cached.expiresAt <= now) responseCache.delete(key)
+  }
+  while (responseCache.size > API_CACHE_MAX_ENTRIES) {
+    const oldestKey = responseCache.keys().next().value
+    if (!oldestKey) break
+    responseCache.delete(oldestKey)
+  }
+}
+
 async function fetchJson<T>(path: string, params: URLSearchParams, signal?: AbortSignal) {
   const query = params.toString()
   const url = `${getApiBaseUrl()}${path}${query ? `?${query}` : ''}`
@@ -133,7 +149,7 @@ async function fetchJson<T>(path: string, params: URLSearchParams, signal?: Abor
       return (await response.json()) as T
     })
     .then((body) => {
-      responseCache.set(cacheKey, { expiresAt: Date.now() + API_CACHE_TTL_MS, value: body })
+      setCachedResponse(cacheKey, { expiresAt: Date.now() + API_CACHE_TTL_MS, value: body })
       return body
     })
     .catch((error) => {
@@ -141,7 +157,7 @@ async function fetchJson<T>(path: string, params: URLSearchParams, signal?: Abor
       throw error
     })
 
-  responseCache.set(cacheKey, { expiresAt: now + API_CACHE_TTL_MS, promise: request })
+  setCachedResponse(cacheKey, { expiresAt: now + API_CACHE_TTL_MS, promise: request })
   return withAbort(request, signal)
 }
 

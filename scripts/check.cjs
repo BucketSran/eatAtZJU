@@ -333,9 +333,11 @@ function checkLeaderboardContracts() {
   assert(leaderboardRoute.includes('listRestaurantsRemote'), 'leaderboard page must read async API/Supabase data')
   assert(leaderboardRoute.includes('SegmentedControl') && leaderboardRoute.includes('榜单校区'), 'leaderboard page must expose campus selector')
   assert(!leaderboardRoute.includes('getLeaderboards('), 'leaderboard page must not use empty sync restaurant list')
+  assert(!leaderboardRoute.includes('setDefaultCampus'), 'leaderboard campus selector must not silently rewrite profile default campus')
   assert(leaderboardService.includes('buildLeaderboards') && leaderboardService.includes('isCanteenRestaurant'), 'leaderboard service must build boards from provided restaurants and respect non-canteen preference')
+  assert(leaderboardService.includes('b.boardScore') && leaderboardService.includes('a.boardScore'), 'leaderboard restaurants must be sorted by boardScore desc')
   assert(taxonomy.includes('非食堂'), 'taxonomy must expose 非食堂 preference')
-  assert(apiClient.includes('API_CACHE_TTL_MS') && apiClient.includes('responseCache'), 'api client must cache repeated GET requests')
+  assert(apiClient.includes('API_CACHE_TTL_MS') && apiClient.includes('API_CACHE_MAX_ENTRIES') && apiClient.includes('setCachedResponse'), 'api client must cache repeated GET requests with a bounded cache')
 }
 
 function createMockResponse() {

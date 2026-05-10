@@ -6,7 +6,7 @@ import { campusOptions, type CampusOption } from '../constants/restaurantTaxonom
 import { getMealContext } from '../lib/timeContext'
 import { getFavoriteRestaurantIds } from '../services/favoriteStore'
 import { buildLeaderboards, type Leaderboard } from '../services/leaderboardService'
-import { getDefaultCampus, getPreferenceTags, setDefaultCampus } from '../services/preferenceStore'
+import { getDefaultCampus, getPreferenceTags, normalizeCampus } from '../services/preferenceStore'
 import { describeApiSource, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantSummary } from '../types'
 
@@ -54,7 +54,7 @@ export function LeaderboardsPage() {
   }, [campus, context])
 
   function chooseCampus(nextCampus: string) {
-    setCampus(setDefaultCampus(nextCampus))
+    setCampus(normalizeCampus(nextCampus))
   }
 
   return (
