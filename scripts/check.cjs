@@ -187,6 +187,7 @@ async function checkApiService() {
   const apiService = require('../api/_shared/restaurantService.cjs')
   const metadata = apiService.getMetadata()
   assert(metadata.tasteTags.includes('全部'), 'api metadata tasteTags must include 全部')
+  assert(metadata.tasteTags.includes('非食堂'), 'api metadata tasteTags must include 非食堂')
   assert(metadata.priceRanges.some((range) => range.label === '不限'), 'api metadata priceRanges must include 不限')
 
   const all = apiService.listRestaurants({ preferences: '近,实惠,辣' })
@@ -201,9 +202,11 @@ async function checkApiService() {
   const meals = apiService.listRestaurants({ tag: '正餐', sort: 'recommended' })
   const drinks = apiService.listRestaurants({ tag: '饮品', sort: 'recommended' })
   const zijingangMeals = apiService.listRestaurants({ campus: '紫金港', tag: '正餐', sort: 'recommended' })
+  const nonCanteenMeals = apiService.listRestaurants({ campus: '紫金港', preferences: '非食堂', sort: 'recommended' })
   assert(meals.length > 0 && meals.every((restaurant) => restaurant.tags.includes('正餐') && !restaurant.tags.includes('饮品')), 'api 正餐 filter must not mix drinks')
   assert(drinks.length > 0 && drinks.every((restaurant) => restaurant.tags.includes('饮品') && !restaurant.tags.includes('正餐')), 'api 饮品 filter must not mix meals')
   assert(zijingangMeals.length > 0 && zijingangMeals.every((restaurant) => restaurant.campusLabel === '紫金港'), 'api campus filter must keep results inside selected campus')
+  assert(nonCanteenMeals.length > 0 && nonCanteenMeals.every((restaurant) => !/食堂|餐饮中心|校内食堂|学生餐厅|玉湖餐厅|麦香餐厅|风味餐厅|浙江大学.*餐厅|校区.*餐厅/.test([restaurant.name, restaurant.area, restaurant.cuisine, ...(restaurant.tags || [])].join(' '))), 'api 非食堂 preference must exclude canteen-style restaurants')
 
   const detail = apiService.getRestaurantDetail('r001', { preferences: '近,实惠' })
   assert(detail && detail.restaurant.id === 'r001', 'api getRestaurantDetail should return r001')
@@ -317,7 +320,22 @@ async function checkProfileContracts() {
   assert(profileRoute.includes('DEFAULT CAMPUS') && profileRoute.includes('chooseDefaultCampus'), 'profile page must expose default campus selector')
   assert(homeRoute.includes("tag: '正餐'") && homeRoute.includes('defaultCampus'), 'home page recommendations must be constrained by default campus and meal category')
   assert(discoverRoute.includes('查看详情') && discoverRoute.includes('/restaurants/${randomPick.id}'), 'discover random pick must link to restaurant detail')
+  assert(discoverRoute.includes('useDeferredValue'), 'discover search should defer keyword-driven API calls')
   assert(onboardingDialog.includes('你好，灿若星辰的浙大人') && onboardingDialog.includes('eatAtZju:web:onboarding:v1'), 'onboarding dialog must include intro copy and one-time localStorage guard')
+}
+
+function checkLeaderboardContracts() {
+  const leaderboardRoute = fs.readFileSync(path.join(root, 'src/routes/LeaderboardsPage.tsx'), 'utf8')
+  const leaderboardService = fs.readFileSync(path.join(root, 'src/services/leaderboardService.ts'), 'utf8')
+  const taxonomy = fs.readFileSync(path.join(root, 'src/constants/restaurantTaxonomy.ts'), 'utf8')
+  const apiClient = fs.readFileSync(path.join(root, 'src/services/apiRestaurantClient.ts'), 'utf8')
+
+  assert(leaderboardRoute.includes('listRestaurantsRemote'), 'leaderboard page must read async API/Supabase data')
+  assert(leaderboardRoute.includes('SegmentedControl') && leaderboardRoute.includes('榜单校区'), 'leaderboard page must expose campus selector')
+  assert(!leaderboardRoute.includes('getLeaderboards('), 'leaderboard page must not use empty sync restaurant list')
+  assert(leaderboardService.includes('buildLeaderboards') && leaderboardService.includes('isCanteenRestaurant'), 'leaderboard service must build boards from provided restaurants and respect non-canteen preference')
+  assert(taxonomy.includes('非食堂'), 'taxonomy must expose 非食堂 preference')
+  assert(apiClient.includes('API_CACHE_TTL_MS') && apiClient.includes('responseCache'), 'api client must cache repeated GET requests')
 }
 
 function createMockResponse() {
@@ -457,6 +475,7 @@ async function main() {
   checkSeedData()
   await checkApiService()
   await checkProfileContracts()
+  checkLeaderboardContracts()
   await checkApiHandlers()
   checkSupabaseFiles()
   checkDeploymentScripts()

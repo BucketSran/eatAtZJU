@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
@@ -115,6 +115,7 @@ export function DiscoverPage() {
   const [randomTags, setRandomTags] = useState<string[]>(() => getInitialRandomTags(searchParams))
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
+  const deferredKeyword = useDeferredValue(keyword)
   const getCategoryTags = (category = mealCategory) => (category === '全部' ? [] : [category])
   const initialFilters = { keyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: getCategoryTags() }
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(initialFilters, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
@@ -129,7 +130,7 @@ export function DiscoverPage() {
   const dietaryKey = dietaryTags.join(',')
   const preferenceKey = preferenceTags.join(',')
   const randomTagKey = randomTags.join(',')
-  const filters = useMemo(() => ({ keyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: getCategoryTags(mealCategory) }), [campus, dietaryKey, distanceLabel, keyword, loadLevel, mealCategory, mealPeriod, preferenceKey, priceLabel, scenarioKey, serviceMode, sort, spiceLevel])
+  const filters = useMemo(() => ({ keyword: deferredKeyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: getCategoryTags(mealCategory) }), [campus, deferredKeyword, dietaryKey, distanceLabel, loadLevel, mealCategory, mealPeriod, preferenceKey, priceLabel, scenarioKey, serviceMode, sort, spiceLevel])
   const context = useMemo(() => ({ preferences: [...preferences, campus, serviceMode, mealPeriod, mealCategory, ...scenarioTags, ...preferenceTags], favoriteRestaurantIds: favoriteIds }), [campus, favoriteIds, mealCategory, mealPeriod, preferenceKey, preferences, scenarioKey, serviceMode])
   const showRandom = searchParams.get('random') === '1'
   const summaryItems = [campus, mealCategory, serviceMode, mealPeriod, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)

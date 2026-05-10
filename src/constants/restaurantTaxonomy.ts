@@ -13,10 +13,11 @@ export const campusCenters: Record<CampusOption, { latitude: number; longitude: 
   海宁: { latitude: 30.512801, longitude: 120.681777, dataStatus: 'collecting' }
 }
 
-export const quickRandomTags = ['正餐', '近', '校内', '外卖', '堂食', '一人食', '聚餐', '夜宵', '面食', '下饭', '实惠', '辣', '不辣', '饮品'] as const
+export const quickRandomTags = ['正餐', '近', '校内', '非食堂', '外卖', '堂食', '一人食', '聚餐', '夜宵', '面食', '下饭', '实惠', '辣', '不辣', '饮品'] as const
 export const quickRandomExclusiveGroups = [
   ['辣', '不辣'],
-  ['外卖', '堂食']
+  ['外卖', '堂食'],
+  ['食堂', '非食堂']
 ] as const
 
 export const scenarioTagGroups = [
@@ -54,7 +55,7 @@ export const preferenceTagGroups = [
   {
     title: '偏好加分',
     hint: '不强行过滤，更多用于排序和推荐理由',
-    tags: ['暖胃', '下饭', '面食', '小吃', '拍照', '清爽', '快餐', '实惠', '咖啡', '甜品', '奶茶', '烧烤', '火锅', '食堂', '异国料理']
+    tags: ['暖胃', '下饭', '面食', '小吃', '拍照', '清爽', '快餐', '实惠', '咖啡', '甜品', '奶茶', '烧烤', '火锅', '食堂', '非食堂', '异国料理']
   }
 ] as const
 
@@ -98,6 +99,7 @@ export const taxonomyTagMap: Record<string, string[]> = {
   烧烤: ['烧烤'],
   火锅: ['火锅', '麻辣烫'],
   食堂: ['食堂', '校内食堂'],
+  非食堂: ['非食堂'],
   异国料理: ['异国料理', '异国简餐']
 }
 

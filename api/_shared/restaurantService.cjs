@@ -35,6 +35,7 @@ const taxonomyTagMap = {
   烧烤: ['烧烤'],
   火锅: ['火锅', '麻辣烫'],
   食堂: ['食堂', '校内食堂'],
+  非食堂: ['非食堂'],
   异国料理: ['异国料理', '异国简餐']
 }
 
@@ -75,19 +76,34 @@ function isDrinkOrSnackRestaurant(restaurant) {
   return /饮品|茶饮|咖啡|奶茶|甜品|烘焙|蛋糕|面包|鲜奶/.test(text)
 }
 
+function isCanteenRestaurant(restaurant) {
+  const text = [
+    restaurant.name,
+    restaurant.area,
+    restaurant.cuisine,
+    ...(restaurant.tags || []),
+    ...(restaurant.suitedFor || []),
+    ...(restaurant.preferenceTags || [])
+  ].join(' ')
+  return /食堂|餐饮中心|校内食堂|学生餐厅|玉湖餐厅|麦香餐厅|风味餐厅|浙江大学.*餐厅|校区.*餐厅/.test(text) && !/咖啡|奶茶|茶饮|甜品/.test(text)
+}
+
 function hasDrinkIntent(preferences) {
   return preferences.some((tag) => /饮品|茶饮|咖啡|奶茶|甜品|下午茶|拍照|轻负担/.test(tag))
 }
 
 function hasMealIntent(preferences) {
-  return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|外卖|堂食/.test(tag))
+  return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|非食堂|外卖|堂食/.test(tag))
 }
 
 function categoryScore(restaurant, preferences) {
   const drinkOrSnack = isDrinkOrSnackRestaurant(restaurant)
+  const canteen = isCanteenRestaurant(restaurant)
   if (drinkOrSnack && hasDrinkIntent(preferences) && !hasMealIntent(preferences)) return 8
   if (drinkOrSnack && hasMealIntent(preferences)) return -22
   if (drinkOrSnack) return -16
+  if (preferences.includes('非食堂') && canteen) return -28
+  if (preferences.includes('食堂') && canteen) return 10
   return 8
 }
 
@@ -168,6 +184,7 @@ function getSearchableTokens(restaurant) {
 }
 
 function matchesToken(restaurant, token) {
+  if (token === '非食堂') return !isCanteenRestaurant(restaurant)
   const mappedTags = taxonomyTagMap[token]
   const candidates = mappedTags && mappedTags.length ? mappedTags : [token]
   return candidates.some((candidate) => getSearchableTokens(restaurant).some((value) => String(value).includes(candidate)))
@@ -248,15 +265,18 @@ function listRestaurantCollection(restaurants, query = {}) {
   const priceRange = findPriceRange(query.priceLabel || query.price)
   const selectedTags = parseList(query.tags)
   const fallbackTag = query.tag && query.tag !== '全部' ? [query.tag] : []
+  const activeTags = selectedTags.length ? selectedTags : fallbackTag
+  const wantsNonCanteen = [...activeTags, ...preferences].includes('非食堂')
   const filtered = restaurants.filter((restaurant) => {
     return (
       restaurant.status === 'published' &&
+      (!wantsNonCanteen || !isCanteenRestaurant(restaurant)) &&
       matchesCampus(restaurant, query.campus) &&
       matchesKeyword(restaurant, query.keyword) &&
       matchesServiceMode(restaurant, query.mode) &&
       matchesMealPeriod(restaurant, query.meal) &&
       matchesDistance(restaurant, query.distance) &&
-      (selectedTags.length ? selectedTags : fallbackTag).every((tag) => matchesStructuredTag(restaurant, tag) || matchesTag(restaurant, tag)) &&
+      activeTags.every((tag) => matchesStructuredTag(restaurant, tag) || matchesTag(restaurant, tag)) &&
       matchesPrice(restaurant, priceRange)
     )
   })

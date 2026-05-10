@@ -35,7 +35,20 @@ function getSearchableTokens(restaurant: Restaurant) {
   ]
 }
 
+export function isCanteenRestaurant(restaurant: Restaurant) {
+  const text = [
+    restaurant.name,
+    restaurant.area,
+    restaurant.cuisine,
+    ...restaurant.tags,
+    ...restaurant.suitedFor,
+    ...(restaurant.preferenceTags ?? [])
+  ].join(' ')
+  return /食堂|餐饮中心|校内食堂|学生餐厅|玉湖餐厅|麦香餐厅|风味餐厅|浙江大学.*餐厅|校区.*餐厅/.test(text) && !/咖啡|奶茶|茶饮|甜品/.test(text)
+}
+
 function restaurantContainsToken(restaurant: Restaurant, token: string) {
+  if (token === '非食堂') return !isCanteenRestaurant(restaurant)
   const mappedTags = taxonomyTagMap[token]
   const candidates = mappedTags?.length ? mappedTags : [token]
   return candidates.some((candidate) => getSearchableTokens(restaurant).some((value) => value.includes(candidate)))
@@ -121,10 +134,12 @@ export function filterRestaurants(restaurants: Restaurant[], filters: Restaurant
   const selectedTags = collectHardFilterTags(filters)
   const fallbackTags = selectedTags.length ? selectedTags : filters.tag ? [filters.tag] : []
   const serviceMode = filters.serviceMode || filters.diningMode
+  const wantsNonCanteen = [...selectedTags, ...(filters.preferenceTags ?? [])].includes('非食堂')
 
   return restaurants.filter((restaurant) => {
     return (
       restaurant.status === 'published' &&
+      (!wantsNonCanteen || !isCanteenRestaurant(restaurant)) &&
       restaurantMatchesCampus(restaurant, filters.campus) &&
       restaurantMatchesKeyword(restaurant, filters.keyword) &&
       restaurantMatchesServiceMode(restaurant, serviceMode) &&

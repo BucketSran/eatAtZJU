@@ -1,4 +1,5 @@
 import type { RecommendationContext, Restaurant, RestaurantSummary } from '../types'
+import { isCanteenRestaurant } from './filters'
 
 type MatchBreakdown = NonNullable<RestaurantSummary['matchBreakdown']>
 
@@ -16,14 +17,17 @@ function hasDrinkIntent(preferences: string[]) {
 }
 
 function hasMealIntent(preferences: string[]) {
-  return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|外卖|堂食/.test(tag))
+  return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|非食堂|外卖|堂食/.test(tag))
 }
 
 function categoryScore(restaurant: Restaurant, preferences: string[]) {
   const drinkOrSnack = isDrinkOrSnack(restaurant)
+  const canteen = isCanteenRestaurant(restaurant)
   if (drinkOrSnack && hasDrinkIntent(preferences) && !hasMealIntent(preferences)) return 8
   if (drinkOrSnack && hasMealIntent(preferences)) return -22
   if (drinkOrSnack) return -16
+  if (preferences.includes('非食堂') && canteen) return -28
+  if (preferences.includes('食堂') && canteen) return 10
   return 8
 }
 

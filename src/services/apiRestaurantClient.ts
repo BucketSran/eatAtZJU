@@ -57,6 +57,9 @@ export class ApiHttpError extends Error {
   }
 }
 
+const API_CACHE_TTL_MS = 20_000
+const responseCache = new Map<string, { expiresAt: number; promise?: Promise<unknown>; value?: unknown }>()
+
 function getApiBaseUrl() {
   return import.meta.env.VITE_API_BASE_URL || ''
 }
@@ -83,18 +86,63 @@ function buildRestaurantParams(filters: RestaurantFilters = {}, context?: Partia
   return params
 }
 
+function createAbortError() {
+  return new DOMException('Aborted', 'AbortError')
+}
+
+function withAbort<T>(promise: Promise<T>, signal?: AbortSignal) {
+  if (!signal) return promise
+  if (signal.aborted) return Promise.reject(createAbortError())
+
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => reject(createAbortError())
+    signal.addEventListener('abort', onAbort, { once: true })
+    promise.then(
+      (value) => {
+        signal.removeEventListener('abort', onAbort)
+        resolve(value)
+      },
+      (error) => {
+        signal.removeEventListener('abort', onAbort)
+        reject(error)
+      }
+    )
+  })
+}
+
 async function fetchJson<T>(path: string, params: URLSearchParams, signal?: AbortSignal) {
   const query = params.toString()
-  const response = await fetch(`${getApiBaseUrl()}${path}${query ? `?${query}` : ''}`, {
-    headers: { accept: 'application/json' },
-    signal
-  })
+  const url = `${getApiBaseUrl()}${path}${query ? `?${query}` : ''}`
+  const cacheKey = url
+  const now = Date.now()
+  const cached = responseCache.get(cacheKey)
 
-  if (!response.ok) {
-    const body = (await response.json().catch(() => undefined)) as ApiErrorBody | undefined
-    throw new ApiHttpError(path, response.status, body)
+  if (cached && cached.expiresAt > now) {
+    if (cached.value !== undefined) return withAbort(Promise.resolve(cached.value as T), signal)
+    if (cached.promise) return withAbort(cached.promise as Promise<T>, signal)
   }
-  return (await response.json()) as T
+
+  const request = fetch(url, {
+    headers: { accept: 'application/json' }
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        const body = (await response.json().catch(() => undefined)) as ApiErrorBody | undefined
+        throw new ApiHttpError(path, response.status, body)
+      }
+      return (await response.json()) as T
+    })
+    .then((body) => {
+      responseCache.set(cacheKey, { expiresAt: Date.now() + API_CACHE_TTL_MS, value: body })
+      return body
+    })
+    .catch((error) => {
+      responseCache.delete(cacheKey)
+      throw error
+    })
+
+  responseCache.set(cacheKey, { expiresAt: now + API_CACHE_TTL_MS, promise: request })
+  return withAbort(request, signal)
 }
 
 export async function fetchRestaurants(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal): Promise<ApiResult<RestaurantSummary[]>> {

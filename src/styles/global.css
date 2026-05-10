@@ -1401,6 +1401,25 @@ p {
 .leaderboard-card {
   display: grid;
   gap: 18px;
+  content-visibility: auto;
+  contain-intrinsic-size: 560px;
+}
+
+.leaderboard-toolbar {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.leaderboard-toolbar h2 {
+  margin-bottom: 6px;
+}
+
+.leaderboard-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .ranking-list {
@@ -1417,6 +1436,13 @@ p {
   border: 1px solid var(--separator);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.62);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.ranking-row:hover {
+  transform: translateY(-2px);
+  border-color: rgba(10, 132, 255, 0.22);
+  background: rgba(255, 255, 255, 0.86);
 }
 
 .ranking-index {
@@ -1447,8 +1473,26 @@ p {
   color: var(--accent);
 }
 
+.board-pill {
+  display: inline-flex;
+  max-width: 220px;
+  justify-content: center;
+  padding: 9px 12px;
+  border: 1px solid rgba(10, 132, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(10, 132, 255, 0.08);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 820;
+  text-align: center;
+}
+
 @media (max-width: 840px) {
   .leaderboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-toolbar {
     grid-template-columns: 1fr;
   }
 }
