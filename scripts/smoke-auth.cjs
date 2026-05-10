@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js')
+const { execFile } = require('child_process')
 
 const PLACEHOLDER_VALUES = new Set(['', 'server_only_do_not_expose', 'server_only_for_migrations_optional'])
 
@@ -33,7 +34,37 @@ async function fetchJson(url, options = {}) {
       if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, attempt * 1000))
     }
   }
-  throw lastError
+  try {
+    return await fetchJsonWithCurl(url, options)
+  } catch (curlError) {
+    throw lastError || curlError
+  }
+}
+
+function fetchJsonWithCurl(url, options = {}) {
+  return new Promise((resolve, reject) => {
+    const args = ['-sS', '-L', '--retry', '3', '--retry-delay', '1', '--connect-timeout', '10', '--max-time', '30', '-w', '\n__HTTP_STATUS__:%{http_code}']
+    if (options.method) args.push('-X', options.method)
+    for (const [key, value] of Object.entries(options.headers || {})) {
+      args.push('-H', `${key}: ${value}`)
+    }
+    if (options.body) args.push('--data-raw', options.body)
+    args.push(url)
+
+    execFile('curl', args, { maxBuffer: 5 * 1024 * 1024 }, (error, stdout, stderr) => {
+      if (error) return reject(new Error(stderr || error.message))
+      const marker = '\n__HTTP_STATUS__:'
+      const markerIndex = stdout.lastIndexOf(marker)
+      if (markerIndex === -1) return reject(new Error('curl smoke missing HTTP status'))
+      const rawBody = stdout.slice(0, markerIndex)
+      const status = Number(stdout.slice(markerIndex + marker.length).trim())
+      const body = rawBody ? JSON.parse(rawBody) : {}
+      if (status < 200 || status >= 300) {
+        return reject(new Error(`${options.method || 'GET'} ${url} returned ${status}: ${body.error || 'unknown error'}`))
+      }
+      resolve(body)
+    })
+  })
 }
 
 async function main() {
