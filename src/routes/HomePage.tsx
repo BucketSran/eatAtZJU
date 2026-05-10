@@ -22,6 +22,8 @@ export function HomePage() {
   const [topPick, setTopPick] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant(homeFilters, { preferences: [getDefaultCampus(), ...getPreferenceTags()], favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
+  const [isRandomLoading, setIsRandomLoading] = useState(false)
+  const [randomMessage, setRandomMessage] = useState('')
   const metadata = getRestaurantMetadata()
 
   const context = useMemo(() => ({ preferences: [defaultCampus, ...preferences], favoriteRestaurantIds: favoriteIds }), [defaultCampus, favoriteIds, preferences])
@@ -58,9 +60,18 @@ export function HomePage() {
   }
 
   async function surpriseMe() {
-    const result = await getRandomRestaurantRemote(homeFilters, context)
-    setRandomPick(result.data)
-    setDataSource(describeApiSource(result.source, result.fallbackReason))
+    setIsRandomLoading(true)
+    setRandomMessage('正在重新摇一餐…')
+    try {
+      const result = await getRandomRestaurantRemote(homeFilters, context)
+      setRandomPick(result.data)
+      setRandomMessage(result.data ? '' : '当前校区和正餐条件下暂时没有可随机的餐厅。')
+      setDataSource(describeApiSource(result.source, result.fallbackReason))
+    } catch {
+      setRandomMessage('这次没摇出来，可能是网络抖了一下，请再试一次。')
+    } finally {
+      setIsRandomLoading(false)
+    }
   }
 
   return (
@@ -70,8 +81,8 @@ export function HomePage() {
         <h1>今天吃什么？</h1>
         <p className="hero-copy">推荐分采用“学生评价 80% + 公开信息 20%”的长期模型；当前先按你的默认校区「{defaultCampus}」推荐正餐，避免饭点随机远征。</p>
         <div className="hero-actions">
-          <button className="primary-action" type="button" onClick={surpriseMe}>
-            随机一餐
+          <button className="primary-action" type="button" disabled={isRandomLoading} onClick={surpriseMe}>
+            {isRandomLoading ? '正在摇…' : '随机一餐'}
           </button>
           <button className="secondary-action" type="button" onClick={() => navigate('/discover')}>
             浏览附近
@@ -96,14 +107,21 @@ export function HomePage() {
           <p>
             {defaultCampus} · 正餐随机结果：{randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。{randomPick.reason}
           </p>
+          {randomMessage ? <p className="helper-text" aria-live="polite">{randomMessage}</p> : null}
           <div className="hero-actions compact-actions">
             <Link className="primary-action" to={`/restaurants/${randomPick.id}`}>
               看详情
             </Link>
-            <button className="secondary-action" type="button" onClick={surpriseMe}>
-              再摇一次
+            <button className="secondary-action" type="button" disabled={isRandomLoading} onClick={surpriseMe}>
+              {isRandomLoading ? '正在摇…' : '再摇一次'}
             </button>
           </div>
+        </GlassCard>
+      ) : randomMessage ? (
+        <GlassCard className="result-card">
+          <p className="eyebrow">RANDOM PICK</p>
+          <h2>{isRandomLoading ? '正在摇一餐' : '还没摇到'}</h2>
+          <p className="helper-text" aria-live="polite">{randomMessage}</p>
         </GlassCard>
       ) : null}
 

@@ -126,14 +126,15 @@ function setCachedResponse(cacheKey: string, entry: { expiresAt: number; promise
   }
 }
 
-async function fetchJson<T>(path: string, params: URLSearchParams, signal?: AbortSignal) {
+async function fetchJson<T>(path: string, params: URLSearchParams, signal?: AbortSignal, options: { cache?: boolean } = {}) {
+  const shouldCache = options.cache !== false
   const query = params.toString()
   const url = `${getApiBaseUrl()}${path}${query ? `?${query}` : ''}`
   const cacheKey = url
   const now = Date.now()
   const cached = responseCache.get(cacheKey)
 
-  if (cached && cached.expiresAt > now) {
+  if (shouldCache && cached && cached.expiresAt > now) {
     if (cached.value !== undefined) return withAbort(Promise.resolve(cached.value as T), signal)
     if (cached.promise) return withAbort(cached.promise as Promise<T>, signal)
   }
@@ -149,7 +150,7 @@ async function fetchJson<T>(path: string, params: URLSearchParams, signal?: Abor
       return (await response.json()) as T
     })
     .then((body) => {
-      setCachedResponse(cacheKey, { expiresAt: Date.now() + API_CACHE_TTL_MS, value: body })
+      if (shouldCache) setCachedResponse(cacheKey, { expiresAt: Date.now() + API_CACHE_TTL_MS, value: body })
       return body
     })
     .catch((error) => {
@@ -157,7 +158,7 @@ async function fetchJson<T>(path: string, params: URLSearchParams, signal?: Abor
       throw error
     })
 
-  setCachedResponse(cacheKey, { expiresAt: now + API_CACHE_TTL_MS, promise: request })
+  if (shouldCache) setCachedResponse(cacheKey, { expiresAt: now + API_CACHE_TTL_MS, promise: request })
   return withAbort(request, signal)
 }
 
@@ -187,7 +188,7 @@ export async function fetchRestaurantDetail(id: string, context?: Partial<Recomm
 export async function fetchTodayRecommendation(strategy: 'recommended' | 'random', filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal): Promise<ApiResult<RestaurantSummary | null>> {
   const params = buildRestaurantParams(filters, context)
   params.set('strategy', strategy)
-  const body = await fetchJson<RecommendationResponse>('/api/recommend/today', params, signal)
+  const body = await fetchJson<RecommendationResponse>('/api/recommend/today', params, signal, { cache: strategy !== 'random' })
   return {
     data: body.restaurant,
     source: body.source || 'supabase',

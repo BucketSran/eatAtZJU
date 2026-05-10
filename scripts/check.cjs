@@ -319,6 +319,7 @@ async function checkProfileContracts() {
   assert(preferenceStore.includes('getDefaultCampus') && preferenceStore.includes('setDefaultCampus'), 'preference store must expose default campus helpers')
   assert(profileRoute.includes('DEFAULT CAMPUS') && profileRoute.includes('chooseDefaultCampus'), 'profile page must expose default campus selector')
   assert(homeRoute.includes("tag: '正餐'") && homeRoute.includes('defaultCampus'), 'home page recommendations must be constrained by default campus and meal category')
+  assert(homeRoute.includes('isRandomLoading') && homeRoute.includes('再摇一次'), 'home random pick must expose repeatable loading feedback')
   assert(discoverRoute.includes('查看详情') && discoverRoute.includes('/restaurants/${randomPick.id}'), 'discover random pick must link to restaurant detail')
   assert(discoverRoute.includes('useDeferredValue'), 'discover search should defer keyword-driven API calls')
   assert(onboardingDialog.includes('你好，灿若星辰的浙大人') && onboardingDialog.includes('eatAtZju:web:onboarding:v1'), 'onboarding dialog must include intro copy and one-time localStorage guard')
@@ -338,6 +339,7 @@ function checkLeaderboardContracts() {
   assert(leaderboardService.includes('b.boardScore') && leaderboardService.includes('a.boardScore'), 'leaderboard restaurants must be sorted by boardScore desc')
   assert(taxonomy.includes('非食堂'), 'taxonomy must expose 非食堂 preference')
   assert(apiClient.includes('API_CACHE_TTL_MS') && apiClient.includes('API_CACHE_MAX_ENTRIES') && apiClient.includes('setCachedResponse'), 'api client must cache repeated GET requests with a bounded cache')
+  assert(apiClient.includes("cache: strategy !== 'random'"), 'random recommendation requests must bypass client GET cache')
 }
 
 function checkMapNavigationContracts() {
