@@ -1,8 +1,12 @@
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { BottomSheet } from '../components/BottomSheet'
+import { EmptyState } from '../components/EmptyState'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
+import { SkeletonList } from '../components/Skeleton'
+import { showToast } from '../lib/toast'
 import { campusCenters, campusOptions, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, parseTagsParam, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleMultiTag, type CampusOption } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
@@ -125,6 +129,7 @@ export function DiscoverPage() {
   const [locationStatus, setLocationStatus] = useState('')
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
+  const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false)
 
   const scenarioKey = scenarioTags.join(',')
   const dietaryKey = dietaryTags.join(',')
@@ -215,6 +220,7 @@ export function DiscoverPage() {
   function toggleFavorite(id: string) {
     const nextIds = toggleFavoriteRestaurant(id)
     setFavoriteIds(nextIds)
+    showToast(nextIds.includes(id) ? '已收藏，之后可以在收藏页快速找回。' : '已取消收藏。', nextIds.includes(id) ? 'success' : 'info')
     import('../services/favoriteSyncService')
       .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(id, nextIds.includes(id)))
       .then(setFavoriteIds)
@@ -235,6 +241,7 @@ export function DiscoverPage() {
     setSpiceLevel('不限')
     setLoadLevel('不限')
     setPriceLabel('不限')
+    showToast('筛选已重置，先从当前校区正餐看起。')
   }
 
   function selectCampus(nextCampus: string) {
@@ -274,6 +281,7 @@ export function DiscoverPage() {
   }
 
   function triggerRandomPick() {
+    showToast('开摇，正在帮你缩小选择范围。')
     setSearchParams((current) => {
       const next = new URLSearchParams(current)
       next.set('random', '1')
@@ -304,7 +312,74 @@ export function DiscoverPage() {
         <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
       </div>
 
-      <GlassCard className="filters-card">
+      <div className="mobile-filter-dock">
+        <div>
+          <strong>{summaryItems.slice(0, 4).join(' · ') || '当前没有额外筛选'}</strong>
+          <span>{restaurants.length} 家匹配 · {sortOptions.find((option) => option.value === sort)?.label || '推荐'}排序</span>
+        </div>
+        <button className="primary-action compact-action" type="button" onClick={() => setIsFilterSheetOpen(true)}>
+          调整筛选
+        </button>
+      </div>
+
+      <BottomSheet
+        open={isFilterSheetOpen}
+        title="按层级筛选"
+        description="先定校区和餐饮大类，再叠加场景、硬条件和偏好。冲突项已经放在单选组里。"
+        onClose={() => setIsFilterSheetOpen(false)}
+      >
+        <div className="mobile-filter-stack">
+          <label className="search-label" htmlFor="mobile-restaurant-search">
+            搜索
+          </label>
+          <input id="mobile-restaurant-search" name="mobile-restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
+          <SegmentedControl label="校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={selectCampus} />
+          <SegmentedControl label="餐饮大类" options={mealCategoryOptions} value={mealCategory} onChange={setMealCategory} />
+          <SegmentedControl label="怎么吃" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
+          <SegmentedControl label="什么时候吃" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
+          <SegmentedControl label="预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={priceLabel} onChange={setPriceLabel} />
+          {hardFilterGroups.map((group) => {
+            const value = group.key === 'distanceLabel' ? distanceLabel : group.key === 'spiceLevel' ? spiceLevel : loadLevel
+            const onChange = group.key === 'distanceLabel' ? setDistanceLabel : group.key === 'spiceLevel' ? setSpiceLevel : setLoadLevel
+            return <SegmentedControl key={group.key} label={group.title} options={group.options.map((option) => ({ label: option, value: option }))} value={value} onChange={onChange} />
+          })}
+          <div className="filter-section">
+            <span className="filter-section-label">场景可多选</span>
+            {scenarioTagGroups.map((group) => (
+              <div className="chip-row" aria-label={group.title} key={group.title}>
+                {group.tags.map((tag) => (
+                  <button key={tag} className={`chip ${scenarioTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={scenarioTags.includes(tag)} onClick={() => setScenarioTags((tags) => toggleMultiTag(tags, tag))}>
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="filter-section">
+            <span className="filter-section-label">偏好加分</span>
+            {preferenceTagGroups.slice(0, 2).map((group) => (
+              <div className="chip-row" aria-label={group.title} key={group.title}>
+                {group.tags.map((tag) => (
+                  <button key={tag} className={`chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleMultiTag(tags, tag))}>
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+          <SegmentedControl label="排序" options={sortOptions} value={sort} onChange={setSort} />
+          <div className="sheet-actions">
+            <button className="secondary-action" type="button" onClick={clearAllFilters}>
+              重置
+            </button>
+            <button className="primary-action" type="button" onClick={() => setIsFilterSheetOpen(false)}>
+              应用筛选
+            </button>
+          </div>
+        </div>
+      </BottomSheet>
+
+      <GlassCard className="filters-card discover-desktop-filters">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">DECISION HELPER</p>
@@ -485,15 +560,17 @@ export function DiscoverPage() {
 
       {restaurants.length ? (
         <div className="restaurant-list">
+          {isLoading ? <SkeletonList count={2} /> : null}
           {restaurants.map((restaurant) => (
             <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
           ))}
         </div>
       ) : (
-        <GlassCard>
-          <h2>没有找到匹配餐厅。</h2>
-          <p>换个标签试试，或清空搜索条件。</p>
-        </GlassCard>
+        <EmptyState
+          title="这个组合暂时没有结果"
+          description="可以先清掉一两个硬条件，比如预算、距离或辣度；如果你知道一家真实餐厅，也可以从贡献页提交给管理员审核。"
+          action={<button className="secondary-action" type="button" onClick={clearAllFilters}>重置筛选</button>}
+        />
       )}
     </div>
   )

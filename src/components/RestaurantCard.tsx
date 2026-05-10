@@ -19,6 +19,9 @@ function describeScore(restaurant: RestaurantSummary) {
 export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardProps) {
   const isColdStart = restaurant.matchBreakdown?.mode !== 'blended'
   const scoreDescription = describeScore(restaurant)
+  const visibleTags = restaurant.tags.slice(0, 6)
+  const hiddenTagCount = Math.max(restaurant.tags.length - visibleTags.length, 0)
+
   return (
     <article className="restaurant-card">
       <Link to={`/restaurants/${restaurant.id}`} className="restaurant-card-main" aria-label={`查看 ${restaurant.name}`}>
@@ -34,12 +37,13 @@ export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardP
             {restaurant.area} · {restaurant.cuisine} · 步行 {restaurant.walkMinutes} 分钟
           </p>
           <p className="restaurant-reason">{restaurant.reason}</p>
-          <div className="tag-row" aria-label="餐厅标签">
-            {restaurant.tags.map((tag) => (
+          <div className="tag-row compact-tag-row" aria-label="餐厅标签">
+            {visibleTags.map((tag) => (
               <span className="tag" key={tag}>
                 {tag}
               </span>
             ))}
+            {hiddenTagCount ? <span className="tag muted-tag">+{hiddenTagCount}</span> : null}
           </div>
         </div>
       </Link>
@@ -51,7 +55,7 @@ export function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardP
           </span>
         ) : null}
         {scoreDescription ? <small className="score-explain">{scoreDescription}</small> : null}
-        <button className={`favorite-button ${restaurant.isFavorite ? 'active' : ''}`} type="button" aria-label={`${restaurant.isFavorite ? '取消收藏' : '收藏'} ${restaurant.name}`} onClick={() => onToggleFavorite?.(restaurant.id)}>
+        <button className={`favorite-button ${restaurant.isFavorite ? 'active' : ''}`} type="button" aria-pressed={restaurant.isFavorite} aria-label={`${restaurant.isFavorite ? '取消收藏' : '收藏'} ${restaurant.name}`} onClick={() => onToggleFavorite?.(restaurant.id)}>
           {restaurant.isFavorite ? '已收藏' : '收藏'}
         </button>
         <MapNavigationLinks compact restaurant={restaurant} />

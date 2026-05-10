@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { EmptyState } from '../components/EmptyState'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
+import { SkeletonList } from '../components/Skeleton'
+import { getMealContext } from '../lib/timeContext'
+import { showToast } from '../lib/toast'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getDefaultCampus, getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurantRemote, getRecommendedRestaurant, getRecommendedRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -25,6 +29,7 @@ export function HomePage() {
   const [isRandomLoading, setIsRandomLoading] = useState(false)
   const [randomMessage, setRandomMessage] = useState('')
   const metadata = getRestaurantMetadata()
+  const mealContext = useMemo(() => getMealContext(), [])
 
   const context = useMemo(() => ({ preferences: [defaultCampus, ...preferences], favoriteRestaurantIds: favoriteIds }), [defaultCampus, favoriteIds, preferences])
 
@@ -51,6 +56,7 @@ export function HomePage() {
   function toggleFavorite(id: string) {
     const nextIds = toggleFavoriteRestaurant(id)
     setFavoriteIds(nextIds)
+    showToast(nextIds.includes(id) ? '已加入收藏，饭点不用再找半天。' : '已取消收藏。', nextIds.includes(id) ? 'success' : 'info')
     import('../services/favoriteSyncService')
       .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(id, nextIds.includes(id)))
       .then(setFavoriteIds)
@@ -66,6 +72,7 @@ export function HomePage() {
       const result = await getRandomRestaurantRemote(homeFilters, context)
       setRandomPick(result.data)
       setRandomMessage(result.data ? '' : '当前校区和正餐条件下暂时没有可随机的餐厅。')
+      showToast(result.data ? `摇到：${result.data.name}` : '这组条件暂时没有结果。', result.data ? 'success' : 'info')
       setDataSource(describeApiSource(result.source, result.fallbackReason))
     } catch {
       setRandomMessage('这次没摇出来，可能是网络抖了一下，请再试一次。')
@@ -79,7 +86,7 @@ export function HomePage() {
       <section className="hero-panel">
         <p className="eyebrow">ZJU FOOD DEMO</p>
         <h1>今天吃什么？</h1>
-        <p className="hero-copy">推荐分采用“学生评价 80% + 公开信息 20%”的长期模型；当前先按你的默认校区「{defaultCampus}」推荐正餐，避免饭点随机远征。</p>
+        <p className="hero-copy">{mealContext.title}：{mealContext.description} 推荐分采用“学生评价 80% + 公开信息 20%”的长期模型；当前先按你的默认校区「{defaultCampus}」推荐正餐，避免饭点随机远征。</p>
         <div className="hero-actions">
           <button className="primary-action" type="button" disabled={isRandomLoading} onClick={surpriseMe}>
             {isRandomLoading ? '正在摇…' : '随机一餐'}
@@ -136,7 +143,17 @@ export function HomePage() {
         </Link>
       </div>
 
-      {topPick ? <RestaurantCard restaurant={topPick} onToggleFavorite={toggleFavorite} /> : null}
+      {isLoading && !topPick ? <SkeletonList count={1} /> : null}
+      {topPick ? (
+        <RestaurantCard restaurant={topPick} onToggleFavorite={toggleFavorite} />
+      ) : !isLoading ? (
+        <EmptyState
+          eyebrow="TOP PICK"
+          title="当前校区还没有首推"
+          description="可以先去发现页放宽条件，或者在贡献页补一条你确信存在的餐厅。"
+          action={<Link className="secondary-action" to="/discover">去发现页</Link>}
+        />
+      ) : null}
 
       <GlassCard>
         <p className="eyebrow">QUICK FILTERS</p>
@@ -166,6 +183,7 @@ export function HomePage() {
         </div>
       </div>
       <div className="restaurant-list">
+        {isLoading && !topRestaurants.length ? <SkeletonList count={3} /> : null}
         {topRestaurants.map((restaurant) => (
           <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
         ))}

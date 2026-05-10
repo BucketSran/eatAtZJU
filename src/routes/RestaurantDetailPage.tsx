@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { EmptyState } from '../components/EmptyState'
 import { GlassCard } from '../components/GlassCard'
 import { MapNavigationLinks } from '../components/MapNavigationLinks'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getPresetAvatar } from '../lib/avatars'
+import { showToast } from '../lib/toast'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRestaurantDetail, getRestaurantDetailRemote, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -101,6 +103,7 @@ export function RestaurantDetailPage() {
   function toggleFavorite(restaurantId: string) {
     const nextIds = toggleFavoriteRestaurant(restaurantId)
     setFavoriteIds(nextIds)
+    showToast(nextIds.includes(restaurantId) ? '已加入收藏，下一顿少纠结一点。' : '已取消收藏。', nextIds.includes(restaurantId) ? 'success' : 'info')
     import('../services/favoriteSyncService')
       .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(restaurantId, nextIds.includes(restaurantId)))
       .then(setFavoriteIds)
@@ -117,16 +120,18 @@ export function RestaurantDetailPage() {
           <h1>{isLoading ? '正在加载餐厅…' : '没有找到这家餐厅'}</h1>
           <p>{isLoading ? '正在向后端确认餐厅详情。' : '可能是 demo seed 里还没有录入，或链接里的餐厅 ID 不存在。'}</p>
         </div>
-        <GlassCard>
-          <Link className="secondary-action inline-action" to="/discover">
-            回到发现页
-          </Link>
-        </GlassCard>
+        <EmptyState
+          eyebrow="NOT FOUND"
+          title="这家店暂时不在饭点地图里"
+          description="可能是数据还没导入，也可能是链接里的 ID 失效。先回发现页继续找一口热乎的。"
+          action={<Link className="secondary-action" to="/discover">回到发现页</Link>}
+        />
       </div>
     )
   }
 
   const { restaurant, dishes, reviews } = detail
+  const isFavorite = favoriteIds.includes(restaurant.id) || restaurant.isFavorite
   const scoreMode = restaurant.matchBreakdown?.mode === 'blended' ? '混合推荐分' : '冷启动分'
   const scoreDescription = restaurant.matchBreakdown?.mode === 'blended'
     ? `学生 ${(restaurant.matchBreakdown.studentWeight * 100).toFixed(0)}% + 公开信息 ${(restaurant.matchBreakdown.publicWeight * 100).toFixed(0)}%`
@@ -157,8 +162,8 @@ export function RestaurantDetailPage() {
             ))}
           </div>
           <div className="hero-actions compact-actions">
-            <button className={`primary-action favorite-hero ${restaurant.isFavorite ? 'active' : ''}`} type="button" onClick={() => toggleFavorite(restaurant.id)}>
-              {restaurant.isFavorite ? '已加入收藏' : '加入收藏'}
+            <button className={`primary-action favorite-hero ${isFavorite ? 'active' : ''}`} type="button" aria-pressed={isFavorite} onClick={() => toggleFavorite(restaurant.id)}>
+              {isFavorite ? '已加入收藏' : '加入收藏'}
             </button>
             <Link className="secondary-action" to="/discover">
               继续发现
@@ -264,6 +269,15 @@ export function RestaurantDetailPage() {
           </div>
         </div>
       ) : null}
+      <div className="detail-sticky-actions" aria-label={`${restaurant.name} 快捷操作`}>
+        <button className={`favorite-button ${isFavorite ? 'active' : ''}`} type="button" aria-pressed={isFavorite} onClick={() => toggleFavorite(restaurant.id)}>
+          {isFavorite ? '已收藏' : '收藏'}
+        </button>
+        <MapNavigationLinks compact restaurant={restaurant} />
+        <Link className="secondary-action compact-action" to={`/contribute?type=correction&restaurantId=${encodeURIComponent(restaurant.id)}`}>
+          报错/补充
+        </Link>
+      </div>
     </div>
   )
 }
