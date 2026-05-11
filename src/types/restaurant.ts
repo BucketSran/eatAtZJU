@@ -16,6 +16,9 @@ export type Restaurant = {
   checkins: number
   latitude: number
   longitude: number
+  displayIcon?: string
+  displayTone?: 'meal' | 'drink' | 'canteen' | 'snack' | 'night' | 'shop'
+  mapIcon?: string
   coverIcon: string
   coverColor: string
   tags: string[]

@@ -29,6 +29,8 @@ export function LeaderboardsPage() {
   const preferences = useMemo(() => getPreferenceTags(), [])
   const context = useMemo(() => ({ preferences: [campus, ...preferences, ...mealContext.tags], favoriteRestaurantIds: getFavoriteRestaurantIds() }), [campus, mealContext.tags, preferences])
   const leaderboards = useMemo(() => buildLeaderboards(restaurants, context, 6, mealContext), [context, mealContext, restaurants])
+  const [activeBoardId, setActiveBoardId] = useState<Leaderboard['id'] | ''>('')
+  const activeBoard = leaderboards.find((board) => board.id === activeBoardId) ?? leaderboards[0]
   const candidateCount = restaurants.length
 
   useEffect(() => {
@@ -52,6 +54,13 @@ export function LeaderboardsPage() {
 
     return () => controller.abort()
   }, [campus, context])
+
+  useEffect(() => {
+    if (!leaderboards.length) return
+    if (!activeBoardId || !leaderboards.some((board) => board.id === activeBoardId)) {
+      setActiveBoardId(leaderboards[0].id)
+    }
+  }, [activeBoardId, leaderboards])
 
   function chooseCampus(nextCampus: string) {
     setCampus(normalizeCampus(nextCampus))
@@ -82,21 +91,47 @@ export function LeaderboardsPage() {
         <span>{candidateCount} 家候选餐厅</span>
       </div>
 
-      <div className="leaderboard-grid" id="leaderboard-results">
-        {leaderboards.map((board) => (
-          <GlassCard className={`leaderboard-card ${board.isTimePriority ? 'priority-board' : ''}`} key={board.id}>
+      <GlassCard className="leaderboard-switcher" id="leaderboard-results">
+        <div className="leaderboard-tab-row" role="tablist" aria-label="校园美食榜单">
+          {leaderboards.map((board) => (
+            <button
+              key={board.id}
+              className={`leaderboard-tab ${activeBoard?.id === board.id ? 'active' : ''} ${board.isTimePriority ? 'time-priority' : ''}`}
+              type="button"
+              role="tab"
+              aria-selected={activeBoard?.id === board.id}
+              onClick={() => setActiveBoardId(board.id)}
+            >
+              <strong>{board.title}</strong>
+              <span>{board.isTimePriority ? mealContext.cta : `${board.restaurants.length} 家候选`}</span>
+            </button>
+          ))}
+        </div>
+
+        {activeBoard ? (
+          <div className={`leaderboard-focus ${activeBoard.isTimePriority ? 'priority-board' : ''}`}>
             <div className="section-heading card-heading">
               <div>
-                <p className="eyebrow">{board.isTimePriority ? mealContext.cta : board.id.toUpperCase()}</p>
-                <h2>{board.title}</h2>
-                <p>{board.description}</p>
+                <p className="eyebrow">{activeBoard.isTimePriority ? mealContext.cta : activeBoard.id.toUpperCase()}</p>
+                <h2>{activeBoard.title}</h2>
+                <p>{activeBoard.description}</p>
               </div>
-              <span className="board-pill">{getBoardSummary(board)}</span>
+              <span className="board-pill">{getBoardSummary(activeBoard)}</span>
             </div>
-            <div className="ranking-list">
-              {board.restaurants.map((restaurant, index) => (
+            {activeBoard.restaurants[0] ? (
+              <Link className="leaderboard-winner" to={`/restaurants/${activeBoard.restaurants[0].id}`}>
+                <span className="ranking-index">1</span>
+                <div>
+                  <strong>{activeBoard.restaurants[0].name}</strong>
+                  <p>{activeBoard.restaurants[0].area} · ¥{activeBoard.restaurants[0].price}/人 · 高德 {activeBoard.restaurants[0].rating}</p>
+                </div>
+                <b>{activeBoard.restaurants[0].boardScore}</b>
+              </Link>
+            ) : null}
+            <div className="ranking-list compact-ranking-list">
+              {activeBoard.restaurants.slice(1).map((restaurant, index) => (
                 <Link className="ranking-row" key={restaurant.id} to={`/restaurants/${restaurant.id}`}>
-                  <span className="ranking-index">{index + 1}</span>
+                  <span className="ranking-index">{index + 2}</span>
                   <div>
                     <strong>{restaurant.name}</strong>
                     <p>
@@ -106,14 +141,14 @@ export function LeaderboardsPage() {
                   <b>{restaurant.boardScore}</b>
                 </Link>
               ))}
-              {!board.restaurants.length ? <p className="helper-text">这个榜单暂时没有足够候选。可以换校区，或在发现页放宽标签。</p> : null}
+              {!activeBoard.restaurants.length ? <p className="helper-text">这个榜单暂时没有足够候选。可以换校区，或在发现页放宽标签。</p> : null}
             </div>
             <Link className="secondary-action inline-action" to={`/discover?campus=${encodeURIComponent(campus)}&sort=recommended`}>
               去发现页细筛
             </Link>
-          </GlassCard>
-        ))}
-      </div>
+          </div>
+        ) : null}
+      </GlassCard>
     </div>
   )
 }

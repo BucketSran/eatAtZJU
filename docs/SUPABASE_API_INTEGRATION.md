@@ -28,12 +28,12 @@
 
 ## 新增文件
 
-- `api/_shared/supabaseClient.cjs`：读取服务端 Supabase env 并创建 server client。
-- `api/_shared/auth.cjs`：校验 bearer token，并为数据库操作创建 service-role 或 user-scoped client。
-- `api/_shared/requestBody.cjs`：读取 Vercel request JSON body。
-- `api/_shared/supabaseRestaurantRepository.cjs`：Supabase 数据读取、snake_case 到 camelCase 映射。
-- `api/_shared/restaurantRepository.cjs`：统一 API repository，封装 Supabase 优先和 seed fallback。
-- `api/_shared/requestValidation.cjs`：API query 参数的轻量边界校验。
+- `server/api/_shared/supabaseClient.cjs`：读取服务端 Supabase env 并创建 server client。
+- `server/api/_shared/auth.cjs`：校验 bearer token，并为数据库操作创建 service-role 或 user-scoped client。
+- `server/api/_shared/requestBody.cjs`：读取 Vercel request JSON body。
+- `server/api/_shared/supabaseRestaurantRepository.cjs`：Supabase 数据读取、snake_case 到 camelCase 映射。
+- `server/api/_shared/restaurantRepository.cjs`：统一 API repository，封装 Supabase 优先和 seed fallback。
+- `server/api/_shared/requestValidation.cjs`：API query 参数的轻量边界校验。
 
 ## 环境变量
 

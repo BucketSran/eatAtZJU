@@ -5,6 +5,7 @@ import { GlassCard } from '../components/GlassCard'
 import { MapNavigationLinks } from '../components/MapNavigationLinks'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { getPresetAvatar } from '../lib/avatars'
+import { getRestaurantDisplay } from '../lib/restaurantDisplay'
 import { showToast } from '../lib/toast'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
@@ -131,6 +132,7 @@ export function RestaurantDetailPage() {
   }
 
   const { restaurant, dishes, reviews } = detail
+  const visual = getRestaurantDisplay(restaurant)
   const isFavorite = favoriteIds.includes(restaurant.id) || restaurant.isFavorite
   const scoreMode = restaurant.matchBreakdown?.mode === 'blended' ? '混合推荐分' : '冷启动分'
   const scoreDescription = restaurant.matchBreakdown?.mode === 'blended'
@@ -144,8 +146,8 @@ export function RestaurantDetailPage() {
       </div>
 
       <section className="detail-hero glass-card">
-        <div className="detail-mark" style={{ background: restaurant.coverColor }} aria-hidden="true">
-          {restaurant.coverIcon}
+        <div className={`detail-mark ${visual.tone}`} style={{ background: visual.coverBackground }} aria-hidden="true" title={visual.shortName}>
+          {visual.coverIcon}
         </div>
         <div className="detail-copy">
           <p className="eyebrow">RESTAURANT</p>

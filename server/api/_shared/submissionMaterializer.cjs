@@ -17,6 +17,10 @@ function cleanTags(value) {
   return [...new Set(value.filter((tag) => typeof tag === 'string').map((tag) => tag.trim()).filter(Boolean))].slice(0, 12)
 }
 
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
 function toNumber(value, fallback, min, max) {
   const number = Number(value)
   if (!Number.isFinite(number)) return fallback
@@ -156,26 +160,142 @@ async function upsertRow(client, table, row) {
   return data
 }
 
+async function getRestaurantRow(client, id) {
+  const restaurantId = cleanText(id)
+  if (!restaurantId) return null
+  const { data, error } = await client
+    .from('restaurants')
+    .select('*')
+    .eq('id', restaurantId)
+    .maybeSingle()
+
+  if (error) throw error
+  return data || null
+}
+
+function appendUniqueTags(existing, tags) {
+  return cleanTags([...cleanTags(tags), ...cleanTags(existing)])
+}
+
+function buildOpsSourceRef(submission, reviewerId, action) {
+  return {
+    type: 'admin_ops',
+    action,
+    submission_id: submission.id,
+    submitter_id: submission.submitter_id,
+    reviewer_id: reviewerId,
+    reviewed_at: new Date().toISOString()
+  }
+}
+
+function appendSourceRef(existing, sourceRef) {
+  const refs = Array.isArray(existing) ? existing : []
+  return [...refs, sourceRef].slice(-20)
+}
+
+function normalizeRestaurantPatch(before, payload, reviewerId, submission) {
+  const action = cleanText(payload.opsAction)
+  const rawPatch = isPlainObject(payload.patch) ? payload.patch : {}
+  const sourceRefs = appendSourceRef(before.source_refs, buildOpsSourceRef(submission, reviewerId, action || 'correction'))
+
+  if (action === 'demote') {
+    return {
+      constraint_tags: appendUniqueTags(before.constraint_tags, ['不主推']),
+      preference_tags: appendUniqueTags(before.preference_tags, ['不主推']),
+      source_refs: sourceRefs
+    }
+  }
+
+  if (action === 'archive') {
+    return {
+      status: 'archived',
+      source_refs: sourceRefs
+    }
+  }
+
+  if (action !== 'edit') return null
+
+  const patch = { source_refs: sourceRefs }
+  const nextName = cleanText(rawPatch.name)
+  const nextArea = cleanText(rawPatch.area)
+  const nextCuisine = cleanText(rawPatch.cuisine)
+  const nextReason = cleanText(rawPatch.reason)
+  const nextTags = cleanTags(rawPatch.tags)
+  const nextPrice = rawPatch.price === undefined ? undefined : Math.round(toNumber(rawPatch.price, before.price, 1, 999))
+
+  if (nextName) {
+    patch.name = nextName
+    patch.canonical_name = nextName
+  }
+  if (nextArea) patch.area = nextArea
+  if (nextCuisine) patch.cuisine = nextCuisine
+  if (nextReason) patch.reason = nextReason
+  if (nextTags.length) patch.tags = nextTags
+  if (nextPrice !== undefined) patch.price = nextPrice
+
+  return patch
+}
+
+async function updateRestaurantRow(client, restaurantId, patch) {
+  const { data, error } = await client
+    .from('restaurants')
+    .update(patch)
+    .eq('id', restaurantId)
+    .select('*')
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+async function materializeCorrectionSubmission(client, submission, reviewerId) {
+  const payload = submission.payload || {}
+  const action = cleanText(payload.opsAction)
+  if (!['demote', 'archive', 'edit'].includes(action)) return { skipped: true, reason: 'manual_correction_only' }
+
+  const target = isPlainObject(payload.opsTarget) ? payload.opsTarget : {}
+  const restaurantId = cleanText(payload.restaurantId || payload.restaurant_id || target.targetId)
+  if (!restaurantId) return { skipped: true, reason: 'missing_restaurant_id' }
+
+  const before = await getRestaurantRow(client, restaurantId)
+  if (!before) return { skipped: true, reason: 'restaurant_not_found' }
+
+  const patch = normalizeRestaurantPatch(before, payload, reviewerId, submission)
+  if (!patch || Object.keys(patch).length === 0) return { skipped: true, reason: 'empty_correction_patch' }
+
+  const data = await updateRestaurantRow(client, restaurantId, patch)
+  return {
+    skipped: false,
+    operation: 'update',
+    targetTable: 'restaurants',
+    targetId: data.id,
+    beforeData: before,
+    data
+  }
+}
+
 async function materializeSubmission(client, submission, reviewerId) {
   if (submission.type === 'restaurant') {
     const row = buildRestaurantRow(submission, reviewerId)
     const data = await upsertRow(client, 'restaurants', row)
-    return { skipped: false, targetTable: 'restaurants', targetId: data.id, data }
+    return { skipped: false, operation: 'insert', targetTable: 'restaurants', targetId: data.id, beforeData: null, data }
   }
 
   if (submission.type === 'dish') {
     const row = buildDishRow(submission)
     if (!row) return { skipped: true, reason: 'missing_restaurant_id' }
     const data = await upsertRow(client, 'dishes', row)
-    return { skipped: false, targetTable: 'dishes', targetId: data.id, data }
+    return { skipped: false, operation: 'insert', targetTable: 'dishes', targetId: data.id, beforeData: null, data }
   }
 
   if (submission.type === 'review' || submission.type === 'checkin') {
     const row = buildReviewRow(submission)
     if (!row) return { skipped: true, reason: 'missing_restaurant_id' }
     const data = await upsertRow(client, 'reviews', row)
-    return { skipped: false, targetTable: 'reviews', targetId: data.id, data }
+    return { skipped: false, operation: 'insert', targetTable: 'reviews', targetId: data.id, beforeData: null, data }
   }
+
+  if (submission.type === 'correction') return materializeCorrectionSubmission(client, submission, reviewerId)
 
   return { skipped: true, reason: 'manual_correction_only' }
 }
@@ -186,5 +306,6 @@ module.exports = {
   buildReviewRow,
   cleanTags,
   idFromSubmission,
+  materializeCorrectionSubmission,
   materializeSubmission
 }

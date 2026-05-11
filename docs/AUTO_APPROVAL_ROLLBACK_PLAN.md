@@ -60,7 +60,7 @@
 ## 下一步实现建议
 
 1. 把 `/contribute` 表单结构化，避免 payload 只有标题和长文本。
-2. 新增 `api/_shared/moderationRules.cjs`，输出 `manual_review | auto_approve_candidate | reject_candidate`。
+2. 新增 `server/api/_shared/moderationRules.cjs`，输出 `manual_review | auto_approve_candidate | reject_candidate`。
 3. 先只对 `review` 类型实现自动批准，并写入 `reviews`。
 4. 自动批准前后都写 `audit_logs`。
 5. `/admin` 增加按 action、target_table、submitter 筛选审计日志。

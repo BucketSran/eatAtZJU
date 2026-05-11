@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { MapNavigationLinks } from './MapNavigationLinks'
+import { getRestaurantDisplay } from '../lib/restaurantDisplay'
 import type { RestaurantSummary } from '../types'
 
 type RestaurantCardProps = {
@@ -20,14 +21,15 @@ function describeScore(restaurant: RestaurantSummary) {
 export const RestaurantCard = memo(function RestaurantCard({ restaurant, onToggleFavorite }: RestaurantCardProps) {
   const isColdStart = restaurant.matchBreakdown?.mode !== 'blended'
   const scoreDescription = describeScore(restaurant)
+  const visual = getRestaurantDisplay(restaurant)
   const visibleTags = restaurant.tags.slice(0, 6)
   const hiddenTagCount = Math.max(restaurant.tags.length - visibleTags.length, 0)
 
   return (
     <article className="restaurant-card">
       <Link to={`/restaurants/${restaurant.id}`} className="restaurant-card-main" aria-label={`查看 ${restaurant.name}`}>
-        <div className="restaurant-mark" style={{ background: restaurant.coverColor }} aria-hidden="true">
-          {restaurant.coverIcon}
+        <div className={`restaurant-mark ${visual.tone}`} style={{ background: visual.coverBackground }} aria-hidden="true" title={visual.shortName}>
+          {visual.coverIcon}
         </div>
         <div className="restaurant-card-content">
           <div className="restaurant-card-headline">

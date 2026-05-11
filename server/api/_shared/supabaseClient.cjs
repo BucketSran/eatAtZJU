@@ -24,37 +24,33 @@ function getSupabaseConfig() {
   }
 }
 
-function createServerSupabaseClient() {
+function createClientWithoutSession(key, options = {}) {
   const config = getSupabaseConfig()
-  if (!config.hasConfig) return null
+  if (!config.url || !key) return null
 
-  return createClient(config.url, config.key, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
-    }
-  })
-}
-
-function createUserScopedSupabaseClient(accessToken) {
-  const config = getSupabaseConfig()
-  if (!config.url) return null
-
-  if (config.serviceRoleKey) {
-    return createClient(config.url, config.serviceRoleKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    })
-  }
-
-  if (!config.anonKey || !accessToken) return null
-  return createClient(config.url, config.anonKey, {
+  return createClient(config.url, key, {
     auth: {
       autoRefreshToken: false,
       persistSession: false
     },
+    ...options
+  })
+}
+
+function createAuthSupabaseClient() {
+  const config = getSupabaseConfig()
+  return createClientWithoutSession(config.serviceRoleKey || config.anonKey)
+}
+
+function createServiceRoleSupabaseClient() {
+  const config = getSupabaseConfig()
+  return createClientWithoutSession(config.serviceRoleKey)
+}
+
+function createUserRlsSupabaseClient(accessToken) {
+  const config = getSupabaseConfig()
+  if (!config.anonKey || !accessToken) return null
+  return createClientWithoutSession(config.anonKey, {
     global: {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -64,7 +60,10 @@ function createUserScopedSupabaseClient(accessToken) {
 }
 
 module.exports = {
-  createServerSupabaseClient,
-  createUserScopedSupabaseClient,
+  createAuthSupabaseClient,
+  createServerSupabaseClient: createAuthSupabaseClient,
+  createServiceRoleSupabaseClient,
+  createUserRlsSupabaseClient,
+  createUserScopedSupabaseClient: createUserRlsSupabaseClient,
   getSupabaseConfig
 }

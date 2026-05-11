@@ -2,13 +2,14 @@ import { useDeferredValue, useEffect, useMemo, useState, useTransition } from 'r
 import { Link, useSearchParams } from 'react-router-dom'
 import { BottomSheet } from '../components/BottomSheet'
 import { EmptyState } from '../components/EmptyState'
+import { FoodMap } from '../components/FoodMap'
 import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { SkeletonList } from '../components/Skeleton'
 import { TagGroupSelector } from '../components/TagGroupSelector'
 import { showToast } from '../lib/toast'
-import { campusCenters, campusOptions, dietaryConstraintTags, discoverFilterScenes, getCurrentMealPeriod, hardFilterGroups, mealCategoryOptions, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag, type CampusOption, type DiscoverFilterSceneId, type MealCategoryOption } from '../constants/restaurantTaxonomy'
+import { campusCenters, campusOptions, dietaryConstraintTags, discoverFilterScenes, getCurrentMealPeriod, getMealPeriodForCategory, hardFilterGroups, mealCategoryOptions, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag, type CampusOption, type DiscoverFilterSceneId, type MealCategoryOption } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -97,6 +98,10 @@ function getSceneMealPeriod(scene: (typeof discoverFilterScenes)[number]) {
   return 'mealPeriod' in scene.defaults ? scene.defaults.mealPeriod : undefined
 }
 
+function hasCoordinate(restaurant: RestaurantSummary) {
+  return Number.isFinite(restaurant.latitude) && Number.isFinite(restaurant.longitude)
+}
+
 function distanceKm(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
   const radius = 6371
   const toRadians = (degree: number) => (degree * Math.PI) / 180
@@ -155,7 +160,7 @@ export function DiscoverPage() {
     const category = searchParams.get('category') ?? getScene(activeSceneId).defaults.mealCategory ?? '正餐'
     return isMealCategory(category) ? category : '正餐'
   })
-  const [mealPeriod, setMealPeriod] = useState(() => searchParams.get('meal') ?? getCurrentMealPeriod())
+  const [mealPeriod, setMealPeriod] = useState(() => getMealPeriodForCategory(mealCategory, searchParams.get('meal') ?? getSceneMealPeriod(getScene(activeSceneId)) ?? getCurrentMealPeriod()))
   const initialTags = useMemo(() => {
     const initialRefinementTags = parseTagsParam(searchParams.get('refine'))
     const tags = [
@@ -193,6 +198,7 @@ export function DiscoverPage() {
   const getCategoryTags = (category = mealCategory) => (category === '全部' ? [] : [category])
   const initialFilters = { keyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: [...getCategoryTags(), ...refinementTags] }
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(initialFilters, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
+  const [mapFallbackRestaurants, setMapFallbackRestaurants] = useState<RestaurantSummary[]>(() => restaurants)
   const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
   const [randomMessage, setRandomMessage] = useState('')
   const [randomNonce, setRandomNonce] = useState(0)
@@ -200,6 +206,7 @@ export function DiscoverPage() {
   const [dataSource, setDataSource] = useState('本地 seed fallback')
   const [isLoading, setIsLoading] = useState(false)
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false)
+  const [focusedMapRestaurantId, setFocusedMapRestaurantId] = useState<string | null>(null)
   const [visibleCount, setVisibleCount] = useState(RESTAURANT_RENDER_STEP)
 
   const scenarioKey = scenarioTags.join(',')
@@ -214,6 +221,13 @@ export function DiscoverPage() {
   const summaryItems = [campus, getSceneLabel(activeSceneId), mealCategory, serviceMode, mealPeriod, ...refinementTags, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
   const visibleRestaurants = useMemo(() => restaurants.slice(0, visibleCount), [restaurants, visibleCount])
   const hasMoreRestaurants = visibleCount < restaurants.length
+  const broadMapFilters = useMemo(() => ({ campus, serviceMode, sort: 'recommended' as SortKey, tags: getCategoryTags(mealCategory) }), [campus, mealCategory, serviceMode])
+  const mapRestaurantSource = restaurants.some(hasCoordinate) ? restaurants : mapFallbackRestaurants
+  const mapModeNote = restaurants.some(hasCoordinate)
+    ? undefined
+    : mapFallbackRestaurants.some(hasCoordinate)
+      ? '当前精确筛选暂时为空，地图先展示当前校区/大类的可选点位。'
+      : undefined
 
   useEffect(() => {
     const next = new URLSearchParams()
@@ -257,6 +271,20 @@ export function DiscoverPage() {
 
     return () => controller.abort()
   }, [context, filters])
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    listRestaurantsRemote(broadMapFilters, context, controller.signal)
+      .then((result) => {
+        setMapFallbackRestaurants(result.data)
+      })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) setMapFallbackRestaurants(listRestaurants(broadMapFilters, context))
+      })
+
+    return () => controller.abort()
+  }, [broadMapFilters, context])
 
   useEffect(() => {
     setVisibleCount(RESTAURANT_RENDER_STEP)
@@ -316,7 +344,7 @@ export function DiscoverPage() {
       setCampus(readStoredCampus())
       setServiceMode('都可以')
       setMealCategory('正餐')
-      setMealPeriod(getCurrentMealPeriod())
+      setMealPeriod(getMealPeriodForCategory('正餐'))
       setScenarioTags([])
       setDietaryTags([])
       setPreferenceTags([])
@@ -339,10 +367,11 @@ export function DiscoverPage() {
     const scene = getScene(sceneId)
     startTransition(() => {
       setActiveSceneId(scene.id)
-      if (scene.defaults.mealCategory && isMealCategory(scene.defaults.mealCategory)) setMealCategory(scene.defaults.mealCategory)
+      const nextMealCategory = scene.defaults.mealCategory && isMealCategory(scene.defaults.mealCategory) ? scene.defaults.mealCategory : mealCategory
+      if (scene.defaults.mealCategory && isMealCategory(scene.defaults.mealCategory)) setMealCategory(nextMealCategory)
       if (scene.defaults.serviceMode) setServiceMode(scene.defaults.serviceMode)
       const defaultMealPeriod = getSceneMealPeriod(scene)
-      if (defaultMealPeriod) setMealPeriod(defaultMealPeriod)
+      setMealPeriod(defaultMealPeriod ?? getMealPeriodForCategory(nextMealCategory))
       setScenarioTags(getSceneDefaultTags(scene, 'scenarioTags'))
       setPreferenceTags(getSceneDefaultTags(scene, 'preferenceTags'))
       setRefinementTags([])
@@ -350,6 +379,13 @@ export function DiscoverPage() {
       setLoadLevel('不限')
     })
     showToast(`已切到「${scene.label}」，下面的筛选只保留相关条件。`)
+  }
+
+  function selectMealCategory(nextCategory: MealCategoryOption) {
+    startTransition(() => {
+      setMealCategory(nextCategory)
+      setMealPeriod((currentPeriod) => getMealPeriodForCategory(nextCategory, currentPeriod))
+    })
   }
 
   function toggleRefinementTag(tag: string) {
@@ -421,6 +457,17 @@ export function DiscoverPage() {
     setRandomNonce((nonce) => nonce + 1)
   }
 
+  function focusRestaurantFromMap(restaurant: RestaurantSummary) {
+    setFocusedMapRestaurantId(restaurant.id)
+    setVisibleCount((count) => {
+      const index = restaurants.findIndex((item) => item.id === restaurant.id)
+      return index >= count ? index + 1 : count
+    })
+    window.requestAnimationFrame(() => {
+      document.getElementById(`restaurant-card-${restaurant.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    })
+  }
+
   return (
     <div className="route-stack">
       <div className="page-heading split-heading">
@@ -445,6 +492,8 @@ export function DiscoverPage() {
           调整筛选
         </button>
       </div>
+
+      <FoodMap campus={campus} modeNote={mapModeNote} restaurants={mapRestaurantSource} onRestaurantFocus={focusRestaurantFromMap} />
 
       <BottomSheet
         open={isFilterSheetOpen}
@@ -472,7 +521,7 @@ export function DiscoverPage() {
             </div>
           </section>
           <CompactChoiceGroup label="先定校区" hint="默认看你的常用校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={selectCampus} />
-          <CompactChoiceGroup label="吃什么类型" hint="饮品不会再挤进正餐推荐" options={mealCategoryOptions} value={mealCategory} onChange={setMealCategory} />
+          <CompactChoiceGroup label="吃什么类型" hint="饮品不会再挤进正餐推荐" options={mealCategoryOptions} value={mealCategory} onChange={selectMealCategory} />
           <CompactChoiceGroup label="就餐方式" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
           <CompactChoiceGroup label="时间段" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
           <section className="compact-choice-card">
@@ -633,7 +682,7 @@ export function DiscoverPage() {
             </div>
             <div className="focused-filter-grid">
               <CompactChoiceGroup label="校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={selectCampus} />
-              <CompactChoiceGroup label="大类" options={mealCategoryOptions} value={mealCategory} onChange={setMealCategory} />
+              <CompactChoiceGroup label="大类" options={mealCategoryOptions} value={mealCategory} onChange={selectMealCategory} />
               <CompactChoiceGroup label="方式" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
               <CompactChoiceGroup label="时间" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
             </div>
@@ -668,7 +717,9 @@ export function DiscoverPage() {
             <div className="restaurant-list">
             {isLoading ? <SkeletonList count={2} /> : null}
             {visibleRestaurants.map((restaurant) => (
-              <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
+              <div id={`restaurant-card-${restaurant.id}`} className={`restaurant-card-anchor ${focusedMapRestaurantId === restaurant.id ? 'map-focused' : ''}`} key={restaurant.id}>
+                <RestaurantCard restaurant={restaurant} onToggleFavorite={toggleFavorite} />
+              </div>
             ))}
             </div>
             {hasMoreRestaurants ? (

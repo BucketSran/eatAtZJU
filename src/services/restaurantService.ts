@@ -3,6 +3,7 @@ import { attachRecommendationScore, pickRandomRestaurant, pickRecommendedRestaur
 import type { PriceRange, RecommendationContext, RestaurantFilters, RestaurantSummary } from '../types'
 import { ApiHttpError, fetchRestaurantDetail, fetchRestaurants, fetchTodayRecommendation, type ApiResult, type ApiSource, type RestaurantDetail } from './apiRestaurantClient'
 import { getFavoriteRestaurantIds } from './favoriteStore'
+import { peekSeedDishes, peekSeedMetadata, peekSeedRestaurants, peekSeedReviews } from './seedRepository'
 
 const fallbackMetadata = {
   schemaVersion: 1,
@@ -30,19 +31,32 @@ function markFavorites(restaurants: RestaurantSummary[], favoriteRestaurantIds: 
 }
 
 export function getRestaurantMetadata() {
-  return fallbackMetadata
+  return peekSeedMetadata() ?? fallbackMetadata
 }
 
 export function listRestaurants(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>): RestaurantSummary[] {
-  void filters
-  void context
-  return []
+  const seedRestaurants = peekSeedRestaurants()
+  if (!seedRestaurants.length) return []
+  const resolvedContext = getContext(context)
+  const metadata = peekSeedMetadata() ?? fallbackMetadata
+  const filtered = filterRestaurants(seedRestaurants, filters, metadata.priceRanges)
+  const scored = attachRecommendationScore(filtered, resolvedContext)
+  const sorted = sortRestaurants(scored, filters.sort)
+  return markFavorites(sorted, resolvedContext.favoriteRestaurantIds ?? [])
 }
 
 export function getRestaurantDetail(id: string, context?: Partial<RecommendationContext>): RestaurantDetail | null {
-  void id
-  void context
-  return null
+  const seedRestaurants = peekSeedRestaurants()
+  const restaurant = seedRestaurants.find((item) => item.id === id && item.status === 'published')
+  if (!restaurant) return null
+
+  const resolvedContext = getContext(context)
+  const [summary] = markFavorites(attachRecommendationScore([restaurant], resolvedContext), resolvedContext.favoriteRestaurantIds ?? [])
+  return {
+    restaurant: summary,
+    dishes: peekSeedDishes().filter((dish) => dish.restaurantId === id && dish.status === 'published'),
+    reviews: peekSeedReviews().filter((review) => review.restaurantId === id && review.status === 'approved')
+  }
 }
 
 async function listRestaurantsFromSeed(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>) {
@@ -126,9 +140,7 @@ export async function getFavoriteRestaurantsRemote(context?: Partial<Recommendat
 }
 
 export function getRecommendedRestaurant(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>): RestaurantSummary | null {
-  void filters
-  void context
-  return null
+  return pickRecommendedRestaurant(listRestaurants(filters, context))
 }
 
 export async function getRecommendedRestaurantRemote(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal) {
@@ -142,9 +154,7 @@ export async function getRecommendedRestaurantRemote(filters: RestaurantFilters 
 }
 
 export function getRandomRestaurant(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>): RestaurantSummary | null {
-  void filters
-  void context
-  return null
+  return pickRandomRestaurant(listRestaurants(filters, context))
 }
 
 export async function getRandomRestaurantRemote(filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal): Promise<ApiResult<RestaurantSummary | null>> {

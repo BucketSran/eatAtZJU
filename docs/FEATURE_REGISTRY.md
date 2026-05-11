@@ -24,11 +24,12 @@ This registry is the single index of product capabilities for 食在浙大. Befo
 | F09 | Default campus and preferences | live | `/profile` | `ProfilePage`, `preferenceStore` | profile API | `app_users.default_campus` | `checkProfileContracts` | Preference taxonomy should evolve with real usage analytics. |
 | F10 | Campus email verification | mvp | `/profile` | `ProfilePage` | `api/auth/campus-verify.js` | `user_trust` | `checkApiHandlers` | Allowed domains and privacy copy need final policy review. |
 | F11 | UGC contribution queue | mvp | `/contribute` | `src/routes/ContributePage.tsx` | `api/submissions/index.js` | `submissions` | `checkApiHandlers` | Needs image moderation and anti-abuse before public launch. |
-| F12 | Admin review queue | mvp | `/admin` | `src/routes/AdminPage.tsx` | `api/admin/submissions/index.js` | `admin_users`, `audit_logs` | `checkApiHandlers`, RLS checks | Needs operational playbook and rollback drills. |
+| F12 | Admin review queue | mvp | `/admin` | `src/routes/AdminPage.tsx` | `api/admin/submissions/index.js` | `admin_users`, `audit_logs` | `checkApiHandlers`, RLS checks, `checkAdminReviewContracts` | Quick-review signals now split facts vs recommendation; next risk is wiring queue priority and durable moderator notes into ops workflow. |
 | F13 | Real public data bootstrap | mvp | scripts/docs | `docs/REAL_DATA_BOOTSTRAP.md` | `scripts/collect-real-restaurants.cjs` | AMap verified POI, seed SQL | `checkSeedData` | Public-source summaries must not pretend to be student comments. |
 | F14 | Supabase deployment and migrations | live | ops | `scripts/apply-supabase.cjs` | server-side Supabase client | migrations, seed SQL | `checkSupabaseFiles` | Need scheduled backup/export before larger UGC launch. |
 | F15 | WeChat mini-program prototype | mvp | WeChat DevTools | `pages/`, `services/`, `cloudfunctions/` | Cloud function prototype | CloudBase env | docs only | Web and mini-program feature parity is not complete. |
 | F16 | China access/domain path | planned | production URL | docs | Vercel + custom domain | `eat.bucketsran.fun` | deployment smoke | Vercel/Supabase access from mainland remains variable. |
+| F17 | Published content quick edits | mvp | `/admin` | `src/components/PublishedContentOpsPanel.tsx` | `api/admin/content-change-requests/index.js`, `api/admin/submissions/index.js`, `server/api/_shared/submissionMaterializer.cjs` | published `restaurants`, `content_change_requests`, `submissions`, `audit_logs` | `checkAdminReviewContracts`, `checkSupabaseFiles`, `checkApiHandlers` | Batch actions now flow through durable quick-edit requests; next risk is adding conflict resolution when the same restaurant has multiple open changes. |
 
 ## New Feature Intake Checklist
 

@@ -1,6 +1,6 @@
-const restaurantsSeed = require('../../seed/restaurants.json')
-const dishesSeed = require('../../seed/dishes.json')
-const reviewsSeed = require('../../seed/reviews.json')
+const restaurantsSeed = require('../../../seed/restaurants.json')
+const dishesSeed = require('../../../seed/dishes.json')
+const reviewsSeed = require('../../../seed/reviews.json')
 
 const taxonomyTagMap = {
   都可以: [],
@@ -96,7 +96,18 @@ function hasMealIntent(preferences) {
   return preferences.some((tag) => /正餐|早餐|中餐|晚餐|夜宵|下饭|面食|聚餐|一人食|快餐|辣|不辣|食堂|非食堂|外卖|堂食/.test(tag))
 }
 
+function isNotRecommended(restaurant) {
+  return [
+    ...(restaurant.tags || []),
+    ...(restaurant.suitedFor || []),
+    ...(restaurant.scenarioTags || []),
+    ...(restaurant.constraintTags || []),
+    ...(restaurant.preferenceTags || [])
+  ].includes('不主推')
+}
+
 function categoryScore(restaurant, preferences) {
+  if (isNotRecommended(restaurant)) return -60
   const drinkOrSnack = isDrinkOrSnackRestaurant(restaurant)
   const canteen = isCanteenRestaurant(restaurant)
   if (drinkOrSnack && hasDrinkIntent(preferences) && !hasMealIntent(preferences)) return 8

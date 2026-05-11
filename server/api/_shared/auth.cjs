@@ -1,4 +1,4 @@
-const { createServerSupabaseClient, createUserScopedSupabaseClient } = require('./supabaseClient.cjs')
+const { createAuthSupabaseClient, createServiceRoleSupabaseClient, createUserRlsSupabaseClient } = require('./supabaseClient.cjs')
 
 function getBearerToken(req) {
   const header = req.headers?.authorization || req.headers?.Authorization
@@ -11,15 +11,20 @@ async function requireAuthenticatedUser(req) {
   const token = getBearerToken(req)
   if (!token) return { error: 'Missing bearer token', status: 401 }
 
-  const client = createServerSupabaseClient()
-  if (!client) return { error: 'Supabase is not configured', status: 503 }
+  const authClient = createAuthSupabaseClient()
+  if (!authClient) return { error: 'Supabase is not configured', status: 503 }
 
-  const { data, error } = await client.auth.getUser(token)
+  const { data, error } = await authClient.auth.getUser(token)
   if (error || !data.user) return { error: 'Invalid bearer token', status: 401 }
 
-  const scopedClient = createUserScopedSupabaseClient(token)
+  const scopedClient = createUserRlsSupabaseClient(token)
   if (!scopedClient) return { error: 'Supabase database client is not configured', status: 503 }
-  return { client: scopedClient, user: data.user }
+  return {
+    authClient,
+    client: scopedClient,
+    serviceClient: createServiceRoleSupabaseClient(),
+    user: data.user
+  }
 }
 
 async function requirePlatformAdmin(req) {
@@ -35,7 +40,14 @@ async function requirePlatformAdmin(req) {
 
   if (error) return { error: 'Failed to verify admin role', status: 500 }
   if (!data) return { error: 'Admin access required', status: 403 }
-  return { client: result.client, user: result.user, admin: data }
+  if (!result.serviceClient) return { error: 'Admin workflow requires SUPABASE_SERVICE_ROLE_KEY', status: 503 }
+  return {
+    admin: data,
+    client: result.serviceClient,
+    serviceClient: result.serviceClient,
+    user: result.user,
+    userClient: result.client
+  }
 }
 
 module.exports = {

@@ -230,6 +230,12 @@ export function getCurrentMealPeriod(date = new Date()) {
   return '夜宵'
 }
 
+export function getMealPeriodForCategory(category: MealCategoryOption, candidate = getCurrentMealPeriod()) {
+  if (category === '饮品') return '下午茶'
+  if (category === '正餐' && candidate === '下午茶') return '晚餐'
+  return candidate
+}
+
 export function collectFilterTags(filters: {
   scenarioTags?: string[]
   dietaryTags?: string[]

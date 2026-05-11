@@ -78,12 +78,14 @@ function resolveBaseUrl() {
 
 async function runRemote(baseUrl, expectedSource) {
   const normalized = baseUrl.replace(/\/$/, '')
+  const restaurants = await fetchJson(`${normalized}/api/restaurants?tag=${encodeURIComponent('实惠')}&limit=3`)
+  const detailId = restaurants.body?.restaurants?.[0]?.id || 'r001'
   return {
     mode: 'remote',
     baseUrl: normalized,
-    restaurants: await fetchJson(`${normalized}/api/restaurants?tag=${encodeURIComponent('实惠')}&limit=3`),
-    recommend: await fetchJson(`${normalized}/api/recommend?campus=zijingang&limit=3`),
-    detail: await fetchJson(`${normalized}/api/restaurants/r001`),
+    restaurants,
+    recommend: await fetchJson(`${normalized}/api/restaurants?campus=zijingang&sort=recommended&limit=3`),
+    detail: await fetchJson(`${normalized}/api/restaurants/${encodeURIComponent(detailId)}`),
     today: await fetchJson(`${normalized}/api/recommend/today?strategy=recommended`),
     expectedSource
   }
@@ -93,10 +95,10 @@ async function runLocal(expectedSource) {
   return {
     mode: 'local',
     baseUrl: 'local handlers',
-    restaurants: await callHandler('api/restaurants/index.js', { method: 'GET', query: { tag: '实惠', limit: '3' } }),
-    recommend: await callHandler('api/recommend/index.js', { method: 'GET', query: { campus: 'zijingang', limit: '3' } }),
-    detail: await callHandler('api/restaurants/[id].js', { method: 'GET', query: { id: 'r001' } }),
-    today: await callHandler('api/recommend/today.js', { method: 'GET', query: { strategy: 'recommended' } }),
+    restaurants: await callHandler('server/api/restaurants/index.js', { method: 'GET', query: { tag: '实惠', limit: '3' } }),
+    recommend: await callHandler('server/api/restaurants/index.js', { method: 'GET', query: { campus: 'zijingang', sort: 'recommended', limit: '3' } }),
+    detail: await callHandler('server/api/restaurants/[id].js', { method: 'GET', query: { id: 'r001' } }),
+    today: await callHandler('server/api/recommend/today.js', { method: 'GET', query: { strategy: 'recommended' } }),
     expectedSource
   }
 }

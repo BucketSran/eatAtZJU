@@ -184,7 +184,7 @@ function checkSeedData() {
 }
 
 async function checkApiService() {
-  const apiService = require('../api/_shared/restaurantService.cjs')
+  const apiService = require('../server/api/_shared/restaurantService.cjs')
   const metadata = apiService.getMetadata()
   assert(metadata.tasteTags.includes('全部'), 'api metadata tasteTags must include 全部')
   assert(metadata.tasteTags.includes('非食堂'), 'api metadata tasteTags must include 非食堂')
@@ -217,7 +217,7 @@ async function checkApiService() {
   assert(apiService.getRandomRestaurant({ tag: '全部' }), 'api random restaurant failed')
 
   await withMissingSupabaseEnv(async () => {
-    const apiRepository = require('../api/_shared/restaurantRepository.cjs')
+    const apiRepository = require('../server/api/_shared/restaurantRepository.cjs')
     const repositoryList = await apiRepository.listRestaurants({ preferences: '近,实惠,辣' })
     assert(repositoryList.source === 'seed', 'api repository should fall back to seed when Supabase is not configured')
     assert(repositoryList.data.length > 0, 'api repository fallback list should return restaurants')
@@ -226,12 +226,12 @@ async function checkApiService() {
 }
 
 async function checkProfileContracts() {
-  const { readJsonBody } = require('../api/_shared/requestBody.cjs')
-  const { mapAppUser, updateAppUser } = require('../api/_shared/appProfile.cjs')
+  const { readJsonBody } = require('../server/api/_shared/requestBody.cjs')
+  const { mapAppUser, updateAppUser } = require('../server/api/_shared/appProfile.cjs')
   const webProfileService = fs.readFileSync(path.join(root, 'src/services/appUserProfileService.ts'), 'utf8')
-  const apiProfileService = fs.readFileSync(path.join(root, 'api/_shared/appProfile.cjs'), 'utf8')
-  const apiProfileRoute = fs.readFileSync(path.join(root, 'api/profile/index.js'), 'utf8')
-  const avatarHandler = fs.readFileSync(path.join(root, 'api/profile/avatar.js'), 'utf8')
+  const apiProfileService = fs.readFileSync(path.join(root, 'server/api/_shared/appProfile.cjs'), 'utf8')
+  const apiProfileRoute = fs.readFileSync(path.join(root, 'server/api/profile/index.js'), 'utf8')
+  const avatarHandler = fs.readFileSync(path.join(root, 'server/api/profile/avatar.js'), 'utf8')
   const profileRoute = fs.readFileSync(path.join(root, 'src/routes/ProfilePage.tsx'), 'utf8')
   const homeRoute = fs.readFileSync(path.join(root, 'src/routes/HomePage.tsx'), 'utf8')
   const discoverRoute = fs.readFileSync(path.join(root, 'src/routes/DiscoverPage.tsx'), 'utf8')
@@ -357,6 +357,38 @@ function checkMapNavigationContracts() {
   assert(restaurantCard.includes('MapNavigationLinks compact'), 'restaurant cards must expose compact map navigation menu')
 }
 
+function checkAdminReviewContracts() {
+  const adminRoute = fs.readFileSync(path.join(root, 'src/routes/AdminPage.tsx'), 'utf8')
+  const publishedOpsPanel = fs.readFileSync(path.join(root, 'src/components/PublishedContentOpsPanel.tsx'), 'utf8')
+  const contentChangeService = fs.readFileSync(path.join(root, 'src/services/adminContentChangeService.ts'), 'utf8')
+  const contentChangeApi = fs.readFileSync(path.join(root, 'server/api/admin/content-change-requests/index.js'), 'utf8')
+  const materializer = fs.readFileSync(path.join(root, 'server/api/_shared/submissionMaterializer.cjs'), 'utf8')
+  const adminSubmissions = fs.readFileSync(path.join(root, 'server/api/admin/submissions/index.js'), 'utf8')
+  const adminAuditLogs = fs.readFileSync(path.join(root, 'server/api/admin/audit-logs/index.js'), 'utf8')
+  const apiRestaurantService = fs.readFileSync(path.join(root, 'server/api/_shared/restaurantService.cjs'), 'utf8')
+  const webRecommendation = fs.readFileSync(path.join(root, 'src/lib/recommendation.ts'), 'utf8')
+
+  assert(adminRoute.includes('快审预览'), 'admin page must expose quick review preview')
+  assert(adminRoute.includes('事实核验') && adminRoute.includes('口味判断'), 'admin page must split factual and taste review')
+  assert(adminRoute.includes('通过并推荐') && adminRoute.includes('通过但不主推'), 'admin page must expose quick moderation actions')
+  assert(adminRoute.includes('moderationSignals'), 'admin page must persist structured quick review signals on approval')
+  assert(adminRoute.includes('PublishedContentOpsPanel'), 'admin page must include published content ops panel')
+  assert(publishedOpsPanel.includes('已发布内容快改'), 'published ops panel must expose quick published-content editing')
+  assert(publishedOpsPanel.includes('不主推') && publishedOpsPanel.includes('下架隐藏'), 'published ops panel must support hide/demote workflows')
+  assert(publishedOpsPanel.includes('initialQuickAdd') && publishedOpsPanel.includes('可能已存在'), 'published ops panel must support quick add with duplicate hints')
+  assert(publishedOpsPanel.includes('快改历史筛选') && publishedOpsPanel.includes('批量提交筛选草案'), 'published ops panel must expose filterable quick-edit history and batch actions')
+  assert(publishedOpsPanel.includes('createContentChangeRequest') && publishedOpsPanel.includes('submitContentChangeRequests'), 'published ops panel must write drafts through content_change_requests')
+  assert(contentChangeService.includes('/api/admin/content-change-requests') && contentChangeApi.includes('submitRequestsToQueue'), 'content change service/API must support queued batch submission')
+  assert(publishedOpsPanel.includes("submissionType: 'correction'") && publishedOpsPanel.includes("submissionType: 'restaurant'"), 'published ops panel must route edits and additions through typed submissions')
+  assert(materializer.includes('materializeCorrectionSubmission') && materializer.includes("opsAction") && materializer.includes("'demote', 'archive', 'edit'"), 'materializer must apply published content correction ops')
+  assert(materializer.includes('beforeData: before') && materializer.includes("status: 'archived'") && materializer.includes('不主推'), 'materializer must keep rollback snapshots and support archive/demote')
+  assert(adminSubmissions.includes("rpc('review_submission_atomic'"), 'admin review must delegate review/materialization to the atomic Supabase RPC')
+  assert(adminSubmissions.includes('review_submission_atomic') && !adminSubmissions.includes('materializeSubmission'), 'admin review API must not materialize outside the database transaction')
+  assert(adminAuditLogs.includes("rpc('rollback_audit_log_atomic'") && !adminAuditLogs.includes('.upsert('), 'audit rollback API must delegate rollback to the atomic Supabase RPC')
+  assert(contentChangeApi.includes('MANUALLY_MUTABLE_STATUSES') && contentChangeApi.includes('source_content_change_request_id'), 'content change API must harden state transitions and idempotent queueing')
+  assert(apiRestaurantService.includes('isNotRecommended') && webRecommendation.includes('isNotRecommended'), 'recommendation scoring must honor 不主推 in frontend and API paths')
+}
+
 function createMockResponse() {
   return {
     body: undefined,
@@ -384,13 +416,14 @@ async function callHandler(handler, req) {
 
 async function checkApiHandlers() {
   await withMissingSupabaseEnv(async () => {
-    const listHandler = require('../api/restaurants/index.js')
-    const detailHandler = require('../api/restaurants/[id].js')
-    const recommendHandler = require('../api/recommend/today.js')
-    const submissionsHandler = require('../api/submissions/index.js')
-    const adminSubmissionsHandler = require('../api/admin/submissions/index.js')
-    const adminAuditLogsHandler = require('../api/admin/audit-logs/index.js')
-    const campusVerifyHandler = require('../api/auth/campus-verify.js')
+    const listHandler = require('../server/api/restaurants/index.js')
+    const detailHandler = require('../server/api/restaurants/[id].js')
+    const recommendHandler = require('../server/api/recommend/today.js')
+    const submissionsHandler = require('../server/api/submissions/index.js')
+    const adminSubmissionsHandler = require('../server/api/admin/submissions/index.js')
+    const adminContentChangeHandler = require('../server/api/admin/content-change-requests/index.js')
+    const adminAuditLogsHandler = require('../server/api/admin/audit-logs/index.js')
+    const campusVerifyHandler = require('../server/api/auth/campus-verify.js')
 
     const list = await callHandler(listHandler, { method: 'GET', query: { tag: '实惠', preferences: '近,实惠' } })
     assert(list.statusCode === 200, 'restaurants handler should return 200')
@@ -418,6 +451,9 @@ async function checkApiHandlers() {
 
     const unauthenticatedAdmin = await callHandler(adminSubmissionsHandler, { method: 'GET', headers: {} })
     assert(unauthenticatedAdmin.statusCode === 401, 'admin submissions handler should require bearer auth')
+
+    const unauthenticatedContentChange = await callHandler(adminContentChangeHandler, { method: 'GET', headers: {} })
+    assert(unauthenticatedContentChange.statusCode === 401, 'admin content change handler should require bearer auth')
 
     const unauthenticatedAuditLogs = await callHandler(adminAuditLogsHandler, { method: 'GET', headers: {} })
     assert(unauthenticatedAuditLogs.statusCode === 401, 'admin audit logs handler should require bearer auth')
@@ -472,6 +508,30 @@ function checkSupabaseFiles() {
   const campusMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605100002_app_user_default_campus.sql'), 'utf8')
   assert(campusMigration.includes('default_campus'), 'campus migration must add app_users.default_campus')
   assert(campusMigration.includes('app_users_default_campus_valid'), 'campus migration must constrain valid campus values')
+  const contentChangeMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605110001_content_change_requests.sql'), 'utf8')
+  assert(contentChangeMigration.includes('create table if not exists public.content_change_requests'), 'content change migration must create content_change_requests')
+  assert(contentChangeMigration.includes("action in ('demote', 'archive', 'edit', 'add')"), 'content change migration must constrain action values')
+  assert(contentChangeMigration.includes("status in ('draft', 'queued', 'materialized', 'rejected')"), 'content change migration must constrain status values')
+  assert(contentChangeMigration.includes('source_submission_id text references public.submissions(id)'), 'content change migration must link to submissions')
+  assert(contentChangeMigration.includes('content_change_target_name_length') && contentChangeMigration.includes('content_change_summary_length'), 'content change migration must constrain public text lengths')
+  assert(contentChangeMigration.includes('alter table public.content_change_requests enable row level security'), 'content change migration must enable RLS')
+  assert(contentChangeMigration.includes('admins can manage content change requests'), 'content change migration must restrict management to admins')
+  assert(contentChangeMigration.includes('content_change_requests_status_idx') && contentChangeMigration.includes('content_change_requests_action_idx'), 'content change migration must add status/action indexes')
+  assert(contentChangeMigration.includes('content_change_requests_source_submission_unique_idx'), 'content change migration must keep one request per queued submission')
+  const reviewHardeningMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605110002_review_workflow_hardening.sql'), 'utf8')
+  assert(reviewHardeningMigration.includes("status in ('pending', 'reviewing', 'approved', 'rejected')"), 'review hardening migration must add reviewing claim status')
+  assert(reviewHardeningMigration.includes('source_content_change_request_id') && reviewHardeningMigration.includes('submissions_source_content_change_request_unique_idx'), 'review hardening migration must make queued content changes idempotent')
+  assert(reviewHardeningMigration.includes('materialized_target_id'), 'review hardening migration must persist materialized targets for traceability')
+  const reviewRpcMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605110003_review_submission_atomic_rpc.sql'), 'utf8')
+  assert(reviewRpcMigration.includes('create or replace function public.review_submission_atomic'), 'review RPC migration must create review_submission_atomic')
+  assert(reviewRpcMigration.includes('for update') && reviewRpcMigration.includes('insert into public.audit_logs'), 'review RPC must lock pending submissions and write audit logs transactionally')
+  assert(reviewRpcMigration.includes('public.content_change_requests') && reviewRpcMigration.includes('materialized_target_id'), 'review RPC must sync content change request materialization targets')
+  const auditRollbackMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605110004_audit_rollback_rpc_and_review_grants.sql'), 'utf8')
+  assert(auditRollbackMigration.includes('grant execute on function public.review_submission_atomic') && auditRollbackMigration.includes('to service_role'), 'review RPC must be restricted to service_role execution')
+  assert(auditRollbackMigration.includes('create or replace function public.rollback_audit_log_atomic'), 'audit rollback migration must create rollback_audit_log_atomic')
+  assert(auditRollbackMigration.includes('rollback_of') && auditRollbackMigration.includes('Audit log has already been rolled back'), 'audit rollback must track and prevent duplicate rollbacks')
+  const safeRollbackMigration = fs.readFileSync(path.join(root, 'supabase/migrations/202605110005_safe_restaurant_insert_rollback.sql'), 'utf8')
+  assert(safeRollbackMigration.includes('Rollback would delete dependent restaurant content'), 'restaurant insert rollback must protect dependent dishes/reviews')
 
   run(process.execPath, ['scripts/generate-supabase-seed.cjs', '--check'])
 }
@@ -485,6 +545,68 @@ function checkDeploymentScripts() {
   assert(!applyScript.includes('console.log(process.env.SUPABASE_DB_URL)'), 'apply script must not print SUPABASE_DB_URL')
   assert(smokeScript.includes('EXPECT_API_SOURCE'), 'smoke script must verify expected API source')
   assert(smokeScript.includes('API_BASE_URL'), 'smoke script must support remote API_BASE_URL')
+}
+
+function checkServerSupabaseClientContracts() {
+  const supabaseClient = fs.readFileSync(path.join(root, 'server/api/_shared/supabaseClient.cjs'), 'utf8')
+  const authHelper = fs.readFileSync(path.join(root, 'server/api/_shared/auth.cjs'), 'utf8')
+  const campusVerify = fs.readFileSync(path.join(root, 'server/api/auth/campus-verify.js'), 'utf8')
+  const accountLink = fs.readFileSync(path.join(root, 'server/api/account/link-code.js'), 'utf8')
+
+  assert(supabaseClient.includes('createUserRlsSupabaseClient'), 'server Supabase client must expose an explicit user RLS client')
+  assert(supabaseClient.includes('createServiceRoleSupabaseClient'), 'server Supabase client must expose an explicit service-role client')
+  assert(supabaseClient.includes('createAuthSupabaseClient'), 'server Supabase client must expose an explicit auth client')
+  assert(!/function createUserRlsSupabaseClient[\\s\\S]*?serviceRoleKey/.test(supabaseClient), 'user RLS client must not fall back to service-role credentials')
+  assert(authHelper.includes('createUserRlsSupabaseClient(token)'), 'authenticated requests must use the user RLS client by default')
+  assert(authHelper.includes('serviceClient: createServiceRoleSupabaseClient()'), 'authenticated context must keep service role as an explicit separate seam')
+  assert(authHelper.includes('Admin workflow requires SUPABASE_SERVICE_ROLE_KEY'), 'admin workflows must require service-role credentials explicitly')
+  assert(campusVerify.includes('const serviceClient = auth.serviceClient') && campusVerify.includes('await serviceClient'), 'campus verification must use the explicit service-role seam for user_trust writes')
+  assert(accountLink.includes('const writeClient = auth.serviceClient || auth.client'), 'account link code creation must use an explicit write client seam')
+}
+
+function toRequirePath(fromDir, targetFile) {
+  const relativePath = path.relative(fromDir, targetFile).replace(/\\/g, '/')
+  return relativePath.startsWith('.') ? relativePath : `./${relativePath}`
+}
+
+function checkApiWrapperContracts() {
+  const apiDir = path.join(root, 'api')
+  const serverApiDir = path.join(root, 'server/api')
+  assert(fs.existsSync(apiDir), 'missing Vercel api directory')
+  assert(fs.existsSync(serverApiDir), 'missing server/api implementation directory')
+
+  const serverRoutes = walk(serverApiDir, (file) => file.endsWith('.js') && !file.includes(`${path.sep}_shared${path.sep}`))
+  for (const serverRoute of serverRoutes) {
+    const relativeRoute = path.relative(serverApiDir, serverRoute)
+    const wrapperPath = path.join(apiDir, relativeRoute)
+    assert(fs.existsSync(wrapperPath), `missing Vercel API wrapper for server route: api/${relativeRoute}`)
+
+    const wrapper = fs.readFileSync(wrapperPath, 'utf8').trim()
+    const expectedRequire = toRequirePath(path.dirname(wrapperPath), serverRoute)
+    assert(wrapper.includes(`require('${expectedRequire}')`) || wrapper.includes(`require("${expectedRequire}")`), `api/${relativeRoute} must require ${expectedRequire}`)
+  }
+
+  const wrapperFiles = walk(apiDir, (file) => file.endsWith('.js'))
+  for (const wrapperPath of wrapperFiles) {
+    const wrapper = fs.readFileSync(wrapperPath, 'utf8')
+    const match = wrapper.match(/require\(['"](.+?)['"]\)/)
+    assert(match, `api wrapper must delegate with require(): ${path.relative(root, wrapperPath)}`)
+    const target = path.resolve(path.dirname(wrapperPath), match[1])
+    assert(target.startsWith(serverApiDir), `api wrapper must delegate into server/api: ${path.relative(root, wrapperPath)}`)
+    assert(fs.existsSync(target), `api wrapper target does not exist: ${path.relative(root, wrapperPath)} -> ${match[1]}`)
+  }
+
+  const requiredSharedModules = [
+    'auth.cjs',
+    'requestBody.cjs',
+    'requestValidation.cjs',
+    'restaurantRepository.cjs',
+    'restaurantService.cjs',
+    'supabaseClient.cjs'
+  ]
+  for (const fileName of requiredSharedModules) {
+    assert(fs.existsSync(path.join(serverApiDir, '_shared', fileName)), `missing server/api shared module: ${fileName}`)
+  }
 }
 
 function checkFeatureWorkflowDocs() {
@@ -531,9 +653,12 @@ async function main() {
   await checkProfileContracts()
   checkLeaderboardContracts()
   checkMapNavigationContracts()
+  checkAdminReviewContracts()
   await checkApiHandlers()
   checkSupabaseFiles()
   checkDeploymentScripts()
+  checkServerSupabaseClientContracts()
+  checkApiWrapperContracts()
   checkFeatureWorkflowDocs()
   console.log('check ok')
 }

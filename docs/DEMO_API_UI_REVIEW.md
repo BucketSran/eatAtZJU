@@ -30,7 +30,7 @@
 - `GET /api/restaurants`：列表、筛选、排序、匹配分和 metadata。
 - `GET /api/restaurants/[id]`：详情、菜品、审核通过评论。
 - `GET /api/recommend/today`：今日推荐，支持 `strategy=random`。
-- `api/_shared/restaurantService.cjs` 复用 seed 数据并封装 API 侧规则。
+- `server/api/_shared/restaurantService.cjs` 复用 seed 数据并封装 API 侧规则。
 
 ## 验证结果
 

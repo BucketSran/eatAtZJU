@@ -71,6 +71,20 @@ Use them proactively:
 - View transitions: read `.agents/skills/vercel-react-view-transitions/SKILL.md` only when transitions meaningfully communicate navigation or state continuity.
 - React Native skills are installed but out of scope for the current Web/PWA unless the product direction changes.
 
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in GitHub Issues for `BucketSran/eatAtZJU`; use `gh` from this repo clone. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default mattpocock/skills triage vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, and `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo: project context lives in `AGENTS.md` / `CLAUDE.md`, product docs live under `docs/`, and ADRs currently use `docs/ADR-*.md`. See `docs/agents/domain.md`.
+
 ## Non-Negotiable Security Rules
 
 - Never expose Supabase service-role keys, AI provider keys, or admin credentials in frontend code.
