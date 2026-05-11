@@ -595,7 +595,7 @@ export function DiscoverPage() {
         </GlassCard>
       ) : null}
 
-      <GlassCard className="filters-card scene-filter-card">
+      <GlassCard className="filters-card scene-filter-card" id="primary-filters">
         <label className="search-label" htmlFor="restaurant-search">
           搜索餐厅、标签或场景
         </label>
@@ -662,27 +662,29 @@ export function DiscoverPage() {
         </div>
       </GlassCard>
 
-      {restaurants.length ? (
-        <>
-          <div className="restaurant-list">
+      <div id="results">
+        {restaurants.length ? (
+          <>
+            <div className="restaurant-list">
             {isLoading ? <SkeletonList count={2} /> : null}
             {visibleRestaurants.map((restaurant) => (
               <RestaurantCard key={restaurant.id} restaurant={restaurant} onToggleFavorite={toggleFavorite} />
             ))}
-          </div>
-          {hasMoreRestaurants ? (
-            <button className="secondary-action load-more-action" type="button" onClick={() => setVisibleCount((count) => count + RESTAURANT_RENDER_STEP)}>
-              再显示 {Math.min(RESTAURANT_RENDER_STEP, restaurants.length - visibleCount)} 家
-            </button>
-          ) : null}
-        </>
-      ) : (
-        <EmptyState
-          title="这个组合暂时没有结果"
-          description="可以先清掉一两个硬条件，比如预算、距离或辣度；如果你知道一家真实餐厅，也可以从贡献页提交给管理员审核。"
-          action={<button className="secondary-action" type="button" onClick={clearAllFilters}>重置筛选</button>}
-        />
-      )}
+            </div>
+            {hasMoreRestaurants ? (
+              <button className="secondary-action load-more-action" type="button" onClick={() => setVisibleCount((count) => count + RESTAURANT_RENDER_STEP)}>
+                再显示 {Math.min(RESTAURANT_RENDER_STEP, restaurants.length - visibleCount)} 家
+              </button>
+            ) : null}
+          </>
+        ) : (
+          <EmptyState
+            title="这个组合暂时没有结果"
+            description="可以先清掉一两个硬条件，比如预算、距离或辣度；如果你知道一家真实餐厅，也可以从贡献页提交给管理员审核。"
+            action={<button className="secondary-action" type="button" onClick={clearAllFilters}>重置筛选</button>}
+          />
+        )}
+      </div>
     </div>
   )
 }

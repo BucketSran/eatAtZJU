@@ -409,7 +409,7 @@ export function ProfilePage() {
         {accountStatus ? <p className={`profile-status ${accountStatusTone}`} aria-live="polite">{accountStatus}</p> : null}
       </GlassCard>
 
-      <GlassCard>
+      <GlassCard id="campus-selector">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">DEFAULT CAMPUS</p>
@@ -422,7 +422,7 @@ export function ProfilePage() {
         <p className="helper-text">{authState.user ? '已登录时会同步到云端；换设备登录后也会带回来。' : '当前未登录，默认校区会先保存在本地浏览器。'}</p>
       </GlassCard>
 
-      <GlassCard>
+      <GlassCard id="preferences">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">TASTE PROFILE</p>
@@ -436,7 +436,7 @@ export function ProfilePage() {
         <p className="helper-text">默认偏好：{defaultPreferences.join('、')}。偏好会和默认校区一起影响“今日首推”和推荐排序。</p>
       </GlassCard>
 
-      <GlassCard className="profile-sync-card">
+      <GlassCard className="profile-sync-card" id="sync-hub">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">SYNC HUB</p>

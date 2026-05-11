@@ -207,7 +207,7 @@ export function RestaurantDetailPage() {
 
       <ScoreExplain restaurant={restaurant} />
 
-      <GlassCard>
+      <GlassCard id="dishes">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">DISHES</p>
@@ -230,7 +230,7 @@ export function RestaurantDetailPage() {
         </div>
       </GlassCard>
 
-      <GlassCard>
+      <GlassCard id="reviews">
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">REVIEWS</p>
@@ -255,7 +255,7 @@ export function RestaurantDetailPage() {
       </GlassCard>
 
       {relatedRestaurants.length ? (
-        <div className="route-stack">
+        <div className="route-stack" id="related-restaurants">
           <div className="section-heading">
             <div>
               <p className="eyebrow">MORE LIKE THIS</p>

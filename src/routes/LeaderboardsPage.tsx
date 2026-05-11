@@ -68,7 +68,7 @@ export function LeaderboardsPage() {
         <span className="count-badge">{leaderboards.length} 个榜单</span>
       </div>
 
-      <GlassCard className="leaderboard-toolbar">
+      <GlassCard className="leaderboard-toolbar" id="campus-selector">
         <div>
           <p className="eyebrow">CAMPUS LENS</p>
           <h2>先选校区，再看榜单</h2>
@@ -82,7 +82,7 @@ export function LeaderboardsPage() {
         <span>{candidateCount} 家候选餐厅</span>
       </div>
 
-      <div className="leaderboard-grid">
+      <div className="leaderboard-grid" id="leaderboard-results">
         {leaderboards.map((board) => (
           <GlassCard className={`leaderboard-card ${board.isTimePriority ? 'priority-board' : ''}`} key={board.id}>
             <div className="section-heading card-heading">

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { OnboardingDialog } from './components/OnboardingDialog'
+import { ScrollAssistant } from './components/ScrollAssistant'
 import { ToastHost } from './components/ToastHost'
 
 const AdminPage = lazy(() => import('./routes/AdminPage').then((module) => ({ default: module.AdminPage })))
@@ -40,7 +41,7 @@ export function App() {
         </nav>
       </header>
 
-      <main className="page-container">
+      <main className="page-container" id="page-top">
         <Suspense fallback={<div className="route-loading">正在准备饭点地图…</div>}>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -79,6 +80,7 @@ export function App() {
       </nav>
 
       <OnboardingDialog />
+      <ScrollAssistant />
       <ToastHost />
     </div>
   )

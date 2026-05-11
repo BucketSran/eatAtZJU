@@ -115,7 +115,7 @@ export function ContributePage() {
         <p>{configured ? '请先在“我的”页面登录，再提交资料。' : '这页已经是可接真实后端的表单骨架；配置 Vercel/Supabase 环境变量后即可走真实 submissions API。'}</p>
       </GlassCard>
 
-      <GlassCard className="contribution-card">
+      <GlassCard className="contribution-card" id="contribution-form">
         <form className="form-stack contribution-form" onSubmit={submitForm}>
           <div className="form-section">
             <div className="section-heading card-heading">
@@ -243,7 +243,7 @@ export function ContributePage() {
           {status ? <p className="helper-text" aria-live="polite">{status}</p> : null}
         </form>
 
-        <aside className="submission-preview">
+        <aside className="submission-preview" id="submit-preview">
           <p className="eyebrow">REVIEW PREVIEW</p>
           <h2>{title || '待提交资料'}</h2>
           <p>{content || '这里会作为管理员审核时看到的正文。'}</p>

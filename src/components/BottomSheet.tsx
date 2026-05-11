@@ -15,6 +15,7 @@ export function BottomSheet({ children, description, open, title, onClose }: Bot
     if (!open) return undefined
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    document.body.classList.add('has-open-sheet')
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
     }
@@ -22,6 +23,7 @@ export function BottomSheet({ children, description, open, title, onClose }: Bot
     requestAnimationFrame(() => panelRef.current?.focus())
     return () => {
       document.body.style.overflow = previousOverflow
+      document.body.classList.remove('has-open-sheet')
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [onClose, open])
