@@ -1,8 +1,14 @@
 export const serviceModeOptions = ['都可以', '堂食', '外卖'] as const
 export const mealPeriodOptions = ['早餐', '中餐', '下午茶', '晚餐', '夜宵'] as const
 export const campusOptions = ['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁'] as const
+export const mealCategoryOptions = [
+  { label: '先找正餐', value: '正餐' },
+  { label: '饮品甜点', value: '饮品' },
+  { label: '全部', value: '全部' }
+] as const
 
 export type CampusOption = (typeof campusOptions)[number]
+export type MealCategoryOption = (typeof mealCategoryOptions)[number]['value']
 
 export const campusCenters: Record<CampusOption, { latitude: number; longitude: number; dataStatus: 'ready' | 'collecting' }> = {
   紫金港: { latitude: 30.302761, longitude: 120.081964, dataStatus: 'ready' },
@@ -48,6 +54,67 @@ export const hardFilterGroups = [
     options: ['不限', '轻负担', '大份', '快乐碳水']
   }
 ] as const
+
+export const discoverFilterScenes = [
+  {
+    id: 'quick-meal',
+    label: '快速正餐',
+    description: '赶课、午晚饭和不知道吃啥时先看这里。',
+    defaults: { mealCategory: '正餐', serviceMode: '都可以', preferenceTags: ['近', '实惠'] },
+    focus: ['校区', '预算', '距离', '食堂/非食堂', '辣度'],
+    quickTags: ['近', '实惠', '非食堂', '食堂', '辣', '不辣']
+  },
+  {
+    id: 'delivery',
+    label: '外卖随便吃',
+    description: '不想走路的时候，优先看外卖友好的正餐。',
+    defaults: { mealCategory: '正餐', serviceMode: '外卖', preferenceTags: ['快餐', '下饭', '实惠'] },
+    focus: ['预算', '快餐', '下饭', '轻负担', '辣度'],
+    quickTags: ['快餐', '下饭', '轻负担', '实惠', '辣', '不辣']
+  },
+  {
+    id: 'non-canteen',
+    label: '非食堂探索',
+    description: '今天不想吃食堂，看看校外和园区小店。',
+    defaults: { mealCategory: '正餐', serviceMode: '都可以', preferenceTags: ['非食堂'] },
+    focus: ['校区', '预算', '堂食/外卖', '品类'],
+    quickTags: ['非食堂', '面食', '小吃', '火锅', '烧烤', '异国料理']
+  },
+  {
+    id: 'late-night',
+    label: '夜宵救命',
+    description: '晚归、自习后、夜跑后补一点。',
+    defaults: { mealCategory: '全部', serviceMode: '都可以', mealPeriod: '夜宵', scenarioTags: ['自习后'], preferenceTags: ['夜宵'] },
+    focus: ['夜宵', '距离', '预算', '暖胃'],
+    quickTags: ['夜宵', '小吃', '烧烤', '火锅', '奶茶', '暖胃']
+  },
+  {
+    id: 'drinks',
+    label: '饮品甜点',
+    description: '奶茶、咖啡、甜品和下午茶，不和正餐混在一起。',
+    defaults: { mealCategory: '饮品', serviceMode: '都可以', mealPeriod: '下午茶', preferenceTags: ['奶茶', '咖啡', '甜品'] },
+    focus: ['咖啡', '奶茶', '甜品', '可坐', '带走'],
+    quickTags: ['奶茶', '咖啡', '甜品', '拍照', '轻负担']
+  },
+  {
+    id: 'group',
+    label: '聚餐改善',
+    description: '几个人一起吃，优先看堂食和更有氛围的店。',
+    defaults: { mealCategory: '正餐', serviceMode: '堂食', scenarioTags: ['聚餐'], preferenceTags: ['聚餐'] },
+    focus: ['人均', '堂食', '火锅', '烧烤', '环境'],
+    quickTags: ['聚餐', '火锅', '烧烤', '异国料理', '拍照', '下饭']
+  },
+  {
+    id: 'solo',
+    label: '一人食',
+    description: '一个人也吃得舒服，少纠结、快落座。',
+    defaults: { mealCategory: '正餐', serviceMode: '都可以', scenarioTags: ['一人食'], preferenceTags: ['一人食', '快餐'] },
+    focus: ['距离', '预算', '快餐', '面食', '下饭'],
+    quickTags: ['一人食', '快餐', '面食', '实惠', '近', '非食堂']
+  }
+] as const
+
+export type DiscoverFilterSceneId = (typeof discoverFilterScenes)[number]['id']
 
 export const dietaryConstraintTags = ['清真友好'] as const
 
@@ -119,6 +186,7 @@ export const taxonomyTagMap: Record<string, string[]> = {
   咖啡: ['咖啡'],
   甜品: ['甜品'],
   奶茶: ['奶茶', '茶饮'],
+  饮品甜点: ['饮品', '茶饮', '咖啡', '甜品', '奶茶'],
   烧烤: ['烧烤'],
   火锅: ['火锅', '麻辣烫'],
   食堂: ['食堂', '校内食堂'],
