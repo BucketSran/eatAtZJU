@@ -39,6 +39,22 @@ npm run preview
 - Add data invariant checks when changing restaurant seed data.
 - For API functions, test success, validation failure, auth failure, and rate-limit/abuse paths.
 
+## Vercel Deployment Constraints
+
+- The project currently runs on Vercel Hobby. Hobby deployments allow no more than 12 Serverless Functions.
+- Treat every `api/**/*.js` file as one Vercel Function, including nested `index.js` files.
+- Before adding a new API route, first check whether it can be merged into an existing endpoint by method, query, or action name.
+- Keep shared backend code under `server/api/_shared/`, never under `api/`, because files under `api/` become deployable functions.
+- `npm run check` must fail if `api/**/*.js` exceeds 12 files.
+- If GitHub/Vercel auto deploy fails with `No more than 12 Serverless Functions`, Dashboard redeploy will not fix it; remove or compose API routes, commit, and push a new GitHub revision.
+- Before `vercel build --prod && vercel deploy --prebuilt --prod`, refresh Vercel production env locally with:
+
+```bash
+vercel env pull .vercel/.env.production.local --environment=production --scope bucketsrans-projects --yes
+```
+
+- Do not rely on `.env.local` for prebuilt production deploys; Vite reads `.vercel/.env.production.local` during `vercel build --prod`.
+
 ## Security Considerations
 
 - UGC must enter an approval queue before becoming public.

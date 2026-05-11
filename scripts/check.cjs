@@ -587,6 +587,10 @@ function checkApiWrapperContracts() {
   }
 
   const wrapperFiles = walk(apiDir, (file) => file.endsWith('.js'))
+  assert(
+    wrapperFiles.length <= 12,
+    `Vercel Hobby allows at most 12 Serverless Functions; found ${wrapperFiles.length} api/**/*.js wrappers. Merge or remove API routes before deploying.`
+  )
   for (const wrapperPath of wrapperFiles) {
     const wrapper = fs.readFileSync(wrapperPath, 'utf8')
     const match = wrapper.match(/require\(['"](.+?)['"]\)/)
