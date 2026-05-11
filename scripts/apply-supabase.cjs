@@ -5,6 +5,26 @@ const postgres = require('postgres')
 const root = path.resolve(__dirname, '..')
 const migrationsDir = path.join(root, 'supabase', 'migrations')
 const seedPath = path.join(root, 'supabase', 'seed.sql')
+const localEnvPath = path.join(root, '.env.local')
+
+function loadLocalEnv() {
+  if (!fs.existsSync(localEnvPath)) return
+
+  for (const line of fs.readFileSync(localEnvPath, 'utf8').split(/\n/)) {
+    const trimmed = line.trim()
+    if (!trimmed || trimmed.startsWith('#')) continue
+    const separatorIndex = trimmed.indexOf('=')
+    if (separatorIndex === -1) continue
+
+    const key = trimmed.slice(0, separatorIndex).trim()
+    if (process.env[key]) continue
+    let value = trimmed.slice(separatorIndex + 1).trim()
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1)
+    }
+    process.env[key] = value
+  }
+}
 
 function usage() {
   console.log(`Usage:
@@ -84,6 +104,8 @@ async function applySeed(sql) {
 }
 
 async function main() {
+  loadLocalEnv()
+
   const args = new Set(process.argv.slice(2))
   if (args.has('--help') || args.has('-h')) {
     usage()
