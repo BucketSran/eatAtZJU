@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { campusOptions, type CampusOption } from '../constants/restaurantTaxonomy'
@@ -21,8 +21,9 @@ function getBoardSummary(board: Leaderboard) {
 }
 
 export function LeaderboardsPage() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const mealContext = useMemo(() => getMealContext(), [])
-  const [campus, setCampus] = useState<CampusOption>(() => getDefaultCampus())
+  const [campus, setCampus] = useState<CampusOption>(() => normalizeCampus(searchParams.get('campus') ?? getDefaultCampus()))
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>([])
   const [dataSource, setDataSource] = useState('正在同步后端数据…')
   const [isLoading, setIsLoading] = useState(true)
@@ -63,7 +64,14 @@ export function LeaderboardsPage() {
   }, [activeBoardId, leaderboards])
 
   function chooseCampus(nextCampus: string) {
-    setCampus(normalizeCampus(nextCampus))
+    const resolvedCampus = normalizeCampus(nextCampus)
+    setCampus(resolvedCampus)
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current)
+      if (resolvedCampus === getDefaultCampus()) next.delete('campus')
+      else next.set('campus', resolvedCampus)
+      return next
+    }, { replace: true })
   }
 
   return (
@@ -103,7 +111,7 @@ export function LeaderboardsPage() {
               onClick={() => setActiveBoardId(board.id)}
             >
               <strong>{board.title}</strong>
-              <span>{board.isTimePriority ? mealContext.cta : `${board.restaurants.length} 家候选`}</span>
+              <span>{board.isTimePriority ? mealContext.cta : `${board.kind === 'daily' ? '日常' : '特别'} · ${board.restaurants.length} 家`}</span>
             </button>
           ))}
         </div>
@@ -116,7 +124,10 @@ export function LeaderboardsPage() {
                 <h2>{activeBoard.title}</h2>
                 <p>{activeBoard.description}</p>
               </div>
-              <span className="board-pill">{getBoardSummary(activeBoard)}</span>
+              <div className="board-pill-stack">
+                <span className="board-kind-badge">{activeBoard.kind === 'daily' ? '日常饭点' : '特殊场景'}</span>
+                <span className="board-pill">{getBoardSummary(activeBoard)}</span>
+              </div>
             </div>
             {activeBoard.restaurants[0] ? (
               <Link className="leaderboard-winner" to={`/restaurants/${activeBoard.restaurants[0].id}`}>

@@ -13,6 +13,7 @@ import { defaultPreferences, getDefaultCampus, getPreferenceTags, resetPreferenc
 import { campusOptions, preferenceExclusiveGroups, preferenceTagGroups, type CampusOption } from '../constants/restaurantTaxonomy'
 
 type StatusTone = 'info' | 'success' | 'error'
+type ProfileSignalTone = 'local' | 'cloud' | 'campus' | 'warning'
 type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'savingCampus' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | 'creatingLinkCode' | null
 
 export function ProfilePage() {
@@ -35,6 +36,30 @@ export function ProfilePage() {
       `默认校区 ${defaultCampus}`,
       `${preferences.length} 个偏好`,
       campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'
+    ]
+  }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, preferences.length])
+  const profileSignals = useMemo<Array<{ label: string; tone: ProfileSignalTone; value: string }>>(() => {
+    return [
+      {
+        label: '账号',
+        tone: authState.user ? 'cloud' : 'local',
+        value: authState.user ? '云端已连接' : '本地优先'
+      },
+      {
+        label: '默认校区',
+        tone: 'campus',
+        value: defaultCampus
+      },
+      {
+        label: '偏好',
+        tone: 'local',
+        value: `${preferences.length} 个`
+      },
+      {
+        label: '校园邮箱',
+        tone: campusTrust?.campusEmailVerified ? 'cloud' : 'warning',
+        value: campusTrust?.campusEmailVerified ? '已验证' : '未验证'
+      }
     ]
   }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, preferences.length])
 
@@ -286,17 +311,25 @@ export function ProfilePage() {
 
   return (
     <div className="route-stack">
-      <div className="page-heading split-heading">
+      <div className="page-heading split-heading profile-hero-heading">
         <div>
           <p className="eyebrow">PROFILE</p>
           <h1>偏好与说明</h1>
-          <p>登录后会同步用户名、头像、默认校区、偏好和收藏；未登录时先保存在本地浏览器。</p>
+          <p>先把校区、口味和账号状态整理好，首页随机一餐和发现页筛选才会更懂你。</p>
         </div>
-        <span className="count-badge">{preferences.length} 个偏好</span>
+        <div className="profile-hero-meter" aria-label={`当前选择了 ${preferences.length} 个偏好`}>
+          <strong>{preferences.length}</strong>
+          <span>个偏好</span>
+        </div>
       </div>
 
-      <div className="status-strip">
-        <span aria-live="polite">{syncSummary.join(' · ')}</span>
+      <div className="profile-signal-grid" aria-live="polite">
+        {profileSignals.map((signal) => (
+          <span className={`profile-signal ${signal.tone}`} key={signal.label}>
+            <small>{signal.label}</small>
+            <strong>{signal.value}</strong>
+          </span>
+        ))}
       </div>
 
       <GlassCard>
@@ -391,14 +424,14 @@ export function ProfilePage() {
           <div className="form-stack">
             <form className="form-stack" onSubmit={submitEmailLogin}>
               <label className="search-label" htmlFor="login-email">邮箱</label>
-              <input id="login-email" className="search-input" type="email" value={email} placeholder="yourname@example.com" onChange={(event) => setEmail(event.target.value)} disabled={!authState.isConfigured} required />
+              <input id="login-email" className="search-input" type="email" name="email" autoComplete="email" spellCheck={false} value={email} placeholder="yourname@example.com" onChange={(event) => setEmail(event.target.value)} disabled={!authState.isConfigured} required />
               <button className="primary-action" type="submit" disabled={!authState.isConfigured}>发送验证码</button>
             </form>
 
             {otpEmail ? (
               <form className="form-stack otp-panel" onSubmit={submitEmailOtp}>
                 <label className="search-label" htmlFor="login-otp">邮箱验证码</label>
-                <input id="login-otp" className="search-input otp-input" type="text" inputMode="numeric" autoComplete="one-time-code" value={otpCode} maxLength={6} placeholder="输入 6 位验证码" onChange={(event) => setOtpCode(event.target.value.replace(/\D/g, '').slice(0, 6))} required />
+                <input id="login-otp" className="search-input otp-input" type="text" name="one-time-code" inputMode="numeric" autoComplete="one-time-code" spellCheck={false} value={otpCode} maxLength={6} placeholder="输入 6 位验证码" onChange={(event) => setOtpCode(event.target.value.replace(/\D/g, '').slice(0, 6))} required />
                 <button className="primary-action" type="submit" disabled={otpCode.length !== 6}>验证并登录</button>
                 <p className="helper-text">验证码已发送到 {otpEmail}。不用点击邮件里的 Supabase 外链，只复制数字验证码即可。</p>
               </form>

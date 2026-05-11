@@ -19,6 +19,7 @@ npm run dev
 npm run check
 npm run build
 npm run preview
+
 ```
 
 `npm run lint` and `npm run test` should be added when the React implementation grows beyond the skeleton.

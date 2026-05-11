@@ -1,8 +1,8 @@
+import { isCanteenRestaurant } from '../lib/filters'
 import { getMealContext, type MealContext } from '../lib/timeContext'
 import type { RecommendationContext, RestaurantSummary } from '../types'
-import { isCanteenRestaurant } from '../lib/filters'
 
-export type LeaderboardKey = 'lunch' | 'dinner' | 'night' | 'delivery' | 'qizhen' | 'exam'
+export type LeaderboardKey = 'breakfast' | 'lunch' | 'dinner' | 'night' | 'delivery' | 'exam' | 'festival' | 'ambience'
 
 export type LeaderboardRestaurant = RestaurantSummary & {
   boardScore: number
@@ -12,66 +12,105 @@ export type Leaderboard = {
   description: string
   id: LeaderboardKey
   isTimePriority: boolean
+  kind: 'daily' | 'special'
   restaurants: LeaderboardRestaurant[]
   title: string
 }
 
 type LeaderboardSpec = {
   description: string
+  excludeTags?: string[]
   id: LeaderboardKey
+  kind: 'daily' | 'special'
   mealKeys?: MealContext['key'][]
   priorityTags?: string[]
+  requiredTags?: string[]
   tags: string[]
   title: string
 }
 
 const leaderboardSpecs: LeaderboardSpec[] = [
   {
+    id: 'breakfast',
+    kind: 'daily',
+    title: '早餐启动榜',
+    description: '早八、晨课和起晚后的第一口，优先近、热乎、负担轻。',
+    requiredTags: ['早餐'],
+    excludeTags: ['夜宵', '晚餐'],
+    tags: ['近', '实惠', '暖胃', '面食', '校内'],
+    priorityTags: ['暖胃', '面食', '校内'],
+    mealKeys: ['breakfast']
+  },
+  {
     id: 'lunch',
+    kind: 'daily',
     title: '午饭速决榜',
-    description: '近、快、实惠，适合下课后 30 分钟内解决。',
-    tags: ['近', '实惠', '快餐', '校内'],
-    priorityTags: ['中餐', '快餐', '人均30内'],
+    description: '中午别远征，优先近、快、预算友好，适合下课后 30 分钟内解决。',
+    requiredTags: ['中餐'],
+    excludeTags: ['夜宵', '下午茶', '咖啡', '奶茶', '甜品'],
+    tags: ['近', '实惠', '快餐', '午餐快吃', '人均30内', '一人食'],
+    priorityTags: ['快餐', '人均30内', '课间午餐'],
     mealKeys: ['lunch']
   },
   {
     id: 'dinner',
-    title: '晚饭改善榜',
-    description: '更下饭、更适合约饭，给一天收个漂亮尾。',
-    tags: ['聚餐', '下饭', '辣'],
-    priorityTags: ['晚餐', '下饭', '聚餐'],
+    kind: 'daily',
+    title: '晚饭正餐榜',
+    description: '晚饭更像一顿饭：下饭、堂食、聚餐和稍微改善都放这里。',
+    requiredTags: ['晚餐'],
+    excludeTags: ['早餐', '下午茶', '奶茶', '咖啡', '甜品'],
+    tags: ['下饭', '聚餐', '晚饭改善', '晚餐聚餐', '火锅', '烧烤'],
+    priorityTags: ['堂食', '下饭', '聚餐'],
     mealKeys: ['dinner']
   },
   {
     id: 'night',
+    kind: 'daily',
     title: '夜宵快乐榜',
     description: '晚课、DDL、夜跑后的那口热乎和快乐碳水。',
-    tags: ['夜宵', '小吃', '实惠'],
+    requiredTags: ['夜宵'],
+    excludeTags: ['早餐'],
+    tags: ['夜宵', '小吃', '暖胃', '烧烤', '奶茶'],
     priorityTags: ['夜宵', '小吃'],
     mealKeys: ['night']
   },
   {
     id: 'delivery',
+    kind: 'daily',
     title: '外卖友好榜',
-    description: '包装稳定、出餐快，适合懒得出门但不想踩雷。',
-    tags: ['快餐', '实惠', '一人食'],
-    priorityTags: ['外卖', '快餐']
-  },
-  {
-    id: 'qizhen',
-    title: '启真湖散步榜',
-    description: '吃完可以走走，适合轻食、甜点和湖边消食。',
-    tags: ['不辣', '甜品', '拍照', '轻负担'],
-    priorityTags: ['下午茶', '拍照', '轻负担'],
-    mealKeys: ['afternoon']
+    description: '懒得出门但不想踩雷，优先外卖、快餐、一人食和预算稳定。',
+    requiredTags: ['外卖'],
+    excludeTags: ['聚餐'],
+    tags: ['快餐', '实惠', '一人食', '人均30内', '轻负担'],
+    priorityTags: ['外卖', '快餐', '一人食']
   },
   {
     id: 'exam',
+    kind: 'special',
     title: '考试周续命榜',
     description: '近、暖胃、不折腾，给复习日程留一点余量。',
-    tags: ['近', '暖胃', '一人食', '面食'],
-    priorityTags: ['暖胃', '一人食', '面食'],
-    mealKeys: ['breakfast', 'night']
+    excludeTags: ['聚餐', '火锅', '烧烤'],
+    tags: ['近', '暖胃', '一人食', '面食', '咖啡'],
+    priorityTags: ['近', '一人食', '暖胃', '面食']
+  },
+  {
+    id: 'festival',
+    kind: 'special',
+    title: '节日聚会榜',
+    description: '生日、节日和朋友小聚，优先多人友好、堂食和更有仪式感的店。',
+    excludeTags: ['早餐', '一人食', '快餐'],
+    tags: ['聚餐', '火锅', '烧烤', '异国料理', '拍照'],
+    priorityTags: ['聚餐', '堂食', '拍照']
+  },
+  {
+    id: 'ambience',
+    kind: 'special',
+    title: '氛围感小坐榜',
+    description: '适合聊天、拍照、湖边散步或下午坐一会儿，不和正餐硬混排。',
+    excludeTags: ['夜宵', '快餐'],
+    tags: ['拍照', '约会拍照', '咖啡', '甜品', '轻负担'],
+    priorityTags: ['拍照', '下午茶', '轻负担'],
+    mealKeys: ['afternoon']
   }
 ]
 
@@ -90,35 +129,54 @@ function hasAnyTag(restaurant: RestaurantSummary, tags: string[]) {
   return tags.some((tag) => haystack.includes(tag))
 }
 
+function hasAllTags(restaurant: RestaurantSummary, tags: string[] = []) {
+  return tags.every((tag) => hasAnyTag(restaurant, [tag]))
+}
+
+function matchesBoardSpec(restaurant: RestaurantSummary, spec: LeaderboardSpec) {
+  if (spec.requiredTags?.length && !hasAllTags(restaurant, spec.requiredTags)) return false
+  if (spec.excludeTags?.length && hasAnyTag(restaurant, spec.excludeTags)) return false
+  return hasAnyTag(restaurant, spec.tags)
+}
+
 function scoreForBoard(restaurant: RestaurantSummary, spec: LeaderboardSpec, mealContext: MealContext) {
   const tagHits = spec.tags.filter((tag) => hasAnyTag(restaurant, [tag])).length
   const priorityHits = (spec.priorityTags ?? []).filter((tag) => hasAnyTag(restaurant, [tag])).length
+  const requiredHits = (spec.requiredTags ?? []).filter((tag) => hasAnyTag(restaurant, [tag])).length
   const mealBoost = spec.mealKeys?.includes(mealContext.key) ? 28 : 0
-  const deliveryBoost = spec.id === 'delivery' && restaurant.distance <= 1.5 ? 8 : 0
+  const deliveryBoost = spec.id === 'delivery' && hasAnyTag(restaurant, ['外卖']) ? 10 : 0
   const baseScore = (restaurant.recommendationScore ?? 0) + restaurant.rating * 8
-  return Math.round(baseScore + tagHits * 18 + priorityHits * 8 + mealBoost + deliveryBoost)
+  return Math.round(baseScore + tagHits * 18 + priorityHits * 8 + requiredHits * 10 + mealBoost + deliveryBoost)
 }
 
 export function buildLeaderboards(restaurants: RestaurantSummary[], context?: Partial<RecommendationContext>, limit = 6, mealContext = getMealContext()): Leaderboard[] {
   const excludeCanteens = context?.preferences?.includes('非食堂') ?? false
   const all = excludeCanteens ? restaurants.filter((restaurant) => !isCanteenRestaurant(restaurant)) : restaurants
+  const specOrder = new Map(leaderboardSpecs.map((spec, index) => [spec.id, index]))
   return leaderboardSpecs
     .map((spec) => {
       const restaurants = all
-        .filter((restaurant) => hasAnyTag(restaurant, spec.tags))
+        .filter((restaurant) => matchesBoardSpec(restaurant, spec))
         .map((restaurant) => ({ ...restaurant, boardScore: scoreForBoard(restaurant, spec, mealContext) }))
         .sort((a, b) => (b.boardScore ?? 0) - (a.boardScore ?? 0))
         .slice(0, limit)
 
       return {
         id: spec.id,
+        kind: spec.kind,
         title: spec.title,
         description: spec.description,
         isTimePriority: Boolean(spec.mealKeys?.includes(mealContext.key)),
         restaurants
       }
     })
-    .sort((a, b) => Number(b.isTimePriority) - Number(a.isTimePriority))
+    .sort((a, b) => {
+      const timePriority = Number(b.isTimePriority) - Number(a.isTimePriority)
+      if (timePriority) return timePriority
+      const kindPriority = Number(a.kind === 'special') - Number(b.kind === 'special')
+      if (kindPriority) return kindPriority
+      return (specOrder.get(a.id) ?? 0) - (specOrder.get(b.id) ?? 0)
+    })
 }
 
 export const getLeaderboardsFromRestaurants = buildLeaderboards

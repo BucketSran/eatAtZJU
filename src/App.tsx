@@ -57,10 +57,7 @@ export function App() {
       </main>
 
       <footer className="app-footer">
-        <div>
-          <strong>这个项目正在持续迭代。</strong>
-          <span>如果发现餐厅信息错误、功能异常或有新想法，欢迎到 GitHub 提 Issue。</span>
-        </div>
+        <span>© 2026 食在浙大 · 校园美食雷达持续迭代中</span>
         <div className="footer-links">
           <a href={githubRepoUrl} target="_blank" rel="noreferrer">
             GitHub 仓库
