@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { TagGroupSelector } from '../components/TagGroupSelector'
@@ -9,13 +10,7 @@ import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuth
 import { ensureAppUserProfile, updateAppUserProfile, uploadAppUserAvatar, type AppUserProfile } from '../services/appUserProfileService'
 import { mergeFavoritesWithSupabase, pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
 import { defaultPreferences, getDefaultCampus, getPreferenceTags, resetPreferenceTags, setDefaultCampus, setPreferenceTags } from '../services/preferenceStore'
-import { describeApiSource, getRecommendedRestaurant, getRecommendedRestaurantRemote } from '../services/restaurantService'
-import type { RestaurantSummary } from '../types'
 import { campusOptions, preferenceExclusiveGroups, preferenceTagGroups, type CampusOption } from '../constants/restaurantTaxonomy'
-
-function isAbortError(error: unknown) {
-  return error instanceof DOMException && error.name === 'AbortError'
-}
 
 type StatusTone = 'info' | 'success' | 'error'
 type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'savingCampus' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | 'creatingLinkCode' | null
@@ -23,9 +18,6 @@ type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'savingCampus' 
 export function ProfilePage() {
   const [preferences, setPreferences] = useState(() => getPreferenceTags())
   const [defaultCampus, setDefaultCampusState] = useState<CampusOption>(() => getDefaultCampus())
-  const [recommended, setRecommended] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({ campus: getDefaultCampus(), tag: '正餐' }, { preferences: getPreferenceTags(), favoriteRestaurantIds: [] }))
-  const [dataSource, setDataSource] = useState('本地 seed fallback')
-  const [isLoading, setIsLoading] = useState(false)
   const [authState, setAuthState] = useState<AuthState>({ isConfigured: isSupabaseBrowserConfigured(), user: null })
   const [campusTrust, setCampusTrust] = useState<CampusTrustStatus | null>(null)
   const [email, setEmail] = useState('')
@@ -37,7 +29,14 @@ export function ProfilePage() {
   const [accountLinkCode, setAccountLinkCode] = useState<AccountLinkCode | null>(null)
   const [displayNameDraft, setDisplayNameDraft] = useState('')
   const [profileAction, setProfileAction] = useState<ProfileAction>(null)
-  const context = useMemo(() => ({ preferences: [defaultCampus, ...preferences], favoriteRestaurantIds: [] }), [defaultCampus, preferences])
+  const syncSummary = useMemo(() => {
+    return [
+      authState.user ? '云端账号已连接' : '未登录，本地优先',
+      `默认校区 ${defaultCampus}`,
+      `${preferences.length} 个偏好`,
+      campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'
+    ]
+  }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, preferences.length])
 
   function showAccountStatus(message: string, tone: StatusTone = 'info') {
     setAccountStatus(message)
@@ -83,25 +82,6 @@ export function ProfilePage() {
       })
     })
   }, [])
-
-  useEffect(() => {
-    const controller = new AbortController()
-    setIsLoading(true)
-
-    getRecommendedRestaurantRemote({ campus: defaultCampus, tag: '正餐' }, context, controller.signal)
-      .then((result) => {
-        setRecommended(result.data)
-        setDataSource(describeApiSource(result.source, result.fallbackReason))
-      })
-      .catch((error: unknown) => {
-        if (!isAbortError(error)) setRecommended(getRecommendedRestaurant({ campus: defaultCampus, tag: '正餐' }, context))
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setIsLoading(false)
-      })
-
-    return () => controller.abort()
-  }, [context, defaultCampus])
 
   function updatePreferenceSelection(tags: string[]) {
     setPreferences(setPreferenceTags(tags))
@@ -316,7 +296,7 @@ export function ProfilePage() {
       </div>
 
       <div className="status-strip">
-        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
+        <span aria-live="polite">{syncSummary.join(' · ')}</span>
       </div>
 
       <GlassCard>
@@ -456,10 +436,27 @@ export function ProfilePage() {
         <p className="helper-text">默认偏好：{defaultPreferences.join('、')}。偏好会和默认校区一起影响“今日首推”和推荐排序。</p>
       </GlassCard>
 
-      <GlassCard className="result-card">
-        <p className="eyebrow">CURRENT PICK</p>
-        <h2>{recommended ? recommended.name : '暂无推荐'}</h2>
-        <p>{recommended ? `基于 ${defaultCampus} 与当前偏好，系统更倾向推荐 ${recommended.area} 的 ${recommended.cuisine}：${recommended.reason}` : '请先补充 seed 数据。'}</p>
+      <GlassCard className="profile-sync-card">
+        <div className="section-heading card-heading">
+          <div>
+            <p className="eyebrow">SYNC HUB</p>
+            <h2>推荐设置同步面板</h2>
+            <p>“我的”不再单独给一个 Current Pick，避免和首页、发现页重复；这里专注管理会影响全站推荐的状态。</p>
+          </div>
+        </div>
+        <div className="sync-state-grid">
+          {syncSummary.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+        <div className="hero-actions compact-actions">
+          <Link className="primary-action" to={`/discover?campus=${encodeURIComponent(defaultCampus)}`}>
+            用当前设置去发现
+          </Link>
+          <Link className="secondary-action" to="/leaderboards">
+            查看校区榜单
+          </Link>
+        </div>
       </GlassCard>
 
       <GlassCard className="demo-note">
