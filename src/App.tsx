@@ -13,14 +13,93 @@ const LeaderboardsPage = lazy(() => import('./routes/LeaderboardsPage').then((mo
 const ProfilePage = lazy(() => import('./routes/ProfilePage').then((module) => ({ default: module.ProfilePage })))
 const RestaurantDetailPage = lazy(() => import('./routes/RestaurantDetailPage').then((module) => ({ default: module.RestaurantDetailPage })))
 
+type NavIconName = 'home' | 'discover' | 'leaderboards' | 'contribute' | 'favorites' | 'profile'
+
 const navItems = [
-  { to: '/', label: '首页' },
-  { to: '/discover', label: '发现' },
-  { to: '/leaderboards', label: '榜单' },
-  { to: '/contribute', label: '贡献' },
-  { to: '/favorites', label: '收藏' },
-  { to: '/profile', label: '我的' }
-]
+  { to: '/', label: '首页', icon: 'home' },
+  { to: '/discover', label: '发现', icon: 'discover' },
+  { to: '/leaderboards', label: '榜单', icon: 'leaderboards' },
+  { to: '/contribute', label: '贡献', icon: 'contribute' },
+  { to: '/favorites', label: '收藏', icon: 'favorites' },
+  { to: '/profile', label: '我的', icon: 'profile' }
+] satisfies Array<{ icon: NavIconName; label: string; to: string }>
+
+function TabIcon({ name }: { name: NavIconName }) {
+  const commonProps = {
+    'aria-hidden': true,
+    className: 'mobile-tab-icon',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    strokeWidth: 2,
+    viewBox: '0 0 24 24'
+  }
+
+  if (name === 'home') {
+    return (
+      <svg {...commonProps}>
+        <path d="M4 11.2 12 4l8 7.2" />
+        <path d="M6.5 10.5V20h11v-9.5" />
+        <path d="M10 20v-5h4v5" />
+      </svg>
+    )
+  }
+
+  if (name === 'discover') {
+    return (
+      <svg {...commonProps}>
+        <path d="M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15Z" />
+        <path d="m16 16 4.5 4.5" />
+      </svg>
+    )
+  }
+
+  if (name === 'leaderboards') {
+    return (
+      <svg {...commonProps}>
+        <path d="M6 20V9" />
+        <path d="M12 20V4" />
+        <path d="M18 20v-7" />
+        <path d="M4 20h16" />
+      </svg>
+    )
+  }
+
+  if (name === 'contribute') {
+    return (
+      <svg {...commonProps}>
+        <path d="M12 5v14" />
+        <path d="M5 12h14" />
+        <path d="M6.5 6.5h11v11h-11z" />
+      </svg>
+    )
+  }
+
+  if (name === 'favorites') {
+    return (
+      <svg {...commonProps}>
+        <path d="M20.4 7.4c0 5.3-8.4 10.6-8.4 10.6S3.6 12.7 3.6 7.4A4.2 4.2 0 0 1 12 5.9a4.2 4.2 0 0 1 8.4 1.5Z" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg {...commonProps}>
+      <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+      <path d="M4.8 20a7.4 7.4 0 0 1 14.4 0" />
+    </svg>
+  )
+}
+
+function MobileTabLabel({ item }: { item: (typeof navItems)[number] }) {
+  return (
+    <>
+      <TabIcon name={item.icon} />
+      <span>{item.label}</span>
+    </>
+  )
+}
 
 const githubRepoUrl = 'https://github.com/BucketSran/eatAtZJU'
 const githubIssuesUrl = `${githubRepoUrl}/issues`
@@ -57,13 +136,19 @@ export function App() {
       </main>
 
       <footer className="app-footer">
-        <span>© 2026 食在浙大 · 校园美食雷达持续迭代中</span>
+        <span>© 2026 食在浙大</span>
+        <span className="footer-separator" aria-hidden="true">
+          ·
+        </span>
         <div className="footer-links">
           <a href={githubRepoUrl} target="_blank" rel="noreferrer">
-            GitHub 仓库
+            GitHub
           </a>
+          <span className="footer-separator" aria-hidden="true">
+            ·
+          </span>
           <a href={githubIssuesUrl} target="_blank" rel="noreferrer">
-            提交 Issue
+            Issue
           </a>
         </div>
       </footer>
@@ -71,7 +156,7 @@ export function App() {
       <nav className="mobile-tab-bar" aria-label="移动端导航">
         {navItems.map((item) => (
           <NavLink key={item.to} to={item.to} className="mobile-tab">
-            {item.label}
+            <MobileTabLabel item={item} />
           </NavLink>
         ))}
       </nav>
