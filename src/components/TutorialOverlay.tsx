@@ -312,9 +312,17 @@ export function TutorialOverlay() {
   }, [targetRect])
 
   if (!open || !currentStep) return null
+  const isRequirementDemo = currentStep.demoEvent === TUTORIAL_REQUIREMENT_DEMO_EVENT
+  const targetClass = `tutorial-target--${currentStep.targetId.replace(/[^a-z0-9-]/gi, '-')}`
+  const guideCopy = isDemoPlaying && isRequirementDemo
+    ? '正在套用玉泉 · 正餐 · 不辣 · 非食堂，底部筛选会自己动起来。'
+    : isSuccess ? currentStep.success : currentStep.before
+  const titleCopy = isDemoPlaying && isRequirementDemo
+    ? '演示中：自动加需求'
+    : isSuccess ? currentStep.successTitle : currentStep.title
 
   return (
-    <div className={`tutorial-layer tutorial-state--${phase}`} aria-live="polite">
+    <div className={`tutorial-layer tutorial-state--${phase} ${targetClass} ${isDemoPlaying ? 'tutorial-demo-playing' : ''}`} aria-live="polite">
       <div className="tutorial-scrim" aria-hidden="true" />
       <div className="tutorial-spotlight" style={spotlightStyle} aria-hidden="true" />
       <div className="tutorial-finger" style={fingerStyle} aria-hidden="true">☝</div>
@@ -325,9 +333,9 @@ export function TutorialOverlay() {
         </div>
         <div className="tutorial-guide-bubble">
           <strong>浙</strong>
-          <p>{isSuccess ? currentStep.success : currentStep.before}</p>
+          <p>{guideCopy}</p>
         </div>
-        <h2>{isSuccess ? currentStep.successTitle : currentStep.title}</h2>
+        <h2>{titleCopy}</h2>
         {!targetRect && !isSuccess ? <p className="tutorial-fallback-note">{currentStep.fallback}</p> : null}
         {isSuccess ? (
           <ul className="tutorial-demo-list" aria-label="刚刚展示的功能点">

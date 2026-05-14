@@ -120,24 +120,24 @@ export function HomePage() {
       const stepScale = reduceMotion ? 0.18 : 1
       const schedule = (delay: number, action: () => void) => queueTutorialDemo(Math.round(delay * stepScale), action)
 
-      schedule(420, () => {
+      schedule(260, () => {
         setRandomCampus(TUTORIAL_REQUIREMENT_PRESET.campus)
         setTutorialDemoCue('campus')
       })
-      schedule(1040, () => {
+      schedule(820, () => {
         setMealCategory(TUTORIAL_REQUIREMENT_PRESET.mealCategory)
         setMealPeriod(getMealPeriodForCategory(TUTORIAL_REQUIREMENT_PRESET.mealCategory))
         setTutorialDemoCue('category')
       })
-      schedule(1680, () => {
+      schedule(1380, () => {
         setRandomTags(['不辣'])
         setTutorialDemoCue('spice')
       })
-      schedule(2320, () => {
+      schedule(1940, () => {
         setRandomTags([...TUTORIAL_REQUIREMENT_PRESET.tags])
         setTutorialDemoCue('canteen')
       })
-      schedule(3050, () => {
+      schedule(2500, () => {
         setRandomMessage('演示需求：玉泉 · 正餐 · 不辣 · 非食堂。你也可以继续改成自己的真实偏好。')
         setTutorialDemoCue('summary')
         showToast('演示：已帮你套用玉泉 · 正餐 · 不辣 · 非食堂。', 'info')
