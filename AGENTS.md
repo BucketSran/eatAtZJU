@@ -76,6 +76,7 @@ Before building the demo UI, read:
 - `docs/FEATURE_WORKFLOW.md` for the required feature/bug/data/ops delivery flow.
 - `docs/MCP_INTEGRATION_MATRIX.md` before writing custom code that may be covered by an existing tool or provider.
 - `docs/ROADMAP.md` to map the work to the right milestone.
+- `docs/TAG_TAXONOMY.md` before adding, removing, or reclassifying restaurant tags and filters.
 
 ## Installed Agent Skills
 

@@ -1,58 +1,10 @@
 const restaurantsSeed = require('../../../seed/restaurants.json')
 const dishesSeed = require('../../../seed/dishes.json')
 const reviewsSeed = require('../../../seed/reviews.json')
+const taxonomyData = require('../../../src/shared/restaurantTaxonomyData.json')
 const { getRandomIndex } = require('./random.cjs')
 
-const taxonomyTagMap = {
-  都可以: [],
-  近: ['近', '校内', '懒得出校'],
-  校内: ['校内', '食堂', '校内食堂', '懒得出校'],
-  正餐: ['正餐', '中餐简餐', '校内食堂', '快餐小吃', '面食粉面', '烧烤烤肉', '火锅麻辣烫', '下饭'],
-  饮品: ['饮品', '茶饮', '咖啡', '甜品烘焙', '奶茶', '甜品'],
-  一人食: ['一人食', '一个人', '单人吃饭', '独自觅食'],
-  聚餐: ['聚餐', '多人拼桌', '多人约饭', '四人聚餐'],
-  赶课快吃: ['赶课午餐', '赶课午饭', '课间午餐', '快速解决', '快餐'],
-  自习后: ['晚自习前', '下午自习', '晚课后'],
-  约会拍照: ['拍照', '拍照打卡', '轻约会'],
-  运动后: ['健身后', '夜跑后', '轻负担'],
-  懒得出校: ['懒得出校', '校内', '近'],
-  辣: ['辣', '微辣', '想吃辣'],
-  不辣: ['不辣', '不想吃辣', '清淡晚饭'],
-  轻负担: ['轻负担', '不想太油', '清爽', '健身后'],
-  大份: ['大份', '想吃大份', '大份下饭'],
-  快乐碳水: ['快乐碳水', '面食', '小吃'],
-  清真友好: ['清真友好'],
-  暖胃: ['暖胃', '雨天热汤', '雨天热饭'],
-  下饭: ['下饭', '大份下饭'],
-  面食: ['面食', '粉', '面'],
-  小吃: ['小吃', '夜宵'],
-  拍照: ['拍照', '拍照打卡'],
-  清爽: ['清爽', '清爽午餐', '清爽汤粉'],
-  快餐: ['快餐', '快速解决'],
-  实惠: ['实惠', '预算友好', '人均30内'],
-  咖啡: ['咖啡'],
-  甜品: ['甜品'],
-  奶茶: ['奶茶', '茶饮'],
-  烧烤: ['烧烤'],
-  火锅: ['火锅', '麻辣烫'],
-  食堂: ['食堂', '校内食堂'],
-  非食堂: ['非食堂'],
-  异国料理: ['异国料理', '异国简餐']
-}
-
-const diningModeTagMap = {
-  都可以: [],
-  堂食: ['校内', '食堂', '聚餐', '下饭', '拍照', '暖胃', '清真友好', '烧烤', '火锅', '异国料理'],
-  外卖: ['快餐', '一人食', '实惠', '人均30内', '轻负担', '奶茶', '咖啡', '甜品']
-}
-
-const mealPeriodTagMap = {
-  早餐: ['暖胃', '面食', '校内', '近', '清真友好'],
-  中餐: ['午餐快吃', '课间午餐', '赶课午餐', '快餐', '实惠', '一人食', '校内', '人均30内'],
-  下午茶: ['下午自习', '咖啡', '甜品', '奶茶', '拍照', '轻负担', '嘴馋'],
-  晚餐: ['晚饭快吃', '晚饭改善', '晚餐聚餐', '聚餐', '下饭', '辣', '火锅', '烧烤', '人均50内'],
-  夜宵: ['夜宵', '夜宵改善', '晚归加餐', '小吃', '烧烤', '火锅', '奶茶', '暖胃']
-}
+const { taxonomyTagMap, diningModeTagMap, mealPeriodTagMap } = taxonomyData
 
 function parseList(value) {
   if (!value) return []
@@ -119,17 +71,23 @@ function categoryScore(restaurant, preferences) {
   return 8
 }
 
+function preferenceMatchesTokens(preference, tokens) {
+  const mappedTags = taxonomyTagMap[preference]
+  const candidates = mappedTags && mappedTags.length ? mappedTags : [preference]
+  return candidates.some((candidate) => tokens.some((token) => String(token).includes(candidate)))
+}
+
 function scoreRestaurantBreakdown(restaurant, preferences = [], favoriteRestaurantIds = []) {
-  const preferenceTokens = new Set([
+  const preferenceTokens = [
     ...(restaurant.tags || []),
     ...(restaurant.suitedFor || []),
     ...(restaurant.serviceModes || []),
     ...(restaurant.mealPeriods || []),
     ...(restaurant.scenarioTags || []),
     ...(restaurant.preferenceTags || [])
-  ])
+  ]
   const constraintTokens = new Set(restaurant.constraintTags || [])
-  const preferenceHit = preferences.filter((tag) => preferenceTokens.has(tag)).length
+  const preferenceHit = preferences.filter((tag) => preferenceMatchesTokens(tag, preferenceTokens)).length
   const constraintHit = preferences.filter((tag) => constraintTokens.has(tag)).length
   const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 6 : 0
   const ratingScore = (restaurant.rating / 5) * 36

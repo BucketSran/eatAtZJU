@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
-import { TagGroupSelector } from '../components/TagGroupSelector'
 import { getPresetAvatar, presetAvatars } from '../lib/avatars'
 import { createAccountLinkCode, type AccountLinkCode } from '../services/accountLinkService'
 import { fetchCampusTrustStatus, verifyCampusEmail, type CampusTrustStatus } from '../services/campusVerificationService'
@@ -10,11 +9,12 @@ import { ensureProfile, getCurrentAuthState, isSupabaseBrowserConfigured, onAuth
 import { ensureAppUserProfile, updateAppUserProfile, uploadAppUserAvatar, type AppUserProfile } from '../services/appUserProfileService'
 import { mergeFavoritesWithSupabase, pullFavoritesFromSupabase, syncLocalFavoritesToSupabase } from '../services/favoriteSyncService'
 import { defaultPreferences, getDefaultCampus, getPreferenceTags, resetPreferenceTags, setDefaultCampus, setPreferenceTags } from '../services/preferenceStore'
-import { campusOptions, preferenceExclusiveGroups, preferenceTagGroups, type CampusOption } from '../constants/restaurantTaxonomy'
+import { campusOptions, preferenceExclusiveGroups, profilePreferenceScenes, toggleGroupedTag, type CampusOption } from '../constants/restaurantTaxonomy'
 
 type StatusTone = 'info' | 'success' | 'error'
 type ProfileSignalTone = 'local' | 'cloud' | 'campus' | 'warning'
 type ProfileAction = 'loading' | 'savingName' | 'savingAvatar' | 'savingCampus' | 'uploadingAvatar' | 'syncingPreferences' | 'syncingFavorites' | 'verifyingCampus' | 'creatingLinkCode' | null
+const visiblePreferenceConstraints = ['非食堂', '清真友好', '辣', '不辣'] as const
 
 export function ProfilePage() {
   const [preferences, setPreferences] = useState(() => getPreferenceTags())
@@ -30,14 +30,17 @@ export function ProfilePage() {
   const [accountLinkCode, setAccountLinkCode] = useState<AccountLinkCode | null>(null)
   const [displayNameDraft, setDisplayNameDraft] = useState('')
   const [profileAction, setProfileAction] = useState<ProfileAction>(null)
+  const selectedProfileSceneCount = useMemo(() => {
+    return profilePreferenceScenes.filter((scene) => scene.tags.every((tag) => preferences.includes(tag))).length
+  }, [preferences])
   const syncSummary = useMemo(() => {
     return [
       authState.user ? '账号已连接' : '未登录，先保存在本机',
       `默认校区 ${defaultCampus}`,
-      `${preferences.length} 个偏好`,
+      `${selectedProfileSceneCount} 个常用场景`,
       campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'
     ]
-  }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, preferences.length])
+  }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, selectedProfileSceneCount])
   const profileSignals = useMemo<Array<{ label: string; tone: ProfileSignalTone; value: string }>>(() => {
     return [
       {
@@ -51,9 +54,9 @@ export function ProfilePage() {
         value: defaultCampus
       },
       {
-        label: '偏好',
+        label: '场景',
         tone: 'local',
-        value: `${preferences.length} 个`
+        value: `${selectedProfileSceneCount} 个`
       },
       {
         label: '校园邮箱',
@@ -61,7 +64,7 @@ export function ProfilePage() {
         value: campusTrust?.campusEmailVerified ? '已验证' : '未验证'
       }
     ]
-  }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, preferences.length])
+  }, [authState.user, campusTrust?.campusEmailVerified, defaultCampus, selectedProfileSceneCount])
 
   function showAccountStatus(message: string, tone: StatusTone = 'info') {
     setAccountStatus(message)
@@ -112,6 +115,22 @@ export function ProfilePage() {
 
   function updatePreferenceSelection(tags: string[]) {
     setPreferences(setPreferenceTags(tags))
+  }
+
+  function sceneIsSelected(scene: (typeof profilePreferenceScenes)[number]) {
+    return scene.tags.every((tag) => preferences.includes(tag))
+  }
+
+  function toggleProfileScene(scene: (typeof profilePreferenceScenes)[number]) {
+    const sceneSelected = sceneIsSelected(scene)
+    const nextTags = sceneSelected
+      ? preferences.filter((tag) => !scene.tags.includes(tag))
+      : [...preferences, ...scene.tags]
+    updatePreferenceSelection(nextTags)
+  }
+
+  function togglePreferenceConstraint(tag: string) {
+    updatePreferenceSelection(toggleGroupedTag(preferences, tag, preferenceExclusiveGroups))
   }
 
   function resetTags() {
@@ -331,9 +350,9 @@ export function ProfilePage() {
           <h1>我的饭点档案</h1>
           <p>先把校区、口味和账号整理好，首页随机一餐和发现页筛选才会更懂你。</p>
         </div>
-        <div className="profile-hero-meter" aria-label={`当前选择了 ${preferences.length} 个偏好`}>
-          <strong>{preferences.length}</strong>
-          <span>个偏好</span>
+        <div className="profile-hero-meter" aria-label={`当前选择了 ${selectedProfileSceneCount} 个常用场景`}>
+          <strong>{selectedProfileSceneCount}</strong>
+          <span>个场景</span>
         </div>
       </div>
 
@@ -473,14 +492,38 @@ export function ProfilePage() {
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">TASTE PROFILE</p>
-            <h2>选择你常用的吃饭偏好</h2>
+            <h2>选择你常用的吃饭情境</h2>
+            <p>不用管理一整墙标签。你只要选常用场景和少量底线，系统会把隐藏标签转换成推荐分。</p>
           </div>
           <button className="text-button" type="button" onClick={resetTags}>
             恢复默认
           </button>
         </div>
-        <TagGroupSelector exclusiveGroups={preferenceExclusiveGroups} groups={preferenceTagGroups} selectedTags={preferences} onChange={updatePreferenceSelection} />
-        <p className="helper-text">默认偏好：{defaultPreferences.join('、')}。偏好会和默认校区一起影响“今日首推”和推荐排序。</p>
+        <div className="profile-scene-grid" aria-label="常用吃饭情境">
+          {profilePreferenceScenes.map((scene) => {
+            const active = sceneIsSelected(scene)
+            return (
+              <button key={scene.id} className={`profile-scene-card ${active ? 'active' : ''}`} type="button" aria-pressed={active} onClick={() => toggleProfileScene(scene)}>
+                <strong>{scene.label}</strong>
+                <span>{scene.description}</span>
+              </button>
+            )
+          })}
+        </div>
+        <div className="profile-constraint-panel">
+          <div>
+            <strong>少量底线</strong>
+            <span>这些会更强地影响筛选或排序，冲突项只能选一个。</span>
+          </div>
+          <div className="chip-row" aria-label="推荐底线">
+            {visiblePreferenceConstraints.map((tag) => (
+              <button key={tag} className={`chip ${preferences.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferences.includes(tag)} onClick={() => togglePreferenceConstraint(tag)}>
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="helper-text">后台推荐信号：{preferences.length ? preferences.join('、') : '暂无'}。默认偏好：{defaultPreferences.join('、')}。</p>
       </GlassCard>
 
       <GlassCard className="profile-sync-card" id="sync-hub">

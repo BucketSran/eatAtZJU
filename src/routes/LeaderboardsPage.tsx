@@ -100,7 +100,7 @@ export function LeaderboardsPage() {
       </div>
 
       <GlassCard className="leaderboard-switcher" id="leaderboard-results">
-        <div className="leaderboard-tab-row" role="tablist" aria-label="校园美食榜单">
+        <div className="leaderboard-tab-row" role="tablist" aria-label="校园美食榜单" data-tour-id="leaderboard-tabs">
           {leaderboards.map((board) => (
             <button
               key={board.id}

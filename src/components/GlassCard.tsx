@@ -1,10 +1,9 @@
-import type { PropsWithChildren } from 'react'
+import type { HTMLAttributes, PropsWithChildren } from 'react'
 
-type GlassCardProps = PropsWithChildren<{
+type GlassCardProps = PropsWithChildren<HTMLAttributes<HTMLElement> & {
   className?: string
-  id?: string
 }>
 
-export function GlassCard({ children, className = '', id }: GlassCardProps) {
-  return <section className={`glass-card ${className}`.trim()} id={id}>{children}</section>
+export function GlassCard({ children, className = '', ...props }: GlassCardProps) {
+  return <section className={`glass-card ${className}`.trim()} {...props}>{children}</section>
 }

@@ -1,187 +1,93 @@
-export const serviceModeOptions = ['都可以', '堂食', '外卖'] as const
-export const mealPeriodOptions = ['早餐', '中餐', '下午茶', '晚餐', '夜宵'] as const
-export const campusOptions = ['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁'] as const
-export const mealCategoryOptions = [
-  { label: '先找正餐', value: '正餐' },
-  { label: '饮品甜点', value: '饮品' },
-  { label: '全部', value: '全部' }
-] as const
+import taxonomyData from '../shared/restaurantTaxonomyData.json'
 
-export type CampusOption = (typeof campusOptions)[number]
-export type MealCategoryOption = (typeof mealCategoryOptions)[number]['value']
+export type CampusOption = '紫金港' | '玉泉' | '西溪' | '华家池' | '之江' | '海宁'
+export type MealCategoryOption = '正餐' | '饮品' | '全部'
+export type DiscoverFilterSceneId = 'quick-meal' | 'delivery' | 'non-canteen' | 'late-night' | 'drinks' | 'group' | 'solo'
+export type ProfilePreferenceSceneId = 'fast' | 'no-canteen' | 'solo' | 'group' | 'night' | 'drinks'
 
-export const campusCenters: Record<CampusOption, { latitude: number; longitude: number; dataStatus: 'ready' | 'collecting' }> = {
-  紫金港: { latitude: 30.302761, longitude: 120.081964, dataStatus: 'ready' },
-  玉泉: { latitude: 30.263801, longitude: 120.123563, dataStatus: 'ready' },
-  西溪: { latitude: 30.275303, longitude: 120.142375, dataStatus: 'ready' },
-  华家池: { latitude: 30.269386, longitude: 120.196807, dataStatus: 'collecting' },
-  之江: { latitude: 30.191619, longitude: 120.12779, dataStatus: 'collecting' },
-  海宁: { latitude: 30.512801, longitude: 120.681777, dataStatus: 'collecting' }
+type CampusCenter = { latitude: number; longitude: number; dataStatus: 'ready' | 'collecting' }
+type MealCategoryOptionItem = { label: string; value: MealCategoryOption }
+type TagGroup = { title: string; hint: string; tags: string[]; maxVisible?: number }
+type FilterGroup = { key: 'distanceLabel' | 'spiceLevel' | 'loadLevel'; title: string; hint: string; options: string[] }
+type ProfilePreferenceScene = {
+  id: ProfilePreferenceSceneId
+  label: string
+  description: string
+  tags: string[]
+}
+type DiscoverFilterScene = {
+  id: DiscoverFilterSceneId
+  label: string
+  description: string
+  defaults: Partial<{
+    mealCategory: MealCategoryOption
+    serviceMode: string
+    mealPeriod: string
+    scenarioTags: string[]
+    preferenceTags: string[]
+  }>
+  focus: string[]
+  quickTags: string[]
 }
 
-export const quickRandomTags = ['近', '实惠', '辣', '不辣', '一人食', '聚餐', '夜宵', '非食堂'] as const
-export const quickRandomExclusiveGroups = [
-  ['辣', '不辣'],
-  ['食堂', '非食堂']
-] as const
+type TaxonomyData = {
+  serviceModeOptions: string[]
+  mealPeriodOptions: string[]
+  campusOptions: CampusOption[]
+  mealCategoryOptions: MealCategoryOptionItem[]
+  campusCenters: Record<CampusOption, CampusCenter>
+  hardQueryTags: string[]
+  softRankingTags: string[]
+  quickRandomTags: string[]
+  quickRandomExclusiveGroups: string[][]
+  scenarioTagGroups: TagGroup[]
+  hardFilterGroups: FilterGroup[]
+  discoverFilterScenes: DiscoverFilterScene[]
+  dietaryConstraintTags: string[]
+  preferenceTagGroups: TagGroup[]
+  profilePreferenceScenes: ProfilePreferenceScene[]
+  preferenceExclusiveGroups: string[][]
+  publicDisplayTagPriority: string[]
+  taxonomyTagMap: Record<string, string[]>
+  diningModeTagMap: Record<string, string[]>
+  mealPeriodTagMap: Record<string, string[]>
+}
 
-export const scenarioTagGroups = [
-  {
-    title: '补充场景',
-    hint: '只有真的影响选择时再选',
-    tags: ['一人食', '聚餐', '赶课快吃', '自习后', '懒得出校']
-  }
-] as const
+const data = taxonomyData as TaxonomyData
 
-export const hardFilterGroups = [
-  {
-    key: 'distanceLabel',
-    title: '距离',
-    hint: '这是硬条件，直接影响候选范围',
-    options: ['不限', '10分钟内', '20分钟内', '远一点也行']
-  },
-  {
-    key: 'spiceLevel',
-    title: '辣度',
-    hint: '冲突项放在同一组，只能选一个',
-    options: ['不限', '辣', '不辣']
-  },
-  {
-    key: 'loadLevel',
-    title: '饮食负担',
-    hint: '轻一点还是吃爽一点',
-    options: ['不限', '轻负担', '大份', '快乐碳水']
-  }
-] as const
+export const serviceModeOptions = data.serviceModeOptions
+export const mealPeriodOptions = data.mealPeriodOptions
+export const campusOptions = data.campusOptions
+export const mealCategoryOptions = data.mealCategoryOptions
+export const campusCenters = data.campusCenters
+export const hardQueryTags = data.hardQueryTags
+export const softRankingTags = data.softRankingTags
+export const quickRandomTags = data.quickRandomTags
+export const quickRandomExclusiveGroups = data.quickRandomExclusiveGroups
+export const scenarioTagGroups = data.scenarioTagGroups
+export const hardFilterGroups = data.hardFilterGroups
+export const discoverFilterScenes = data.discoverFilterScenes
+export const dietaryConstraintTags = data.dietaryConstraintTags
+export const preferenceTagGroups = data.preferenceTagGroups
+export const profilePreferenceScenes = data.profilePreferenceScenes
+export const preferenceExclusiveGroups = data.preferenceExclusiveGroups
+export const publicDisplayTagPriority = data.publicDisplayTagPriority
+export const taxonomyTagMap = data.taxonomyTagMap
+export const diningModeTagMap = data.diningModeTagMap
+export const mealPeriodTagMap = data.mealPeriodTagMap
 
-export const discoverFilterScenes = [
-  {
-    id: 'quick-meal',
-    label: '快速正餐',
-    description: '赶课、午晚饭和不知道吃啥时先看这里。',
-    defaults: { mealCategory: '正餐', serviceMode: '都可以', preferenceTags: ['近', '实惠'] },
-    focus: ['校区', '预算', '距离', '食堂/非食堂', '辣度'],
-    quickTags: ['近', '实惠', '非食堂', '辣', '不辣']
-  },
-  {
-    id: 'delivery',
-    label: '外卖随便吃',
-    description: '不想走路的时候，优先看外卖友好的正餐。',
-    defaults: { mealCategory: '正餐', serviceMode: '外卖', preferenceTags: ['实惠'] },
-    focus: ['预算', '一人食', '非食堂', '辣度'],
-    quickTags: ['实惠', '一人食', '非食堂', '辣', '不辣']
-  },
-  {
-    id: 'non-canteen',
-    label: '非食堂探索',
-    description: '今天不想吃食堂，看看校外和园区小店。',
-    defaults: { mealCategory: '正餐', serviceMode: '都可以', preferenceTags: ['非食堂'] },
-    focus: ['校区', '预算', '堂食/外卖', '品类'],
-    quickTags: ['非食堂', '实惠', '面食', '辣']
-  },
-  {
-    id: 'late-night',
-    label: '夜宵救命',
-    description: '晚归、自习后、夜跑后补一点。',
-    defaults: { mealCategory: '全部', serviceMode: '都可以', mealPeriod: '夜宵', preferenceTags: ['夜宵'] },
-    focus: ['夜宵', '距离', '预算', '辣度'],
-    quickTags: ['夜宵', '近', '实惠', '辣']
-  },
-  {
-    id: 'drinks',
-    label: '饮品甜点',
-    description: '奶茶、咖啡、甜品和下午茶，不和正餐混在一起。',
-    defaults: { mealCategory: '饮品', serviceMode: '都可以', mealPeriod: '下午茶', preferenceTags: [] },
-    focus: ['咖啡', '奶茶', '甜品'],
-    quickTags: ['咖啡', '奶茶', '甜品']
-  },
-  {
-    id: 'group',
-    label: '聚餐改善',
-    description: '几个人一起吃，优先看堂食和更有氛围的店。',
-    defaults: { mealCategory: '正餐', serviceMode: '堂食', scenarioTags: ['聚餐'], preferenceTags: ['聚餐'] },
-    focus: ['人均', '堂食', '非食堂', '辣度'],
-    quickTags: ['聚餐', '非食堂', '实惠', '辣']
-  },
-  {
-    id: 'solo',
-    label: '一人食',
-    description: '一个人也吃得舒服，少纠结、快落座。',
-    defaults: { mealCategory: '正餐', serviceMode: '都可以', scenarioTags: ['一人食'], preferenceTags: ['一人食'] },
-    focus: ['距离', '预算', '快餐', '面食', '下饭'],
-    quickTags: ['一人食', '近', '实惠', '面食']
-  }
-] as const
+const hardQueryTagSet = new Set(hardQueryTags)
 
-export type DiscoverFilterSceneId = (typeof discoverFilterScenes)[number]['id']
+function uniqueTags(tags: string[]) {
+  return tags.filter((tag, index, allTags) => tag && tag !== '全部' && allTags.indexOf(tag) === index)
+}
 
-export const dietaryConstraintTags = ['清真友好'] as const
+export function isHardQueryTag(tag: string) {
+  return hardQueryTagSet.has(tag)
+}
 
-export const preferenceTagGroups = [
-  {
-    title: '常用偏好',
-    hint: '只保留真正会影响选择的少数条件',
-    tags: ['近', '实惠', '辣', '不辣', '一人食', '聚餐'],
-    maxVisible: 6
-  },
-  {
-    title: '少量补充',
-    hint: '不常用的标签收在这里，不打断主流程',
-    tags: ['夜宵', '面食', '食堂', '非食堂', '咖啡', '奶茶', '甜品', '清真友好'],
-    maxVisible: 8
-  }
-] as const
-
-export const preferenceExclusiveGroups = [
-  ['食堂', '非食堂'],
-  ['辣', '不辣']
-] as const
-
-export const publicDisplayTagPriority = ['近', '实惠', '辣', '不辣', '一人食', '聚餐', '夜宵', '非食堂', '食堂', '面食', '咖啡', '奶茶', '甜品', '清真友好'] as const
-
-export const taxonomyTagMap: Record<string, string[]> = {
-  都可以: [],
-  堂食: ['校内', '食堂', '聚餐', '下饭', '拍照', '暖胃', '清真友好', '烧烤', '火锅', '异国料理'],
-  外卖: ['快餐', '一人食', '实惠', '人均30内', '轻负担', '奶茶', '咖啡', '甜品'],
-  早餐: ['暖胃', '面食', '校内', '近', '清真友好'],
-  中餐: ['午餐快吃', '课间午餐', '赶课午餐', '快餐', '实惠', '一人食', '校内', '人均30内'],
-  下午茶: ['下午自习', '咖啡', '甜品', '奶茶', '拍照', '轻负担', '嘴馋'],
-  晚餐: ['晚饭快吃', '晚饭改善', '晚餐聚餐', '聚餐', '下饭', '辣', '火锅', '烧烤', '人均50内'],
-  夜宵: ['夜宵', '夜宵改善', '晚归加餐', '小吃', '烧烤', '火锅', '奶茶', '暖胃'],
-  正餐: ['正餐', '中餐简餐', '校内食堂', '快餐小吃', '面食粉面', '烧烤烤肉', '火锅麻辣烫', '下饭'],
-  饮品: ['饮品', '茶饮', '咖啡', '甜品烘焙', '奶茶', '甜品'],
-  近: ['近', '校内', '懒得出校'],
-  校内: ['校内', '食堂', '校内食堂', '懒得出校'],
-  一人食: ['一人食', '一个人', '单人吃饭', '独自觅食'],
-  聚餐: ['聚餐', '多人拼桌', '多人约饭', '四人聚餐'],
-  赶课快吃: ['赶课午餐', '赶课午饭', '课间午餐', '快速解决', '快餐'],
-  自习后: ['晚自习前', '下午自习', '晚课后'],
-  约会拍照: ['拍照', '拍照打卡', '轻约会'],
-  运动后: ['健身后', '夜跑后', '轻负担'],
-  懒得出校: ['懒得出校', '校内', '近'],
-  辣: ['辣', '微辣', '想吃辣'],
-  不辣: ['不辣', '不想吃辣', '清淡晚饭'],
-  轻负担: ['轻负担', '不想太油', '清爽', '健身后'],
-  大份: ['大份', '想吃大份', '大份下饭'],
-  快乐碳水: ['快乐碳水', '面食', '小吃'],
-  清真友好: ['清真友好'],
-  暖胃: ['暖胃', '雨天热汤', '雨天热饭'],
-  下饭: ['下饭', '大份下饭'],
-  面食: ['面食', '粉', '面'],
-  小吃: ['小吃', '夜宵'],
-  拍照: ['拍照', '拍照打卡'],
-  清爽: ['清爽', '清爽午餐', '清爽汤粉'],
-  快餐: ['快餐', '快速解决'],
-  实惠: ['实惠', '预算友好', '人均30内'],
-  咖啡: ['咖啡'],
-  甜品: ['甜品'],
-  奶茶: ['奶茶', '茶饮'],
-  饮品甜点: ['饮品', '茶饮', '咖啡', '甜品', '奶茶'],
-  烧烤: ['烧烤'],
-  火锅: ['火锅', '麻辣烫'],
-  食堂: ['食堂', '校内食堂'],
-  非食堂: ['非食堂'],
-  异国料理: ['异国料理', '异国简餐']
+export function getHardQueryTags(tags: string[] = []) {
+  return uniqueTags(tags.filter(isHardQueryTag))
 }
 
 export function parseTagsParam(value: string | null) {
@@ -234,14 +140,28 @@ export function collectFilterTags(filters: {
   loadLevel?: string
   tags?: string[]
 }) {
-  return [
+  return uniqueTags([
     ...(filters.scenarioTags ?? []),
     ...(filters.dietaryTags ?? []),
     ...(filters.preferenceTags ?? []),
     ...(filters.spiceLevel && filters.spiceLevel !== '不限' ? [filters.spiceLevel] : []),
     ...(filters.loadLevel && filters.loadLevel !== '不限' ? [filters.loadLevel] : []),
     ...(filters.tags ?? [])
-  ].filter((tag, index, allTags) => tag && tag !== '全部' && allTags.indexOf(tag) === index)
+  ])
+}
+
+export function collectRankingPreferenceTags(filters: {
+  scenarioTags?: string[]
+  preferenceTags?: string[]
+  loadLevel?: string
+  tags?: string[]
+}) {
+  return uniqueTags([
+    ...(filters.scenarioTags ?? []),
+    ...(filters.preferenceTags ?? []),
+    ...(filters.loadLevel && filters.loadLevel !== '不限' ? [filters.loadLevel] : []),
+    ...(filters.tags ?? []).filter((tag) => !isHardQueryTag(tag))
+  ])
 }
 
 export function getPublicDisplayTags(tags: string[], limit = 3) {
@@ -250,17 +170,13 @@ export function getPublicDisplayTags(tags: string[], limit = 3) {
 }
 
 export function collectHardFilterTags(filters: {
-  scenarioTags?: string[]
   dietaryTags?: string[]
   spiceLevel?: string
-  loadLevel?: string
   tags?: string[]
 }) {
-  return [
-    ...(filters.scenarioTags ?? []),
+  return uniqueTags([
     ...(filters.dietaryTags ?? []),
     ...(filters.spiceLevel && filters.spiceLevel !== '不限' ? [filters.spiceLevel] : []),
-    ...(filters.loadLevel && filters.loadLevel !== '不限' ? [filters.loadLevel] : []),
-    ...(filters.tags ?? [])
-  ].filter((tag, index, allTags) => tag && tag !== '全部' && allTags.indexOf(tag) === index)
+    ...getHardQueryTags(filters.tags ?? [])
+  ])
 }

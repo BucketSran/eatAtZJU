@@ -97,11 +97,11 @@ function applyServerSideFilters(builder, query = {}) {
   const campusKey = CAMPUS_ALIASES[query.campus]
   if (campusKey) next = next.eq('campus_key', campusKey)
   if (query.mode && query.mode !== '都可以' && query.mode !== '全部') next = next.contains('service_modes', [query.mode])
-  if (query.meal && query.meal !== '全部') next = next.contains('meal_periods', [query.meal])
 
   // Keep multi-tag matching in shared service for now because tags can live in
   // tags, scenario_tags, constraint_tags, or preference_tags. A narrow SQL
-  // prefilter here could drop valid matches.
+  // prefilter here could drop valid matches. Meal periods also stay in shared
+  // matching so legacy rows without meal_periods can still match by tags.
 
   const priceRange = findPriceRange(query.priceLabel || query.price)
   if (priceRange) next = next.gte('price', priceRange.min).lte('price', priceRange.max)

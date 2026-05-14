@@ -4,7 +4,7 @@ import { BottomSheet } from '../components/BottomSheet'
 import { GlassCard } from '../components/GlassCard'
 import { MealDiceSheet } from '../components/MealDiceSheet'
 import { SegmentedControl } from '../components/SegmentedControl'
-import { campusOptions, getCurrentMealPeriod, getMealPeriodForCategory, mealCategoryOptions, mealPeriodOptions, quickRandomExclusiveGroups, quickRandomTags, serviceModeOptions, toggleGroupedTag, type CampusOption, type MealCategoryOption } from '../constants/restaurantTaxonomy'
+import { campusOptions, getCurrentMealPeriod, getHardQueryTags, getMealPeriodForCategory, mealCategoryOptions, mealPeriodOptions, quickRandomExclusiveGroups, quickRandomTags, serviceModeOptions, toggleGroupedTag, type CampusOption, type MealCategoryOption } from '../constants/restaurantTaxonomy'
 import { getMealContext } from '../lib/timeContext'
 import { showToast } from '../lib/toast'
 import { getFavoriteRestaurantIds } from '../services/favoriteStore'
@@ -24,14 +24,14 @@ function getCategoryTags(category: MealCategoryOption) {
   return category === '全部' ? [] : [category]
 }
 
-function getDiscoverHref(filters: RestaurantFilters, mealCategory: MealCategoryOption) {
+function getDiscoverHref(filters: RestaurantFilters, mealCategory: MealCategoryOption, rankingTags: string[]) {
   const params = new URLSearchParams()
   if (filters.campus) params.set('campus', filters.campus)
   if (mealCategory !== '正餐') params.set('category', mealCategory)
   if (filters.serviceMode && filters.serviceMode !== '都可以') params.set('mode', filters.serviceMode)
   if (filters.mealPeriod && filters.mealPeriod !== getCurrentMealPeriod()) params.set('meal', filters.mealPeriod)
   if (filters.priceLabel && filters.priceLabel !== '不限') params.set('price', filters.priceLabel)
-  const refineTags = (filters.tags ?? []).filter((tag) => tag !== mealCategory)
+  const refineTags = rankingTags.filter((tag) => tag !== mealCategory)
   if (refineTags.length) params.set('refine', refineTags.join(','))
   return `/discover${params.toString() ? `?${params.toString()}` : ''}`
 }
@@ -72,7 +72,7 @@ export function HomePage() {
     serviceMode,
     mealPeriod,
     priceLabel: randomBudget,
-    tags: [...getCategoryTags(mealCategory), ...randomTags]
+    tags: getHardQueryTags([...getCategoryTags(mealCategory), ...randomTags])
   }), [mealCategory, mealPeriod, randomBudget, randomCampus, randomTags, serviceMode])
 
   const randomContext = useMemo<RecommendationContext>(() => ({
@@ -81,7 +81,7 @@ export function HomePage() {
   }), [mealCategory, mealPeriod, randomCampus, randomTags, serviceMode, storedPreferences])
 
   const demandSummary = useMemo(() => getDemandSummary(randomFilters, randomTags), [randomFilters, randomTags])
-  const discoverHref = useMemo(() => getDiscoverHref(randomFilters, mealCategory), [mealCategory, randomFilters])
+  const discoverHref = useMemo(() => getDiscoverHref(randomFilters, mealCategory, randomTags), [mealCategory, randomFilters, randomTags])
   const leaderboardHref = useMemo(() => `/leaderboards?campus=${encodeURIComponent(randomCampus)}`, [randomCampus])
 
   function selectMealCategory(nextCategory: MealCategoryOption) {
@@ -115,7 +115,7 @@ export function HomePage() {
           <strong>{demandSummary}</strong>
         </div>
         <div className="home-decision-grid" aria-label="首页决策入口">
-          <button className="home-decision-card random-mode" type="button" disabled={isRandomLoading} onClick={surpriseMe}>
+          <button className="home-decision-card random-mode" type="button" data-tour-id="home-random-pick" disabled={isRandomLoading} onClick={surpriseMe}>
             <span>系统帮选</span>
             <strong>{isRandomLoading ? '正在摇…' : '随机一餐'}</strong>
             <small>按校区、预算和标签，从已收录餐厅里抽一个。</small>
@@ -128,7 +128,7 @@ export function HomePage() {
           </button>
         </div>
         <div className="hero-actions compact-actions">
-          <button className="secondary-action" type="button" onClick={() => setIsDemandOpen(true)}>
+          <button className="secondary-action" type="button" data-tour-id="home-add-requirement" onClick={() => setIsDemandOpen(true)}>
             添加需求
           </button>
         </div>

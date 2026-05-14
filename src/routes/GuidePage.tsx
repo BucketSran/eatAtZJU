@@ -1,100 +1,99 @@
 import { Link } from 'react-router-dom'
 
-type GuideStep = {
-  accent: string
+type GuideMission = {
   body: string
-  cta: string
   href: string
   label: string
+  target: string
   title: string
 }
 
-const guideSteps: GuideStep[] = [
+const guideMissions: GuideMission[] = [
   {
-    accent: 'campus',
-    body: '先告诉浙小食你今天在哪个校区，首页随机和榜单都会少走冤枉路。',
-    cta: '去设置校区',
-    href: '/profile',
-    label: '01',
-    title: '选择校区'
+    body: '先点首页的随机一餐，让系统按校区和偏好给你一张饭点答案。',
+    href: '/?tutorial=1',
+    label: '第 1 关',
+    target: '首页 · 随机一餐',
+    title: '先让浙小食帮你摇'
   },
   {
-    accent: 'random',
-    body: '纠结时直接摇一餐，也可以加上预算、正餐/饮品、堂食/外卖这些边界。',
-    cta: '回首页开摇',
-    href: '/',
-    label: '02',
-    title: '随机一餐'
+    body: '再加校区、预算和少量关键词。边界越清楚，选择越不离谱。',
+    href: '/?tutorial=1',
+    label: '第 2 关',
+    target: '首页 · 添加需求',
+    title: '给随机加一点条件'
   },
   {
-    accent: 'discover',
-    body: '想自己掌控，就用发现页搜索、筛标签、看地图，把候选范围压到几家。',
-    cta: '去发现',
+    body: '进入发现页，按场景筛选：正餐、饮品、夜宵、聚餐分开看。',
     href: '/discover',
-    label: '03',
-    title: '发现 / 搜索 / 地图'
+    label: '第 3 关',
+    target: '发现 · 场景筛选',
+    title: '缩小候选范围'
   },
   {
-    accent: 'leaderboard',
-    body: '榜单会结合校区、饭点和偏好，把适合现在吃的选择排在前面。',
-    cta: '看榜单',
+    body: '地图只负责看位置、点餐厅和去导航；详细判断放到列表卡片里。',
+    href: '/discover',
+    label: '第 4 关',
+    target: '发现 · 美食地图',
+    title: '看附近有哪些点'
+  },
+  {
+    body: '点进餐厅详情，收藏常吃店，也可以直接打开地图软件导航。',
+    href: '/restaurants/r001',
+    label: '第 5 关',
+    target: '详情 · 收藏与导航',
+    title: '把答案变成行动'
+  },
+  {
+    body: '榜单会按饭点、校区和特殊场景切换。考试周和夜宵不用混着找。',
     href: '/leaderboards',
-    label: '04',
-    title: '校园美食榜'
+    label: '第 6 关',
+    target: '榜单 · 切换榜单',
+    title: '看看大家都在吃什么'
   },
   {
-    accent: 'contribute',
-    body: '看到信息不准、缺少餐厅或有新发现，就提交线索，等审核后进入公共数据。',
-    cta: '去贡献',
+    body: '发现缺店或信息变了，就提交一张小卡片。餐段可以多选。',
     href: '/contribute',
-    label: '05',
-    title: '一起补全'
+    label: '第 7 关',
+    target: '贡献 · 多选餐段',
+    title: '帮下一位同学少纠结'
   }
 ]
-
-function GuideIllustration({ accent, label }: { accent: string; label: string }) {
-  return (
-    <div className={`guide-illustration ${accent}`} aria-hidden="true">
-      <span className="guide-plate" />
-      <span className="guide-dot one" />
-      <span className="guide-dot two" />
-      <span className="guide-line" />
-      <strong>{label}</strong>
-    </div>
-  )
-}
 
 export function GuidePage() {
   return (
     <div className="route-stack guide-route">
-      <section className="hero-panel guide-hero">
+      <section className="hero-panel guide-hero mission-hero">
         <div className="guide-persona" aria-hidden="true">
           <span>浙</span>
         </div>
-        <p className="eyebrow">PRODUCT GUIDE</p>
-        <h1>第一次来？让浙小食带你走一圈</h1>
-        <p className="hero-copy">我是浙小食。这里不用先研究复杂功能，按下面五步走，你就能从“今天吃什么”一路走到发现、榜单和贡献。</p>
+        <p className="eyebrow">ZHEXIAOSHI TRAINING</p>
+        <h1>你好，灿若星辰的浙大人</h1>
+        <p className="hero-copy">我是浙小食。接下来不是让你读说明书，而是带你打一遍“饭点雷达训练关”。每关只做一件事，饿的时候也能看懂。</p>
+        <div className="guide-progress" aria-label="新手任务进度">
+          <span style={{ width: `${Math.round((1 / guideMissions.length) * 100)}%` }} />
+        </div>
         <div className="hero-actions compact-actions">
-          <Link className="primary-action" to="/">
-            直接开始
+          <Link className="primary-action" to="/?tutorial=1">
+            开始游戏式引导
           </Link>
-          <Link className="secondary-action" to="/discover">
-            先逛发现页
+          <Link className="secondary-action" to="/">
+            我先自己逛逛
           </Link>
         </div>
       </section>
 
-      <section className="guide-step-grid" aria-label="食在浙大产品导览">
-        {guideSteps.map((step) => (
-          <article key={step.title} className="guide-step-card">
-            <GuideIllustration accent={step.accent} label={step.label} />
-            <div>
-              <span>{step.label}</span>
-              <h2>{step.title}</h2>
-              <p>{step.body}</p>
+      <section className="guide-mission-list" aria-label="浙小食新手任务">
+        {guideMissions.map((mission, index) => (
+          <article key={mission.label} className="guide-mission-card">
+            <div className="mission-index" aria-hidden="true">{index + 1}</div>
+            <div className="mission-copy">
+              <span>{mission.label} · {mission.target}</span>
+              <h2>{mission.title}</h2>
+              <p>{mission.body}</p>
             </div>
-            <Link className="guide-card-link" to={step.href}>
-              {step.cta}
+            <Link className="guide-card-link" to={mission.href}>
+              去试试
             </Link>
           </article>
         ))}

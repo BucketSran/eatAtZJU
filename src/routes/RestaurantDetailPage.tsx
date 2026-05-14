@@ -183,7 +183,9 @@ export function RestaurantDetailPage() {
               继续发现
             </Link>
           </div>
-          <MapNavigationLinks restaurant={restaurant} />
+          <div data-tour-id="restaurant-navigate">
+            <MapNavigationLinks restaurant={restaurant} />
+          </div>
         </div>
       </section>
 

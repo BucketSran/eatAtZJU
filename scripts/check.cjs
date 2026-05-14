@@ -159,6 +159,51 @@ function checkConsumerProductLanguageContracts() {
   )
 }
 
+function checkTaxonomyContracts() {
+  const taxonomyData = readJson('src/shared/restaurantTaxonomyData.json')
+  const webTaxonomy = fs.readFileSync(path.join(root, 'src/constants/restaurantTaxonomy.ts'), 'utf8')
+  const webFilters = fs.readFileSync(path.join(root, 'src/lib/filters.ts'), 'utf8')
+  const discoverPage = fs.readFileSync(path.join(root, 'src/routes/DiscoverPage.tsx'), 'utf8')
+  const profilePage = fs.readFileSync(path.join(root, 'src/routes/ProfilePage.tsx'), 'utf8')
+  const contributePage = fs.readFileSync(path.join(root, 'src/routes/ContributePage.tsx'), 'utf8')
+  const adminPage = fs.readFileSync(path.join(root, 'src/routes/AdminPage.tsx'), 'utf8')
+  const apiService = fs.readFileSync(path.join(root, 'server/api/_shared/restaurantService.cjs'), 'utf8')
+  const materializer = fs.readFileSync(path.join(root, 'server/api/_shared/submissionMaterializer.cjs'), 'utf8')
+  const supabaseRepository = fs.readFileSync(path.join(root, 'server/api/_shared/supabaseRestaurantRepository.cjs'), 'utf8')
+
+  for (const key of ['taxonomyTagMap', 'diningModeTagMap', 'mealPeriodTagMap', 'hardQueryTags', 'softRankingTags', 'discoverFilterScenes', 'profilePreferenceScenes']) {
+    assert(taxonomyData[key], `shared taxonomy data missing ${key}`)
+  }
+  for (const hardTag of ['正餐', '饮品', '食堂', '非食堂', '辣', '不辣', '清真友好']) {
+    assert(taxonomyData.hardQueryTags.includes(hardTag), `hard query tags must include ${hardTag}`)
+  }
+  for (const softTag of ['近', '实惠', '一人食', '聚餐', '轻负担']) {
+    assert(taxonomyData.softRankingTags.includes(softTag), `soft ranking tags must include ${softTag}`)
+    assert(!taxonomyData.hardQueryTags.includes(softTag), `${softTag} must stay a soft ranking tag, not a hard filter`)
+  }
+  assert(webTaxonomy.includes("restaurantTaxonomyData.json"), 'web taxonomy constants must read the shared taxonomy JSON')
+  assert(webTaxonomy.includes('collectRankingPreferenceTags'), 'web taxonomy must expose soft ranking preference collection')
+  assert(Array.isArray(taxonomyData.profilePreferenceScenes) && taxonomyData.profilePreferenceScenes.length >= 4, 'profile preference scenes must replace the old profile tag wall')
+  assert(taxonomyData.quickRandomTags.length <= 6, 'quick random controls must stay small and user-friendly')
+  assert(discoverPage.includes('可选底线'), 'discover page must frame direct choices as constraints, not a full tag wall')
+  assert(discoverPage.includes('isHardQueryTag'), 'discover page summary must expose only hard query tags from refinements')
+  assert(profilePage.includes('profilePreferenceScenes'), 'profile page must expose scene-based preferences')
+  assert(!profilePage.includes('TagGroupSelector'), 'profile page must not render the generic tag group selector')
+  assert(contributePage.includes('inferContributionTags'), 'contribution page must infer tags from structured content')
+  assert(contributePage.includes('mealCategory'), 'contribution page must collect餐饮类型 before deriving tags')
+  assert(contributePage.includes('mealPeriods') && contributePage.includes('toggleMealPeriod'), 'contribution page must support multi-select mealPeriods')
+  assert(contributePage.includes('mealPeriod: mealPeriods[0]') && contributePage.includes('可多选，例如中餐 + 晚餐 + 夜宵'), 'contribution payload must keep mealPeriod compatibility while explaining multi-select meal periods')
+  assert(!contributePage.includes('quickContributionTags'), 'contribution page must not reintroduce a visible quick tag wall')
+  assert(adminPage.includes('readMealPeriods') && adminPage.includes('餐段（可多选）'), 'admin review page must read and edit multi-select mealPeriods')
+  assert(materializer.includes('cleanMealPeriods') && materializer.includes('...mealPeriods'), 'submission materializer must prefer payload.mealPeriods with single mealPeriod fallback')
+  assert(supabaseRepository.includes('legacy rows without meal_periods'), 'Supabase list filtering must not drop legacy rows without meal_periods')
+  assert(webFilters.includes('diningModeTagMap') && !/const diningModeTagMap\s*=/.test(webFilters), 'web filters must reuse shared dining mode taxonomy')
+  assert(apiService.includes("restaurantTaxonomyData.json"), 'API restaurant service must read the shared taxonomy JSON')
+  assert(!/const taxonomyTagMap\s*=/.test(apiService), 'API restaurant service must not duplicate taxonomyTagMap')
+  assert(!/const diningModeTagMap\s*=/.test(apiService), 'API restaurant service must not duplicate diningModeTagMap')
+  assert(!/const mealPeriodTagMap\s*=/.test(apiService), 'API restaurant service must not duplicate mealPeriodTagMap')
+}
+
 async function withMissingSupabaseEnv(callback) {
   const keys = ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY', 'VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY']
   const previous = new Map(keys.map((key) => [key, process.env[key]]))
@@ -373,6 +418,9 @@ async function checkProfileContracts() {
   const detailRoute = fs.readFileSync(path.join(root, 'src/routes/RestaurantDetailPage.tsx'), 'utf8')
   const foodMap = fs.readFileSync(path.join(root, 'src/components/FoodMap.tsx'), 'utf8')
   const onboardingDialog = fs.readFileSync(path.join(root, 'src/components/OnboardingDialog.tsx'), 'utf8')
+  const tutorialOverlay = fs.readFileSync(path.join(root, 'src/components/TutorialOverlay.tsx'), 'utf8')
+  const guideRoute = fs.readFileSync(path.join(root, 'src/routes/GuidePage.tsx'), 'utf8')
+  const globalCss = fs.readFileSync(path.join(root, 'src/styles/global.css'), 'utf8')
   const preferenceStore = fs.readFileSync(path.join(root, 'src/services/preferenceStore.ts'), 'utf8')
   const miniProfileService = fs.readFileSync(path.join(root, 'services/userProfileService.js'), 'utf8')
   const appShell = fs.readFileSync(path.join(root, 'src/App.tsx'), 'utf8')
@@ -467,6 +515,15 @@ async function checkProfileContracts() {
   assert(/<Route\s+path=["']\/guide["']/.test(appShell), 'app routes must include the /guide consumer guide route')
   assert(homeRoute.includes('/guide') && /persona|新生|访客|家长|校友|浙大人/.test(homeRoute), 'home page must expose a guide entry with persona-oriented copy')
   assert(onboardingDialog.includes('to="/guide"'), 'onboarding dialog must link to /guide')
+  assert(appShell.includes('TutorialOverlay'), 'app shell must mount the game-like tutorial overlay')
+  assert(tutorialOverlay.includes('eatAtZju:web:tutorial:v2') && tutorialOverlay.includes('data-tour-id'), 'tutorial overlay must use target ids and one-time completion storage')
+  assert(globalCss.includes('prefers-reduced-motion') && globalCss.includes('.tutorial-finger'), 'tutorial overlay styles must respect reduced motion')
+  for (const tourId of ['home-random-pick', 'home-add-requirement', 'discover-filter', 'discover-map', 'restaurant-navigate', 'leaderboard-tabs', 'contribute-meal-periods']) {
+    const sources = [homeRoute, discoverRoute, detailRoute, fs.readFileSync(path.join(root, 'src/routes/LeaderboardsPage.tsx'), 'utf8'), fs.readFileSync(path.join(root, 'src/routes/ContributePage.tsx'), 'utf8')].join('\n')
+    assert(sources.includes(`data-tour-id="${tourId}"`), `missing tutorial anchor ${tourId}`)
+  }
+  assert(guideRoute.includes('guide-mission-list') && !guideRoute.includes('guide-step-grid'), '/guide must be a mobile-first single-column mission flow')
+  assert(guideRoute.includes('你好，灿若星辰的浙大人') && guideRoute.includes('/?tutorial=1'), '/guide must start the interactive tutorial with the requested opening line')
   assert(mealDiceSheet.includes('dice-empty-editor') && mealDiceSheet.includes('addCustomOptionFromLabel') && !mealDiceSheet.includes('dice-custom-form'), 'meal dice must allow direct entry inside empty faces instead of a separate bottom form')
   assert(detailRoute.includes("useState(() => Boolean(id))") && detailRoute.includes('正在确认这家店') && detailRoute.includes('LOADING'), 'restaurant detail must distinguish loading from confirmed not-found state')
   assert(foodMap.includes('closeRestaurantCard') && foodMap.includes('aria-label="关闭餐厅详情卡片"'), 'food map selected-card must expose an explicit close button')
@@ -488,7 +545,7 @@ function checkLeaderboardContracts() {
   assert(leaderboardService.includes('buildLeaderboards') && leaderboardService.includes('isCanteenRestaurant'), 'leaderboard service must build boards from provided restaurants and respect non-canteen preference')
   assert(leaderboardService.includes('b.boardScore') && leaderboardService.includes('a.boardScore'), 'leaderboard restaurants must be sorted by boardScore desc')
   assert(leaderboardService.includes("'breakfast'") && leaderboardService.includes('requiredTags') && leaderboardService.includes('excludeTags'), 'leaderboards must include breakfast and hard board boundaries')
-  assert(taxonomy.includes('非食堂'), 'taxonomy must expose 非食堂 preference')
+  assert(taxonomy.includes('restaurantTaxonomyData.json'), 'taxonomy constants must be backed by the shared taxonomy data file')
   assert(apiClient.includes('API_CACHE_TTL_MS') && apiClient.includes('API_CACHE_MAX_ENTRIES') && apiClient.includes('setCachedResponse'), 'api client must cache repeated GET requests with a bounded cache')
   assert(apiClient.includes("cache: strategy !== 'random'"), 'random recommendation requests must bypass client GET cache')
 }
@@ -802,6 +859,7 @@ function checkFeatureWorkflowDocs() {
 async function main() {
   checkJavaScript()
   checkJson()
+  checkTaxonomyContracts()
   checkLegacyRestaurantData()
   checkSeedData()
   await checkApiService()

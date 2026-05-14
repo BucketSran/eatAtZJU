@@ -1,4 +1,5 @@
 import type { RecommendationContext, Restaurant, RestaurantSummary } from '../types'
+import { taxonomyTagMap } from '../constants/restaurantTaxonomy'
 import { isCanteenRestaurant } from './filters'
 import { getRandomIndex } from './random'
 
@@ -43,19 +44,24 @@ function categoryScore(restaurant: Restaurant, preferences: string[]) {
   return 8
 }
 
+function preferenceMatchesTokens(preference: string, tokens: string[]) {
+  const candidates = taxonomyTagMap[preference]?.length ? taxonomyTagMap[preference] : [preference]
+  return candidates.some((candidate) => tokens.some((token) => token.includes(candidate)))
+}
+
 export function scoreRestaurantBreakdown(restaurant: Restaurant, context: RecommendationContext = { preferences: [] }): MatchBreakdown {
   const preferences = context.preferences ?? []
   const favoriteRestaurantIds = context.favoriteRestaurantIds ?? []
-  const preferenceTokens = new Set([
+  const preferenceTokens = [
     ...restaurant.tags,
     ...restaurant.suitedFor,
     ...(restaurant.serviceModes ?? []),
     ...(restaurant.mealPeriods ?? []),
     ...(restaurant.scenarioTags ?? []),
     ...(restaurant.preferenceTags ?? [])
-  ])
+  ]
   const constraintTokens = new Set(restaurant.constraintTags ?? [])
-  const preferenceHit = preferences.filter((tag) => preferenceTokens.has(tag)).length
+  const preferenceHit = preferences.filter((tag) => preferenceMatchesTokens(tag, preferenceTokens)).length
   const constraintHit = preferences.filter((tag) => constraintTokens.has(tag)).length
   const favoriteBoost = favoriteRestaurantIds.includes(restaurant.id) ? 6 : 0
   const ratingScore = (restaurant.rating / 5) * 36

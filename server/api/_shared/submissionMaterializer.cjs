@@ -17,6 +17,13 @@ function cleanTags(value) {
   return [...new Set(value.filter((tag) => typeof tag === 'string').map((tag) => tag.trim()).filter(Boolean))].slice(0, 12)
 }
 
+function cleanMealPeriods(payload) {
+  const periods = cleanTags(payload.mealPeriods)
+  if (periods.length) return periods
+  const period = cleanText(payload.mealPeriod)
+  return period ? [period] : []
+}
+
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 }
@@ -61,9 +68,9 @@ function buildRestaurantRow(submission, reviewerId) {
   const distance = toNumber(payload.distance, 1, 0, 20)
   const tags = cleanTags(payload.tags)
   const diningMode = cleanText(payload.serviceMode === '都可以' ? '' : payload.serviceMode, cleanText(payload.diningMode))
-  const mealPeriod = cleanText(payload.mealPeriod)
+  const mealPeriods = cleanMealPeriods(payload)
+  const mealPeriod = mealPeriods[0] || cleanText(payload.mealPeriod)
   const serviceModes = cleanTags(payload.serviceModes || (diningMode ? [diningMode] : []))
-  const mealPeriods = cleanTags(payload.mealPeriods || (mealPeriod ? [mealPeriod] : []))
   const scenarioTags = cleanTags(payload.scenarioTags)
   const constraintTags = cleanTags(payload.constraintTags || [
     payload.spiceLevel && payload.spiceLevel !== '不限' ? payload.spiceLevel : '',
@@ -71,7 +78,7 @@ function buildRestaurantRow(submission, reviewerId) {
     ...cleanTags(payload.dietaryTags)
   ])
   const preferenceTags = cleanTags(payload.preferenceTags)
-  const suitedFor = [...new Set([diningMode, mealPeriod, ...cleanTags(payload.suitedFor)].filter(Boolean))]
+  const suitedFor = [...new Set([diningMode, ...mealPeriods, ...cleanTags(payload.suitedFor)].filter(Boolean))]
 
   return {
     id: idFromSubmission('r_sub', submission.id),

@@ -2,7 +2,7 @@ import { campusOptions, normalizeGroupedTags, type CampusOption } from '../const
 
 const PREFERENCES_KEY = 'eatAtZju:web:preferences'
 const DEFAULT_CAMPUS_KEY = 'eatAtZjuCampus'
-export const defaultPreferences = ['近', '实惠', '辣']
+export const defaultPreferences = ['近', '实惠']
 export const defaultCampus: CampusOption = '紫金港'
 
 function canUseStorage() {

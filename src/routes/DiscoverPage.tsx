@@ -8,7 +8,7 @@ import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { SkeletonList } from '../components/Skeleton'
 import { showToast } from '../lib/toast'
-import { campusOptions, dietaryConstraintTags, discoverFilterScenes, getCurrentMealPeriod, getMealPeriodForCategory, hardFilterGroups, mealCategoryOptions, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag, type CampusOption, type DiscoverFilterSceneId, type MealCategoryOption } from '../constants/restaurantTaxonomy'
+import { campusOptions, collectRankingPreferenceTags, dietaryConstraintTags, discoverFilterScenes, getCurrentMealPeriod, getMealPeriodForCategory, hardFilterGroups, isHardQueryTag, mealCategoryOptions, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag, type CampusOption, type DiscoverFilterSceneId, type MealCategoryOption } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
 import { describeApiSource, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
@@ -133,16 +133,13 @@ export function DiscoverPage() {
     const initialRefinementTags = parseTagsParam(searchParams.get('refine'))
     const tags = [
       ...parseTagsParam(searchParams.get('tags')),
+      ...initialRefinementTags,
       ...parseTagsParam(searchParams.get('scenario')),
       ...parseTagsParam(searchParams.get('dietary')),
       ...parseTagsParam(searchParams.get('preference'))
     ]
     const legacyTag = searchParams.get('tag')
-    const splitTags = splitInitialTags(tags.length || !legacyTag || legacyTag === '全部' ? tags : [legacyTag])
-    return {
-      ...splitTags,
-      refinementTags: [...new Set([...splitTags.refinementTags, ...initialRefinementTags])]
-    }
+    return splitInitialTags(tags.length || !legacyTag || legacyTag === '全部' ? tags : [legacyTag])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const [scenarioTags, setScenarioTags] = useState(() => initialTags.scenarioTags)
@@ -174,8 +171,19 @@ export function DiscoverPage() {
   const refinementKey = refinementTags.join(',')
   const activeScene = getScene(activeSceneId)
   const filters = useMemo(() => ({ keyword: deferredKeyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: [...getCategoryTags(mealCategory), ...refinementTags] }), [campus, deferredKeyword, dietaryKey, distanceLabel, loadLevel, mealCategory, mealPeriod, preferenceKey, priceLabel, refinementKey, scenarioKey, serviceMode, sort, spiceLevel])
-  const context = useMemo(() => ({ preferences: [...preferences, campus, serviceMode, mealPeriod, mealCategory, getSceneLabel(activeSceneId), ...scenarioTags, ...preferenceTags, ...refinementTags], favoriteRestaurantIds: favoriteIds }), [activeSceneId, campus, favoriteIds, mealCategory, mealPeriod, preferenceKey, preferences, refinementKey, scenarioKey, serviceMode])
-  const summaryItems = [campus, getSceneLabel(activeSceneId), mealCategory, serviceMode, mealPeriod, ...refinementTags, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
+  const rankingPreferenceTags = useMemo(() => collectRankingPreferenceTags({ scenarioTags, preferenceTags, loadLevel, tags: refinementTags }), [loadLevel, preferenceKey, refinementKey, scenarioKey])
+  const context = useMemo(() => {
+    const constraintTags = [
+      ...(spiceLevel !== '不限' ? [spiceLevel] : []),
+      ...dietaryTags
+    ]
+    return {
+      preferences: [...preferences, campus, serviceMode, mealPeriod, mealCategory, getSceneLabel(activeSceneId), ...rankingPreferenceTags, ...constraintTags],
+      favoriteRestaurantIds: favoriteIds
+    }
+  }, [activeSceneId, campus, dietaryKey, favoriteIds, mealCategory, mealPeriod, preferences, rankingPreferenceTags, serviceMode, spiceLevel])
+  const visibleConstraintTags = refinementTags.filter(isHardQueryTag)
+  const summaryItems = [campus, getSceneLabel(activeSceneId), mealCategory, serviceMode !== '都可以' ? serviceMode : '', mealPeriod, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...visibleConstraintTags, ...dietaryTags].filter(Boolean)
   const visibleRestaurants = useMemo(() => restaurants.slice(0, visibleCount), [restaurants, visibleCount])
   const hasMoreRestaurants = visibleCount < restaurants.length
   const broadMapFilters = useMemo(() => ({ campus, serviceMode, sort: 'recommended' as SortKey, tags: getCategoryTags(mealCategory) }), [campus, mealCategory, serviceMode])
@@ -316,6 +324,16 @@ export function DiscoverPage() {
       return
     }
 
+    if (isRefinementActive(tag)) {
+      startTransition(() => {
+        setScenarioTags((tags) => tags.filter((currentTag) => currentTag !== tag))
+        setDietaryTags((tags) => tags.filter((currentTag) => currentTag !== tag))
+        setPreferenceTags((tags) => tags.filter((currentTag) => currentTag !== tag))
+        setRefinementTags((tags) => tags.filter((currentTag) => currentTag !== tag))
+      })
+      return
+    }
+
     startTransition(() => {
       setRefinementTags((tags) => toggleGroupedTag(tags, tag, refinementExclusiveGroups))
     })
@@ -324,7 +342,7 @@ export function DiscoverPage() {
   function isRefinementActive(tag: string) {
     if (tag === '辣' || tag === '不辣') return spiceLevel === tag
     if (tag === '轻负担' || tag === '大份' || tag === '快乐碳水') return loadLevel === tag
-    return refinementTags.includes(tag)
+    return refinementTags.includes(tag) || preferenceTags.includes(tag) || scenarioTags.includes(tag) || dietaryTags.includes(tag)
   }
 
   function focusRestaurantFromMap(restaurant: RestaurantSummary) {
@@ -344,7 +362,7 @@ export function DiscoverPage() {
         <div>
           <p className="eyebrow">DISCOVER</p>
           <h1>发现餐厅</h1>
-          <p>按口味、预算、距离和公开位置资料筛选；等同学们补充真实体验后，学生评价会成为推荐的主要权重。</p>
+          <p>先选一个吃饭场景，再加少量底线。复杂标签会藏进推荐分里，不再压到你脸上。</p>
         </div>
         <span className="count-badge">{restaurants.length} 家匹配</span>
       </div>
@@ -366,14 +384,14 @@ export function DiscoverPage() {
       <BottomSheet
         open={isFilterSheetOpen}
         title="按层级筛选"
-        description="先选场景，再做少量精细调整。冲突项已经放进单选组，页面不会再摊开一整墙标签。"
+        description="先定场景和校区，再选预算、辣度、食堂/非食堂这类真正会影响决策的底线。"
         onClose={() => setIsFilterSheetOpen(false)}
       >
         <div className="mobile-filter-stack layered-filter-panel">
           <label className="search-label" htmlFor="mobile-restaurant-search">
             搜索
           </label>
-          <input id="mobile-restaurant-search" name="mobile-restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
+          <input id="mobile-restaurant-search" name="mobile-restaurant-search" className="search-input" value={keyword} placeholder="搜索店名、菜品或场景…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
           <section className="scene-picker-card">
             <div className="compact-choice-head">
               <strong>先选场景</strong>
@@ -394,8 +412,8 @@ export function DiscoverPage() {
           <CompactChoiceGroup label="时间段" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
           <section className="compact-choice-card">
             <div className="compact-choice-head">
-              <strong>{activeScene.label}的快捷细化</strong>
-              <span>{activeScene.focus.join(' / ')}</span>
+              <strong>可选底线</strong>
+              <span>只放会明显改变结果的条件。</span>
             </div>
             <div className="quick-refinement-grid" aria-label={`${activeScene.label}快捷细化`}>
               {activeScene.quickTags.map((tag) => (
@@ -435,7 +453,7 @@ export function DiscoverPage() {
         </div>
       </BottomSheet>
 
-      <GlassCard className={`filters-card scene-filter-card ${isSearchCollapsed ? 'collapsed' : ''}`} id="primary-filters">
+      <GlassCard className={`filters-card scene-filter-card ${isSearchCollapsed ? 'collapsed' : ''}`} id="primary-filters" data-tour-id="discover-filter">
         <div className="filter-summary compact-filter-summary">
           <div>
             <span className="filter-section-label">当前路径</span>
@@ -454,14 +472,14 @@ export function DiscoverPage() {
         ) : (
           <div id="discover-filter-body" className="discover-filter-body">
             <label className="search-label" htmlFor="restaurant-search">
-              搜索餐厅、标签或场景
+              搜索餐厅、菜品或场景
             </label>
-            <input id="restaurant-search" name="restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
+            <input id="restaurant-search" name="restaurant-search" className="search-input" value={keyword} placeholder="例如：烧腊 / 奶茶 / 北门…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
             <div className="scene-filter-layout">
               <section className="scene-picker-card">
                 <div className="compact-choice-head">
                   <strong>先选一个吃饭场景</strong>
-                  <span>不是所有标签都要出现，先把问题变小。</span>
+                  <span>场景会自动带上隐藏偏好。</span>
                 </div>
                 <div className="scene-card-grid">
                   {discoverFilterScenes.map((scene) => (
@@ -476,7 +494,7 @@ export function DiscoverPage() {
                 <div className="filter-section-head">
                   <div>
                     <span className="filter-section-label">精细筛选</span>
-                    <p>{activeScene.label} · 重点看 {activeScene.focus.join('、')}</p>
+                  <p>{activeScene.label} · 只展示关键底线，其余进入推荐分。</p>
                   </div>
                   <button className="text-action" type="button" onClick={clearAllFilters}>重置筛选</button>
                 </div>
@@ -493,6 +511,7 @@ export function DiscoverPage() {
                     </button>
                   ))}
                 </div>
+                <p className="helper-text soft-filter-note">未展示的近、实惠、一人食、聚餐等信号仍会参与推荐排序。</p>
                 <details className="advanced-filter-panel desktop-advanced-filter">
                   <summary>更多条件</summary>
                   <div className="advanced-filter-grid">
@@ -537,7 +556,9 @@ export function DiscoverPage() {
         )}
       </div>
 
-      <FoodMap campus={campus} modeNote={mapModeNote} restaurants={mapRestaurantSource} onFilterOpen={() => setIsFilterSheetOpen(true)} onRestaurantFocus={focusRestaurantFromMap} />
+      <div data-tour-id="discover-map">
+        <FoodMap campus={campus} modeNote={mapModeNote} restaurants={mapRestaurantSource} onFilterOpen={() => setIsFilterSheetOpen(true)} onRestaurantFocus={focusRestaurantFromMap} />
+      </div>
     </div>
   )
 }

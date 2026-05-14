@@ -3,7 +3,7 @@ import { EmptyState } from '../components/EmptyState'
 import { GlassCard } from '../components/GlassCard'
 import { PublishedContentOpsPanel } from '../components/PublishedContentOpsPanel'
 import { SegmentedControl } from '../components/SegmentedControl'
-import { mealPeriodOptions, serviceModeOptions } from '../constants/restaurantTaxonomy'
+import { serviceModeOptions } from '../constants/restaurantTaxonomy'
 import { listAuditLogs, rollbackAuditLog, type AdminAuditLog } from '../services/adminAuditService'
 import { listPendingSubmissions, reviewSubmission, type AdminSubmission } from '../services/adminSubmissionService'
 import { isSupabaseBrowserConfigured } from '../services/supabaseBrowserClient'
@@ -96,22 +96,34 @@ function readString(value: unknown) {
 }
 
 function readStringArray(value: unknown) {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+  if (Array.isArray(value)) return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+  if (typeof value === 'string') return parseListInput(value)
+  return []
+}
+
+function readMealPeriods(payload: Record<string, unknown>) {
+  const periods = readStringArray(payload.mealPeriods)
+  if (periods.length) return periods
+  const period = readString(payload.mealPeriod)
+  return period ? [period] : []
 }
 
 function stringifyPayload(payload: Record<string, unknown>) {
   const title = readString(payload.title) || '未命名提交'
   const content = readString(payload.content) || JSON.stringify(payload)
   const tags = readStringArray(payload.tags).join(' / ')
-  const meta = [readString(payload.serviceMode) || readString(payload.diningMode), readString(payload.mealPeriod), tags].filter(Boolean).join(' · ')
+  const mealPeriods = readMealPeriods(payload).join(' / ')
+  const meta = [readString(payload.serviceMode) || readString(payload.diningMode), mealPeriods, tags].filter(Boolean).join(' · ')
   return { title, content, meta }
 }
 
 function toEditablePayload(payload: Record<string, unknown>) {
+  const mealPeriods = readMealPeriods(payload)
   return {
     ...payload,
     serviceMode: readString(payload.serviceMode) || readString(payload.diningMode) || '都可以',
-    mealPeriod: readString(payload.mealPeriod) || '中餐',
+    mealPeriod: mealPeriods[0] || readString(payload.mealPeriod) || '中餐',
+    mealPeriods: mealPeriods.length ? mealPeriods : ['中餐'],
     tags: readStringArray(payload.tags),
     scenarioTags: readStringArray(payload.scenarioTags),
     constraintTags: readStringArray(payload.constraintTags),
@@ -138,7 +150,11 @@ function normalizeDraftPayload(payload: Record<string, unknown>) {
   }
   normalized.diningMode = normalized.serviceMode === '都可以' ? undefined : normalized.serviceMode
   normalized.serviceModes = normalized.serviceMode && normalized.serviceMode !== '都可以' ? [normalized.serviceMode] : []
-  normalized.mealPeriods = normalized.mealPeriod ? [normalized.mealPeriod] : []
+  const mealPeriods = readStringArray(normalized.mealPeriods)
+  const fallbackMealPeriod = readString(normalized.mealPeriod)
+  const normalizedMealPeriods = mealPeriods.length ? mealPeriods : fallbackMealPeriod ? [fallbackMealPeriod] : []
+  normalized.mealPeriods = normalizedMealPeriods
+  normalized.mealPeriod = normalizedMealPeriods[0] || fallbackMealPeriod || '中餐'
   return normalized
 }
 
@@ -161,12 +177,14 @@ function buildSuggestedIssueTags(payload: Record<string, unknown>) {
 function buildFactSignals(payload: Record<string, unknown>) {
   const tags = readStringArray(payload.tags)
   const price = payload.price
+  const mealPeriods = readMealPeriods(payload)
   return [
     readString(payload.area) ? `区域：${readString(payload.area)}` : '缺区域说明',
     typeof price === 'number' ? `人均：¥${price}` : '缺人均价格',
+    mealPeriods.length ? `餐段：${mealPeriods.slice(0, 4).join(' / ')}` : '缺餐段',
     tags.length ? `标签：${tags.slice(0, 4).join(' / ')}` : '缺推荐标签',
     Array.isArray(payload.sourceRefs) && payload.sourceRefs.length ? `来源：${payload.sourceRefs.length} 条留档` : '缺来源留档'
-  ]
+  ].slice(0, 4)
 }
 
 function buildTasteSignals(payload: Record<string, unknown>) {
@@ -620,10 +638,8 @@ export function AdminPage() {
                 </select>
               </label>
               <label>
-                <span className="search-label">餐段</span>
-                <select className="search-input" value={getDraftValue('mealPeriod')} onChange={(event) => setDraftValue('mealPeriod', event.target.value)}>
-                  {mealPeriodOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-                </select>
+                <span className="search-label">餐段（可多选）</span>
+                <input className="search-input" value={getDraftValue('mealPeriods')} placeholder="早餐，中餐，晚餐" onChange={(event) => setDraftValue('mealPeriods', event.target.value)} />
               </label>
               <label>
                 <span className="search-label">关联餐厅 ID</span>

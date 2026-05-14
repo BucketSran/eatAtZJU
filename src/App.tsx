@@ -3,6 +3,7 @@ import { NavLink, Route, Routes } from 'react-router-dom'
 import { OnboardingDialog } from './components/OnboardingDialog'
 import { ScrollAssistant } from './components/ScrollAssistant'
 import { ToastHost } from './components/ToastHost'
+import { TutorialOverlay } from './components/TutorialOverlay'
 
 const AdminPage = lazy(() => import('./routes/AdminPage').then((module) => ({ default: module.AdminPage })))
 const ContributePage = lazy(() => import('./routes/ContributePage').then((module) => ({ default: module.ContributePage })))
@@ -170,6 +171,7 @@ export function App() {
       </nav>
 
       <OnboardingDialog />
+      <TutorialOverlay />
       <ScrollAssistant />
       <ToastHost />
     </div>
