@@ -1,5 +1,6 @@
 const { createServerSupabaseClient, getSupabaseConfig } = require('./supabaseClient.cjs')
 const { getMetadata, listRestaurantCollection } = require('./restaurantService.cjs')
+const { getRandomIndex } = require('./random.cjs')
 
 const CAMPUS_ALIASES = {
   紫金港: 'zijingang',
@@ -166,7 +167,7 @@ async function getRecommendedRestaurant(query = {}) {
 async function getRandomRestaurant(query = {}) {
   const restaurants = await listRestaurants(query)
   if (!restaurants.length) return null
-  return restaurants[Math.floor(Math.random() * restaurants.length)]
+  return restaurants[getRandomIndex(restaurants.length)]
 }
 
 module.exports = {

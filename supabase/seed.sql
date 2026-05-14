@@ -9595,7 +9595,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r001_internet', 'r001', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥23，地址为宜山路与迪臣南路交叉口东160米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r001_internet', 'r001', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥23，地址为宜山路与迪臣南路交叉口东160米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9607,7 +9607,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r002_internet', 'r002', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为余杭塘路925号澄月食堂3层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r002_internet', 'r002', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.7、人均约 ¥30，地址为余杭塘路925号澄月食堂3层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9619,7 +9619,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r003_internet', 'r003', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.3、人均约 ¥14，地址为泰和路港湾家园29幢1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r003_internet', 'r003', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.3、人均约 ¥14，地址为泰和路港湾家园29幢1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9631,7 +9631,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r004_internet', 'r004', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为申花路796号紫金港国际饭店1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r004_internet', 'r004', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥16，地址为申花路796号紫金港国际饭店1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9643,7 +9643,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r005_internet', 'r005', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥14，地址为三墩镇余杭塘路866号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r005_internet', 'r005', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥14，地址为三墩镇余杭塘路866号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9655,7 +9655,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r006_internet', 'r006', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥23，地址为三墩镇龙宇街望月商品17号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r006_internet', 'r006', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥23，地址为三墩镇龙宇街望月商品17号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9667,7 +9667,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r007_internet', 'r007', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为三墩镇余杭塘路866号浙江大学紫金港校区医学院图书馆旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r007_internet', 'r007', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥9，地址为三墩镇余杭塘路866号浙江大学紫金港校区医学院图书馆旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9679,7 +9679,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r008_internet', 'r008', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r008_internet', 'r008', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.7、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9691,7 +9691,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r009_internet', 'r009', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥20，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r009_internet', 'r009', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥20，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9703,7 +9703,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r010_internet', 'r010', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区银泉餐厅一楼C区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r010_internet', 'r010', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥30，地址为余杭塘路866号浙江大学紫金港校区银泉餐厅一楼C区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9715,7 +9715,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r011_internet', 'r011', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥12，地址为三墩镇望月公寓商业用房29号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r011_internet', 'r011', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥12，地址为三墩镇望月公寓商业用房29号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9727,7 +9727,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r012_internet', 'r012', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥13，地址为三墩镇龙宇街望月商铺11号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r012_internet', 'r012', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥13，地址为三墩镇龙宇街望月商铺11号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9739,7 +9739,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r013_internet', 'r013', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥14，地址为龙宇街望月商铺4号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r013_internet', 'r013', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥14，地址为龙宇街望月商铺4号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9751,7 +9751,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r014_internet', 'r014', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为望月商铺28号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r014_internet', 'r014', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥16，地址为望月商铺28号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9763,7 +9763,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r015_internet', 'r015', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.8、人均约 ¥44，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r015_internet', 'r015', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.8、人均约 ¥44，地址为余杭塘路866号浙江大学紫金港校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9775,7 +9775,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r016_internet', 'r016', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥16，地址为石祥西路港湾家园29幢3单元1层1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r016_internet', 'r016', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥16，地址为石祥西路港湾家园29幢3单元1层1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9787,7 +9787,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r017_internet', 'r017', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r017_internet', 'r017', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥20，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9799,7 +9799,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r018_internet', 'r018', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为三墩镇望月公寓商业用房60-64号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r018_internet', 'r018', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥17，地址为三墩镇望月公寓商业用房60-64号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9811,7 +9811,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r019_internet', 'r019', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥18，地址为三墩紫荆花城2号楼128室内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r019_internet', 'r019', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥18，地址为三墩紫荆花城2号楼128室内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9823,7 +9823,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r020_internet', 'r020', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为浙港国际1号楼136室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r020_internet', 'r020', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥17，地址为浙港国际1号楼136室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9835,7 +9835,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r021_internet', 'r021', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥19，地址为浙港国际2号楼109号(虾龙圩地铁站B口步行490米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r021_internet', 'r021', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥19，地址为浙港国际2号楼109号(虾龙圩地铁站B口步行490米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9847,7 +9847,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r022_internet', 'r022', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥19，地址为余杭塘路与崇仁路交叉口西溪银泰城B1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r022_internet', 'r022', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥19，地址为余杭塘路与崇仁路交叉口西溪银泰城B1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9859,7 +9859,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r023_internet', 'r023', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥26，地址为紫荆花北路188号4幢一层麦当劳餐厅。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r023_internet', 'r023', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥26，地址为紫荆花北路188号4幢一层麦当劳餐厅。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9871,7 +9871,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r024_internet', 'r024', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥20，地址为望月公寓12号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r024_internet', 'r024', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥20，地址为望月公寓12号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9883,7 +9883,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r025_internet', 'r025', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥19，地址为紫荆花北路139,137号望月公寓桂花苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r025_internet', 'r025', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥19，地址为紫荆花北路139,137号望月公寓桂花苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9895,7 +9895,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r026_internet', 'r026', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥24，地址为申花路798号1层1017室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r026_internet', 'r026', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥24，地址为申花路798号1层1017室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9907,7 +9907,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r027_internet', 'r027', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为望月商铺49号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r027_internet', 'r027', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为望月商铺49号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9919,7 +9919,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r028_internet', 'r028', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥9，地址为三墩镇萍水西街197号(三坝地铁站D口步行340米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r028_internet', 'r028', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥9，地址为三墩镇萍水西街197号(三坝地铁站D口步行340米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9931,7 +9931,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r029_internet', 'r029', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥19，地址为港湾家园29幢。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r029_internet', 'r029', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥19，地址为港湾家园29幢。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9943,7 +9943,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r030_internet', 'r030', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥12，地址为双龙街588号银泰城F1层2幢118号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r030_internet', 'r030', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥12，地址为双龙街588号银泰城F1层2幢118号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9955,7 +9955,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r031_internet', 'r031', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥23，地址为龙宇街望月公寓16号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r031_internet', 'r031', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥23，地址为龙宇街望月公寓16号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9967,7 +9967,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r032_internet', 'r032', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥23，地址为三墩紫荆花城2号楼123号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r032_internet', 'r032', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥23，地址为三墩紫荆花城2号楼123号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9979,7 +9979,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r033_internet', 'r033', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥20，地址为盛龙街浙港国际2幢101室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r033_internet', 'r033', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥20，地址为盛龙街浙港国际2幢101室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -9991,7 +9991,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r034_internet', 'r034', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥31，地址为余杭塘路688号浙大紫金港校区西区管理学院新大楼A座1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r034_internet', 'r034', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥31，地址为余杭塘路688号浙大紫金港校区西区管理学院新大楼A座1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10003,7 +10003,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r035_internet', 'r035', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥19，地址为望月公寓樱花苑望月商铺52号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r035_internet', 'r035', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥19，地址为望月公寓樱花苑望月商铺52号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10015,7 +10015,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r036_internet', 'r036', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥21，地址为萃紫街69号德萃公寓。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r036_internet', 'r036', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥21，地址为萃紫街69号德萃公寓。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10027,7 +10027,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r037_internet', 'r037', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥18，地址为蒋村街道西溪银泰商业中心2号楼东楼133室(海底捞楼上)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r037_internet', 'r037', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥18，地址为蒋村街道西溪银泰商业中心2号楼东楼133室(海底捞楼上)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10039,7 +10039,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r038_internet', 'r038', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥19，地址为三墩镇浙港国际2号楼122室-1。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r038_internet', 'r038', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥19，地址为三墩镇浙港国际2号楼122室-1。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10051,7 +10051,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r039_internet', 'r039', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥12，地址为三墩镇紫荆花北路188号3幢108室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r039_internet', 'r039', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥12，地址为三墩镇紫荆花北路188号3幢108室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10063,7 +10063,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r040_internet', 'r040', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥18，地址为双龙街588号杭州西溪银泰城F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r040_internet', 'r040', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥18，地址为双龙街588号杭州西溪银泰城F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10075,7 +10075,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r041_internet', 'r041', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.6、人均约 ¥19，地址为紫金创业园B座101-105室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r041_internet', 'r041', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.6、人均约 ¥19，地址为紫金创业园B座101-105室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10087,7 +10087,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r042_internet', 'r042', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为双龙街588号杭州西溪银泰城西区(弘德路店)B1层BF022。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r042_internet', 'r042', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为双龙街588号杭州西溪银泰城西区(弘德路店)B1层BF022。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10099,7 +10099,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r043_internet', 'r043', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥22，地址为紫荆花北路139号,137号望月公寓桂花苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r043_internet', 'r043', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥22，地址为紫荆花北路139号,137号望月公寓桂花苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10111,7 +10111,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r044_internet', 'r044', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为三墩镇望月公寓商业用房47号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r044_internet', 'r044', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥28，地址为三墩镇望月公寓商业用房47号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10123,7 +10123,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r045_internet', 'r045', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥28，地址为三墩镇紫蝶苑10号楼206室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r045_internet', 'r045', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥28，地址为三墩镇紫蝶苑10号楼206室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10135,7 +10135,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r046_internet', 'r046', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥9，地址为望月公寓东4门南120米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r046_internet', 'r046', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥9，地址为望月公寓东4门南120米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10147,7 +10147,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r047_internet', 'r047', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥18，地址为盛龙街浙港国际1号楼140号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r047_internet', 'r047', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥18，地址为盛龙街浙港国际1号楼140号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10159,7 +10159,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r048_internet', 'r048', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥30，地址为望月商铺5-6号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r048_internet', 'r048', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥30，地址为望月商铺5-6号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10171,7 +10171,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r049_internet', 'r049', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为三墩镇望月公寓商业用房30号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r049_internet', 'r049', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥20，地址为三墩镇望月公寓商业用房30号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10183,7 +10183,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r050_internet', 'r050', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为三墩镇望月公寓商业用房75号铺位1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r050_internet', 'r050', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥23，地址为三墩镇望月公寓商业用房75号铺位1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10195,7 +10195,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r051_internet', 'r051', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥33，地址为港湾家园西区18幢5号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r051_internet', 'r051', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥33，地址为港湾家园西区18幢5号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10207,7 +10207,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r052_internet', 'r052', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥25，地址为余杭塘路与崇仁路交叉口西溪银泰城地下一层铺位号BF038。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r052_internet', 'r052', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥25，地址为余杭塘路与崇仁路交叉口西溪银泰城地下一层铺位号BF038。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10219,7 +10219,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r053_internet', 'r053', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥33，地址为三墩镇港湾家园29幢3单元1楼7号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r053_internet', 'r053', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥33，地址为三墩镇港湾家园29幢3单元1楼7号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10231,7 +10231,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r054_internet', 'r054', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥13，地址为双龙街588号杭州西溪银泰城西区弘德路店F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r054_internet', 'r054', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥13，地址为双龙街588号杭州西溪银泰城西区弘德路店F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10243,7 +10243,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r055_internet', 'r055', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥20，地址为望月公寓23号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r055_internet', 'r055', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥20，地址为望月公寓23号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10255,7 +10255,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r056_internet', 'r056', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥25，地址为望月公寓东4门南110米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r056_internet', 'r056', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥25，地址为望月公寓东4门南110米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10267,7 +10267,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r057_internet', 'r057', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥22，地址为紫荆花北路139,137号望月公寓桂花苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r057_internet', 'r057', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥22，地址为紫荆花北路139,137号望月公寓桂花苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10279,7 +10279,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r058_internet', 'r058', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥25，地址为双龙街西溪银泰城1号楼南-3-124室(蜜雪冰城隔壁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r058_internet', 'r058', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥25，地址为双龙街西溪银泰城1号楼南-3-124室(蜜雪冰城隔壁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10291,7 +10291,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r059_internet', 'r059', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥21，地址为2-东116(浙大紫金港地铁站B1口步行270米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r059_internet', 'r059', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥21，地址为2-东116(浙大紫金港地铁站B1口步行270米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10303,7 +10303,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r060_internet', 'r060', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥23，地址为三墩镇紫金花北路163号望月公寓商业用房165号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r060_internet', 'r060', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥23，地址为三墩镇紫金花北路163号望月公寓商业用房165号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10315,7 +10315,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r061_internet', 'r061', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥24，地址为西溪银泰2号楼南楼126室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r061_internet', 'r061', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥24，地址为西溪银泰2号楼南楼126室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10327,7 +10327,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r062_internet', 'r062', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥20，地址为三墩镇集萃路25号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r062_internet', 'r062', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥20，地址为三墩镇集萃路25号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10339,7 +10339,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r063_internet', 'r063', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥25，地址为蒋村街道余杭塘路与双龙路交叉口地下一层036阿香米线。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r063_internet', 'r063', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥25，地址为蒋村街道余杭塘路与双龙路交叉口地下一层036阿香米线。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10351,7 +10351,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r064_internet', 'r064', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥18，地址为浙港国际(虾龙圩地铁站B口步行420米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r064_internet', 'r064', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥18，地址为浙港国际(虾龙圩地铁站B口步行420米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10363,7 +10363,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r065_internet', 'r065', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥25，地址为三墩镇古墩路673号瑞博国际大厦。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r065_internet', 'r065', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥25，地址为三墩镇古墩路673号瑞博国际大厦。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10375,7 +10375,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r066_internet', 'r066', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥25，地址为申花路781号商铺(虾龙圩地铁站C口步行490米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r066_internet', 'r066', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥25，地址为申花路781号商铺(虾龙圩地铁站C口步行490米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10387,7 +10387,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r067_internet', 'r067', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥21，地址为浙港国际(虾龙圩地铁站B口步行480米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r067_internet', 'r067', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥21，地址为浙港国际(虾龙圩地铁站B口步行480米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10399,7 +10399,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r068_internet', 'r068', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥26，地址为剑桥公社C座3幢16号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r068_internet', 'r068', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥26，地址为剑桥公社C座3幢16号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10411,7 +10411,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r069_internet', 'r069', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥23，地址为双龙街588号杭州西溪银泰城西区(弘德路店)B1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r069_internet', 'r069', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥23，地址为双龙街588号杭州西溪银泰城西区(弘德路店)B1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10423,7 +10423,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r070_internet', 'r070', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥25，地址为三墩镇紫荆花城2号楼120室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r070_internet', 'r070', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥25，地址为三墩镇紫荆花城2号楼120室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10435,7 +10435,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r071_internet', 'r071', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥16，地址为西溪世纪中心1幢128室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r071_internet', 'r071', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥16，地址为西溪世纪中心1幢128室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10447,7 +10447,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r072_internet', 'r072', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.7、人均约 ¥11，地址为浙港国际一号楼102。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r072_internet', 'r072', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.7、人均约 ¥11，地址为浙港国际一号楼102。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10459,7 +10459,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r073_internet', 'r073', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥26，地址为三墩镇望月商铺77号(紫荆花北路)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r073_internet', 'r073', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥26，地址为三墩镇望月商铺77号(紫荆花北路)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10471,7 +10471,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r074_internet', 'r074', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.4、人均约 ¥24，地址为港湾家园西区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r074_internet', 'r074', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.4、人均约 ¥24，地址为港湾家园西区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10483,7 +10483,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r075_internet', 'r075', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥21，地址为西溪银泰商业中心2-东137室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r075_internet', 'r075', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥21，地址为西溪银泰商业中心2-东137室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10495,7 +10495,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r076_internet', 'r076', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥14，地址为双龙街588号杭州西溪银泰城F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r076_internet', 'r076', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥14，地址为双龙街588号杭州西溪银泰城F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10507,7 +10507,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r077_internet', 'r077', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥25，地址为五常港路442号444号华策中心9号一层101/102号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r077_internet', 'r077', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥25，地址为五常港路442号444号华策中心9号一层101/102号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10519,7 +10519,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r078_internet', 'r078', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥15，地址为蒋村街道花蒋天街商业中心10号楼108室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r078_internet', 'r078', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥15，地址为蒋村街道花蒋天街商业中心10号楼108室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10531,7 +10531,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r079_internet', 'r079', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥20，地址为蒋村街道西溪世纪中心2号楼123室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r079_internet', 'r079', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥20，地址为蒋村街道西溪世纪中心2号楼123室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10543,7 +10543,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r080_internet', 'r080', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥24，地址为西溪谷国际商务中心店一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r080_internet', 'r080', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥24，地址为西溪谷国际商务中心店一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10555,7 +10555,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r081_internet', 'r081', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥16，地址为三墩镇望月公寓商业用房130号一楼紫荆花北路183号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r081_internet', 'r081', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥16，地址为三墩镇望月公寓商业用房130号一楼紫荆花北路183号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10567,7 +10567,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r082_internet', 'r082', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为西园五路2号西园紫行大厦2-109室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r082_internet', 'r082', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥9，地址为西园五路2号西园紫行大厦2-109室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10579,7 +10579,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r083_internet', 'r083', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为2号线三坝地铁站C01商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r083_internet', 'r083', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为2号线三坝地铁站C01商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10591,7 +10591,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r084_internet', 'r084', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥31，地址为双龙街西溪银泰商业中心1号楼地下一层BF016A室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r084_internet', 'r084', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥31，地址为双龙街西溪银泰商业中心1号楼地下一层BF016A室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10603,7 +10603,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r085_internet', 'r085', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥19，地址为三墩镇城北商贸园46幢。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r085_internet', 'r085', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥19，地址为三墩镇城北商贸园46幢。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10615,7 +10615,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r086_internet', 'r086', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.6、人均约 ¥17，地址为蒋村街道晴川街西溪银泰商业中心1号楼地下一层BF112室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r086_internet', 'r086', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.6、人均约 ¥17，地址为蒋村街道晴川街西溪银泰商业中心1号楼地下一层BF112室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10627,7 +10627,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r087_internet', 'r087', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥35，地址为西溪银泰城地下一层商铺BF052-054号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r087_internet', 'r087', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥35，地址为西溪银泰城地下一层商铺BF052-054号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10639,7 +10639,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r088_internet', 'r088', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥25，地址为古墩路616号同人精华F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r088_internet', 'r088', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥25，地址为古墩路616号同人精华F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10651,7 +10651,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r089_internet', 'r089', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥23，地址为蒋村街道西溪银泰商业中心2号楼南楼307室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r089_internet', 'r089', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥23，地址为蒋村街道西溪银泰商业中心2号楼南楼307室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10663,7 +10663,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r090_internet', 'r090', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥20，地址为蒋村街道西溪世纪中心1-1151-116号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r090_internet', 'r090', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥20，地址为蒋村街道西溪世纪中心1-1151-116号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10675,7 +10675,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r091_internet', 'r091', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥39，地址为西溪银泰城负一楼B1035。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r091_internet', 'r091', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥39，地址为西溪银泰城负一楼B1035。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10687,7 +10687,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r092_internet', 'r092', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥28，地址为古墩路657号(三坝地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r092_internet', 'r092', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥28，地址为古墩路657号(三坝地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10699,7 +10699,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r093_internet', 'r093', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥20，地址为西溪天街3号楼117室王老笨东北过桥米线。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r093_internet', 'r093', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥20，地址为西溪天街3号楼117室王老笨东北过桥米线。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10711,7 +10711,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r094_internet', 'r094', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为古墩路651号文鼎财富F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r094_internet', 'r094', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥23，地址为古墩路651号文鼎财富F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10723,7 +10723,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r095_internet', 'r095', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥44，地址为三墩镇申花路789号剑桥公社B座4号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r095_internet', 'r095', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥44，地址为三墩镇申花路789号剑桥公社B座4号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10735,7 +10735,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r096_internet', 'r096', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为紫霞街崇仁路口(公交站)后面的肯德基。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r096_internet', 'r096', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥28，地址为紫霞街崇仁路口(公交站)后面的肯德基。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10747,7 +10747,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r097_internet', 'r097', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥28，地址为蒋村街道文一西路588号西溪首座5幢楼111室商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r097_internet', 'r097', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥28，地址为蒋村街道文一西路588号西溪首座5幢楼111室商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10759,7 +10759,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r098_internet', 'r098', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥55，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r098_internet', 'r098', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥55，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10771,7 +10771,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r099_internet', 'r099', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.7、人均约 ¥14，地址为振华路189号紫润国际。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r099_internet', 'r099', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.7、人均约 ¥14，地址为振华路189号紫润国际。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10783,7 +10783,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r100_internet', 'r100', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.6、人均约 ¥24，地址为杭州龙申综合发展中心2幢一层8号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r100_internet', 'r100', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.6、人均约 ¥24，地址为杭州龙申综合发展中心2幢一层8号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10795,7 +10795,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r101_internet', 'r101', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥35，地址为西溪银泰商业中心2号楼东楼144海底捞楼上。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r101_internet', 'r101', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥35，地址为西溪银泰商业中心2号楼东楼144海底捞楼上。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10807,7 +10807,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r102_internet', 'r102', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥111，地址为申花路798号1楼门面。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r102_internet', 'r102', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥111，地址为申花路798号1楼门面。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10819,7 +10819,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r103_internet', 'r103', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥42，地址为万塘路40号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r103_internet', 'r103', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥42，地址为万塘路40号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10831,7 +10831,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r104_internet', 'r104', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为浙江大学紫金港校区银泉食堂对面1幢1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r104_internet', 'r104', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥16，地址为浙江大学紫金港校区银泉食堂对面1幢1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10843,7 +10843,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r105_internet', 'r105', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥9，地址为余杭塘路866号浙江大学紫金港校区浙大超市启真湖店内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r105_internet', 'r105', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥9，地址为余杭塘路866号浙江大学紫金港校区浙大超市启真湖店内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10855,7 +10855,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r106_internet', 'r106', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥13，地址为三墩镇浙江大学紫金港校区学生活动中心B1号楼106。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r106_internet', 'r106', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥13，地址为三墩镇浙江大学紫金港校区学生活动中心B1号楼106。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10867,7 +10867,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r107_internet', 'r107', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为紫金港路浙大紫金港校区文科组团人文学院大楼一层大厅。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r107_internet', 'r107', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥17，地址为紫金港路浙大紫金港校区文科组团人文学院大楼一层大厅。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10879,7 +10879,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r108_internet', 'r108', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥14，地址为余杭塘路866号浙江大学紫金港校区东二教学楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r108_internet', 'r108', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥14，地址为余杭塘路866号浙江大学紫金港校区东二教学楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10891,7 +10891,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r109_internet', 'r109', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥14，地址为余杭塘路929号浙江大学紫金港校区成均苑7幢一层1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r109_internet', 'r109', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥14，地址为余杭塘路929号浙江大学紫金港校区成均苑7幢一层1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10903,7 +10903,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r110_internet', 'r110', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥14，地址为浙大医学院店。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r110_internet', 'r110', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥14，地址为浙大医学院店。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10915,7 +10915,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r111_internet', 'r111', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥13，地址为余杭塘路866号浙江大学紫金港校区白沙综合楼二楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r111_internet', 'r111', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥13，地址为余杭塘路866号浙江大学紫金港校区白沙综合楼二楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10927,7 +10927,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r112_internet', 'r112', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥13，地址为余杭塘路与紫金港路隧道交叉口西320米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r112_internet', 'r112', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥13，地址为余杭塘路与紫金港路隧道交叉口西320米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10939,7 +10939,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r113_internet', 'r113', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥13，地址为余杭塘路388号浙大紫金港校区蓝田6幢1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r113_internet', 'r113', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥13，地址为余杭塘路388号浙大紫金港校区蓝田6幢1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10951,7 +10951,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r114_internet', 'r114', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥15，地址为浙大紫金港校区翠柏1舍1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r114_internet', 'r114', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥15，地址为浙大紫金港校区翠柏1舍1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10963,7 +10963,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r115_internet', 'r115', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为浙江大学紫金港校区店。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r115_internet', 'r115', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥9，地址为浙江大学紫金港校区店。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10975,7 +10975,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r116_internet', 'r116', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r116_internet', 'r116', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥16，地址为紫金创业园B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10987,7 +10987,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r117_internet', 'r117', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥9，地址为三墩镇望月公寓20号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r117_internet', 'r117', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥9，地址为三墩镇望月公寓20号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -10999,7 +10999,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r118_internet', 'r118', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥8，地址为育英路望月公寓55号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r118_internet', 'r118', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥8，地址为育英路望月公寓55号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11011,7 +11011,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r119_internet', 'r119', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.8、人均约 ¥8，地址为西溪银泰城1号楼3-南112室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r119_internet', 'r119', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.8、人均约 ¥8，地址为西溪银泰城1号楼3-南112室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11023,7 +11023,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r120_internet', 'r120', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为三墩镇浙大紫金港望月公寓南门32A号(浙大紫金港校区坠落街)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r120_internet', 'r120', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥16，地址为三墩镇浙大紫金港望月公寓南门32A号(浙大紫金港校区坠落街)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11035,7 +11035,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r121_internet', 'r121', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥12，地址为浙江大学玉泉校区二食堂背后(校园卡服务部对面)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r121_internet', 'r121', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥12，地址为浙江大学玉泉校区二食堂背后(校园卡服务部对面)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11047,7 +11047,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r122_internet', 'r122', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥16，地址为浙大路38号浙江大学玉泉校区内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r122_internet', 'r122', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥16，地址为浙大路38号浙江大学玉泉校区内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11059,7 +11059,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r123_internet', 'r123', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥12，地址为浙大求是村南2门西140米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r123_internet', 'r123', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥12，地址为浙大求是村南2门西140米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11071,7 +11071,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r124_internet', 'r124', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥17，地址为浙大路38号浙江大学玉泉校区求是村。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r124_internet', 'r124', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥17，地址为浙大路38号浙江大学玉泉校区求是村。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11083,7 +11083,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r125_internet', 'r125', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥12，地址为玉古路149号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r125_internet', 'r125', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥12，地址为玉古路149号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11095,7 +11095,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r126_internet', 'r126', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥22，地址为玉古路149号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r126_internet', 'r126', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥22，地址为玉古路149号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11107,7 +11107,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r127_internet', 'r127', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥15，地址为玉古路149号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r127_internet', 'r127', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥15，地址为玉古路149号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11119,7 +11119,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r128_internet', 'r128', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥15，地址为外东山弄与夕阳红路交叉口北60米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r128_internet', 'r128', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥15，地址为外东山弄与夕阳红路交叉口北60米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11131,7 +11131,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r129_internet', 'r129', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥14，地址为浙大路30-6号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r129_internet', 'r129', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥14，地址为浙大路30-6号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11143,7 +11143,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r130_internet', 'r130', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥13，地址为浙大求是村南2门西100米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r130_internet', 'r130', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥13，地址为浙大求是村南2门西100米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11155,7 +11155,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r131_internet', 'r131', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥21，地址为新丰小吃浙大路39号(浙大路分店)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r131_internet', 'r131', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥21，地址为新丰小吃浙大路39号(浙大路分店)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11167,7 +11167,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r132_internet', 'r132', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥10，地址为玉古路167号玉古路小区(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r132_internet', 'r132', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥10，地址为玉古路167号玉古路小区(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11179,7 +11179,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r133_internet', 'r133', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥19，地址为夕阳红路与外东山弄交叉口西北60米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r133_internet', 'r133', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥19，地址为夕阳红路与外东山弄交叉口西北60米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11191,7 +11191,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r134_internet', 'r134', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥13，地址为外东山弄57号一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r134_internet', 'r134', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥13，地址为外东山弄57号一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11203,7 +11203,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r135_internet', 'r135', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥12，地址为全季酒店东北门旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r135_internet', 'r135', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥12，地址为全季酒店东北门旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11215,7 +11215,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r136_internet', 'r136', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥30，地址为玉古路166号(黄龙体育中心地铁站D口步行160米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r136_internet', 'r136', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥30，地址为玉古路166号(黄龙体育中心地铁站D口步行160米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11227,7 +11227,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r137_internet', 'r137', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥15，地址为外东山弄66号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r137_internet', 'r137', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥15，地址为外东山弄66号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11239,7 +11239,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r138_internet', 'r138', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥24，地址为灵隐街道体中三路1号1幢1层103号商铺铺位C。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r138_internet', 'r138', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥24，地址为灵隐街道体中三路1号1幢1层103号商铺铺位C。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11251,7 +11251,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r139_internet', 'r139', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为青芝坞13号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r139_internet', 'r139', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥28，地址为青芝坞13号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11263,7 +11263,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r140_internet', 'r140', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥21，地址为智泉路与树人路交叉口北140米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r140_internet', 'r140', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥21，地址为智泉路与树人路交叉口北140米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11275,7 +11275,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r141_internet', 'r141', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥17，地址为体环二路与支路二交叉口西60米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r141_internet', 'r141', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥17，地址为体环二路与支路二交叉口西60米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11287,7 +11287,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r142_internet', 'r142', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥19，地址为西溪路381号(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r142_internet', 'r142', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥19，地址为西溪路381号(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11299,7 +11299,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r143_internet', 'r143', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥16，地址为庆丰新村西南2门西60米(古荡地铁站C口步行240米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r143_internet', 'r143', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥16，地址为庆丰新村西南2门西60米(古荡地铁站C口步行240米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11311,7 +11311,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r144_internet', 'r144', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥15，地址为黄龙路1号浙江省黄龙体育中心。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r144_internet', 'r144', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥15，地址为黄龙路1号浙江省黄龙体育中心。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11323,7 +11323,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r145_internet', 'r145', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为华洋体育馆体中三路1号1幢1层118号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r145_internet', 'r145', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为华洋体育馆体中三路1号1幢1层118号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11335,7 +11335,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r146_internet', 'r146', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥15，地址为西溪路413号(古荡地铁站C口步行90米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r146_internet', 'r146', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥15，地址为西溪路413号(古荡地铁站C口步行90米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11347,7 +11347,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r147_internet', 'r147', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥20，地址为灵隐街道黄龙路1号黄龙体育中心体育场西区W125。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r147_internet', 'r147', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥20，地址为灵隐街道黄龙路1号黄龙体育中心体育场西区W125。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11359,7 +11359,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r148_internet', 'r148', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥35，地址为外东山弄66号A栋1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r148_internet', 'r148', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥35，地址为外东山弄66号A栋1楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11371,7 +11371,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r149_internet', 'r149', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥25，地址为灵隐街道体中三路1号1幢第一层108号铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r149_internet', 'r149', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥25，地址为灵隐街道体中三路1号1幢第一层108号铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11383,7 +11383,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r150_internet', 'r150', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥25，地址为玉古路60号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r150_internet', 'r150', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥25，地址为玉古路60号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11395,7 +11395,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r151_internet', 'r151', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.5、人均约 ¥9，地址为玉古路小区东南1门旁(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r151_internet', 'r151', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.5、人均约 ¥9，地址为玉古路小区东南1门旁(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11407,7 +11407,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r152_internet', 'r152', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥29，地址为青芝坞10号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r152_internet', 'r152', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥29，地址为青芝坞10号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11419,7 +11419,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r153_internet', 'r153', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥23，地址为黄龙华洋体育馆1号1幢1层107商铺龙记面馆。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r153_internet', 'r153', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥23，地址为黄龙华洋体育馆1号1幢1层107商铺龙记面馆。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11431,7 +11431,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r154_internet', 'r154', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥11，地址为天目山路388号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r154_internet', 'r154', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥11，地址为天目山路388号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11443,7 +11443,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r155_internet', 'r155', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥20，地址为西溪路393号(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r155_internet', 'r155', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥20，地址为西溪路393号(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11455,7 +11455,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r156_internet', 'r156', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥30，地址为黄龙路1号浙江省黄龙体育中心。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r156_internet', 'r156', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥30，地址为黄龙路1号浙江省黄龙体育中心。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11467,7 +11467,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r157_internet', 'r157', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥26，地址为灵隐街道求是路8号公元大厦南楼B1层-6。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r157_internet', 'r157', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥26，地址为灵隐街道求是路8号公元大厦南楼B1层-6。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11479,7 +11479,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r158_internet', 'r158', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥21，地址为庆丰农贸市场东北门旁(古荡地铁站C口步行110米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r158_internet', 'r158', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥21，地址为庆丰农贸市场东北门旁(古荡地铁站C口步行110米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11491,7 +11491,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r159_internet', 'r159', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥36，地址为浙大路东山弄86号东山农贸市场106、107、101-1号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r159_internet', 'r159', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥36，地址为浙大路东山弄86号东山农贸市场106、107、101-1号商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11503,7 +11503,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r160_internet', 'r160', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥25，地址为玉古路61号青芝坞阑家湾23号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r160_internet', 'r160', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥25，地址为玉古路61号青芝坞阑家湾23号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11515,7 +11515,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r161_internet', 'r161', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥5，地址为万塘路8号黄龙时代广场A座F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r161_internet', 'r161', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥5，地址为万塘路8号黄龙时代广场A座F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11527,7 +11527,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r162_internet', 'r162', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥32，地址为黄龙体育中心西大道与西溪路交叉口东200米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r162_internet', 'r162', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥32，地址为黄龙体育中心西大道与西溪路交叉口东200米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11539,7 +11539,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r163_internet', 'r163', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.3、人均约 ¥25，地址为浙大路38号浙江大学玉泉校区知泉路18号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r163_internet', 'r163', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.3、人均约 ¥25，地址为浙大路38号浙江大学玉泉校区知泉路18号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11551,7 +11551,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r164_internet', 'r164', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为黄龙时代广场A座万塘路12号-1商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r164_internet', 'r164', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为黄龙时代广场A座万塘路12号-1商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11563,7 +11563,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r165_internet', 'r165', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.4、人均约 ¥17，地址为外东山弄86号东山市集一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r165_internet', 'r165', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.4、人均约 ¥17，地址为外东山弄86号东山市集一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11575,7 +11575,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r166_internet', 'r166', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥26，地址为万塘路10号-1商铺(古荡地铁站C口步行320米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r166_internet', 'r166', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥26，地址为万塘路10号-1商铺(古荡地铁站C口步行320米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11587,7 +11587,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r167_internet', 'r167', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.3、人均约 ¥11，地址为万塘路与西溪路交叉口北60米(古荡地铁站C口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r167_internet', 'r167', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.3、人均约 ¥11，地址为万塘路与西溪路交叉口北60米(古荡地铁站C口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11599,7 +11599,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r168_internet', 'r168', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥21，地址为翠苑街道塘苗路29号底商。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r168_internet', 'r168', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥21，地址为翠苑街道塘苗路29号底商。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11611,7 +11611,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r169_internet', 'r169', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.7、人均约 ¥39，地址为灵隐街道青芝坞29号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r169_internet', 'r169', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.7、人均约 ¥39，地址为灵隐街道青芝坞29号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11623,7 +11623,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r170_internet', 'r170', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥30，地址为塘苗路2号105室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r170_internet', 'r170', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥30，地址为塘苗路2号105室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11635,7 +11635,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r171_internet', 'r171', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.7、人均约 ¥35，地址为学院路77号黄龙国际中心4号楼麦当劳餐厅。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r171_internet', 'r171', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.7、人均约 ¥35，地址为学院路77号黄龙国际中心4号楼麦当劳餐厅。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11647,7 +11647,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r172_internet', 'r172', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为文三路477号一层商铺和地下室一部分。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r172_internet', 'r172', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥28，地址为文三路477号一层商铺和地下室一部分。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11659,7 +11659,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r173_internet', 'r173', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.6、人均约 ¥23，地址为玉古路188号现代国际大厦A座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r173_internet', 'r173', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.6、人均约 ¥23，地址为玉古路188号现代国际大厦A座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11671,7 +11671,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r174_internet', 'r174', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥37，地址为万塘路与采薇巷交叉口东南80米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r174_internet', 'r174', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥37，地址为万塘路与采薇巷交叉口东南80米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11683,7 +11683,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r175_internet', 'r175', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥68，地址为西溪路399号(黄龙体育中心地铁站D口步行100米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r175_internet', 'r175', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥68，地址为西溪路399号(黄龙体育中心地铁站D口步行100米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11695,7 +11695,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r176_internet', 'r176', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥18，地址为文三路500号星光城A座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r176_internet', 'r176', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥18，地址为文三路500号星光城A座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11707,7 +11707,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r177_internet', 'r177', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥56，地址为黄龙体育中心A3口向东20米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r177_internet', 'r177', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥56，地址为黄龙体育中心A3口向东20米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11719,7 +11719,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r178_internet', 'r178', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥65，地址为余杭区青芝坞15号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r178_internet', 'r178', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥65，地址为余杭区青芝坞15号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11731,7 +11731,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r179_internet', 'r179', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.7，地址为浙大求是社区61幢对面。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r179_internet', 'r179', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.7，地址为浙大求是社区61幢对面。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11743,7 +11743,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r180_internet', 'r180', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为文三路500号星光城9号楼9-L1-0069-L1-016。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r180_internet', 'r180', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥30，地址为文三路500号星光城9号楼9-L1-0069-L1-016。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11755,7 +11755,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r181_internet', 'r181', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为翠苑街道学院路77号黄龙国际中心AB楼室外外广场A5室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r181_internet', 'r181', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥30，地址为翠苑街道学院路77号黄龙国际中心AB楼室外外广场A5室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11767,7 +11767,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r182_internet', 'r182', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥18，地址为黄姑山路38号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r182_internet', 'r182', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥18，地址为黄姑山路38号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11779,7 +11779,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r183_internet', 'r183', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥18，地址为杭州地铁19号线文三路地铁站商业区wsla01商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r183_internet', 'r183', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥18，地址为杭州地铁19号线文三路地铁站商业区wsla01商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11791,7 +11791,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r184_internet', 'r184', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥31，地址为文三路583号(文三路地铁站D3口步行460米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r184_internet', 'r184', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥31，地址为文三路583号(文三路地铁站D3口步行460米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11803,7 +11803,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r185_internet', 'r185', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥11，地址为文三路233-7号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r185_internet', 'r185', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥11，地址为文三路233-7号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11815,7 +11815,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r186_internet', 'r186', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥62，地址为体中三路1号1幢1层125号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r186_internet', 'r186', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥62，地址为体中三路1号1幢1层125号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11827,7 +11827,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r187_internet', 'r187', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥37，地址为文三路453号中茵大厦A101室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r187_internet', 'r187', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥37，地址为文三路453号中茵大厦A101室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11839,7 +11839,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r188_internet', 'r188', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.3，地址为浙江大学玉泉校区三食堂1楼西南角。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r188_internet', 'r188', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.3，地址为浙江大学玉泉校区三食堂1楼西南角。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11851,7 +11851,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r189_internet', 'r189', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.3，地址为西溪路与万塘路交叉口南40米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r189_internet', 'r189', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.3，地址为西溪路与万塘路交叉口南40米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11863,7 +11863,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r190_internet', 'r190', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥42，地址为西溪路75号西溪路75号院。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r190_internet', 'r190', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥42，地址为西溪路75号西溪路75号院。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11875,7 +11875,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r191_internet', 'r191', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥9，地址为浙大路38号(浙江大学玉泉校区外经贸楼一楼大厅)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r191_internet', 'r191', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥9，地址为浙大路38号(浙江大学玉泉校区外经贸楼一楼大厅)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11887,7 +11887,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r192_internet', 'r192', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥17，地址为浙大路38号浙江大学玉泉校区永谦活动中心对面求是超市内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r192_internet', 'r192', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥17，地址为浙大路38号浙江大学玉泉校区永谦活动中心对面求是超市内。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11899,7 +11899,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r193_internet', 'r193', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥9，地址为玉古路145号黄鸿年科技综合大楼F1层玉古路146-2号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r193_internet', 'r193', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥9，地址为玉古路145号黄鸿年科技综合大楼F1层玉古路146-2号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11911,7 +11911,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r194_internet', 'r194', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥6，地址为玉古路167号玉古路小区(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r194_internet', 'r194', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥6，地址为玉古路167号玉古路小区(黄龙体育中心地铁站D口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11923,7 +11923,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r195_internet', 'r195', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥23，地址为玉古路149-1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r195_internet', 'r195', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥23，地址为玉古路149-1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11935,7 +11935,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r196_internet', 'r196', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥26，地址为浙江大学玉泉校区二食堂1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r196_internet', 'r196', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥26，地址为浙江大学玉泉校区二食堂1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11947,7 +11947,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r197_internet', 'r197', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥14，地址为玉古路157号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r197_internet', 'r197', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥14，地址为玉古路157号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11959,7 +11959,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r198_internet', 'r198', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥14，地址为外东山弄86号西湖·东山集1层左边。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r198_internet', 'r198', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥14，地址为外东山弄86号西湖·东山集1层左边。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11971,7 +11971,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r199_internet', 'r199', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥14，地址为浙大路38号浙大玉泉校区内5号店铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r199_internet', 'r199', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥14，地址为浙大路38号浙大玉泉校区内5号店铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11983,7 +11983,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r200_internet', 'r200', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥26，地址为灵隐街道浙江大学玉泉校区小桥门附房9-2号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r200_internet', 'r200', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥26，地址为灵隐街道浙江大学玉泉校区小桥门附房9-2号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -11995,7 +11995,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r201_internet', 'r201', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥13，地址为西溪路410号庆丰公寓西楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r201_internet', 'r201', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥13，地址为西溪路410号庆丰公寓西楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12007,7 +12007,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r202_internet', 'r202', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为西溪路412号浙大玉泉校区北门对面。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r202_internet', 'r202', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥17，地址为西溪路412号浙大玉泉校区北门对面。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12019,7 +12019,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r203_internet', 'r203', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 2.6，地址为曙光路89号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r203_internet', 'r203', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 2.6，地址为曙光路89号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12031,7 +12031,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r204_internet', 'r204', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.7、人均约 ¥15，地址为黄姑山路拓峰新天地4号楼1楼(沿着围墙走到最里面)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r204_internet', 'r204', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.7、人均约 ¥15，地址为黄姑山路拓峰新天地4号楼1楼(沿着围墙走到最里面)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12043,7 +12043,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r205_internet', 'r205', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥12，地址为文三路232号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r205_internet', 'r205', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥12，地址为文三路232号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12055,7 +12055,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r206_internet', 'r206', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为天目山路148号浙江大学(西溪校区)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r206_internet', 'r206', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥16，地址为天目山路148号浙江大学(西溪校区)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12067,7 +12067,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r207_internet', 'r207', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥16，地址为文三路118号文锦大厦B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r207_internet', 'r207', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥16，地址为文三路118号文锦大厦B座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12079,7 +12079,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r208_internet', 'r208', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥11，地址为文三路233-7号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r208_internet', 'r208', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥11，地址为文三路233-7号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12091,7 +12091,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r209_internet', 'r209', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥10，地址为天目山路148号浙江大学西溪校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r209_internet', 'r209', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥10，地址为天目山路148号浙江大学西溪校区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12103,7 +12103,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r210_internet', 'r210', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥13，地址为马塍路12号杭州丽庭酒店管理有限公司151-158室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r210_internet', 'r210', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥13，地址为马塍路12号杭州丽庭酒店管理有限公司151-158室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12115,7 +12115,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r211_internet', 'r211', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥14，地址为文三路90号东部软件园科技广场1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r211_internet', 'r211', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥14，地址为文三路90号东部软件园科技广场1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12127,7 +12127,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r212_internet', 'r212', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.7、人均约 ¥15，地址为西溪路58号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r212_internet', 'r212', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.7、人均约 ¥15，地址为西溪路58号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12139,7 +12139,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r213_internet', 'r213', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥10，地址为教工路88号立元创业楼F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r213_internet', 'r213', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥10，地址为教工路88号立元创业楼F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12151,7 +12151,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r214_internet', 'r214', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥23，地址为文三路123-2号(西溪数码港正对面)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r214_internet', 'r214', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥23，地址为文三路123-2号(西溪数码港正对面)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12163,7 +12163,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r215_internet', 'r215', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥15，地址为马塍路26号旁(近知味观)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r215_internet', 'r215', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥15，地址为马塍路26号旁(近知味观)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12175,7 +12175,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r216_internet', 'r216', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥19，地址为文三路72号科技广场(沈塘桥地铁站E口步行270米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r216_internet', 'r216', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥19，地址为文三路72号科技广场(沈塘桥地铁站E口步行270米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12187,7 +12187,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r217_internet', 'r217', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥21，地址为天目山路131号(杭大路口)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r217_internet', 'r217', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥21，地址为天目山路131号(杭大路口)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12199,7 +12199,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r218_internet', 'r218', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥13，地址为文三路255号联强大厦F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r218_internet', 'r218', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥13，地址为文三路255号联强大厦F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12211,7 +12211,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r219_internet', 'r219', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥20，地址为文二路102-1号(沈塘桥地铁站E口步行390米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r219_internet', 'r219', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥20，地址为文二路102-1号(沈塘桥地铁站E口步行390米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12223,7 +12223,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r220_internet', 'r220', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥36，地址为西溪街道文三路158号3幢1号楼一楼西起第四间。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r220_internet', 'r220', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥36，地址为西溪街道文三路158号3幢1号楼一楼西起第四间。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12235,7 +12235,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r221_internet', 'r221', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥17，地址为文三路158号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r221_internet', 'r221', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥17，地址为文三路158号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12247,7 +12247,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r222_internet', 'r222', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.7、人均约 ¥13，地址为黄姑山路29号文三数字生活街区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r222_internet', 'r222', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.7、人均约 ¥13，地址为黄姑山路29号文三数字生活街区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12259,7 +12259,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r223_internet', 'r223', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥15，地址为北山街道杭大路44号(黄龙洞地铁站A1口步行440米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r223_internet', 'r223', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥15，地址为北山街道杭大路44号(黄龙洞地铁站A1口步行440米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12271,7 +12271,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r224_internet', 'r224', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥18，地址为文三路31号(沈塘桥地铁站F1口步行120米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r224_internet', 'r224', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥18，地址为文三路31号(沈塘桥地铁站F1口步行120米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12283,7 +12283,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r225_internet', 'r225', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.7、人均约 ¥30，地址为文三路90号东部软件园科技广场。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r225_internet', 'r225', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.7、人均约 ¥30，地址为文三路90号东部软件园科技广场。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12295,7 +12295,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r226_internet', 'r226', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.5、人均约 ¥13，地址为文三路164号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r226_internet', 'r226', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.5、人均约 ¥13，地址为文三路164号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12307,7 +12307,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r227_internet', 'r227', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥25，地址为窑背巷与天目山路辅路交叉口北20米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r227_internet', 'r227', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥25，地址为窑背巷与天目山路辅路交叉口北20米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12319,7 +12319,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r228_internet', 'r228', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥10，地址为保俶路218号松木场河西小区西区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r228_internet', 'r228', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥10，地址为保俶路218号松木场河西小区西区。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12331,7 +12331,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r229_internet', 'r229', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥8，地址为黄姑山路48号建德大包(文三路地铁站A口步行410米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r229_internet', 'r229', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥8，地址为黄姑山路48号建德大包(文三路地铁站A口步行410米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12343,7 +12343,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r230_internet', 'r230', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥25，地址为教工路18号世贸丽晶城欧美中心F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r230_internet', 'r230', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥25，地址为教工路18号世贸丽晶城欧美中心F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12355,7 +12355,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r231_internet', 'r231', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥11，地址为马塍路11号(沈塘桥地铁站E口步行310米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r231_internet', 'r231', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥11，地址为马塍路11号(沈塘桥地铁站E口步行310米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12367,7 +12367,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r232_internet', 'r232', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥21，地址为西溪街道文三路235号一层107号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r232_internet', 'r232', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥21，地址为西溪街道文三路235号一层107号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12379,7 +12379,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r233_internet', 'r233', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥27，地址为文锦大厦B座正门南50米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r233_internet', 'r233', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥27，地址为文锦大厦B座正门南50米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12391,7 +12391,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r234_internet', 'r234', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.9、人均约 ¥18，地址为文三路103号5幢西侧(沈塘桥地铁站E口步行340米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r234_internet', 'r234', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.9、人均约 ¥18，地址为文三路103号5幢西侧(沈塘桥地铁站E口步行340米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12403,7 +12403,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r235_internet', 'r235', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥30，地址为教工路18号欧美中心。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r235_internet', 'r235', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥30，地址为教工路18号欧美中心。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12415,7 +12415,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r236_internet', 'r236', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥20，地址为文三路56-1号(沈塘桥地铁站E口步行100米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r236_internet', 'r236', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥20，地址为文三路56-1号(沈塘桥地铁站E口步行100米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12427,7 +12427,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r237_internet', 'r237', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥10，地址为黄姑山横路50号(文三路地铁站G口步行460米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r237_internet', 'r237', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥10，地址为黄姑山横路50号(文三路地铁站G口步行460米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12439,7 +12439,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r238_internet', 'r238', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥32，地址为马塍路10-3号(沈塘桥地铁站E口步行350米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r238_internet', 'r238', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥32，地址为马塍路10-3号(沈塘桥地铁站E口步行350米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12451,7 +12451,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r239_internet', 'r239', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为西溪街道文三路56-4号、56-3号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r239_internet', 'r239', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥30，地址为西溪街道文三路56-4号、56-3号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12463,7 +12463,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r240_internet', 'r240', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥20，地址为教工路18号世贸丽晶城欧美中心F2层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r240_internet', 'r240', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥20，地址为教工路18号世贸丽晶城欧美中心F2层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12475,7 +12475,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r241_internet', 'r241', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥24，地址为教工路23号百脑汇科技大厦5层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r241_internet', 'r241', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥24，地址为教工路23号百脑汇科技大厦5层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12487,7 +12487,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r242_internet', 'r242', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.7、人均约 ¥26，地址为文三路162号商铺左起第三间。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r242_internet', 'r242', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.7、人均约 ¥26，地址为文三路162号商铺左起第三间。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12499,7 +12499,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r243_internet', 'r243', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥17，地址为马塍路10-10号(沈塘桥地铁站E口步行320米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r243_internet', 'r243', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥17，地址为马塍路10-10号(沈塘桥地铁站E口步行320米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12511,7 +12511,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r244_internet', 'r244', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥31，地址为文三路223号立元商务楼F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r244_internet', 'r244', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥31，地址为文三路223号立元商务楼F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12523,7 +12523,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r245_internet', 'r245', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥19，地址为文三路223号立元商务楼F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r245_internet', 'r245', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥19，地址为文三路223号立元商务楼F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12535,7 +12535,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r246_internet', 'r246', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥18，地址为黄姑山路38号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r246_internet', 'r246', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥18，地址为黄姑山路38号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12547,7 +12547,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r247_internet', 'r247', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥28，地址为杭大路聚龙大厦A座肯德基。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r247_internet', 'r247', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥28，地址为杭大路聚龙大厦A座肯德基。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12559,7 +12559,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r248_internet', 'r248', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥4，地址为沈塘桥路29号(沈塘桥地铁站A口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r248_internet', 'r248', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥4，地址为沈塘桥路29号(沈塘桥地铁站A口旁)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12571,7 +12571,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r249_internet', 'r249', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥30，地址为马塍路与文三路交叉口西北80米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r249_internet', 'r249', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥30，地址为马塍路与文三路交叉口西北80米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12583,7 +12583,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r250_internet', 'r250', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.3、人均约 ¥22，地址为文三路259号昌地·火炬大厦F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r250_internet', 'r250', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.3、人均约 ¥22，地址为文三路259号昌地·火炬大厦F1层。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12595,7 +12595,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r251_internet', 'r251', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥16，地址为教工路百脑汇科技大厦五楼5-11号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r251_internet', 'r251', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥16，地址为教工路百脑汇科技大厦五楼5-11号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12607,7 +12607,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r252_internet', 'r252', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥15，地址为米市巷街道沈塘桥路64号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r252_internet', 'r252', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥15，地址为米市巷街道沈塘桥路64号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12619,7 +12619,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r253_internet', 'r253', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥32，地址为杭大路1号黄龙世纪广场一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r253_internet', 'r253', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥32，地址为杭大路1号黄龙世纪广场一楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12631,7 +12631,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r254_internet', 'r254', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥11，地址为黄姑山路11号(文三路地铁站A口步行490米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r254_internet', 'r254', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥11，地址为黄姑山路11号(文三路地铁站A口步行490米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12643,7 +12643,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r255_internet', 'r255', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 3.8、人均约 ¥26，地址为世贸丽晶城欧美中心商业街2楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r255_internet', 'r255', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 3.8、人均约 ¥26，地址为世贸丽晶城欧美中心商业街2楼。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12655,7 +12655,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r256_internet', 'r256', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为西路区文二路209号(耀江文欣大厦)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r256_internet', 'r256', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为西路区文二路209号(耀江文欣大厦)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12667,7 +12667,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r257_internet', 'r257', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥14，地址为文二路207号耀江文欣苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r257_internet', 'r257', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥14，地址为文二路207号耀江文欣苑。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12679,7 +12679,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r258_internet', 'r258', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥22，地址为黄姑山路57号文鸿金座(文三路地铁站A口步行370米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r258_internet', 'r258', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥22，地址为黄姑山路57号文鸿金座(文三路地铁站A口步行370米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12691,7 +12691,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r259_internet', 'r259', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.0、人均约 ¥31，地址为雅乐国际花园11-3幢-224室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r259_internet', 'r259', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.0、人均约 ¥31，地址为雅乐国际花园11-3幢-224室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12703,7 +12703,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r260_internet', 'r260', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.6、人均约 ¥42，地址为西溪路75号西溪路75号院。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r260_internet', 'r260', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.6、人均约 ¥42，地址为西溪路75号西溪路75号院。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12715,7 +12715,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r261_internet', 'r261', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥26，地址为文三路355号(文三路地铁站A口步行240米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r261_internet', 'r261', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥26，地址为文三路355号(文三路地铁站A口步行240米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12727,7 +12727,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r262_internet', 'r262', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥25，地址为文二路32号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r262_internet', 'r262', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥25，地址为文二路32号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12739,7 +12739,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r263_internet', 'r263', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥23，地址为西溪街道文二路177号(下宁桥地铁站B口步行120米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r263_internet', 'r263', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥23，地址为西溪街道文二路177号(下宁桥地铁站B口步行120米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12751,7 +12751,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r264_internet', 'r264', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥27，地址为沈塘桥地铁站A口步行50米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r264_internet', 'r264', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥27，地址为沈塘桥地铁站A口步行50米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12763,7 +12763,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r265_internet', 'r265', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.4、人均约 ¥18，地址为浙江体育职业技术学院教工路校区东2门旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r265_internet', 'r265', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.4、人均约 ¥18，地址为浙江体育职业技术学院教工路校区东2门旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12775,7 +12775,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r266_internet', 'r266', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥30，地址为翠苑街道黄姑三路55-2。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r266_internet', 'r266', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥30，地址为翠苑街道黄姑三路55-2。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12787,7 +12787,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r267_internet', 'r267', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥30，地址为文二路213号(下宁桥地铁站B口步行260米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r267_internet', 'r267', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥30，地址为文二路213号(下宁桥地铁站B口步行260米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12799,7 +12799,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r268_internet', 'r268', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥30，地址为翠苑街道学院路77号黄龙国际中心AB楼室外外广场A5室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r268_internet', 'r268', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥30，地址为翠苑街道学院路77号黄龙国际中心AB楼室外外广场A5室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12811,7 +12811,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r269_internet', 'r269', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥55，地址为西溪路与万塘路交叉口东南40米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r269_internet', 'r269', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥55，地址为西溪路与万塘路交叉口东南40米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12823,7 +12823,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r270_internet', 'r270', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.3，地址为西溪路与万塘路交叉口南40米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r270_internet', 'r270', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.3，地址为西溪路与万塘路交叉口南40米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12835,7 +12835,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r271_internet', 'r271', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.1、人均约 ¥17，地址为浙江大学西溪校区图书馆一楼1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r271_internet', 'r271', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.1、人均约 ¥17，地址为浙江大学西溪校区图书馆一楼1号。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12847,7 +12847,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r272_internet', 'r272', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥16，地址为文三路90号东部软件园数智广场2-3号玻璃房。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r272_internet', 'r272', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥16，地址为文三路90号东部软件园数智广场2-3号玻璃房。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12859,7 +12859,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r273_internet', 'r273', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥9，地址为文三路90号东部软件园南门处玻璃房。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r273_internet', 'r273', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥9，地址为文三路90号东部软件园南门处玻璃房。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12871,7 +12871,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r274_internet', 'r274', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥16，地址为欧美中心1号楼1层D112-1C商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r274_internet', 'r274', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥16，地址为欧美中心1号楼1层D112-1C商铺。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12883,7 +12883,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r275_internet', 'r275', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥15，地址为教工路88号立元大厦一层101室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r275_internet', 'r275', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥15，地址为教工路88号立元大厦一层101室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12895,7 +12895,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r276_internet', 'r276', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥17，地址为学教工路18号世贸丽晶城欧美中心2号楼F区1层115室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r276_internet', 'r276', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥17，地址为学教工路18号世贸丽晶城欧美中心2号楼F区1层115室。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12907,7 +12907,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r277_internet', 'r277', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥16，地址为马塍路28-30号小区西门旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r277_internet', 'r277', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥16，地址为马塍路28-30号小区西门旁。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12919,7 +12919,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r278_internet', 'r278', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥19，地址为教工路18号世贸丽晶城·欧美中心C座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r278_internet', 'r278', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥19，地址为教工路18号世贸丽晶城·欧美中心C座。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12931,7 +12931,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r279_internet', 'r279', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德 POI 显示评分 4.5、人均约 ¥6，地址为文三路318号(文三路地铁站A口步行240米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r279_internet', 'r279', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 5, '系统整理：高德公开信息显示评分 4.5、人均约 ¥6，地址为文三路318号(文三路地铁站A口步行240米)。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12943,7 +12943,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r280_internet', 'r280', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.4、人均约 ¥20，地址为马塍路10-11外。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r280_internet', 'r280', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.4、人均约 ¥20，地址为马塍路10-11外。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12955,7 +12955,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r281_internet', 'r281', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德 POI 显示评分 4.2、人均约 ¥9，地址为教工路23号百脑汇科技大厦1层大堂。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r281_internet', 'r281', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 4, '系统整理：高德公开信息显示评分 4.2、人均约 ¥9，地址为教工路23号百脑汇科技大厦1层大堂。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,
@@ -12967,7 +12967,7 @@ on conflict (id) do update set
   status = excluded.status;
 
 insert into public.reviews (id, restaurant_id, user_id, display_name_snapshot, avatar_snapshot, rating, text, tags, status) values (
-  'rv_r282_internet', 'r282', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德 POI 显示评分 3.1、人均约 ¥24，地址为西溪路与万塘路交叉口东南20米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
+  'rv_r282_internet', 'r282', null, '互联网小助手', '{"type":"preset","preset":"rice","text":"搜","color":"#2f7df6"}'::jsonb, 3, '系统整理：高德公开信息显示评分 3.1、人均约 ¥24，地址为西溪路与万塘路交叉口东南20米。本条是公开信息整理，不代表学生实地体验。', array['系统整理', '公开信息']::text[], 'approved'
 )
 on conflict (id) do update set
   restaurant_id = excluded.restaurant_id,

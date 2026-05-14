@@ -168,7 +168,7 @@ export async function getRandomRestaurantRemote(filters: RestaurantFilters = {},
 }
 
 export function describeApiSource(source?: ApiSource, fallbackReason?: string) {
-  if (source === 'supabase') return '数据来自 Supabase'
-  if (source === 'seed') return fallbackReason === 'supabase_not_configured' ? '后端未配置 Supabase，使用 seed fallback' : '后端使用 seed fallback'
-  return '本地 seed fallback'
+  if (source === 'supabase') return '餐厅资料已更新'
+  if (source === 'seed') return fallbackReason === 'supabase_not_configured' ? '正在使用已收录资料' : '餐厅资料已准备好'
+  return '网络不稳，先展示已收录资料'
 }

@@ -1,15 +1,28 @@
 const fs = require('fs')
 const path = require('path')
 const { spawnSync } = require('child_process')
+const ts = require('typescript')
 
 const root = path.resolve(__dirname, '..')
 const EXPECTED_SCHEMA_VERSION = 1
 const CAMPUS_LABELS = ['紫金港', '玉泉', '西溪', '华家池', '之江', '海宁']
 const BAD_PUBLIC_NAME_PATTERN = /停车场|公共厕所|厕所|入口|出口|充电|公司|学校|宿舍|银行|超市|暂停营业|已停业|停业|歇业|撤店|建设中|装修|招商|取餐点|提货点|配送站|外卖柜|骑手/
+const USER_FACING_TECHNICAL_TERMS = [
+  { label: 'VITE_', pattern: /\bVITE_/i },
+  { label: 'fallback', pattern: /\bfallback\b/i },
+  { label: 'seed', pattern: /\bseed\b/i },
+  { label: 'magic link', pattern: /\bmagic link\b/i },
+  { label: 'Supabase', pattern: /\bSupabase\b/i },
+  { label: '数据库', pattern: /数据库/ },
+  { label: '本地', pattern: /本地/ },
+  { label: 'POI', pattern: /\bPOI\b/i },
+  { label: 'UGC', pattern: /\bUGC\b/i },
+  { label: 'API', pattern: /\bAPI\b/i }
+]
 
 function walk(dir, matcher, acc = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'miniprogram_npm' || entry.name === 'dist') continue
+    if (entry.name === '.git' || entry.name === '.vercel' || entry.name === 'node_modules' || entry.name === 'miniprogram_npm' || entry.name === 'dist') continue
     const fullPath = path.join(dir, entry.name)
     if (entry.isDirectory()) walk(fullPath, matcher, acc)
     else if (matcher(fullPath)) acc.push(fullPath)
@@ -32,6 +45,118 @@ function run(command, args) {
 
 function assert(condition, message) {
   if (!condition) throw new Error(message)
+}
+
+function assertNoConsumerTechnicalText(text, source) {
+  for (const term of USER_FACING_TECHNICAL_TERMS) {
+    assert(!term.pattern.test(text), `${source} exposes "${term.label}" in user-facing text: ${text.slice(0, 120)}`)
+  }
+}
+
+function toRelativePath(file) {
+  return path.relative(root, file).replace(/\\/g, '/')
+}
+
+function isConsumerRouteOrComponent(file) {
+  const relativePath = toRelativePath(file)
+  if (!/^src\/(routes|components)\/.+\.tsx$/.test(relativePath)) return false
+  if (relativePath === 'src/routes/AdminPage.tsx') return false
+  if (relativePath === 'src/components/PublishedContentOpsPanel.tsx') return false
+  return true
+}
+
+function extractPotentialUserFacingText(source) {
+  const fragments = []
+  const sourceFile = ts.createSourceFile('consumer.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
+  const ignoredJsxStringAttributes = new Set([
+    'className',
+    'd',
+    'fill',
+    'htmlFor',
+    'href',
+    'id',
+    'key',
+    'name',
+    'rel',
+    'role',
+    'stroke',
+    'strokeLinecap',
+    'strokeLinejoin',
+    'strokeWidth',
+    'target',
+    'to',
+    'type',
+    'viewBox',
+    'aria-hidden',
+    'aria-labelledby'
+  ])
+
+  function normalizePotentialText(value) {
+    return value
+      .replace(/\$\{[\s\S]*?\}/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
+  function pushIfUserFacing(value) {
+    const text = normalizePotentialText(value)
+    if (!text) return
+    if (!/[\u4e00-\u9fff]/.test(text)) return
+    fragments.push(text)
+  }
+
+  function shouldSkipStringLiteral(node) {
+    const parent = node.parent
+    if (!parent) return false
+    if (ts.isImportDeclaration(parent) || ts.isExportDeclaration(parent)) return true
+    if (ts.isJsxAttribute(parent)) {
+      return ignoredJsxStringAttributes.has(parent.name.getText(sourceFile))
+    }
+    return false
+  }
+
+  function getTemplateText(node) {
+    return [
+      node.head.text,
+      ...node.templateSpans.map((span) => span.literal.text)
+    ].join(' ')
+  }
+
+  function visit(node) {
+    if (ts.isJsxText(node)) {
+      pushIfUserFacing(node.getText(sourceFile))
+    } else if ((ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) && !shouldSkipStringLiteral(node)) {
+      pushIfUserFacing(node.text)
+    } else if (ts.isTemplateExpression(node)) {
+      pushIfUserFacing(getTemplateText(node))
+    }
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sourceFile)
+  return fragments
+}
+
+function checkConsumerProductLanguageContracts() {
+  const files = walk(path.join(root, 'src'), isConsumerRouteOrComponent)
+  const violations = []
+
+  for (const file of files) {
+    const source = fs.readFileSync(file, 'utf8')
+    const fragments = extractPotentialUserFacingText(source)
+    for (const fragment of fragments) {
+      for (const term of USER_FACING_TECHNICAL_TERMS) {
+        if (term.pattern.test(fragment)) {
+          violations.push(`${toRelativePath(file)} exposes "${term.label}" in user-facing text: ${fragment.slice(0, 120)}`)
+        }
+      }
+    }
+  }
+
+  assert(
+    violations.length === 0,
+    `normal consumer route/component files must not expose technical jargon:\n${violations.join('\n')}`
+  )
 }
 
 async function withMissingSupabaseEnv(callback) {
@@ -111,13 +236,16 @@ function checkSeedData() {
   const restaurantSeed = readJson('seed/restaurants.json')
   const dishSeed = readJson('seed/dishes.json')
   const reviewSeed = readJson('seed/reviews.json')
+  const publicReviewSeed = readJson('public/seed/reviews.json')
 
   assert(restaurantSeed.schemaVersion === EXPECTED_SCHEMA_VERSION, 'restaurants seed schemaVersion mismatch')
   assert(dishSeed.schemaVersion === EXPECTED_SCHEMA_VERSION, 'dishes seed schemaVersion mismatch')
   assert(reviewSeed.schemaVersion === EXPECTED_SCHEMA_VERSION, 'reviews seed schemaVersion mismatch')
+  assert(publicReviewSeed.schemaVersion === EXPECTED_SCHEMA_VERSION, 'public reviews seed schemaVersion mismatch')
   assert(Array.isArray(restaurantSeed.restaurants), 'restaurants seed must contain restaurants array')
   assert(Array.isArray(dishSeed.dishes), 'dishes seed must contain dishes array')
   assert(Array.isArray(reviewSeed.reviews), 'reviews seed must contain reviews array')
+  assert(Array.isArray(publicReviewSeed.reviews), 'public reviews seed must contain reviews array')
 
   const restaurantIds = new Set()
   for (const restaurant of restaurantSeed.restaurants) {
@@ -170,12 +298,19 @@ function checkSeedData() {
     reviewIds.add(review.id)
     assert(restaurantIds.has(review.restaurantId), `review ${review.id} references missing restaurant ${review.restaurantId}`)
     assert(review.text, `review ${review.id} missing text`)
+    assertNoConsumerTechnicalText(review.text, `seed review ${review.id}`)
     assert(review.rating >= 1 && review.rating <= 5, `review ${review.id} rating out of range`)
     if (review.userName === '互联网小助手') {
       assert(review.text.includes('公开信息整理'), `system review ${review.id} must disclose public-source summary`)
       assert(Array.isArray(review.tags) && review.tags.includes('系统整理'), `system review ${review.id} must include 系统整理 tag`)
     }
     reviewCounts.set(review.restaurantId, (reviewCounts.get(review.restaurantId) || 0) + 1)
+  }
+
+  for (const review of publicReviewSeed.reviews) {
+    assert(review.id, 'public review missing id')
+    assert(review.text, `public review ${review.id} missing text`)
+    assertNoConsumerTechnicalText(review.text, `public seed review ${review.id}`)
   }
 
   for (const restaurantId of restaurantIds) {
@@ -235,9 +370,13 @@ async function checkProfileContracts() {
   const profileRoute = fs.readFileSync(path.join(root, 'src/routes/ProfilePage.tsx'), 'utf8')
   const homeRoute = fs.readFileSync(path.join(root, 'src/routes/HomePage.tsx'), 'utf8')
   const discoverRoute = fs.readFileSync(path.join(root, 'src/routes/DiscoverPage.tsx'), 'utf8')
+  const detailRoute = fs.readFileSync(path.join(root, 'src/routes/RestaurantDetailPage.tsx'), 'utf8')
+  const foodMap = fs.readFileSync(path.join(root, 'src/components/FoodMap.tsx'), 'utf8')
   const onboardingDialog = fs.readFileSync(path.join(root, 'src/components/OnboardingDialog.tsx'), 'utf8')
   const preferenceStore = fs.readFileSync(path.join(root, 'src/services/preferenceStore.ts'), 'utf8')
   const miniProfileService = fs.readFileSync(path.join(root, 'services/userProfileService.js'), 'utf8')
+  const appShell = fs.readFileSync(path.join(root, 'src/App.tsx'), 'utf8')
+  const mealDiceSheet = fs.readFileSync(path.join(root, 'src/components/MealDiceSheet.tsx'), 'utf8')
 
   const parsedBuffer = await readJsonBody({ body: Buffer.from(JSON.stringify({ displayName: 'BucketSran', avatarPreset: 'duck' })) })
   assert(parsedBuffer.displayName === 'BucketSran', 'request body parser must read Buffer JSON bodies')
@@ -320,8 +459,19 @@ async function checkProfileContracts() {
   assert(profileRoute.includes('DEFAULT CAMPUS') && profileRoute.includes('chooseDefaultCampus'), 'profile page must expose default campus selector')
   assert(homeRoute.includes('randomCampus') && homeRoute.includes('getCategoryTags(mealCategory)'), 'home page recommendations must be constrained by selected campus and meal category')
   assert(homeRoute.includes('isRandomLoading') && homeRoute.includes('再摇一次'), 'home random pick must expose repeatable loading feedback')
-  assert(discoverRoute.includes('查看详情') && discoverRoute.includes('/restaurants/${randomPick.id}'), 'discover random pick must link to restaurant detail')
+  assert(!discoverRoute.includes('随机吃什么增强') && !discoverRoute.includes('randomPick'), 'discover page must not duplicate home random-pick decision flow')
+  assert(discoverRoute.indexOf('<div id="results">') !== -1 && discoverRoute.indexOf('<FoodMap') > discoverRoute.indexOf('<div id="results">'), 'discover page must prioritize filters and list before the map preview')
   assert(discoverRoute.includes('useDeferredValue'), 'discover search should defer keyword-driven API calls')
+  assert(discoverRoute.includes('isSearchCollapsed') && discoverRoute.includes('collapsed-filter-note'), 'discover page must let users collapse the upper search/filter block before using the map')
+  assert(appShell.includes('const mobileNavItems = navItems') && !appShell.includes('mobile-compose-action'), 'contribute must be a normal mobile tab, not a floating compose action')
+  assert(/<Route\s+path=["']\/guide["']/.test(appShell), 'app routes must include the /guide consumer guide route')
+  assert(homeRoute.includes('/guide') && /persona|新生|访客|家长|校友|浙大人/.test(homeRoute), 'home page must expose a guide entry with persona-oriented copy')
+  assert(onboardingDialog.includes('to="/guide"'), 'onboarding dialog must link to /guide')
+  assert(mealDiceSheet.includes('dice-empty-editor') && mealDiceSheet.includes('addCustomOptionFromLabel') && !mealDiceSheet.includes('dice-custom-form'), 'meal dice must allow direct entry inside empty faces instead of a separate bottom form')
+  assert(detailRoute.includes("useState(() => Boolean(id))") && detailRoute.includes('正在确认这家店') && detailRoute.includes('LOADING'), 'restaurant detail must distinguish loading from confirmed not-found state')
+  assert(foodMap.includes('closeRestaurantCard') && foodMap.includes('aria-label="关闭餐厅详情卡片"'), 'food map selected-card must expose an explicit close button')
+  assert(!foodMap.includes('getItemPrimaryRestaurant(mapItems[0]).id'), 'food map must not auto-open a selected restaurant card on initial render')
+  assert(!foodMap.includes('map-sheet-handle'), 'food map selected-card must not use a fake draggable handle')
   assert(onboardingDialog.includes('你好，灿若星辰的浙大人') && onboardingDialog.includes('eatAtZju:web:onboarding:v1'), 'onboarding dialog must include intro copy and one-time localStorage guard')
 }
 
@@ -656,6 +806,7 @@ async function main() {
   checkSeedData()
   await checkApiService()
   await checkProfileContracts()
+  checkConsumerProductLanguageContracts()
   checkLeaderboardContracts()
   checkMapNavigationContracts()
   checkAdminReviewContracts()

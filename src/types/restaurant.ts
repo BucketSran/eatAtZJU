@@ -18,6 +18,7 @@ export type Restaurant = {
   longitude: number
   displayIcon?: string
   displayTone?: 'meal' | 'drink' | 'canteen' | 'snack' | 'night' | 'shop'
+  mapAbbr?: string
   mapIcon?: string
   coverIcon: string
   coverColor: string

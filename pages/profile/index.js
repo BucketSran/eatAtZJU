@@ -23,7 +23,7 @@ Page({
     },
     roadmap: [
       '校园邮箱认证与实名学生身份',
-      'UGC 餐厅/菜品上传与社区审核',
+      '同学餐厅/菜品上传与社区审核',
       '约饭活动、好友动态和兴趣群',
       '后台管理台与推荐理由生成 Agent'
     ]
@@ -143,7 +143,7 @@ Page({
             avatarTempPath: file.tempFilePath
           })
           this.setData({ profile: result.profile, profileSynced: false })
-          wx.showToast({ title: '已本地保存，云同步稍后再试', icon: 'none' })
+          wx.showToast({ title: '已先保存在这台设备，稍后再同步', icon: 'none' })
         } finally {
           wx.hideLoading()
         }
@@ -169,7 +169,8 @@ Page({
       await profileService.sendCampusEmailOtp(this.data.bindEmail)
       this.setData({ bindStatus: '验证码已发送，请复制邮件里的数字验证码。' })
     } catch (error) {
-      this.setData({ bindStatus: error.message || '验证码发送失败' })
+      console.error('[profile] failed to send campus email code', error)
+      this.setData({ bindStatus: '验证码暂时发送失败，请稍后再试' })
     } finally {
       this.setData({ isBindingEmail: false })
     }
@@ -180,7 +181,7 @@ Page({
       wx.showToast({ title: '请填写邮箱和验证码', icon: 'none' })
       return
     }
-    this.setData({ isBindingEmail: true, bindStatus: '正在验证并生成合并预览...' })
+    this.setData({ isBindingEmail: true, bindStatus: '正在验证并准备合并预览...' })
     try {
       const result = await profileService.verifyCampusEmailOtp(this.data.bindEmail, this.data.bindOtp)
       const recommended = result.preview && result.preview.recommended ? result.preview.recommended : {}
@@ -198,7 +199,8 @@ Page({
         bindStatus: '校园邮箱已验证，请确认资料冲突如何合并。'
       })
     } catch (error) {
-      this.setData({ bindStatus: error.message || '邮箱验证失败' })
+      console.error('[profile] failed to preview campus email bind', error)
+      this.setData({ bindStatus: '邮箱验证失败，请检查验证码后再试' })
     } finally {
       this.setData({ isBindingEmail: false })
     }
@@ -231,7 +233,8 @@ Page({
       })
       wx.showToast({ title: '绑定完成', icon: 'success' })
     } catch (error) {
-      this.setData({ bindStatus: error.message || '账号合并失败' })
+      console.error('[profile] failed to confirm campus email bind', error)
+      this.setData({ bindStatus: '账号合并暂时失败，请稍后再试' })
     } finally {
       this.setData({ isBindingEmail: false })
     }

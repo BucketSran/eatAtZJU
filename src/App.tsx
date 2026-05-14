@@ -8,12 +8,14 @@ const AdminPage = lazy(() => import('./routes/AdminPage').then((module) => ({ de
 const ContributePage = lazy(() => import('./routes/ContributePage').then((module) => ({ default: module.ContributePage })))
 const DiscoverPage = lazy(() => import('./routes/DiscoverPage').then((module) => ({ default: module.DiscoverPage })))
 const FavoritesPage = lazy(() => import('./routes/FavoritesPage').then((module) => ({ default: module.FavoritesPage })))
+const GuidePage = lazy(() => import('./routes/GuidePage').then((module) => ({ default: module.GuidePage })))
 const HomePage = lazy(() => import('./routes/HomePage').then((module) => ({ default: module.HomePage })))
 const LeaderboardsPage = lazy(() => import('./routes/LeaderboardsPage').then((module) => ({ default: module.LeaderboardsPage })))
 const ProfilePage = lazy(() => import('./routes/ProfilePage').then((module) => ({ default: module.ProfilePage })))
 const RestaurantDetailPage = lazy(() => import('./routes/RestaurantDetailPage').then((module) => ({ default: module.RestaurantDetailPage })))
 
 type NavIconName = 'home' | 'discover' | 'leaderboards' | 'contribute' | 'favorites' | 'profile'
+type NavItem = { icon: NavIconName; label: string; to: string }
 
 const navItems = [
   { to: '/', label: '首页', icon: 'home' },
@@ -22,7 +24,9 @@ const navItems = [
   { to: '/contribute', label: '贡献', icon: 'contribute' },
   { to: '/favorites', label: '收藏', icon: 'favorites' },
   { to: '/profile', label: '我的', icon: 'profile' }
-] satisfies Array<{ icon: NavIconName; label: string; to: string }>
+] satisfies NavItem[]
+
+const mobileNavItems = navItems
 
 function TabIcon({ name }: { name: NavIconName }) {
   const commonProps = {
@@ -92,7 +96,7 @@ function TabIcon({ name }: { name: NavIconName }) {
   )
 }
 
-function MobileTabLabel({ item }: { item: (typeof navItems)[number] }) {
+function MobileTabLabel({ item }: { item: NavItem }) {
   return (
     <>
       <TabIcon name={item.icon} />
@@ -107,6 +111,9 @@ const githubIssuesUrl = `${githubRepoUrl}/issues`
 export function App() {
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#page-top">
+        跳到主要内容
+      </a>
       <header className="top-nav" aria-label="主导航">
         <NavLink to="/" className="brand" aria-label="食在浙大首页">
           食在浙大
@@ -124,6 +131,7 @@ export function App() {
         <Suspense fallback={<div className="route-loading">正在准备饭点地图…</div>}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/guide" element={<GuidePage />} />
             <Route path="/discover" element={<DiscoverPage />} />
             <Route path="/leaderboards" element={<LeaderboardsPage />} />
             <Route path="/contribute" element={<ContributePage />} />
@@ -154,7 +162,7 @@ export function App() {
       </footer>
 
       <nav className="mobile-tab-bar" aria-label="移动端导航">
-        {navItems.map((item) => (
+        {mobileNavItems.map((item) => (
           <NavLink key={item.to} to={item.to} className="mobile-tab">
             <MobileTabLabel item={item} />
           </NavLink>

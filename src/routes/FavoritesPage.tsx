@@ -17,7 +17,7 @@ export function FavoritesPage() {
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => getFavoriteRestaurants({ preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [fallbackPick, setFallbackPick] = useState<RestaurantSummary | null>(() => getRecommendedRestaurant({}, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
-  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [dataSource, setDataSource] = useState('收藏列表已准备好')
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export function FavoritesPage() {
       .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(id, nextIds.includes(id)))
       .then(setFavoriteIds)
       .catch(() => {
-        setDataSource('收藏已先保存在本地，登录后可同步云端')
+        setDataSource('收藏已先保存在这台设备，登录后可同步云端')
       })
   }
 
@@ -60,13 +60,13 @@ export function FavoritesPage() {
         <div>
           <p className="eyebrow">FAVORITES</p>
           <h1>我的收藏</h1>
-          <p>Demo v0.1 收藏先保存在本地浏览器，后续接 Supabase Auth 后同步到个人账号。</p>
+          <p>收藏会先保存在这台设备；登录后可以同步到你的账号，换设备也能继续找饭。</p>
         </div>
         <span className="count-badge">{restaurants.length} 家</span>
       </div>
 
       <div className="status-strip">
-        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在更新收藏…' : dataSource}</span>
       </div>
 
       {restaurants.length ? (

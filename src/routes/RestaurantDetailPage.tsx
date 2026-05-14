@@ -41,7 +41,7 @@ function ScoreExplain({ restaurant }: { restaurant: RestaurantSummary }) {
     <GlassCard>
       <p className="eyebrow">WHY THIS SCORE</p>
       <h2>推荐分怎么来的</h2>
-      <p>{isBlended ? '这家店已经有学生信号，所以学生评价占主要权重。' : '这家店还没有学生评价，当前只把公开 POI 当作冷启动参考。'}</p>
+      <p>{isBlended ? '这家店已经有学生信号，所以学生评价占主要权重。' : '这家店还没有学生评价，当前只把公开位置信息当作冷启动参考。'}</p>
       <div className="score-breakdown-grid">
         <span>学生权重 <strong>{Math.round(breakdown.studentWeight * 100)}%</strong></span>
         <span>公开权重 <strong>{Math.round(breakdown.publicWeight * 100)}%</strong></span>
@@ -54,6 +54,13 @@ function ScoreExplain({ restaurant }: { restaurant: RestaurantSummary }) {
   )
 }
 
+function getFriendlySourceLabel(sourceLabel: string) {
+  if (sourceLabel.includes('Supabase')) return '已同步最新餐厅资料'
+  if (sourceLabel.includes('seed') || sourceLabel.includes('fallback')) return '正在使用已收录资料'
+  if (sourceLabel.includes('后端')) return '已更新餐厅资料'
+  return sourceLabel
+}
+
 export function RestaurantDetailPage() {
   const { id } = useParams()
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
@@ -61,18 +68,22 @@ export function RestaurantDetailPage() {
   const context = useMemo(() => ({ preferences, favoriteRestaurantIds: favoriteIds }), [favoriteIds, preferences])
   const [detail, setDetail] = useState<RestaurantDetail | null>(() => (id ? getRestaurantDetail(id, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }) : null))
   const [relatedRestaurants, setRelatedRestaurants] = useState<RestaurantSummary[]>(() => (detail ? listRestaurants({ tag: detail.restaurant.tags[0] }, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }).filter((restaurant) => restaurant.id !== detail.restaurant.id).slice(0, 2) : []))
-  const [dataSource, setDataSource] = useState('本地 seed fallback')
-  const [isLoading, setIsLoading] = useState(false)
+  const [dataSource, setDataSource] = useState('正在使用已收录资料')
+  const [isLoading, setIsLoading] = useState(() => Boolean(id))
 
   useEffect(() => {
     if (!id) {
       setDetail(null)
       setRelatedRestaurants([])
+      setIsLoading(false)
       return
     }
 
     const controller = new AbortController()
     setIsLoading(true)
+    const localSnapshot = getRestaurantDetail(id, context)
+    setDetail(localSnapshot)
+    setRelatedRestaurants(localSnapshot ? listRestaurants({ tag: localSnapshot.restaurant.tags[0] }, context).filter((restaurant) => restaurant.id !== localSnapshot.restaurant.id).slice(0, 2) : [])
 
     getRestaurantDetailRemote(id, context, controller.signal)
       .then(async (result) => {
@@ -109,22 +120,23 @@ export function RestaurantDetailPage() {
       .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(restaurantId, nextIds.includes(restaurantId)))
       .then(setFavoriteIds)
       .catch(() => {
-        setDataSource('收藏已先保存在本地，登录后可同步云端')
+        setDataSource('收藏已先保存在这台设备，登录后可带到其他设备')
       })
   }
 
   if (!detail) {
+    const isConfirmingMissing = isLoading
     return (
       <div className="route-stack">
         <div className="page-heading">
           <p className="eyebrow">RESTAURANT</p>
-          <h1>{isLoading ? '正在加载餐厅…' : '没有找到这家餐厅'}</h1>
-          <p>{isLoading ? '正在向后端确认餐厅详情。' : '可能是 demo seed 里还没有录入，或链接里的餐厅 ID 不存在。'}</p>
+          <h1>{isConfirmingMissing ? '正在确认这家店…' : '没有找到这家餐厅'}</h1>
+          <p>{isConfirmingMissing ? '正在确认餐厅详情，网络慢时不会提前判定为不存在。' : '已经完成确认：可能是这家店还没收录，或链接已经失效。'}</p>
         </div>
         <EmptyState
-          eyebrow="NOT FOUND"
-          title="这家店暂时不在饭点地图里"
-          description="可能是数据还没导入，也可能是链接里的 ID 失效。先回发现页继续找一口热乎的。"
+          eyebrow={isConfirmingMissing ? 'LOADING' : 'NOT FOUND'}
+          title={isConfirmingMissing ? '正在同步餐厅资料' : '这家店暂时不在饭点地图里'}
+          description={isConfirmingMissing ? '如果是从地图或榜单点进来的，稍等片刻会自动进入详情页。' : '可能是还没有同学补充这家店，也可能是链接已经失效。先回发现页继续找一口热乎的。'}
           action={<Link className="secondary-action" to="/discover">回到发现页</Link>}
         />
       </div>
@@ -142,7 +154,7 @@ export function RestaurantDetailPage() {
   return (
     <div className="route-stack">
       <div className="status-strip">
-        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在更新餐厅资料…' : getFriendlySourceLabel(dataSource)}</span>
       </div>
 
       <section className="detail-hero glass-card">
@@ -227,7 +239,7 @@ export function RestaurantDetailPage() {
               <b>¥{dish.price}</b>
             </div>
           )) : (
-            <p className="helper-text">菜品暂不从公开搜索中自动生成，等学生投稿或管理员审核后再展示，避免把未经验证的菜品写成事实。</p>
+            <p className="helper-text">还没有同学补充这家店的推荐菜。吃到好菜的话，欢迎顺手补一条，审核通过后会展示给大家。</p>
           )}
         </div>
       </GlassCard>

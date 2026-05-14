@@ -1,9 +1,16 @@
 export type AMapMapInstance = {
   add: (markers: AMapMarkerInstance[]) => void
   destroy: () => void
+  getZoom?: () => number
   remove: (markers: AMapMarkerInstance[]) => void
+  resize?: () => void
   setCenter: (position: [number, number]) => void
+  setFeatures?: (features: string[]) => void
   setFitView: (markers?: AMapMarkerInstance[]) => void
+  setMapStyle?: (style: string) => void
+  setZoom?: (zoom: number) => void
+  zoomIn?: () => void
+  zoomOut?: () => void
 }
 
 export type AMapMarkerInstance = {

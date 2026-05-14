@@ -1,5 +1,6 @@
 import type { RecommendationContext, Restaurant, RestaurantSummary } from '../types'
 import { isCanteenRestaurant } from './filters'
+import { getRandomIndex } from './random'
 
 type MatchBreakdown = NonNullable<RestaurantSummary['matchBreakdown']>
 
@@ -107,6 +108,5 @@ export function pickRecommendedRestaurant(restaurants: RestaurantSummary[]) {
 
 export function pickRandomRestaurant(restaurants: RestaurantSummary[]) {
   if (!restaurants.length) return null
-  const index = Math.floor(Math.random() * restaurants.length)
-  return restaurants[index]
+  return restaurants[getRandomIndex(restaurants.length)]
 }

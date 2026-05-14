@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { MapNavigationLinks } from './MapNavigationLinks'
+import { getPublicDisplayTags } from '../constants/restaurantTaxonomy'
 import { getRestaurantDisplay } from '../lib/restaurantDisplay'
 import type { RestaurantSummary } from '../types'
 
@@ -22,8 +23,7 @@ export const RestaurantCard = memo(function RestaurantCard({ restaurant, onToggl
   const isColdStart = restaurant.matchBreakdown?.mode !== 'blended'
   const scoreDescription = describeScore(restaurant)
   const visual = getRestaurantDisplay(restaurant)
-  const visibleTags = restaurant.tags.slice(0, 6)
-  const hiddenTagCount = Math.max(restaurant.tags.length - visibleTags.length, 0)
+  const visibleTags = getPublicDisplayTags(restaurant.tags, 4)
 
   return (
     <article className="restaurant-card">
@@ -46,7 +46,6 @@ export const RestaurantCard = memo(function RestaurantCard({ restaurant, onToggl
                 {tag}
               </span>
             ))}
-            {hiddenTagCount ? <span className="tag muted-tag">+{hiddenTagCount}</span> : null}
           </div>
         </div>
       </Link>

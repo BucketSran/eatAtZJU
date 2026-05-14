@@ -1,5 +1,6 @@
 import type { Dish, PriceRange, RecommendationContext, RestaurantFilters, RestaurantSummary, Review } from '../types'
 import { collectHardFilterTags } from '../constants/restaurantTaxonomy'
+import { getRandomToken } from '../lib/random'
 
 export type ApiSource = 'supabase' | 'seed' | 'local-seed'
 
@@ -188,6 +189,7 @@ export async function fetchRestaurantDetail(id: string, context?: Partial<Recomm
 export async function fetchTodayRecommendation(strategy: 'recommended' | 'random', filters: RestaurantFilters = {}, context?: Partial<RecommendationContext>, signal?: AbortSignal): Promise<ApiResult<RestaurantSummary | null>> {
   const params = buildRestaurantParams(filters, context)
   params.set('strategy', strategy)
+  if (strategy === 'random') params.set('_roll', getRandomToken())
   const body = await fetchJson<RecommendationResponse>('/api/recommend/today', params, signal, { cache: strategy !== 'random' })
   return {
     data: body.restaurant,

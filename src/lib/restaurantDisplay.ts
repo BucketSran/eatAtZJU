@@ -6,6 +6,7 @@ export type RestaurantDisplay = {
   categoryIcon: string
   coverBackground: string
   coverIcon: string
+  mapAbbr: string
   mapIcon: string
   shortName: string
   tone: RestaurantDisplayTone
@@ -73,14 +74,44 @@ function pickIdentityIcon(restaurant: RestaurantSummary) {
   return (latinToken || restaurant.name.slice(0, 1) || '饭').toUpperCase()
 }
 
+function cleanMapAbbr(value: string) {
+  return value
+    .replace(/[^\p{L}\p{N}\u4e00-\u9fff]/gu, '')
+    .trim()
+    .slice(0, 4)
+}
+
+function pickMapAbbr(restaurant: RestaurantSummary) {
+  const explicit = restaurant.mapAbbr || restaurant.mapIcon
+  if (explicit?.trim()) return cleanMapAbbr(explicit) || pickIdentityIcon(restaurant)
+
+  const cleanedName = cleanNameForIcon(restaurant.name)
+    .replace(/分店/g, '')
+    .replace(/自选快餐/g, '快餐')
+    .replace(/餐饮/g, '')
+    .replace(/小吃/g, '')
+    .trim()
+
+  if (!cleanedName) return pickIdentityIcon(restaurant)
+  if (cleanedName.length <= 4) return cleanedName
+  const meaningfulParts = cleanedName
+    .split(/[·\-｜|_\s]+/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+  const compact = meaningfulParts.find((part) => part.length >= 2 && part.length <= 4) ?? cleanedName
+  return compact.slice(0, 4)
+}
+
 export function getRestaurantDisplay(restaurant: RestaurantSummary): RestaurantDisplay {
   const tone = resolveTone(restaurant)
   const identityIcon = pickIdentityIcon(restaurant)
+  const mapAbbr = pickMapAbbr(restaurant)
 
   return {
     categoryIcon: CATEGORY_ICONS[tone],
     coverBackground: TONE_BACKGROUNDS[tone],
     coverIcon: restaurant.displayIcon?.trim().slice(0, 2) || identityIcon,
+    mapAbbr,
     mapIcon: restaurant.mapIcon?.trim().slice(0, 2) || identityIcon,
     shortName: cleanNameForIcon(restaurant.name) || restaurant.name,
     tone

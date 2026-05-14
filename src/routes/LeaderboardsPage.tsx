@@ -25,7 +25,7 @@ export function LeaderboardsPage() {
   const mealContext = useMemo(() => getMealContext(), [])
   const [campus, setCampus] = useState<CampusOption>(() => normalizeCampus(searchParams.get('campus') ?? getDefaultCampus()))
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>([])
-  const [dataSource, setDataSource] = useState('正在同步后端数据…')
+  const [dataSource, setDataSource] = useState('正在更新榜单…')
   const [isLoading, setIsLoading] = useState(true)
   const preferences = useMemo(() => getPreferenceTags(), [])
   const context = useMemo(() => ({ preferences: [campus, ...preferences, ...mealContext.tags], favoriteRestaurantIds: getFavoriteRestaurantIds() }), [campus, mealContext.tags, preferences])
@@ -95,7 +95,7 @@ export function LeaderboardsPage() {
       </GlassCard>
 
       <div className="status-strip leaderboard-status">
-        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在更新榜单…' : dataSource}</span>
         <span>{candidateCount} 家候选餐厅</span>
       </div>
 

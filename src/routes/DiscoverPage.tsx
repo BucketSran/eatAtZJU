@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useMemo, useState, useTransition } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { BottomSheet } from '../components/BottomSheet'
 import { EmptyState } from '../components/EmptyState'
 import { FoodMap } from '../components/FoodMap'
@@ -7,12 +7,11 @@ import { GlassCard } from '../components/GlassCard'
 import { RestaurantCard } from '../components/RestaurantCard'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { SkeletonList } from '../components/Skeleton'
-import { TagGroupSelector } from '../components/TagGroupSelector'
 import { showToast } from '../lib/toast'
-import { campusCenters, campusOptions, dietaryConstraintTags, discoverFilterScenes, getCurrentMealPeriod, getMealPeriodForCategory, hardFilterGroups, mealCategoryOptions, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, quickRandomExclusiveGroups, quickRandomTags, scenarioTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag, type CampusOption, type DiscoverFilterSceneId, type MealCategoryOption } from '../constants/restaurantTaxonomy'
+import { campusOptions, dietaryConstraintTags, discoverFilterScenes, getCurrentMealPeriod, getMealPeriodForCategory, hardFilterGroups, mealCategoryOptions, mealPeriodOptions, parseTagsParam, preferenceExclusiveGroups, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag, type CampusOption, type DiscoverFilterSceneId, type MealCategoryOption } from '../constants/restaurantTaxonomy'
 import { getFavoriteRestaurantIds, toggleFavoriteRestaurant } from '../services/favoriteStore'
 import { getPreferenceTags } from '../services/preferenceStore'
-import { describeApiSource, getRandomRestaurant, getRandomRestaurantRemote, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
+import { describeApiSource, getRestaurantMetadata, listRestaurants, listRestaurantsRemote } from '../services/restaurantService'
 import type { RestaurantSummary, SortKey } from '../types'
 
 const sortOptions: Array<{ label: string; value: SortKey }> = [
@@ -54,20 +53,6 @@ function persistCampus(campus: string) {
   if (typeof window !== 'undefined') window.localStorage.setItem('eatAtZjuCampus', campus)
 }
 
-function toggleQuickRandomTag(currentTags: string[], tag: string) {
-  const exclusiveGroup = quickRandomExclusiveGroups.find((group) => group.includes(tag as never))
-  if (currentTags.includes(tag)) return currentTags.filter((currentTag) => currentTag !== tag)
-  if (!exclusiveGroup) return [...currentTags, tag]
-  return [...currentTags.filter((currentTag) => !exclusiveGroup.includes(currentTag as never)), tag]
-}
-
-function getInitialRandomTags(searchParams: URLSearchParams) {
-  const tags = parseTagsParam(searchParams.get('randomTags'))
-  const legacyTag = searchParams.get('randomTag')
-  if (tags.length) return tags
-  return legacyTag && legacyTag !== '全部' ? [legacyTag] : []
-}
-
 function getScene(sceneId: string | null | undefined) {
   return discoverFilterScenes.find((scene) => scene.id === sceneId) ?? discoverFilterScenes[0]
 }
@@ -100,23 +85,6 @@ function getSceneMealPeriod(scene: (typeof discoverFilterScenes)[number]) {
 
 function hasCoordinate(restaurant: RestaurantSummary) {
   return Number.isFinite(restaurant.latitude) && Number.isFinite(restaurant.longitude)
-}
-
-function distanceKm(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
-  const radius = 6371
-  const toRadians = (degree: number) => (degree * Math.PI) / 180
-  const deltaLatitude = toRadians(b.latitude - a.latitude)
-  const deltaLongitude = toRadians(b.longitude - a.longitude)
-  const latitude1 = toRadians(a.latitude)
-  const latitude2 = toRadians(b.latitude)
-  const h = Math.sin(deltaLatitude / 2) ** 2 + Math.cos(latitude1) * Math.cos(latitude2) * Math.sin(deltaLongitude / 2) ** 2
-  return 2 * radius * Math.asin(Math.sqrt(h))
-}
-
-function getNearestCampus(position: { latitude: number; longitude: number }) {
-  return campusOptions
-    .map((campus) => ({ campus, distance: distanceKm(position, campusCenters[campus]) }))
-    .sort((a, b) => a.distance - b.distance)[0]
 }
 
 type CompactChoiceGroupProps<T extends string> = {
@@ -185,13 +153,7 @@ export function DiscoverPage() {
   const [spiceLevel, setSpiceLevel] = useState(() => searchParams.get('spice') ?? initialTags.spiceLevel)
   const [loadLevel, setLoadLevel] = useState(() => searchParams.get('load') ?? initialTags.loadLevel)
   const [priceLabel, setPriceLabel] = useState(() => searchParams.get('price') ?? '不限')
-  const [randomCampus, setRandomCampus] = useState<CampusOption>(() => {
-    const campus = searchParams.get('randomCampus') ?? readStoredCampus()
-    return campusOptions.includes(campus as CampusOption) ? (campus as CampusOption) : '紫金港'
-  })
   const [sort, setSort] = useState<SortKey>(() => (searchParams.get('sort') as SortKey) || 'recommended')
-  const [randomBudget, setRandomBudget] = useState(() => searchParams.get('randomBudget') ?? '不限')
-  const [randomTags, setRandomTags] = useState<string[]>(() => getInitialRandomTags(searchParams))
   const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteRestaurantIds())
   const [preferences] = useState(() => getPreferenceTags())
   const deferredKeyword = useDeferredValue(keyword)
@@ -199,13 +161,10 @@ export function DiscoverPage() {
   const initialFilters = { keyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: [...getCategoryTags(), ...refinementTags] }
   const [restaurants, setRestaurants] = useState<RestaurantSummary[]>(() => listRestaurants(initialFilters, { preferences: getPreferenceTags(), favoriteRestaurantIds: getFavoriteRestaurantIds() }))
   const [mapFallbackRestaurants, setMapFallbackRestaurants] = useState<RestaurantSummary[]>(() => restaurants)
-  const [randomPick, setRandomPick] = useState<RestaurantSummary | null>(null)
-  const [randomMessage, setRandomMessage] = useState('')
-  const [randomNonce, setRandomNonce] = useState(0)
-  const [locationStatus, setLocationStatus] = useState('')
-  const [dataSource, setDataSource] = useState('本地 seed fallback')
+  const [dataSource, setDataSource] = useState('餐厅资料已准备好')
   const [isLoading, setIsLoading] = useState(false)
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false)
+  const [isSearchCollapsed, setIsSearchCollapsed] = useState(false)
   const [focusedMapRestaurantId, setFocusedMapRestaurantId] = useState<string | null>(null)
   const [visibleCount, setVisibleCount] = useState(RESTAURANT_RENDER_STEP)
 
@@ -213,11 +172,9 @@ export function DiscoverPage() {
   const dietaryKey = dietaryTags.join(',')
   const preferenceKey = preferenceTags.join(',')
   const refinementKey = refinementTags.join(',')
-  const randomTagKey = randomTags.join(',')
   const activeScene = getScene(activeSceneId)
   const filters = useMemo(() => ({ keyword: deferredKeyword, campus, serviceMode, mealPeriod, scenarioTags, dietaryTags, preferenceTags, distanceLabel, spiceLevel, loadLevel, priceLabel, sort, tags: [...getCategoryTags(mealCategory), ...refinementTags] }), [campus, deferredKeyword, dietaryKey, distanceLabel, loadLevel, mealCategory, mealPeriod, preferenceKey, priceLabel, refinementKey, scenarioKey, serviceMode, sort, spiceLevel])
   const context = useMemo(() => ({ preferences: [...preferences, campus, serviceMode, mealPeriod, mealCategory, getSceneLabel(activeSceneId), ...scenarioTags, ...preferenceTags, ...refinementTags], favoriteRestaurantIds: favoriteIds }), [activeSceneId, campus, favoriteIds, mealCategory, mealPeriod, preferenceKey, preferences, refinementKey, scenarioKey, serviceMode])
-  const showRandom = searchParams.get('random') === '1'
   const summaryItems = [campus, getSceneLabel(activeSceneId), mealCategory, serviceMode, mealPeriod, ...refinementTags, ...scenarioTags, priceLabel !== '不限' ? priceLabel : '', distanceLabel !== '不限' ? distanceLabel : '', spiceLevel !== '不限' ? spiceLevel : '', loadLevel !== '不限' ? loadLevel : '', ...dietaryTags, ...preferenceTags].filter(Boolean)
   const visibleRestaurants = useMemo(() => restaurants.slice(0, visibleCount), [restaurants, visibleCount])
   const hasMoreRestaurants = visibleCount < restaurants.length
@@ -246,12 +203,8 @@ export function DiscoverPage() {
     if (loadLevel !== '不限') next.set('load', loadLevel)
     if (priceLabel !== '不限') next.set('price', priceLabel)
     if (sort !== 'recommended') next.set('sort', sort)
-    if (showRandom) next.set('random', '1')
-    if (showRandom && randomCampus !== '紫金港') next.set('randomCampus', randomCampus)
-    if (showRandom && randomBudget !== '不限') next.set('randomBudget', randomBudget)
-    if (showRandom && randomTags.length) next.set('randomTags', randomTags.join(','))
     setSearchParams(next, { replace: true })
-  }, [activeSceneId, campus, dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealCategory, mealPeriod, preferenceKey, preferenceTags, priceLabel, randomBudget, randomCampus, randomTagKey, randomTags, refinementKey, refinementTags, scenarioKey, scenarioTags, serviceMode, setSearchParams, showRandom, sort, spiceLevel])
+  }, [activeSceneId, campus, dietaryKey, dietaryTags, distanceLabel, keyword, loadLevel, mealCategory, mealPeriod, preferenceKey, preferenceTags, priceLabel, refinementKey, refinementTags, scenarioKey, scenarioTags, serviceMode, setSearchParams, sort, spiceLevel])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -290,42 +243,6 @@ export function DiscoverPage() {
     setVisibleCount(RESTAURANT_RENDER_STEP)
   }, [filters])
 
-  useEffect(() => {
-    if (!showRandom) {
-      setRandomPick(null)
-      return
-    }
-
-    const controller = new AbortController()
-    const serviceTags = randomTags.filter((tag) => tag === '外卖' || tag === '堂食')
-    const randomMealPeriod = randomTags.includes('夜宵') ? '夜宵' : undefined
-    const randomFilters = {
-      campus: randomCampus,
-      priceLabel: randomBudget,
-      serviceMode: serviceTags.length === 1 ? serviceTags[0] : '都可以',
-      mealPeriod: randomMealPeriod,
-      tags: randomTags
-    }
-    const randomContext = { ...context, preferences: [...context.preferences, ...randomTags, randomCampus] }
-    setRandomMessage('正在按条件摇一餐...')
-
-    getRandomRestaurantRemote(randomFilters, randomContext, controller.signal)
-      .then((result) => {
-        setRandomPick(result.data)
-        setRandomMessage(result.data ? '' : '这个组合暂时没有匹配餐厅，可以放宽校区、预算或标签。')
-        setDataSource(describeApiSource(result.source, result.fallbackReason))
-      })
-      .catch((error: unknown) => {
-        if (!isAbortError(error)) {
-          const fallback = getRandomRestaurant(randomFilters, randomContext)
-          setRandomPick(fallback)
-          setRandomMessage(fallback ? '' : '这个组合暂时没有匹配餐厅，可以放宽校区、预算或标签。')
-        }
-      })
-
-    return () => controller.abort()
-  }, [context, randomBudget, randomCampus, randomNonce, randomTagKey, showRandom])
-
   function toggleFavorite(id: string) {
     const nextIds = toggleFavoriteRestaurant(id)
     setFavoriteIds(nextIds)
@@ -334,7 +251,7 @@ export function DiscoverPage() {
       .then(({ setFavoriteInSupabase }) => setFavoriteInSupabase(id, nextIds.includes(id)))
       .then(setFavoriteIds)
       .catch(() => {
-        setDataSource('收藏已先保存在本地，登录后可同步云端')
+        setDataSource('收藏已先保存在这台设备，登录后可同步云端')
       })
   }
 
@@ -410,53 +327,6 @@ export function DiscoverPage() {
     return refinementTags.includes(tag)
   }
 
-  function selectRandomCampus(campus: string) {
-    const nextCampus = campusOptions.includes(campus as CampusOption) ? (campus as CampusOption) : '紫金港'
-    setRandomCampus(nextCampus)
-    persistCampus(nextCampus)
-    setLocationStatus(nextCampus === '紫金港' ? '已切到紫金港。当前真实数据主要覆盖紫金港。' : `${nextCampus} 数据正在采集中，当前可能没有结果。`)
-  }
-
-  function requestCurrentLocation() {
-    if (!navigator.geolocation) {
-      setLocationStatus('当前浏览器不支持定位，请手动选择校区。')
-      return
-    }
-
-    setLocationStatus('正在请求浏览器定位，只用于判断最近校区，不会上传精确位置。')
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const nearest = getNearestCampus({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        })
-        selectRandomCampus(nearest.campus)
-        setLocationStatus(`已根据当前位置选择 ${nearest.campus}，约 ${nearest.distance.toFixed(1)}km。精确位置未上传。`)
-      },
-      () => {
-        setLocationStatus('定位被拒绝或超时。没关系，可以手动选择校区继续摇。')
-      },
-      { enableHighAccuracy: false, maximumAge: 1000 * 60 * 10, timeout: 5000 }
-    )
-  }
-
-  function triggerRandomPick() {
-    showToast('开摇，正在帮你缩小选择范围。')
-    setSearchParams((current) => {
-      const next = new URLSearchParams(current)
-      next.set('random', '1')
-      if (randomCampus !== '紫金港') next.set('randomCampus', randomCampus)
-      else next.delete('randomCampus')
-      if (randomBudget !== '不限') next.set('randomBudget', randomBudget)
-      else next.delete('randomBudget')
-      if (randomTags.length) next.set('randomTags', randomTags.join(','))
-      else next.delete('randomTags')
-      next.delete('randomTag')
-      return next
-    })
-    setRandomNonce((nonce) => nonce + 1)
-  }
-
   function focusRestaurantFromMap(restaurant: RestaurantSummary) {
     setFocusedMapRestaurantId(restaurant.id)
     setVisibleCount((count) => {
@@ -474,13 +344,13 @@ export function DiscoverPage() {
         <div>
           <p className="eyebrow">DISCOVER</p>
           <h1>发现餐厅</h1>
-          <p>按口味、预算、距离和公开 POI 信息筛选；后续有真实 UGC 后，学生评价会占推荐权重的 80%。</p>
+          <p>按口味、预算、距离和公开位置资料筛选；等同学们补充真实体验后，学生评价会成为推荐的主要权重。</p>
         </div>
         <span className="count-badge">{restaurants.length} 家匹配</span>
       </div>
 
       <div className="status-strip">
-        <span aria-live="polite">{isLoading ? '正在同步后端数据…' : dataSource}</span>
+        <span aria-live="polite">{isLoading ? '正在更新餐厅列表…' : dataSource}</span>
       </div>
 
       <div className="mobile-filter-dock">
@@ -492,8 +362,6 @@ export function DiscoverPage() {
           调整筛选
         </button>
       </div>
-
-      <FoodMap campus={campus} modeNote={mapModeNote} restaurants={mapRestaurantSource} onRestaurantFocus={focusRestaurantFromMap} />
 
       <BottomSheet
         open={isFilterSheetOpen}
@@ -553,8 +421,6 @@ export function DiscoverPage() {
                   </button>
                 ))}
               </div>
-              <TagGroupSelector groups={scenarioTagGroups} selectedTags={scenarioTags} onChange={setScenarioTags} />
-              <TagGroupSelector exclusiveGroups={preferenceExclusiveGroups} groups={preferenceTagGroups} selectedTags={preferenceTags} onChange={setPreferenceTags} />
               <SegmentedControl label="排序" options={sortOptions} value={sort} onChange={setSort} />
             </div>
           </details>
@@ -569,146 +435,80 @@ export function DiscoverPage() {
         </div>
       </BottomSheet>
 
-      <GlassCard className="filters-card discover-desktop-filters">
-        <div className="section-heading card-heading">
-          <div>
-            <p className="eyebrow">DECISION HELPER</p>
-            <h2>随机吃什么增强</h2>
-            <p>三行约束就够了：先定校区，再定预算，最后加几个关键标签。定位只在你点击时请求。</p>
-          </div>
-        </div>
-        <div className="quick-random-panel">
-          <div className="quick-random-row">
-            <div className="quick-random-copy">
-              <strong>校区</strong>
-              <span>默认不拿定位；想找附近再点右侧按钮。</span>
-            </div>
-            <div className="quick-random-controls">
-              <SegmentedControl label="随机校区" options={campusOptions.map((campus) => ({ label: campus, value: campus }))} value={randomCampus} onChange={selectRandomCampus} />
-              <button className="secondary-action compact-action" type="button" onClick={requestCurrentLocation}>使用当前位置</button>
-            </div>
-          </div>
-          <div className="quick-random-row">
-            <div className="quick-random-copy">
-              <strong>预算</strong>
-              <span>快速收窄候选，不用填很精确。</span>
-            </div>
-            <SegmentedControl label="随机预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={randomBudget} onChange={setRandomBudget} />
-          </div>
-          <div className="quick-random-row">
-            <div className="quick-random-copy">
-              <strong>标签</strong>
-              <span>可多选；辣/不辣、外卖/堂食会自动互斥。</span>
-            </div>
-            <div className="chip-row" aria-label="随机关键标签">
-              {quickRandomTags.map((tag) => (
-                <button key={tag} className={`chip ${randomTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={randomTags.includes(tag)} onClick={() => setRandomTags((tags) => toggleQuickRandomTag(tags, tag))}>
-                  {tag}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-        {locationStatus ? <p className="helper-text subtle-helper">{locationStatus}</p> : null}
-        <button className="primary-action" type="button" onClick={triggerRandomPick}>
-          按条件摇一餐
-        </button>
-      </GlassCard>
-
-      {showRandom ? (
-        <GlassCard className="result-card">
-          <p className="eyebrow">RANDOM PICK</p>
-          {randomPick ? (
-            <>
-              <Link className="random-result-link" to={`/restaurants/${randomPick.id}`} aria-label={`查看 ${randomPick.name} 详情`}>
-                <h2>{randomPick.name}</h2>
-              </Link>
-              <p>
-                当前条件：{randomCampus} · {randomBudget}{randomTags.length ? ` · ${randomTags.join(' / ')}` : ''}。结果：{randomPick.area} · {randomPick.cuisine} · ¥{randomPick.price}/人。
-              </p>
-              <div className="hero-actions compact-actions">
-                <Link className="primary-action" to={`/restaurants/${randomPick.id}`}>
-                  查看详情
-                </Link>
-                <button className="secondary-action" type="button" onClick={triggerRandomPick}>
-                  不满意，再摇一次
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h2>还没有摇到合适结果</h2>
-              <p>{randomMessage || '点击上面的按钮后，结果会出现在这里。'}</p>
-            </>
-          )}
-        </GlassCard>
-      ) : null}
-
-      <GlassCard className="filters-card scene-filter-card" id="primary-filters">
-        <label className="search-label" htmlFor="restaurant-search">
-          搜索餐厅、标签或场景
-        </label>
-        <input id="restaurant-search" name="restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
+      <GlassCard className={`filters-card scene-filter-card ${isSearchCollapsed ? 'collapsed' : ''}`} id="primary-filters">
         <div className="filter-summary compact-filter-summary">
           <div>
             <span className="filter-section-label">当前路径</span>
             <p>{formatSelectedPath(summaryItems)}</p>
             <small>{restaurants.length} 家匹配 · {sortOptions.find((option) => option.value === sort)?.label || '推荐'}排序</small>
           </div>
-          <button className="primary-action compact-action" type="button" onClick={() => setIsFilterSheetOpen(true)}>调整筛选</button>
+          <div className="filter-summary-actions">
+            <button className="secondary-action compact-action" type="button" aria-expanded={!isSearchCollapsed} aria-controls="discover-filter-body" onClick={() => setIsSearchCollapsed((collapsed) => !collapsed)}>
+              {isSearchCollapsed ? '展开筛选' : '收起筛选'}
+            </button>
+            <button className="primary-action compact-action" type="button" onClick={() => setIsFilterSheetOpen(true)}>调整筛选</button>
+          </div>
         </div>
-        <div className="scene-filter-layout">
-          <section className="scene-picker-card">
-            <div className="compact-choice-head">
-              <strong>先选一个吃饭场景</strong>
-              <span>不是所有标签都要出现，先把问题变小。</span>
+        {isSearchCollapsed ? (
+          <p className="collapsed-filter-note">已收起搜索和精细筛选，下面可以直接看列表与地图；需要修改条件时点“展开筛选”或“调整筛选”。</p>
+        ) : (
+          <div id="discover-filter-body" className="discover-filter-body">
+            <label className="search-label" htmlFor="restaurant-search">
+              搜索餐厅、标签或场景
+            </label>
+            <input id="restaurant-search" name="restaurant-search" className="search-input" value={keyword} placeholder="例如：辣 / 夜宵 / 一人食…" autoComplete="off" onChange={(event) => setKeyword(event.target.value)} />
+            <div className="scene-filter-layout">
+              <section className="scene-picker-card">
+                <div className="compact-choice-head">
+                  <strong>先选一个吃饭场景</strong>
+                  <span>不是所有标签都要出现，先把问题变小。</span>
+                </div>
+                <div className="scene-card-grid">
+                  {discoverFilterScenes.map((scene) => (
+                    <button key={scene.id} className={`scene-card ${activeSceneId === scene.id ? 'active' : ''}`} type="button" aria-pressed={activeSceneId === scene.id} onClick={() => applyScene(scene.id)}>
+                      <strong>{scene.label}</strong>
+                      <span>{scene.description}</span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+              <section className="focused-filter-card">
+                <div className="filter-section-head">
+                  <div>
+                    <span className="filter-section-label">精细筛选</span>
+                    <p>{activeScene.label} · 重点看 {activeScene.focus.join('、')}</p>
+                  </div>
+                  <button className="text-action" type="button" onClick={clearAllFilters}>重置筛选</button>
+                </div>
+                <div className="focused-filter-grid">
+                  <CompactChoiceGroup label="校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={selectCampus} />
+                  <CompactChoiceGroup label="大类" options={mealCategoryOptions} value={mealCategory} onChange={selectMealCategory} />
+                  <CompactChoiceGroup label="方式" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
+                  <CompactChoiceGroup label="时间" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
+                </div>
+                <div className="quick-refinement-grid" aria-label={`${activeScene.label}快捷细化`}>
+                  {activeScene.quickTags.map((tag) => (
+                    <button key={tag} className={`compact-choice ${isRefinementActive(tag) ? 'active' : ''}`} type="button" aria-pressed={isRefinementActive(tag)} onClick={() => toggleRefinementTag(tag)}>
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+                <details className="advanced-filter-panel desktop-advanced-filter">
+                  <summary>更多条件</summary>
+                  <div className="advanced-filter-grid">
+                    <SegmentedControl label="预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={priceLabel} onChange={setPriceLabel} />
+                    {hardFilterGroups.map((group) => {
+                      const value = group.key === 'distanceLabel' ? distanceLabel : group.key === 'spiceLevel' ? spiceLevel : loadLevel
+                      const onChange = group.key === 'distanceLabel' ? setDistanceLabel : group.key === 'spiceLevel' ? setSpiceLevel : setLoadLevel
+                      return <SegmentedControl key={group.key} label={group.title} options={group.options.map((option) => ({ label: option, value: option }))} value={value} onChange={onChange} />
+                    })}
+                    <SegmentedControl label="排序" options={sortOptions} value={sort} onChange={setSort} />
+                  </div>
+                </details>
+              </section>
             </div>
-            <div className="scene-card-grid">
-              {discoverFilterScenes.map((scene) => (
-                <button key={scene.id} className={`scene-card ${activeSceneId === scene.id ? 'active' : ''}`} type="button" aria-pressed={activeSceneId === scene.id} onClick={() => applyScene(scene.id)}>
-                  <strong>{scene.label}</strong>
-                  <span>{scene.description}</span>
-                </button>
-              ))}
-            </div>
-          </section>
-          <section className="focused-filter-card">
-            <div className="filter-section-head">
-              <div>
-                <span className="filter-section-label">精细筛选</span>
-                <p>{activeScene.label} · 重点看 {activeScene.focus.join('、')}</p>
-              </div>
-              <button className="text-action" type="button" onClick={clearAllFilters}>重置筛选</button>
-            </div>
-            <div className="focused-filter-grid">
-              <CompactChoiceGroup label="校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={selectCampus} />
-              <CompactChoiceGroup label="大类" options={mealCategoryOptions} value={mealCategory} onChange={selectMealCategory} />
-              <CompactChoiceGroup label="方式" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
-              <CompactChoiceGroup label="时间" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
-            </div>
-            <div className="quick-refinement-grid" aria-label={`${activeScene.label}快捷细化`}>
-              {activeScene.quickTags.map((tag) => (
-                <button key={tag} className={`compact-choice ${isRefinementActive(tag) ? 'active' : ''}`} type="button" aria-pressed={isRefinementActive(tag)} onClick={() => toggleRefinementTag(tag)}>
-                  {tag}
-                </button>
-              ))}
-            </div>
-            <details className="advanced-filter-panel desktop-advanced-filter">
-              <summary>更多条件</summary>
-              <div className="advanced-filter-grid">
-                <SegmentedControl label="预算" options={metadata.priceRanges.map((range) => ({ label: range.label, value: range.label }))} value={priceLabel} onChange={setPriceLabel} />
-                {hardFilterGroups.map((group) => {
-                  const value = group.key === 'distanceLabel' ? distanceLabel : group.key === 'spiceLevel' ? spiceLevel : loadLevel
-                  const onChange = group.key === 'distanceLabel' ? setDistanceLabel : group.key === 'spiceLevel' ? setSpiceLevel : setLoadLevel
-                  return <SegmentedControl key={group.key} label={group.title} options={group.options.map((option) => ({ label: option, value: option }))} value={value} onChange={onChange} />
-                })}
-                <TagGroupSelector groups={scenarioTagGroups} selectedTags={scenarioTags} onChange={setScenarioTags} />
-                <TagGroupSelector exclusiveGroups={preferenceExclusiveGroups} groups={preferenceTagGroups} selectedTags={preferenceTags} onChange={setPreferenceTags} />
-                <SegmentedControl label="排序" options={sortOptions} value={sort} onChange={setSort} />
-              </div>
-            </details>
-          </section>
-        </div>
+          </div>
+        )}
       </GlassCard>
 
       <div id="results">
@@ -736,6 +536,8 @@ export function DiscoverPage() {
           />
         )}
       </div>
+
+      <FoodMap campus={campus} modeNote={mapModeNote} restaurants={mapRestaurantSource} onFilterOpen={() => setIsFilterSheetOpen(true)} onRestaurantFocus={focusRestaurantFromMap} />
     </div>
   )
 }

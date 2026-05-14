@@ -19,18 +19,17 @@ export const campusCenters: Record<CampusOption, { latitude: number; longitude: 
   海宁: { latitude: 30.512801, longitude: 120.681777, dataStatus: 'collecting' }
 }
 
-export const quickRandomTags = ['正餐', '近', '校内', '非食堂', '外卖', '堂食', '一人食', '聚餐', '夜宵', '面食', '下饭', '实惠', '辣', '不辣', '饮品'] as const
+export const quickRandomTags = ['近', '实惠', '辣', '不辣', '一人食', '聚餐', '夜宵', '非食堂'] as const
 export const quickRandomExclusiveGroups = [
   ['辣', '不辣'],
-  ['外卖', '堂食'],
   ['食堂', '非食堂']
 ] as const
 
 export const scenarioTagGroups = [
   {
-    title: '这顿饭的场景',
-    hint: '同一层可以重合，多选越具体越好',
-    tags: ['一人食', '聚餐', '赶课快吃', '自习后', '约会拍照', '运动后', '懒得出校']
+    title: '补充场景',
+    hint: '只有真的影响选择时再选',
+    tags: ['一人食', '聚餐', '赶课快吃', '自习后', '懒得出校']
   }
 ] as const
 
@@ -62,15 +61,15 @@ export const discoverFilterScenes = [
     description: '赶课、午晚饭和不知道吃啥时先看这里。',
     defaults: { mealCategory: '正餐', serviceMode: '都可以', preferenceTags: ['近', '实惠'] },
     focus: ['校区', '预算', '距离', '食堂/非食堂', '辣度'],
-    quickTags: ['近', '实惠', '非食堂', '食堂', '辣', '不辣']
+    quickTags: ['近', '实惠', '非食堂', '辣', '不辣']
   },
   {
     id: 'delivery',
     label: '外卖随便吃',
     description: '不想走路的时候，优先看外卖友好的正餐。',
-    defaults: { mealCategory: '正餐', serviceMode: '外卖', preferenceTags: ['快餐', '下饭', '实惠'] },
-    focus: ['预算', '快餐', '下饭', '轻负担', '辣度'],
-    quickTags: ['快餐', '下饭', '轻负担', '实惠', '辣', '不辣']
+    defaults: { mealCategory: '正餐', serviceMode: '外卖', preferenceTags: ['实惠'] },
+    focus: ['预算', '一人食', '非食堂', '辣度'],
+    quickTags: ['实惠', '一人食', '非食堂', '辣', '不辣']
   },
   {
     id: 'non-canteen',
@@ -78,39 +77,39 @@ export const discoverFilterScenes = [
     description: '今天不想吃食堂，看看校外和园区小店。',
     defaults: { mealCategory: '正餐', serviceMode: '都可以', preferenceTags: ['非食堂'] },
     focus: ['校区', '预算', '堂食/外卖', '品类'],
-    quickTags: ['非食堂', '面食', '小吃', '火锅', '烧烤', '异国料理']
+    quickTags: ['非食堂', '实惠', '面食', '辣']
   },
   {
     id: 'late-night',
     label: '夜宵救命',
     description: '晚归、自习后、夜跑后补一点。',
-    defaults: { mealCategory: '全部', serviceMode: '都可以', mealPeriod: '夜宵', scenarioTags: ['自习后'], preferenceTags: ['夜宵'] },
-    focus: ['夜宵', '距离', '预算', '暖胃'],
-    quickTags: ['夜宵', '小吃', '烧烤', '火锅', '奶茶', '暖胃']
+    defaults: { mealCategory: '全部', serviceMode: '都可以', mealPeriod: '夜宵', preferenceTags: ['夜宵'] },
+    focus: ['夜宵', '距离', '预算', '辣度'],
+    quickTags: ['夜宵', '近', '实惠', '辣']
   },
   {
     id: 'drinks',
     label: '饮品甜点',
     description: '奶茶、咖啡、甜品和下午茶，不和正餐混在一起。',
-    defaults: { mealCategory: '饮品', serviceMode: '都可以', mealPeriod: '下午茶', preferenceTags: ['奶茶', '咖啡', '甜品'] },
-    focus: ['咖啡', '奶茶', '甜品', '可坐', '带走'],
-    quickTags: ['奶茶', '咖啡', '甜品', '拍照', '轻负担']
+    defaults: { mealCategory: '饮品', serviceMode: '都可以', mealPeriod: '下午茶', preferenceTags: [] },
+    focus: ['咖啡', '奶茶', '甜品'],
+    quickTags: ['咖啡', '奶茶', '甜品']
   },
   {
     id: 'group',
     label: '聚餐改善',
     description: '几个人一起吃，优先看堂食和更有氛围的店。',
     defaults: { mealCategory: '正餐', serviceMode: '堂食', scenarioTags: ['聚餐'], preferenceTags: ['聚餐'] },
-    focus: ['人均', '堂食', '火锅', '烧烤', '环境'],
-    quickTags: ['聚餐', '火锅', '烧烤', '异国料理', '拍照', '下饭']
+    focus: ['人均', '堂食', '非食堂', '辣度'],
+    quickTags: ['聚餐', '非食堂', '实惠', '辣']
   },
   {
     id: 'solo',
     label: '一人食',
     description: '一个人也吃得舒服，少纠结、快落座。',
-    defaults: { mealCategory: '正餐', serviceMode: '都可以', scenarioTags: ['一人食'], preferenceTags: ['一人食', '快餐'] },
+    defaults: { mealCategory: '正餐', serviceMode: '都可以', scenarioTags: ['一人食'], preferenceTags: ['一人食'] },
     focus: ['距离', '预算', '快餐', '面食', '下饭'],
-    quickTags: ['一人食', '快餐', '面食', '实惠', '近', '非食堂']
+    quickTags: ['一人食', '近', '实惠', '面食']
   }
 ] as const
 
@@ -120,34 +119,25 @@ export const dietaryConstraintTags = ['清真友好'] as const
 
 export const preferenceTagGroups = [
   {
-    title: '常用决策',
-    hint: '高频选择优先放这里，适合快速建立推荐画像',
-    tags: ['近', '实惠', '一人食', '聚餐', '夜宵', '下饭'],
+    title: '常用偏好',
+    hint: '只保留真正会影响选择的少数条件',
+    tags: ['近', '实惠', '辣', '不辣', '一人食', '聚餐'],
     maxVisible: 6
   },
   {
-    title: '口味与体感',
-    hint: '这些标签可以叠加，比如“暖胃 + 面食”',
-    tags: ['暖胃', '面食', '小吃', '清爽', '快餐', '拍照'],
-    maxVisible: 6
-  },
-  {
-    title: '饮品甜点',
-    hint: '避免奶茶咖啡和正餐偏好混在一排',
-    tags: ['咖啡', '甜品', '奶茶'],
-    maxVisible: 6
-  },
-  {
-    title: '品类与排雷',
-    hint: '食堂/非食堂是互斥项；其余用于排序加权',
-    tags: ['烧烤', '火锅', '食堂', '非食堂', '异国料理', '清真友好'],
-    maxVisible: 6
+    title: '少量补充',
+    hint: '不常用的标签收在这里，不打断主流程',
+    tags: ['夜宵', '面食', '食堂', '非食堂', '咖啡', '奶茶', '甜品', '清真友好'],
+    maxVisible: 8
   }
 ] as const
 
 export const preferenceExclusiveGroups = [
-  ['食堂', '非食堂']
+  ['食堂', '非食堂'],
+  ['辣', '不辣']
 ] as const
+
+export const publicDisplayTagPriority = ['近', '实惠', '辣', '不辣', '一人食', '聚餐', '夜宵', '非食堂', '食堂', '面食', '咖啡', '奶茶', '甜品', '清真友好'] as const
 
 export const taxonomyTagMap: Record<string, string[]> = {
   都可以: [],
@@ -252,6 +242,11 @@ export function collectFilterTags(filters: {
     ...(filters.loadLevel && filters.loadLevel !== '不限' ? [filters.loadLevel] : []),
     ...(filters.tags ?? [])
   ].filter((tag, index, allTags) => tag && tag !== '全部' && allTags.indexOf(tag) === index)
+}
+
+export function getPublicDisplayTags(tags: string[], limit = 3) {
+  const tagSet = new Set(tags)
+  return publicDisplayTagPriority.filter((tag) => tagSet.has(tag)).slice(0, limit)
 }
 
 export function collectHardFilterTags(filters: {

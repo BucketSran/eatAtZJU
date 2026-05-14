@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { GlassCard } from '../components/GlassCard'
 import { SegmentedControl } from '../components/SegmentedControl'
-import { campusOptions, collectFilterTags, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, preferenceTagGroups, scenarioTagGroups, serviceModeOptions, toggleMultiTag } from '../constants/restaurantTaxonomy'
+import { campusOptions, collectFilterTags, dietaryConstraintTags, getCurrentMealPeriod, hardFilterGroups, mealPeriodOptions, preferenceTagGroups, serviceModeOptions, toggleGroupedTag, toggleMultiTag } from '../constants/restaurantTaxonomy'
 import { listRestaurantsRemote } from '../services/restaurantService'
 import { submitContribution, type SubmissionType } from '../services/submissionService'
 import type { RestaurantSummary } from '../types'
@@ -14,6 +14,35 @@ const typeOptions: Array<{ label: string; value: SubmissionType }> = [
   { label: '打卡体验', value: 'checkin' },
   { label: '信息纠错', value: 'correction' }
 ]
+
+const quickContributionTags = ['食堂', '非食堂', '近', '实惠', '辣', '不辣', '一人食', '聚餐'] as const
+const quickContributionExclusiveGroups = [
+  ['食堂', '非食堂'],
+  ['辣', '不辣']
+] as const
+
+const typeCopy: Record<SubmissionType, string> = {
+  restaurant: '推荐一家还没收录的店',
+  dish: '补一个必点菜',
+  review: '给已有餐厅写短评',
+  checkin: '记录一次真实体验',
+  correction: '帮我们纠错'
+}
+
+function getTypeLabel(value: SubmissionType) {
+  return typeOptions.find((option) => option.value === value)?.label ?? '新增餐厅'
+}
+
+function getClampedRating(value: string) {
+  const numericValue = Number(value)
+  if (!Number.isFinite(numericValue)) return 4
+  return Math.max(1, Math.min(5, Math.round(numericValue * 10) / 10))
+}
+
+function getRatingStars(value: string) {
+  const numericValue = Math.round(getClampedRating(value))
+  return Array.from({ length: 5 }, (_, index) => index + 1 <= numericValue)
+}
 
 export function ContributePage() {
   const [type, setType] = useState<SubmissionType>('restaurant')
@@ -38,6 +67,7 @@ export function ContributePage() {
   const needsRestaurantId = type === 'dish' || type === 'review' || type === 'checkin'
   const selectedTags = collectFilterTags({ scenarioTags, dietaryTags, preferenceTags, spiceLevel, loadLevel })
   const needsTags = selectedTags.length === 0
+  const ratingStars = getRatingStars(rating)
 
   useEffect(() => {
     if (!needsRestaurantId) return undefined
@@ -52,13 +82,14 @@ export function ContributePage() {
     event.preventDefault()
 
     if (needsTags) {
-      setStatus('请至少选择一个精细标签，方便管理员审核和后续推荐匹配。')
+      setStatus('请至少选择一个标签，方便我们确认内容并推荐给合适的同学。')
       return
     }
 
     setStatus('正在提交…')
 
     try {
+      const normalizedRating = getClampedRating(rating)
       const result = await submitContribution(type, {
         title: title.trim(),
         content: content.trim(),
@@ -67,7 +98,7 @@ export function ContributePage() {
         price: price ? Number(price) : undefined,
         campus,
         restaurantId: needsRestaurantId ? restaurantId.trim() || undefined : undefined,
-        rating: needsRestaurantId && rating ? Number(rating) : undefined,
+        rating: normalizedRating,
         serviceMode,
         diningMode: serviceMode === '都可以' ? undefined : serviceMode,
         mealPeriod,
@@ -79,7 +110,7 @@ export function ContributePage() {
         loadLevel: loadLevel === '不限' ? undefined : loadLevel,
         taxonomyVersion: 2
       })
-      setStatus(`已提交审核：${result.id}`)
+      setStatus(`已提交，我们会尽快审核。编号：${result.id}`)
       setTitle('')
       setContent('')
       setArea('')
@@ -94,170 +125,188 @@ export function ContributePage() {
       setSpiceLevel('不限')
       setLoadLevel('不限')
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : '提交失败')
+      console.error('[contribute] failed to submit recommendation', error)
+      setStatus('提交暂时失败，请检查内容后再试。')
     }
   }
 
   return (
-    <div className="route-stack">
-      <div className="page-heading split-heading">
+    <div className="route-stack contribute-route">
+      <div className="page-heading split-heading contribute-heading">
         <div>
           <p className="eyebrow">CONTRIBUTE</p>
-          <h1>贡献餐厅资料</h1>
-          <p>真实 UGC 不会直接公开，会先进入 submissions 审核队列。</p>
+          <h1>三十秒补一家好吃的</h1>
+          <p>像给朋友发一张饭店小卡片：名字、人均、推荐理由先写清楚，复杂标签之后再补。</p>
         </div>
-        <span className="count-badge">审核优先</span>
+        <span className="count-badge">先审后发</span>
       </div>
 
-      <GlassCard className="demo-note">
-        <p className="eyebrow">STATUS</p>
-        <h2>{configured ? 'Supabase 已配置后可提交' : '当前还未配置 Supabase'}</h2>
-        <p>{configured ? '请先在“我的”页面登录，再提交资料。' : '这页已经是可接真实后端的表单骨架；配置 Vercel/Supabase 环境变量后即可走真实 submissions API。'}</p>
+      <GlassCard className="contribute-status-card">
+        <div>
+          <p className="eyebrow">QUEUE</p>
+          <h2>{configured ? '提交后会先审核' : '暂时只能预览填写效果'}</h2>
+        </div>
+        <p>{configured ? '登录后提交，我们确认内容真实、清楚后再公开给大家。' : '你可以先整理内容，等投稿功能开放后再发送。'}</p>
       </GlassCard>
 
-      <GlassCard className="contribution-card" id="contribution-form">
-        <form className="form-stack contribution-form" onSubmit={submitForm}>
-          <div className="form-section">
-            <div className="section-heading card-heading">
+      <GlassCard className="contribution-card simplified-contribution-card" id="contribution-form">
+        <form className="contribution-form simplified-contribution-form" onSubmit={submitForm}>
+          <section className="contribution-paper" aria-label="贡献资料表单">
+            <div className="contribution-paper-head">
               <div>
-                <p className="eyebrow">STEP 1</p>
-                <h2>基础信息</h2>
-                <p>先把管理员最需要判断的信息写清楚。餐厅投稿审核通过后会直接进入正式餐厅表。</p>
+                <p className="eyebrow">QUICK CARD</p>
+                <h2>{getTypeLabel(type)}</h2>
+                <p>{typeCopy[type]}</p>
+              </div>
+              <select id="submission-type" className="contribution-type-select" value={type} onChange={(event) => setType(event.target.value as SubmissionType)} aria-label="提交类型">
+                {typeOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <label className="contribution-row" htmlFor="submission-title">
+              <span className="row-icon" aria-hidden="true">A</span>
+              <span className="row-label">名字</span>
+              <input id="submission-title" name="submission-title" value={title} maxLength={80} autoComplete="off" placeholder="例如：烧腊饭 / 北门砂锅" onChange={(event) => setTitle(event.target.value)} required />
+            </label>
+
+            <div className="contribution-row stacked-row">
+              <span className="row-icon" aria-hidden="true">⌖</span>
+              <span className="row-label">校区</span>
+              <div className="mini-chip-grid" role="group" aria-label="所在校区">
+                {campusOptions.map((option) => (
+                  <button key={option} className={`mini-chip ${campus === option ? 'active' : ''}`} type="button" aria-pressed={campus === option} onClick={() => setCampus(option)}>
+                    {option}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <SegmentedControl label="所在校区" options={campusOptions.map((option) => ({ label: option, value: option }))} value={campus} onChange={setCampus} />
+            <label className="contribution-row" htmlFor="submission-cuisine">
+              <span className="row-icon" aria-hidden="true">≡</span>
+              <span className="row-label">菜系</span>
+              <input id="submission-cuisine" name="submission-cuisine" value={cuisine} maxLength={40} autoComplete="off" placeholder="例如：烧腊 / 面食 / 奶茶" onChange={(event) => setCuisine(event.target.value)} />
+            </label>
 
-            <label className="search-label" htmlFor="submission-type">提交类型</label>
-            <select id="submission-type" className="search-input" value={type} onChange={(event) => setType(event.target.value as SubmissionType)}>
-              {typeOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+            <label className="contribution-row" htmlFor="submission-area">
+              <span className="row-icon" aria-hidden="true">◎</span>
+              <span className="row-label">位置</span>
+              <input id="submission-area" name="submission-area" value={area} maxLength={40} autoComplete="off" placeholder="例如：紫金港北门 / 玉泉四食堂" onChange={(event) => setArea(event.target.value)} />
+            </label>
 
-            <div className="form-grid">
-              <label>
-                <span className="search-label">标题</span>
-                <input name="submission-title" className="search-input" value={title} maxLength={80} autoComplete="off" placeholder="例如：北门新开的砂锅店" onChange={(event) => setTitle(event.target.value)} required />
-              </label>
-              <label>
-                <span className="search-label">人均价格</span>
-                <input name="submission-price" className="search-input" value={price} inputMode="numeric" autoComplete="off" placeholder="例如：28" onChange={(event) => setPrice(event.target.value)} />
-              </label>
-              <label>
-                <span className="search-label">区域</span>
-                <input name="submission-area" className="search-input" value={area} maxLength={40} autoComplete="off" placeholder="例如：紫金港北门 / 校内" onChange={(event) => setArea(event.target.value)} />
-              </label>
-              <label>
-                <span className="search-label">菜系/类型</span>
-                <input name="submission-cuisine" className="search-input" value={cuisine} maxLength={40} autoComplete="off" placeholder="例如：川湘小炒 / 咖啡甜点" onChange={(event) => setCuisine(event.target.value)} />
-              </label>
-            </div>
+            <label className="contribution-row" htmlFor="submission-price">
+              <span className="row-icon" aria-hidden="true">¥</span>
+              <span className="row-label">人均</span>
+              <input id="submission-price" name="submission-price" value={price} inputMode="numeric" autoComplete="off" placeholder="例如：18" onChange={(event) => setPrice(event.target.value.replace(/[^\d.]/g, ''))} />
+            </label>
 
-            {needsRestaurantId ? (
-              <div className="form-grid compact-form-grid">
-                <label>
-                  <span className="search-label">关联餐厅</span>
-                  <input name="submission-restaurant-id" className="search-input" value={restaurantId} list="restaurant-id-options" autoComplete="off" placeholder="输入或选择餐厅 ID" onChange={(event) => setRestaurantId(event.target.value)} />
-                  <datalist id="restaurant-id-options">
-                    {restaurantOptions.map((restaurant) => (
-                      <option key={restaurant.id} value={restaurant.id}>{restaurant.name} · {restaurant.area}</option>
-                    ))}
-                  </datalist>
-                </label>
-                <label>
-                  <span className="search-label">评分</span>
-                  <input name="submission-rating" className="search-input" value={rating} inputMode="decimal" autoComplete="off" placeholder="1-5" onChange={(event) => setRating(event.target.value)} />
-                </label>
-              </div>
-            ) : null}
-
-            <label className="search-label" htmlFor="submission-content">说明</label>
-            <textarea id="submission-content" className="text-area" value={content} maxLength={1000} placeholder="写下位置、菜品、人均、适合场景或纠错内容。" onChange={(event) => setContent(event.target.value)} required />
-          </div>
-
-          <div className="form-section">
-            <div className="section-heading card-heading">
-              <div>
-                <p className="eyebrow">STEP 2</p>
-                <h2>分类和标签</h2>
-                <p>这些字段会直接影响发现页筛选、榜单和推荐，请尽量贴近真实体验。</p>
-              </div>
-            </div>
-
-            <SegmentedControl label="怎么吃" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
-            <SegmentedControl label="餐段" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
-
-            <div className={`filter-section ${needsTags ? 'needs-attention' : ''}`}>
-              <div className="filter-section-head">
-                <div>
-                  <span className="filter-section-label">场景标签</span>
-                  <p>同一层可以多选。比如“一人食 + 赶课快吃”。</p>
-                </div>
-                {selectedTags.length ? <span className="status-strip compact-status">{selectedTags.length} 个标签</span> : null}
-              </div>
-              {scenarioTagGroups.map((group) => (
-                <div className="chip-row" aria-label={`${group.title}提交标签`} key={group.title}>
-                  {group.tags.map((tag) => (
-                    <button key={tag} className={`chip ${scenarioTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={scenarioTags.includes(tag)} onClick={() => setScenarioTags((tags) => toggleMultiTag(tags, tag))}>
-                      {tag}
+            <div className="contribution-row">
+              <span className="row-icon" aria-hidden="true">☆</span>
+              <span className="row-label">推荐</span>
+              <div className="rating-picker" role="group" aria-label="推荐评分">
+                {ratingStars.map((active, index) => {
+                  const value = String(index + 1)
+                  return (
+                    <button key={value} className={active ? 'active' : ''} type="button" aria-label={`${value} 星`} aria-pressed={active && Number(rating) === index + 1} onClick={() => setRating(value)}>
+                      ★
                     </button>
-                  ))}
-                </div>
-              ))}
-              {needsTags ? <p className="helper-text warning-text">还没有选择标签。建议至少选 1-3 个，越准确越容易通过审核。</p> : null}
+                  )
+                })}
+                <input value={rating} inputMode="decimal" aria-label="推荐评分数值" onChange={(event) => setRating(event.target.value)} />
+              </div>
             </div>
 
-            <div className="filter-section">
-              <div className="filter-section-head">
-                <div>
-                  <span className="filter-section-label">硬条件与偏好</span>
-                  <p>冲突项做成单选，多选项只用于补充描述。</p>
-                </div>
-              </div>
-              {hardFilterGroups.filter((group) => group.key !== 'distanceLabel').map((group) => {
-                const value = group.key === 'spiceLevel' ? spiceLevel : loadLevel
-                const onChange = group.key === 'spiceLevel' ? setSpiceLevel : setLoadLevel
-                return <SegmentedControl key={group.key} label={group.title} options={group.options.map((option) => ({ label: option, value: option }))} value={value} onChange={onChange} />
-              })}
-              <div className="chip-row" aria-label="饮食限制提交标签">
-                {dietaryConstraintTags.map((tag) => (
-                  <button key={tag} className={`chip ${dietaryTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={dietaryTags.includes(tag)} onClick={() => setDietaryTags((tags) => toggleMultiTag(tags, tag))}>
+            <div className={`contribution-row stacked-row ${needsTags ? 'needs-attention' : ''}`}>
+              <span className="row-icon" aria-hidden="true">#</span>
+              <span className="row-label">标签</span>
+              <div className="mini-chip-grid" role="group" aria-label="常用标签">
+                {quickContributionTags.map((tag) => (
+                  <button key={tag} className={`mini-chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleGroupedTag(tags, tag, quickContributionExclusiveGroups))}>
                     {tag}
                   </button>
                 ))}
               </div>
-              {preferenceTagGroups.map((group) => (
-                <div className="chip-row" aria-label={`${group.title}提交标签`} key={group.title}>
-                  {group.tags.map((tag) => (
-                    <button key={tag} className={`chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleMultiTag(tags, tag))}>
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              ))}
+              {needsTags ? <p className="row-hint">选 1-3 个就够了，不用当标签机器。</p> : null}
             </div>
-          </div>
 
-          <button className="primary-action" type="submit">提交到审核队列</button>
+            <label className="contribution-row note-row" htmlFor="submission-content">
+              <span className="row-icon" aria-hidden="true">✎</span>
+              <span className="row-label">备注</span>
+              <textarea id="submission-content" value={content} maxLength={1000} placeholder="比如：叉烧好吃、饭点排队、适合赶课前快速解决。" onChange={(event) => setContent(event.target.value)} required />
+            </label>
+
+            <details className="advanced-contribution-panel">
+              <summary>高级补充：餐段、堂食/外卖、关联餐厅、更多标签</summary>
+              <div className="advanced-contribution-grid">
+                <SegmentedControl label="怎么吃" options={serviceModeOptions.map((mode) => ({ label: mode, value: mode }))} value={serviceMode} onChange={setServiceMode} />
+                <SegmentedControl label="餐段" options={mealPeriodOptions.map((period) => ({ label: period, value: period }))} value={mealPeriod} onChange={setMealPeriod} />
+                {hardFilterGroups.filter((group) => group.key !== 'distanceLabel').map((group) => {
+                  const value = group.key === 'spiceLevel' ? spiceLevel : loadLevel
+                  const onChange = group.key === 'spiceLevel' ? setSpiceLevel : setLoadLevel
+                  return <SegmentedControl key={group.key} label={group.title} options={group.options.map((option) => ({ label: option, value: option }))} value={value} onChange={onChange} />
+                })}
+                {needsRestaurantId ? (
+                  <label className="advanced-field">
+                    <span>关联餐厅</span>
+                    <input name="submission-restaurant-id" value={restaurantId} list="restaurant-id-options" autoComplete="off" placeholder="搜索或选择餐厅" onChange={(event) => setRestaurantId(event.target.value)} />
+                    <datalist id="restaurant-id-options">
+                      {restaurantOptions.map((restaurant) => (
+                        <option key={restaurant.id} value={restaurant.id}>{restaurant.name} · {restaurant.area}</option>
+                      ))}
+                    </datalist>
+                  </label>
+                ) : null}
+                <div className="advanced-tag-block">
+                  <span>饮食限制</span>
+                  <div className="chip-row" aria-label="饮食限制提交标签">
+                    {dietaryConstraintTags.map((tag) => (
+                      <button key={tag} className={`chip ${dietaryTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={dietaryTags.includes(tag)} onClick={() => setDietaryTags((tags) => toggleMultiTag(tags, tag))}>
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {preferenceTagGroups.slice(1).map((group) => (
+                  <div className="advanced-tag-block" key={group.title}>
+                    <span>{group.title}</span>
+                    <div className="chip-row" aria-label={`${group.title}提交标签`}>
+                      {group.tags.map((tag) => (
+                        <button key={tag} className={`chip ${preferenceTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={preferenceTags.includes(tag)} onClick={() => setPreferenceTags((tags) => toggleMultiTag(tags, tag))}>
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </section>
+
+          <button className="primary-action submit-contribution-action" type="submit">提交审核</button>
           {status ? <p className="helper-text" aria-live="polite">{status}</p> : null}
         </form>
 
-        <aside className="submission-preview" id="submit-preview">
-          <p className="eyebrow">REVIEW PREVIEW</p>
-          <h2>{title || '待提交资料'}</h2>
-          <p>{content || '这里会作为管理员审核时看到的正文。'}</p>
+        <aside className="submission-preview simplified-preview" id="submit-preview">
+          <p className="eyebrow">PREVIEW</p>
+          <h2>{title || '这家店叫什么？'}</h2>
+          <p>{content || '一句话写清楚：好吃什么、贵不贵、适合什么场景。'}</p>
+          <div className="preview-score" aria-label={`推荐评分 ${rating}`}>
+            {ratingStars.map((active, index) => <span key={index} className={active ? 'active' : ''}>★</span>)}
+            <strong>{rating || '4'}</strong>
+          </div>
           <div className="preview-meta">
+            <span>{campus}</span>
             <span>{serviceMode}</span>
             <span>{mealPeriod}</span>
-            <span>{campus}</span>
-            <span>{price ? `¥${price}/人` : '价格待补充'}</span>
-            <span>{area || '区域待补充'}</span>
+            <span>{price ? `¥${price}/人` : '人均待补'}</span>
+            <span>{area || '位置待补'}</span>
+            {cuisine ? <span>{cuisine}</span> : null}
           </div>
           <div className="tag-row roomy-tags">
-            {selectedTags.length ? selectedTags.map((tag) => <span className="tag strong" key={tag}>{tag}</span>) : <span className="tag">至少选择 1 个标签</span>}
+            {selectedTags.length ? selectedTags.map((tag) => <span className="tag strong" key={tag}>{tag}</span>) : <span className="tag">还差 1 个标签</span>}
           </div>
-          <p className="helper-text">审核通过后：餐厅投稿会进入正式餐厅表；菜品/评论需要有关联餐厅 ID 才会自动落库。已有餐厅候选会随校区变化自动刷新。</p>
+          <p className="helper-text">审核通过后才会公开。我们会确认内容真实、清楚，再展示给正在找饭的同学。</p>
         </aside>
       </GlassCard>
     </div>

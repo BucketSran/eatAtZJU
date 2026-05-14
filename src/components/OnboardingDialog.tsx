@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const ONBOARDING_KEY = 'eatAtZju:web:onboarding:v1'
-const githubIssuesUrl = 'https://github.com/BucketSran/eatAtZJU/issues'
 
 function hasSeenOnboarding() {
   if (typeof window === 'undefined') return true
@@ -21,13 +20,13 @@ function getFocusableElements(container: HTMLElement | null) {
 export function OnboardingDialog() {
   const [open, setOpen] = useState(() => !hasSeenOnboarding())
   const dialogRef = useRef<HTMLElement | null>(null)
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null)
+  const primaryActionRef = useRef<HTMLAnchorElement | null>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!open) return undefined
     previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
-    closeButtonRef.current?.focus()
+    primaryActionRef.current?.focus()
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeDialog()
@@ -66,23 +65,20 @@ export function OnboardingDialog() {
     <div className="onboarding-backdrop" role="presentation">
       <section className="onboarding-dialog" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" ref={dialogRef}>
         <p className="eyebrow">WELCOME</p>
-        <h2 id="onboarding-title">你好，灿若星辰的浙大人。</h2>
-        <p>欢迎来到「食在浙大」。这里不是冷冰冰的榜单机器，而是一只努力帮你少纠结三分钟的饭点小雷达。</p>
-        <div className="onboarding-steps">
-          <span><strong>1</strong> 先选默认校区，首页和随机一餐就不会把你从紫金港摇到玉泉。</span>
-          <span><strong>2</strong> 去“发现”里按正餐/饮品、预算、辣不辣和场景筛选。</span>
-          <span><strong>3</strong> 如果餐厅信息不准，来 GitHub 提 Issue，我们会把饭点雷达越校越准。</span>
+        <h2 id="onboarding-title">你好，灿若星辰的浙大人。我是浙小食。</h2>
+        <p>第一次来可以先走一遍产品导览；已经饿了，也可以直接开始摇一餐、搜餐厅、看榜单。</p>
+        <div className="onboarding-welcome-card" aria-hidden="true">
+          <span>浙</span>
+          <strong>5 步上手</strong>
+          <small>校区 · 随机 · 发现 · 榜单 · 贡献</small>
         </div>
         <div className="hero-actions compact-actions">
-          <button className="primary-action" type="button" onClick={closeDialog} ref={closeButtonRef}>
-            知道了，开饭！
-          </button>
-          <Link className="secondary-action" to="/profile" onClick={closeDialog}>
-            先去设置校区
+          <Link className="primary-action" to="/guide" onClick={closeDialog} ref={primaryActionRef}>
+            让浙小食带我走一圈
           </Link>
-          <a className="text-link" href={githubIssuesUrl} target="_blank" rel="noreferrer">
-            去 GitHub 提 Issue
-          </a>
+          <button className="secondary-action" type="button" onClick={closeDialog}>
+            直接开始
+          </button>
         </div>
       </section>
     </div>

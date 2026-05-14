@@ -1,6 +1,7 @@
 const restaurantsSeed = require('../../../seed/restaurants.json')
 const dishesSeed = require('../../../seed/dishes.json')
 const reviewsSeed = require('../../../seed/reviews.json')
+const { getRandomIndex } = require('./random.cjs')
 
 const taxonomyTagMap = {
   都可以: [],
@@ -319,7 +320,7 @@ function getRestaurantDetail(id, query = {}) {
 function getRandomRestaurant(query = {}) {
   const restaurants = listRestaurants(query)
   if (!restaurants.length) return null
-  return restaurants[Math.floor(Math.random() * restaurants.length)]
+  return restaurants[getRandomIndex(restaurants.length)]
 }
 
 function getRecommendedRestaurant(query = {}) {

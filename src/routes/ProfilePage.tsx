@@ -32,7 +32,7 @@ export function ProfilePage() {
   const [profileAction, setProfileAction] = useState<ProfileAction>(null)
   const syncSummary = useMemo(() => {
     return [
-      authState.user ? '云端账号已连接' : '未登录，本地优先',
+      authState.user ? '账号已连接' : '未登录，先保存在本机',
       `默认校区 ${defaultCampus}`,
       `${preferences.length} 个偏好`,
       campusTrust?.campusEmailVerified ? '校园邮箱已验证' : '校园邮箱未验证'
@@ -43,7 +43,7 @@ export function ProfilePage() {
       {
         label: '账号',
         tone: authState.user ? 'cloud' : 'local',
-        value: authState.user ? '云端已连接' : '本地优先'
+        value: authState.user ? '已连接' : '先保存在本机'
       },
       {
         label: '默认校区',
@@ -96,14 +96,16 @@ export function ProfilePage() {
     getCurrentAuthState().then((state) => {
       hydrateUserState(state).catch((error: unknown) => {
         setProfileAction(null)
-        showAccountStatus(error instanceof Error ? error.message : '资料同步失败', 'error')
+        console.error('[profile] failed to hydrate account state', error)
+        showAccountStatus('资料暂时同步失败，请稍后再试。', 'error')
       })
     })
 
     return onAuthChange((state) => {
       hydrateUserState(state).catch((error: unknown) => {
         setProfileAction(null)
-        showAccountStatus(error instanceof Error ? error.message : '资料同步失败', 'error')
+        console.error('[profile] failed to refresh account state', error)
+        showAccountStatus('资料暂时同步失败，请稍后再试。', 'error')
       })
     })
   }, [])
@@ -121,7 +123,7 @@ export function ProfilePage() {
     setDefaultCampusState(nextCampus)
 
     if (!authState.user || !appProfile) {
-      showAccountStatus(`默认校区已保存在本地：${nextCampus}。登录后可以同步到云端。`, 'success')
+      showAccountStatus(`默认校区已先保存在这台设备：${nextCampus}。登录后可以带到其他设备。`, 'success')
       return
     }
 
@@ -133,7 +135,8 @@ export function ProfilePage() {
       setDefaultCampusState(profile.defaultCampus)
       showAccountStatus(`默认校区已保存为 ${profile.defaultCampus}。首页和随机一餐会优先按它推荐。`, 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '默认校区保存失败', 'error')
+      console.error('[profile] failed to save default campus', error)
+      showAccountStatus('默认校区暂时保存失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -148,7 +151,8 @@ export function ProfilePage() {
       setOtpEmail(normalizedEmail)
       showAccountStatus('验证码已发送，请从邮件中复制 6 位数字验证码。', 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '发送失败', 'error')
+      console.error('[profile] failed to send email code', error)
+      showAccountStatus('验证码暂时发送失败，请稍后再试。', 'error')
     }
   }
 
@@ -160,7 +164,8 @@ export function ProfilePage() {
       setOtpCode('')
       showAccountStatus('登录成功，正在加载你的名片。', 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '验证码验证失败', 'error')
+      console.error('[profile] failed to verify email code', error)
+      showAccountStatus('验证码验证失败，请检查后再试。', 'error')
     }
   }
 
@@ -172,7 +177,8 @@ export function ProfilePage() {
       if (appProfile) setAppProfile(await updateAppUserProfile({ preferences, defaultCampus }))
       showAccountStatus('偏好已同步。', 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '同步失败', 'error')
+      console.error('[profile] failed to sync preferences', error)
+      showAccountStatus('偏好暂时同步失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -183,9 +189,10 @@ export function ProfilePage() {
     showAccountStatus('正在同步收藏…')
     try {
       const result = await syncLocalFavoritesToSupabase()
-      showAccountStatus(`已推送 ${result.pushed} 个本地收藏。`, 'success')
+      showAccountStatus(`已上传 ${result.pushed} 个这台设备上的收藏。`, 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '收藏同步失败', 'error')
+      console.error('[profile] failed to push favorites', error)
+      showAccountStatus('收藏暂时同步失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -196,9 +203,10 @@ export function ProfilePage() {
     showAccountStatus('正在拉取收藏…')
     try {
       const result = await pullFavoritesFromSupabase()
-      showAccountStatus(`已拉取 ${result.pulled} 个云端收藏。`, 'success')
+      showAccountStatus(`已取回 ${result.pulled} 个账号里的收藏。`, 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '收藏拉取失败', 'error')
+      console.error('[profile] failed to pull favorites', error)
+      showAccountStatus('收藏暂时取回失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -206,12 +214,13 @@ export function ProfilePage() {
 
   async function mergeFavorites() {
     setProfileAction('syncingFavorites')
-    showAccountStatus('正在合并本地与云端收藏…')
+    showAccountStatus('正在合并这台设备和账号里的收藏…')
     try {
       const result = await mergeFavoritesWithSupabase()
-      showAccountStatus(`收藏已合并：本地 ${result.local} 个，云端 ${result.cloud} 个，合并后 ${result.merged} 个。`, 'success')
+      showAccountStatus(`收藏已合并：这台设备 ${result.local} 个，账号里 ${result.cloud} 个，合并后 ${result.merged} 个。`, 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '收藏合并失败', 'error')
+      console.error('[profile] failed to merge favorites', error)
+      showAccountStatus('收藏暂时合并失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -225,7 +234,8 @@ export function ProfilePage() {
       setAccountLinkCode(code)
       showAccountStatus('账号合并码已生成，10 分钟内有效。后续微信小程序接入后可用它绑定同一账号。', 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '账号合并码生成失败', 'error')
+      console.error('[profile] failed to create account link code', error)
+      showAccountStatus('账号合并码暂时生成失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -239,7 +249,8 @@ export function ProfilePage() {
       setCampusTrust(result)
       showAccountStatus(result.campusEmailVerified ? '校园邮箱已验证，后续贡献会获得更高可信度。' : `当前邮箱不在允许域名：${result.allowedDomains.join('、')}`, result.campusEmailVerified ? 'success' : 'error')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '校园邮箱验证失败', 'error')
+      console.error('[profile] failed to verify campus email', error)
+      showAccountStatus('校园邮箱暂时验证失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -260,7 +271,8 @@ export function ProfilePage() {
       setDisplayNameDraft(profile.displayName)
       showAccountStatus('用户名已保存。', 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '用户名保存失败', 'error')
+      console.error('[profile] failed to save display name', error)
+      showAccountStatus('用户名暂时保存失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -283,7 +295,8 @@ export function ProfilePage() {
       showAccountStatus(`头像已切换为「${getPresetAvatar(profile.avatarPreset).label}」。`, 'success')
     } catch (error) {
       if (previousProfile) setAppProfile(previousProfile)
-      showAccountStatus(error instanceof Error ? error.message : '头像同步失败', 'error')
+      console.error('[profile] failed to save avatar preset', error)
+      showAccountStatus('头像暂时同步失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -298,7 +311,8 @@ export function ProfilePage() {
       setAppProfile(profile)
       showAccountStatus('自定义头像已上传并保存。', 'success')
     } catch (error) {
-      showAccountStatus(error instanceof Error ? error.message : '头像上传失败', 'error')
+      console.error('[profile] failed to upload avatar', error)
+      showAccountStatus('头像暂时上传失败，请稍后再试。', 'error')
     } finally {
       setProfileAction(null)
     }
@@ -314,8 +328,8 @@ export function ProfilePage() {
       <div className="page-heading split-heading profile-hero-heading">
         <div>
           <p className="eyebrow">PROFILE</p>
-          <h1>偏好与说明</h1>
-          <p>先把校区、口味和账号状态整理好，首页随机一餐和发现页筛选才会更懂你。</p>
+          <h1>我的饭点档案</h1>
+          <p>先把校区、口味和账号整理好，首页随机一餐和发现页筛选才会更懂你。</p>
         </div>
         <div className="profile-hero-meter" aria-label={`当前选择了 ${preferences.length} 个偏好`}>
           <strong>{preferences.length}</strong>
@@ -336,8 +350,8 @@ export function ProfilePage() {
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">ACCOUNT</p>
-            <h2>登录与云端同步</h2>
-            <p>{authState.isConfigured ? 'Supabase Auth 已可用时，可用邮箱验证码登录，无需打开外部 magic link。' : '当前未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY，登录能力处于待接入状态。'}</p>
+            <h2>登录与资料同步</h2>
+            <p>{authState.isConfigured ? '用邮箱收 6 位验证码登录，登录后资料和收藏可以跟着账号走。' : '登录功能暂未开放，你仍可以先在这台设备上保存偏好。'}</p>
           </div>
           {authState.user ? <button className="text-button" type="button" onClick={() => signOut()}>退出登录</button> : null}
         </div>
@@ -408,15 +422,15 @@ export function ProfilePage() {
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={verifyCampus}>{profileAction === 'verifyingCampus' ? '验证中…' : '验证校园邮箱'}</button>
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={syncProfile}>{profileAction === 'syncingPreferences' ? '同步中…' : '同步偏好'}</button>
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={mergeFavorites}>合并收藏</button>
-              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pushFavorites}>推送本地收藏</button>
-              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pullFavorites}>拉取云端收藏</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pushFavorites}>上传本机收藏</button>
+              <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={pullFavorites}>取回账号收藏</button>
               <button className="secondary-action" type="button" disabled={isProfileBusy} onClick={createLinkCode}>{profileAction === 'creatingLinkCode' ? '生成中…' : '生成账号合并码'}</button>
             </div>
             {accountLinkCode ? (
               <div className="link-code-panel">
                 <span>账号合并码</span>
                 <strong>{accountLinkCode.code}</strong>
-                <p>有效期至 {new Date(accountLinkCode.expiresAt).toLocaleString()}。这是给后续微信小程序绑定同一 `app_user` 用的临时码。</p>
+                <p>有效期至 {new Date(accountLinkCode.expiresAt).toLocaleString()}。后续微信小程序接入后，可用它绑定同一个账号。</p>
               </div>
             ) : null}
           </div>
@@ -433,7 +447,7 @@ export function ProfilePage() {
                 <label className="search-label" htmlFor="login-otp">邮箱验证码</label>
                 <input id="login-otp" className="search-input otp-input" type="text" name="one-time-code" inputMode="numeric" autoComplete="one-time-code" spellCheck={false} value={otpCode} maxLength={6} placeholder="输入 6 位验证码" onChange={(event) => setOtpCode(event.target.value.replace(/\D/g, '').slice(0, 6))} required />
                 <button className="primary-action" type="submit" disabled={otpCode.length !== 6}>验证并登录</button>
-                <p className="helper-text">验证码已发送到 {otpEmail}。不用点击邮件里的 Supabase 外链，只复制数字验证码即可。</p>
+                <p className="helper-text">验证码已发送到 {otpEmail}。复制邮件里的 6 位数字验证码即可。</p>
               </form>
             ) : null}
           </div>
@@ -452,7 +466,7 @@ export function ProfilePage() {
           <span className="count-badge">{defaultCampus}</span>
         </div>
         <SegmentedControl label="默认校区" options={campusOptions.map((campus) => ({ label: campus, value: campus }))} value={defaultCampus} onChange={chooseDefaultCampus} />
-        <p className="helper-text">{authState.user ? '已登录时会同步到云端；换设备登录后也会带回来。' : '当前未登录，默认校区会先保存在本地浏览器。'}</p>
+        <p className="helper-text">{authState.user ? '已登录时会同步到账号；换设备登录后也会带回来。' : '当前未登录，默认校区会先保存在这台设备。'}</p>
       </GlassCard>
 
       <GlassCard id="preferences">
@@ -473,8 +487,8 @@ export function ProfilePage() {
         <div className="section-heading card-heading">
           <div>
             <p className="eyebrow">SYNC HUB</p>
-            <h2>推荐设置同步面板</h2>
-            <p>“我的”不再单独给一个 Current Pick，避免和首页、发现页重复；这里专注管理会影响全站推荐的状态。</p>
+            <h2>推荐设置</h2>
+            <p>这里集中管理会影响全站推荐的校区、口味和收藏状态。</p>
           </div>
         </div>
         <div className="sync-state-grid">
@@ -493,13 +507,13 @@ export function ProfilePage() {
       </GlassCard>
 
       <GlassCard className="demo-note">
-        <p className="eyebrow">DEMO BOUNDARY</p>
-        <h2>当前演示边界</h2>
-        <p>当前已接入登录、头像、默认校区、收藏/偏好同步、UGC 提交和审核 API；仍需继续补充真实学生评价、数据巡检和小程序主链路。</p>
+        <p className="eyebrow">ROADMAP</p>
+        <h2>接下来会更完整</h2>
+        <p>账号、头像、默认校区、收藏、偏好和投稿审核已经可以体验；我们还会继续补充真实学生评价、数据巡检和小程序主链路。</p>
         <div className="note-grid">
-          <span>Supabase Auth</span>
-          <span>submissions 审核</span>
-          <span>Vercel Preview</span>
+          <span>邮箱登录</span>
+          <span>投稿审核</span>
+          <span>持续更新</span>
         </div>
       </GlassCard>
     </div>

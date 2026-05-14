@@ -91,6 +91,10 @@ Use them as project-local references when relevant:
 - `vercel-react-view-transitions`: use only when adding route/shared-element/state transitions that communicate clear spatial continuity.
 - `vercel-react-native-skills`: not part of the current Web/PWA path; only use if the project later adds React Native/Expo.
 
+Global UI skill:
+
+- `ui-ux-pro-max`: installed under `~/.codex/skills/ui-ux-pro-max` from `https://github.com/nextlevelbuilder/ui-ux-pro-max-skill`; use for mobile UI audits, interaction density, accessibility, touch-target, and visual-system reviews before broad UI changes.
+
 ## AI Coding Workflow
 
 - Start with a spec or issue for non-trivial work.
