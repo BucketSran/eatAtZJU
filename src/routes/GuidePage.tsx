@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
+const TUTORIAL_KEY = 'eatAtZju:web:tutorial:v3'
 
 type GuideMission = {
   body: string
-  href: string
   label: string
   target: string
   title: string
@@ -10,50 +12,43 @@ type GuideMission = {
 
 const guideMissions: GuideMission[] = [
   {
-    body: '先点首页的随机一餐，让系统按校区和偏好给你一张饭点答案。',
-    href: '/?tutorial=1',
+    body: '点一下随机一餐，先拿到一个真实候选，再决定要不要加条件。',
     label: '第 1 关',
     target: '首页 · 随机一餐',
-    title: '先让浙小食帮你摇'
+    title: '先摇出一个答案'
   },
   {
-    body: '再加校区、预算和少量关键词。边界越清楚，选择越不离谱。',
-    href: '/?tutorial=1',
+    body: '打开添加需求，学会用校区、预算和少量关键词把随机范围缩小。',
     label: '第 2 关',
     target: '首页 · 添加需求',
-    title: '给随机加一点条件'
+    title: '给随机加边界'
   },
   {
-    body: '进入发现页，按场景筛选：正餐、饮品、夜宵、聚餐分开看。',
-    href: '/discover',
+    body: '进入发现页，先选吃饭场景，再看列表和地图。',
     label: '第 3 关',
     target: '发现 · 场景筛选',
-    title: '缩小候选范围'
+    title: '别从标签墙开始'
   },
   {
-    body: '地图只负责看位置、点餐厅和去导航；详细判断放到列表卡片里。',
-    href: '/discover',
+    body: '点地图点位，看位置、卡片和导航之间怎么配合。',
     label: '第 4 关',
     target: '发现 · 美食地图',
-    title: '看附近有哪些点'
+    title: '把餐厅放回地图里'
   },
   {
-    body: '点进餐厅详情，收藏常吃店，也可以直接打开地图软件导航。',
-    href: '/restaurants/r001',
+    body: '打开详情页，试着理解收藏和导航分别解决什么问题。',
     label: '第 5 关',
     target: '详情 · 收藏与导航',
-    title: '把答案变成行动'
+    title: '把推荐变成行动'
   },
   {
-    body: '榜单会按饭点、校区和特殊场景切换。考试周和夜宵不用混着找。',
-    href: '/leaderboards',
+    body: '切换不同榜单，知道什么时候看早餐、正餐、夜宵和特殊场景。',
     label: '第 6 关',
     target: '榜单 · 切换榜单',
-    title: '看看大家都在吃什么'
+    title: '用榜单做比较'
   },
   {
-    body: '发现缺店或信息变了，就提交一张小卡片。餐段可以多选。',
-    href: '/contribute',
+    body: '提交一条线索，理解餐段多选和审核队列。',
     label: '第 7 关',
     target: '贡献 · 多选餐段',
     title: '帮下一位同学少纠结'
@@ -61,6 +56,19 @@ const guideMissions: GuideMission[] = [
 ]
 
 export function GuidePage() {
+  const navigate = useNavigate()
+  const [hasFinished, setHasFinished] = useState(false)
+
+  useEffect(() => {
+    setHasFinished(window.localStorage.getItem(TUTORIAL_KEY) === '1')
+  }, [])
+
+  function restartTutorial() {
+    window.localStorage.removeItem(TUTORIAL_KEY)
+    window.localStorage.removeItem('eatAtZju:web:tutorial:v2')
+    navigate('/?tutorial=1')
+  }
+
   return (
     <div className="route-stack guide-route">
       <section className="hero-panel guide-hero mission-hero">
@@ -69,14 +77,21 @@ export function GuidePage() {
         </div>
         <p className="eyebrow">ZHEXIAOSHI TRAINING</p>
         <h1>你好，灿若星辰的浙大人</h1>
-        <p className="hero-copy">我是浙小食。接下来不是让你读说明书，而是带你打一遍“饭点雷达训练关”。每关只做一件事，饿的时候也能看懂。</p>
-        <div className="guide-progress" aria-label="新手任务进度">
-          <span style={{ width: `${Math.round((1 / guideMissions.length) * 100)}%` }} />
+        <p className="hero-copy">我是浙小食。这里不是说明书，是饭点雷达第一关。你会一边点、一边看到功能反馈，学完就知道该怎么找饭。</p>
+        <div className="guide-training-status" aria-live="polite">
+          <strong>{hasFinished ? '你已经通关过一次' : '训练还没开始'}</strong>
+          <span>{hasFinished ? '想复习也可以重开，浙小食不会笑你。' : '每关只做一件事，先从随机一餐开始。'}</span>
         </div>
-        <div className="hero-actions compact-actions">
+        <div className="guide-progress" aria-label="新手任务进度">
+          <span style={{ width: hasFinished ? '100%' : `${Math.round((1 / guideMissions.length) * 100)}%` }} />
+        </div>
+        <div className="hero-actions compact-actions guide-training-actions">
           <Link className="primary-action" to="/?tutorial=1">
-            开始游戏式引导
+            {hasFinished ? '再走一遍训练' : '开始新手训练'}
           </Link>
+          <button className="secondary-action" type="button" onClick={restartTutorial}>
+            重新训练
+          </button>
           <Link className="secondary-action" to="/">
             我先自己逛逛
           </Link>
@@ -92,8 +107,8 @@ export function GuidePage() {
               <h2>{mission.title}</h2>
               <p>{mission.body}</p>
             </div>
-            <Link className="guide-card-link" to={mission.href}>
-              去试试
+            <Link className="guide-card-link" to={`/?tutorial=1&step=${index + 1}`}>
+              去练这关
             </Link>
           </article>
         ))}

@@ -79,6 +79,35 @@
   line-height: 1.5;
 }
 
+.guide-training-status {
+  display: inline-grid;
+  width: fit-content;
+  max-width: min(100%, 560px);
+  gap: 4px;
+  padding: 12px 15px;
+  border: 1px solid rgba(10, 132, 255, 0.15);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 14px 38px rgba(31, 35, 42, 0.08);
+}
+
+.guide-training-status strong {
+  color: var(--label-primary);
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.guide-training-status span {
+  color: var(--label-secondary);
+  font-size: 14px;
+  font-weight: 740;
+  line-height: 1.45;
+}
+
+.guide-training-actions {
+  flex-wrap: wrap;
+}
+
 .tutorial-layer {
   position: fixed;
   z-index: 120;
@@ -136,6 +165,12 @@
   pointer-events: auto;
 }
 
+.tutorial-state--success .tutorial-popover {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(52, 199, 89, 0.16), transparent 36%),
+    rgba(255, 255, 255, 0.96);
+}
+
 .tutorial-popover-head,
 .tutorial-actions {
   display: flex;
@@ -191,6 +226,53 @@
 .tutorial-popover h2 {
   font-size: 26px;
   letter-spacing: -0.05em;
+}
+
+.tutorial-action-hint,
+.tutorial-fallback-note {
+  margin: 0;
+  padding: 11px 13px;
+  border: 1px solid rgba(10, 132, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(10, 132, 255, 0.08);
+  color: var(--label-primary);
+  font-size: 14px;
+  font-weight: 820;
+  line-height: 1.45;
+}
+
+.tutorial-fallback-note {
+  border-color: rgba(255, 149, 0, 0.24);
+  background: rgba(255, 149, 0, 0.1);
+}
+
+.tutorial-demo-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tutorial-demo-list li {
+  position: relative;
+  padding: 10px 12px 10px 34px;
+  border: 1px solid rgba(52, 199, 89, 0.2);
+  border-radius: 16px;
+  background: rgba(52, 199, 89, 0.08);
+  color: var(--label-secondary);
+  font-size: 14px;
+  font-weight: 780;
+  line-height: 1.42;
+}
+
+.tutorial-demo-list li::before {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  color: var(--student-green);
+  content: "✓";
+  font-weight: 930;
 }
 
 .tutorial-actions > * {
@@ -251,6 +333,18 @@
     width: auto;
     padding: 16px;
     border-radius: 24px;
+  }
+
+  .tutorial-popover h2 {
+    font-size: 23px;
+  }
+
+  .tutorial-actions {
+    flex-direction: column-reverse;
+  }
+
+  .tutorial-actions > * {
+    width: 100%;
   }
 }
 
