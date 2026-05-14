@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { TUTORIAL_REQUIREMENT_DEMO_DURATION_MS, TUTORIAL_REQUIREMENT_DEMO_EVENT } from '../constants/tutorialDemo'
 
 const TUTORIAL_KEY = 'eatAtZju:web:tutorial:v3'
 
@@ -8,6 +9,8 @@ type TutorialPhase = 'action' | 'success'
 type TutorialStep = {
   actionLabel: string
   before: string
+  demoDurationMs?: number
+  demoEvent?: string
   demoPoints: string[]
   demoSelector?: string
   fallback: string
@@ -34,7 +37,9 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点「添加需求」打开底部筛选',
     before: '随机不是乱抽。先加校区、预算和几个关键偏好，系统就会把离谱选项挡在外面。',
-    demoPoints: ['校区决定不要随机远征', '预算控制人均范围', '少量标签只做边界，不逼你理解标签系统'],
+    demoDurationMs: TUTORIAL_REQUIREMENT_DEMO_DURATION_MS,
+    demoEvent: TUTORIAL_REQUIREMENT_DEMO_EVENT,
+    demoPoints: ['演示会自动套用玉泉 · 正餐', '不辣和非食堂会依次点亮', '这次演示只影响当前页面，不会偷偷保存偏好'],
     fallback: '如果底部筛选没有弹出，可以先点「先看演示」，下一关仍然会继续。',
     path: '/',
     success: '看到底部筛选了吗？你刚刚把随机范围缩小了。之后再点随机一餐，候选会优先按这组需求来。',
@@ -238,6 +243,17 @@ export function TutorialOverlay() {
   function playDemo() {
     if (!currentStep || isDemoPlaying) return
     setIsDemoPlaying(true)
+
+    if (currentStep.demoEvent) {
+      window.dispatchEvent(new CustomEvent(currentStep.demoEvent))
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      window.setTimeout(() => {
+        setIsDemoPlaying(false)
+        setPhase('success')
+      }, reduceMotion ? 900 : currentStep.demoDurationMs ?? 1800)
+      return
+    }
+
     const deadline = Date.now() + 2800
 
     const attemptDemo = () => {

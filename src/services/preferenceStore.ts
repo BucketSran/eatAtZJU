@@ -1,9 +1,10 @@
 import { campusOptions, normalizeGroupedTags, type CampusOption } from '../constants/restaurantTaxonomy'
+import { TUTORIAL_REQUIREMENT_PRESET } from '../constants/tutorialDemo'
 
 const PREFERENCES_KEY = 'eatAtZju:web:preferences'
 const DEFAULT_CAMPUS_KEY = 'eatAtZjuCampus'
-export const defaultPreferences = ['近', '实惠']
-export const defaultCampus: CampusOption = '紫金港'
+export const defaultPreferences = [...TUTORIAL_REQUIREMENT_PRESET.tags]
+export const defaultCampus: CampusOption = TUTORIAL_REQUIREMENT_PRESET.campus
 
 function canUseStorage() {
   return typeof window !== 'undefined' && Boolean(window.localStorage)
