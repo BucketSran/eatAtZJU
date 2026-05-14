@@ -326,6 +326,12 @@ export function TutorialOverlay() {
       <div className="tutorial-scrim" aria-hidden="true" />
       <div className="tutorial-spotlight" style={spotlightStyle} aria-hidden="true" />
       <div className="tutorial-finger" style={fingerStyle} aria-hidden="true">☝</div>
+      {isDemoPlaying ? (
+        <div className="tutorial-demo-toast" role="status">
+          <span>浙小食演示中</span>
+          <strong>{isRequirementDemo ? '玉泉 · 正餐 · 不辣 · 非食堂' : currentStep.title}</strong>
+        </div>
+      ) : null}
       <section className="tutorial-popover" style={popoverStyle} role="dialog" aria-label="浙小食新手引导">
         <div className="tutorial-popover-head">
           <span>浙小食 · {progressLabel} · {isSuccess ? '已完成' : '待操作'}</span>
