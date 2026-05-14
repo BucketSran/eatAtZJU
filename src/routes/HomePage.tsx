@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BottomSheet } from '../components/BottomSheet'
 import { GlassCard } from '../components/GlassCard'
 import { MealDiceSheet } from '../components/MealDiceSheet'
 import { SegmentedControl } from '../components/SegmentedControl'
 import { campusOptions, getCurrentMealPeriod, getHardQueryTags, getMealPeriodForCategory, mealCategoryOptions, mealPeriodOptions, quickRandomExclusiveGroups, quickRandomTags, serviceModeOptions, toggleGroupedTag, type CampusOption, type MealCategoryOption } from '../constants/restaurantTaxonomy'
-import { TUTORIAL_REQUIREMENT_DEMO_EVENT, TUTORIAL_REQUIREMENT_DEMO_DURATION_MS, TUTORIAL_REQUIREMENT_PRESET } from '../constants/tutorialDemo'
+import { TUTORIAL_REQUIREMENT_PRESET } from '../constants/tutorialDemo'
 import { getMealContext } from '../lib/timeContext'
 import { showToast } from '../lib/toast'
 import { getFavoriteRestaurantIds } from '../services/favoriteStore'
@@ -60,8 +60,6 @@ export function HomePage() {
   const [serviceMode, setServiceMode] = useState('都可以')
   const [mealPeriod, setMealPeriod] = useState(() => getMealPeriodForCategory(initialMealCategory))
   const [randomBudget, setRandomBudget] = useState('不限')
-  const [tutorialDemoCue, setTutorialDemoCue] = useState<'campus' | 'category' | 'spice' | 'canteen' | 'summary' | null>(null)
-  const tutorialDemoTimers = useRef<number[]>([])
   const [randomTags, setRandomTags] = useState<string[]>(() => {
     const preferredTags = storedPreferences.filter((tag) => quickRandomTags.includes(tag as never))
     return preferredTags.length ? preferredTags.slice(0, 4) : [...TUTORIAL_REQUIREMENT_PRESET.tags]
@@ -92,66 +90,6 @@ export function HomePage() {
     setMealPeriod((currentPeriod) => getMealPeriodForCategory(nextCategory, currentPeriod))
   }
 
-  function clearTutorialDemoTimers() {
-    tutorialDemoTimers.current.forEach((timer) => window.clearTimeout(timer))
-    tutorialDemoTimers.current = []
-  }
-
-  function queueTutorialDemo(delay: number, action: () => void) {
-    const timer = window.setTimeout(action, delay)
-    tutorialDemoTimers.current.push(timer)
-  }
-
-  useEffect(() => () => clearTutorialDemoTimers(), [])
-
-  useEffect(() => {
-    const runRequirementDemo = () => {
-      clearTutorialDemoTimers()
-      setIsDemandOpen(true)
-      setRandomCampus(TUTORIAL_REQUIREMENT_PRESET.campus)
-      setMealCategory(TUTORIAL_REQUIREMENT_PRESET.mealCategory)
-      setServiceMode(TUTORIAL_REQUIREMENT_PRESET.serviceMode)
-      setRandomBudget(TUTORIAL_REQUIREMENT_PRESET.budget)
-      setMealPeriod(getMealPeriodForCategory(TUTORIAL_REQUIREMENT_PRESET.mealCategory))
-      setRandomTags([])
-      setTutorialDemoCue(null)
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const stepScale = reduceMotion ? 0.18 : 1
-      const schedule = (delay: number, action: () => void) => queueTutorialDemo(Math.round(delay * stepScale), action)
-
-      schedule(180, () => {
-        setRandomCampus(TUTORIAL_REQUIREMENT_PRESET.campus)
-        setTutorialDemoCue('campus')
-      })
-      schedule(560, () => {
-        setMealCategory(TUTORIAL_REQUIREMENT_PRESET.mealCategory)
-        setMealPeriod(getMealPeriodForCategory(TUTORIAL_REQUIREMENT_PRESET.mealCategory))
-        setTutorialDemoCue('category')
-      })
-      schedule(980, () => {
-        setRandomTags(['不辣'])
-        setTutorialDemoCue('spice')
-      })
-      schedule(1400, () => {
-        setRandomTags([...TUTORIAL_REQUIREMENT_PRESET.tags])
-        setTutorialDemoCue('canteen')
-      })
-      schedule(2000, () => {
-        setRandomMessage('演示需求：玉泉 · 正餐 · 不辣 · 非食堂。你也可以继续改成自己的真实偏好。')
-        setTutorialDemoCue('summary')
-        showToast('演示：已帮你套用玉泉 · 正餐 · 不辣 · 非食堂。', 'info')
-      })
-      schedule(TUTORIAL_REQUIREMENT_DEMO_DURATION_MS, () => setTutorialDemoCue(null))
-    }
-
-    window.addEventListener(TUTORIAL_REQUIREMENT_DEMO_EVENT, runRequirementDemo)
-    return () => {
-      window.removeEventListener(TUTORIAL_REQUIREMENT_DEMO_EVENT, runRequirementDemo)
-      clearTutorialDemoTimers()
-    }
-  }, [])
-
   async function surpriseMe() {
     setIsRandomLoading(true)
     setRandomMessage('正在按你的需求摇一餐...')
@@ -173,7 +111,7 @@ export function HomePage() {
         <p className="eyebrow">ZJU FOOD RADAR</p>
         <h1>今天吃什么？</h1>
         <p className="hero-copy">{mealContext.title}：{mealContext.description} 默认按「{randomCampus}」和你的需求缩小选择，先帮你少纠结一半。</p>
-        <div className={`home-demand-summary ${tutorialDemoCue === 'summary' ? 'tutorial-demo-cue' : ''}`} aria-live="polite">
+        <div className="home-demand-summary" aria-live="polite">
           <span>当前需求</span>
           <strong>{demandSummary}</strong>
         </div>
@@ -256,21 +194,21 @@ export function HomePage() {
         onClose={() => setIsDemandOpen(false)}
       >
         <div className="mobile-filter-stack home-demand-sheet">
-          <section className={`compact-choice-card ${tutorialDemoCue === 'campus' ? 'tutorial-demo-cue' : ''}`}>
+          <section className="compact-choice-card">
             <div className="compact-choice-head">
               <strong>校区</strong>
               <span>先避免随机远征。</span>
             </div>
             <div className="compact-choice-grid">
               {campusOptions.map((campus) => (
-                <button key={campus} className={`compact-choice ${randomCampus === campus ? 'active' : ''} ${tutorialDemoCue === 'campus' && campus === TUTORIAL_REQUIREMENT_PRESET.campus ? 'tutorial-demo-cue' : ''}`} type="button" aria-pressed={randomCampus === campus} onClick={() => setRandomCampus(campus)}>
+                <button key={campus} className={`compact-choice ${randomCampus === campus ? 'active' : ''}`} type="button" aria-pressed={randomCampus === campus} onClick={() => setRandomCampus(campus)}>
                   {campus}
                 </button>
               ))}
             </div>
           </section>
 
-          <section className={`compact-choice-card ${tutorialDemoCue === 'category' ? 'tutorial-demo-cue' : ''}`}>
+          <section className="compact-choice-card">
             <div className="compact-choice-head">
               <strong>吃什么类型</strong>
               <span>饮品甜点不会混进正餐。</span>
@@ -309,7 +247,7 @@ export function HomePage() {
             </div>
             <div className="chip-row" aria-label="随机关键标签">
               {quickRandomTags.map((tag) => (
-                <button key={tag} className={`chip ${randomTags.includes(tag) ? 'active' : ''} ${(tutorialDemoCue === 'spice' && tag === '不辣') || (tutorialDemoCue === 'canteen' && tag === '非食堂') ? 'tutorial-demo-cue' : ''}`} type="button" aria-pressed={randomTags.includes(tag)} onClick={() => setRandomTags((tags) => toggleQuickTag(tags, tag))}>
+                <button key={tag} className={`chip ${randomTags.includes(tag) ? 'active' : ''}`} type="button" aria-pressed={randomTags.includes(tag)} onClick={() => setRandomTags((tags) => toggleQuickTag(tags, tag))}>
                   {tag}
                 </button>
               ))}

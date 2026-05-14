@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { TUTORIAL_REQUIREMENT_DEMO_DURATION_MS, TUTORIAL_REQUIREMENT_DEMO_EVENT } from '../constants/tutorialDemo'
 
 const TUTORIAL_KEY = 'eatAtZju:web:tutorial:v3'
 
@@ -9,11 +8,8 @@ type TutorialPhase = 'action' | 'success'
 type TutorialStep = {
   actionLabel: string
   before: string
-  demoDurationMs?: number
-  demoEvent?: string
-  demoPoints: string[]
-  demoSelector?: string
   fallback: string
+  feedbackPoints: string[]
   path: string
   preventNativeClick?: boolean
   success: string
@@ -26,8 +22,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点首页的「随机一餐」按钮',
     before: '先让浙小食给你一个答案。饿的时候不用先研究筛选，点一下就能看到结果落在哪张卡片里。',
-    demoPoints: ['按钮会进入「正在摇…」状态', '结果会出现在 RANDOM PICK 卡片', '不满意可以直接再摇一次'],
-    fallback: '如果按钮还没出现，页面可能还在加载；你也可以先点「先看演示」。',
+    fallback: '如果按钮还没出现，页面可能还在加载；你可以点「帮我定位」重新找到它。',
+    feedbackPoints: ['按钮会进入「正在摇…」状态', '结果会出现在 RANDOM PICK 卡片', '不满意可以直接再摇一次'],
     path: '/',
     success: '你刚刚完成了最短路径：不用填表，先得到一个能吃的候选。后面加需求，只是为了让这个答案更像你。',
     successTitle: '摇一餐不是玄学，是先给答案',
@@ -37,10 +33,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点「添加需求」打开底部筛选',
     before: '随机不是乱抽。先加校区、预算和几个关键偏好，系统就会把离谱选项挡在外面。',
-    demoDurationMs: TUTORIAL_REQUIREMENT_DEMO_DURATION_MS,
-    demoEvent: TUTORIAL_REQUIREMENT_DEMO_EVENT,
-    demoPoints: ['演示会自动套用玉泉 · 正餐', '不辣和非食堂会依次点亮', '这次演示只影响当前页面，不会偷偷保存偏好'],
-    fallback: '如果底部筛选没有弹出，可以先点「先看演示」，下一关仍然会继续。',
+    fallback: '如果底部筛选没有弹出，可以点「帮我定位」回到按钮，再亲手点一下。',
+    feedbackPoints: ['底部筛选会打开', '先定校区和预算，再选少量关键偏好', '你可以自己选择玉泉 · 正餐 · 不辣 · 非食堂'],
     path: '/',
     success: '看到底部筛选了吗？你刚刚把随机范围缩小了。之后再点随机一餐，候选会优先按这组需求来。',
     successTitle: '随机开始听你的话了',
@@ -50,9 +44,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点一个发现页场景卡片',
     before: '发现页不应该让你面对一墙标签。先选场景，例如快速正餐、饮品甜点或夜宵，再做少量微调。',
-    demoPoints: ['场景负责粗筛', '关键条件负责兜底', '隐藏标签只参与推荐分'],
-    demoSelector: '.scene-card:not(.active), .scene-chip:not(.active), .scene-card, .scene-chip',
-    fallback: '如果场景还没渲染出来，先看演示即可；列表和地图加载完成后会自动同步。',
+    fallback: '如果场景还没渲染出来，可以点「帮我定位」重新回到筛选区；列表和地图加载完成后会自动同步。',
+    feedbackPoints: ['场景负责粗筛', '关键条件负责兜底', '隐藏标签只参与推荐分'],
     path: '/discover',
     success: '这一步的价值是「先说你现在想干嘛」。系统会把复杂标签藏到背后，只把必要选择留给你。',
     successTitle: '筛选从场景开始，不从标签墙开始',
@@ -62,8 +55,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点地图区域或一个餐厅点位',
     before: '地图只做三件事：看位置、点餐厅、去导航。具体好不好吃，交给底部卡片和列表判断。',
-    demoPoints: ['点位用短名和颜色表达信息', '点开后会出现餐厅卡片', '卡片可以关闭，不会一直挡地图'],
     fallback: '如果当前筛选没有地图点位，教程会先说明逻辑；你可以放宽条件再看地图。',
+    feedbackPoints: ['点位用短名和颜色表达信息', '点开后会出现餐厅卡片', '卡片可以关闭，不会一直挡地图'],
     path: '/discover',
     success: '你已经理解地图的角色了：它不是榜单，也不是详情页，而是帮你判断「这家离我有多远」。',
     successTitle: '地图负责位置感',
@@ -73,8 +66,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点详情页的导航区域',
     before: '餐厅详情页负责把推荐变成行动：收藏常吃店，或者打开地图软件开始走。',
-    demoPoints: ['收藏会进入你的常用列表', '导航可以选择地图软件', '教程里不会强迫你真的跳出页面'],
     fallback: '如果这家店还在加载，先等标题出现；教程会区分加载中和确认不存在。',
+    feedbackPoints: ['收藏会进入你的常用列表', '导航可以选择地图软件', '教程里不会强迫你真的跳出页面'],
     path: '/restaurants/r001',
     preventNativeClick: true,
     success: '这里就是从「看起来不错」到「现在出发」的最后一步。以后真实导航可以接高德、百度或系统地图。',
@@ -85,9 +78,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点顶部的一个榜单标签',
     before: '榜单适合有目标地找：早餐、正餐、夜宵、考试周、氛围感，不应该全挤在同一张榜里。',
-    demoPoints: ['标签切换不同榜单逻辑', '校区会影响排序', '随机解决纠结，榜单解决比较'],
-    demoSelector: '.leaderboard-tab:not(.active), button',
-    fallback: '如果榜单还没加载，先看演示；数据回来后标签会继续可用。',
+    fallback: '如果榜单还没加载，可以点「帮我定位」回到榜单标签；数据回来后标签会继续可用。',
+    feedbackPoints: ['标签切换不同榜单逻辑', '校区会影响排序', '随机解决纠结，榜单解决比较'],
     path: '/leaderboards',
     success: '你刚刚切换的是「找法」，不是简单换标题。榜单让你按场景比较，而随机帮你快速拍板。',
     successTitle: '榜单是有目标的找饭工具',
@@ -97,8 +89,8 @@ const tutorialSteps: TutorialStep[] = [
   {
     actionLabel: '点贡献页的餐段多选区域',
     before: '如果你知道一家好店，就提交线索。餐段可以多选，因为一家店可能同时适合中餐、晚餐和夜宵。',
-    demoPoints: ['提交不会直接公开', '餐段多选能让推荐更准确', '管理员审核后才进入公共列表'],
-    fallback: '如果贡献表单还没滚到餐段区域，教程会帮你定位；看不到时可以先看演示。',
+    fallback: '如果贡献表单还没滚到餐段区域，点「帮我定位」会帮你回到餐段选择。',
+    feedbackPoints: ['提交不会直接公开', '餐段多选能让推荐更准确', '管理员审核后才进入公共列表'],
     path: '/contribute',
     success: '这就是社区数据增长的入口。你贡献的是线索，系统负责结构化，管理员负责把关。',
     successTitle: '真实线索从这里进审核队列',
@@ -121,14 +113,6 @@ function getTargetElement(targetId: string) {
   return document.querySelector<HTMLElement>(`[data-tour-id="${targetId}"]`)
 }
 
-function getDemoElement(step: TutorialStep) {
-  const target = getTargetElement(step.targetId)
-  if (!target) return null
-  if (step.demoSelector) return target.querySelector<HTMLElement>(step.demoSelector) ?? target
-  if (target.matches('button, a, [role="button"], input, textarea, select')) return target
-  return target.querySelector<HTMLElement>('button:not([disabled]), a[href], [role="button"], input:not([disabled]), textarea, select') ?? target
-}
-
 export function TutorialOverlay() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -136,7 +120,6 @@ export function TutorialOverlay() {
   const [phase, setPhase] = useState<TutorialPhase>('action')
   const [stepIndex, setStepIndex] = useState(0)
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null)
-  const [isDemoPlaying, setIsDemoPlaying] = useState(false)
   const currentStep = tutorialSteps[stepIndex]
   const progressLabel = `${stepIndex + 1} / ${tutorialSteps.length}`
   const isSuccess = phase === 'success'
@@ -163,7 +146,6 @@ export function TutorialOverlay() {
   useEffect(() => {
     if (!open) return
     setPhase('action')
-    setIsDemoPlaying(false)
   }, [stepIndex, open])
 
   useEffect(() => {
@@ -240,46 +222,21 @@ export function TutorialOverlay() {
     setStepIndex((index) => Math.min(index + 1, tutorialSteps.length - 1))
   }
 
-  function playDemo() {
-    if (!currentStep || isDemoPlaying) return
-    setIsDemoPlaying(true)
-
-    if (currentStep.demoEvent) {
-      window.dispatchEvent(new CustomEvent(currentStep.demoEvent))
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      window.setTimeout(() => {
-        setIsDemoPlaying(false)
-        setPhase('success')
-      }, reduceMotion ? 900 : currentStep.demoDurationMs ?? 1800)
+  function locateCurrentTarget() {
+    if (!currentStep) return
+    const target = getTargetElement(currentStep.targetId)
+    if (!target) {
+      setTargetRect(null)
       return
     }
-
-    const deadline = Date.now() + 2800
-
-    const attemptDemo = () => {
-      const demoElement = getDemoElement(currentStep)
-      if (!demoElement && Date.now() < deadline) {
-        window.setTimeout(attemptDemo, 160)
-        return
-      }
-
-      if (!demoElement || currentStep.preventNativeClick) {
-        setIsDemoPlaying(false)
-        setPhase('success')
-        return
-      }
-
-      demoElement.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' })
-      window.setTimeout(() => {
-        demoElement.click()
-        window.setTimeout(() => {
-          setIsDemoPlaying(false)
-          setPhase('success')
-        }, 360)
-      }, 120)
-    }
-
-    attemptDemo()
+    target.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' })
+    window.setTimeout(() => {
+      setTargetRect(target.getBoundingClientRect())
+      target.classList.remove('tutorial-focus-pulse')
+      void target.offsetWidth
+      target.classList.add('tutorial-focus-pulse')
+      window.setTimeout(() => target.classList.remove('tutorial-focus-pulse'), 1100)
+    }, 160)
   }
 
   const spotlightStyle = useMemo<CSSProperties>(() => {
@@ -302,7 +259,11 @@ export function TutorialOverlay() {
   }, [isSuccess, targetRect])
 
   const popoverStyle = useMemo<CSSProperties>(() => {
-    if (typeof window === 'undefined' || !targetRect || window.innerWidth < 760) return {}
+    if (typeof window === 'undefined' || !targetRect) return {}
+    if (window.innerWidth < 760) {
+      const targetIsLow = targetRect.top > window.innerHeight * 0.52
+      return targetIsLow ? { bottom: 'auto', top: 12 } : {}
+    }
     const useRightSide = targetRect.left < window.innerWidth / 2
     const top = Math.min(window.innerHeight - 300, Math.max(28, targetRect.top))
     return {
@@ -312,26 +273,15 @@ export function TutorialOverlay() {
   }, [targetRect])
 
   if (!open || !currentStep) return null
-  const isRequirementDemo = currentStep.demoEvent === TUTORIAL_REQUIREMENT_DEMO_EVENT
   const targetClass = `tutorial-target--${currentStep.targetId.replace(/[^a-z0-9-]/gi, '-')}`
-  const guideCopy = isDemoPlaying && isRequirementDemo
-    ? '正在套用玉泉 · 正餐 · 不辣 · 非食堂，底部筛选会自己动起来。'
-    : isSuccess ? currentStep.success : currentStep.before
-  const titleCopy = isDemoPlaying && isRequirementDemo
-    ? '演示中：自动加需求'
-    : isSuccess ? currentStep.successTitle : currentStep.title
+  const guideCopy = isSuccess ? currentStep.success : currentStep.before
+  const titleCopy = isSuccess ? currentStep.successTitle : currentStep.title
 
   return (
-    <div className={`tutorial-layer tutorial-state--${phase} ${targetClass} ${isDemoPlaying ? 'tutorial-demo-playing' : ''}`} aria-live="polite">
+    <div className={`tutorial-layer tutorial-state--${phase} ${targetClass}`} aria-live="polite">
       <div className="tutorial-scrim" aria-hidden="true" />
       <div className="tutorial-spotlight" style={spotlightStyle} aria-hidden="true" />
       <div className="tutorial-finger" style={fingerStyle} aria-hidden="true">☝</div>
-      {isDemoPlaying ? (
-        <div className="tutorial-demo-toast" role="status">
-          <span>浙小食演示中</span>
-          <strong>{isRequirementDemo ? '玉泉 · 正餐 · 不辣 · 非食堂' : currentStep.title}</strong>
-        </div>
-      ) : null}
       <section className="tutorial-popover" style={popoverStyle} role="dialog" aria-label="浙小食新手引导">
         <div className="tutorial-popover-head">
           <span>浙小食 · {progressLabel} · {isSuccess ? '已完成' : '待操作'}</span>
@@ -344,8 +294,8 @@ export function TutorialOverlay() {
         <h2>{titleCopy}</h2>
         {!targetRect && !isSuccess ? <p className="tutorial-fallback-note">{currentStep.fallback}</p> : null}
         {isSuccess ? (
-          <ul className="tutorial-demo-list" aria-label="刚刚展示的功能点">
-            {currentStep.demoPoints.map((point) => <li key={point}>{point}</li>)}
+          <ul className="tutorial-feedback-list" aria-label="刚刚学到的功能点">
+            {currentStep.feedbackPoints.map((point) => <li key={point}>{point}</li>)}
           </ul>
         ) : (
           <p className="tutorial-action-hint">现在操作：{currentStep.actionLabel}</p>
@@ -362,8 +312,8 @@ export function TutorialOverlay() {
               {stepIndex === tutorialSteps.length - 1 ? '完成训练' : '下一关'}
             </button>
           ) : (
-            <button className="primary-action" type="button" onClick={playDemo} disabled={isDemoPlaying}>
-              {isDemoPlaying ? '演示中…' : '先看演示'}
+            <button className="primary-action" type="button" onClick={locateCurrentTarget}>
+              帮我定位
             </button>
           )}
         </div>
