@@ -171,6 +171,11 @@
     rgba(255, 255, 255, 0.96);
 }
 
+.tutorial-state--success .tutorial-scrim {
+  background: rgba(8, 12, 20, 0.16);
+  backdrop-filter: blur(1px);
+}
+
 .tutorial-popover-head,
 .tutorial-actions {
   display: flex;
@@ -337,6 +342,47 @@
 
   .tutorial-popover h2 {
     font-size: 23px;
+  }
+
+  .tutorial-state--success .tutorial-popover {
+    max-height: min(34vh, 280px);
+    overflow: auto;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 22px;
+  }
+
+  .tutorial-state--success .tutorial-popover h2 {
+    font-size: 18px;
+    letter-spacing: -0.03em;
+  }
+
+  .tutorial-state--success .tutorial-guide-bubble {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .tutorial-state--success .tutorial-guide-bubble strong {
+    width: 34px;
+    height: 34px;
+    border-radius: 13px;
+    font-size: 16px;
+  }
+
+  .tutorial-state--success .tutorial-guide-bubble p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .tutorial-state--success .tutorial-demo-list {
+    gap: 6px;
+  }
+
+  .tutorial-state--success .tutorial-demo-list li {
+    padding: 8px 10px 8px 30px;
+    font-size: 12px;
   }
 
   .tutorial-actions {

@@ -9,6 +9,7 @@ type TutorialStep = {
   actionLabel: string
   before: string
   demoPoints: string[]
+  demoSelector?: string
   fallback: string
   path: string
   preventNativeClick?: boolean
@@ -45,6 +46,7 @@ const tutorialSteps: TutorialStep[] = [
     actionLabel: '点一个发现页场景卡片',
     before: '发现页不应该让你面对一墙标签。先选场景，例如快速正餐、饮品甜点或夜宵，再做少量微调。',
     demoPoints: ['场景负责粗筛', '关键条件负责兜底', '隐藏标签只参与推荐分'],
+    demoSelector: '.scene-card:not(.active), .scene-chip:not(.active), .scene-card, .scene-chip',
     fallback: '如果场景还没渲染出来，先看演示即可；列表和地图加载完成后会自动同步。',
     path: '/discover',
     success: '这一步的价值是「先说你现在想干嘛」。系统会把复杂标签藏到背后，只把必要选择留给你。',
@@ -79,6 +81,7 @@ const tutorialSteps: TutorialStep[] = [
     actionLabel: '点顶部的一个榜单标签',
     before: '榜单适合有目标地找：早餐、正餐、夜宵、考试周、氛围感，不应该全挤在同一张榜里。',
     demoPoints: ['标签切换不同榜单逻辑', '校区会影响排序', '随机解决纠结，榜单解决比较'],
+    demoSelector: '.leaderboard-tab:not(.active), button',
     fallback: '如果榜单还没加载，先看演示；数据回来后标签会继续可用。',
     path: '/leaderboards',
     success: '你刚刚切换的是「找法」，不是简单换标题。榜单让你按场景比较，而随机帮你快速拍板。',
@@ -113,6 +116,14 @@ function getTargetElement(targetId: string) {
   return document.querySelector<HTMLElement>(`[data-tour-id="${targetId}"]`)
 }
 
+function getDemoElement(step: TutorialStep) {
+  const target = getTargetElement(step.targetId)
+  if (!target) return null
+  if (step.demoSelector) return target.querySelector<HTMLElement>(step.demoSelector) ?? target
+  if (target.matches('button, a, [role="button"], input, textarea, select')) return target
+  return target.querySelector<HTMLElement>('button:not([disabled]), a[href], [role="button"], input:not([disabled]), textarea, select') ?? target
+}
+
 export function TutorialOverlay() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -120,6 +131,7 @@ export function TutorialOverlay() {
   const [phase, setPhase] = useState<TutorialPhase>('action')
   const [stepIndex, setStepIndex] = useState(0)
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null)
+  const [isDemoPlaying, setIsDemoPlaying] = useState(false)
   const currentStep = tutorialSteps[stepIndex]
   const progressLabel = `${stepIndex + 1} / ${tutorialSteps.length}`
   const isSuccess = phase === 'success'
@@ -146,6 +158,7 @@ export function TutorialOverlay() {
   useEffect(() => {
     if (!open) return
     setPhase('action')
+    setIsDemoPlaying(false)
   }, [stepIndex, open])
 
   useEffect(() => {
@@ -153,10 +166,15 @@ export function TutorialOverlay() {
 
     let frame = 0
     let timer = 0
+    let retryTimer = 0
+    const startedAt = Date.now()
     const updateTarget = () => {
       const target = getTargetElement(currentStep.targetId)
       if (!target) {
         setTargetRect(null)
+        if (Date.now() - startedAt < 6500) {
+          retryTimer = window.setTimeout(updateTarget, 220)
+        }
         return
       }
       target.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' })
@@ -170,6 +188,7 @@ export function TutorialOverlay() {
     return () => {
       window.cancelAnimationFrame(frame)
       window.clearTimeout(timer)
+      window.clearTimeout(retryTimer)
       window.removeEventListener('resize', updateTarget)
       window.removeEventListener('scroll', updateTarget, true)
     }
@@ -214,6 +233,37 @@ export function TutorialOverlay() {
       return
     }
     setStepIndex((index) => Math.min(index + 1, tutorialSteps.length - 1))
+  }
+
+  function playDemo() {
+    if (!currentStep || isDemoPlaying) return
+    setIsDemoPlaying(true)
+    const deadline = Date.now() + 2800
+
+    const attemptDemo = () => {
+      const demoElement = getDemoElement(currentStep)
+      if (!demoElement && Date.now() < deadline) {
+        window.setTimeout(attemptDemo, 160)
+        return
+      }
+
+      if (!demoElement || currentStep.preventNativeClick) {
+        setIsDemoPlaying(false)
+        setPhase('success')
+        return
+      }
+
+      demoElement.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' })
+      window.setTimeout(() => {
+        demoElement.click()
+        window.setTimeout(() => {
+          setIsDemoPlaying(false)
+          setPhase('success')
+        }, 360)
+      }, 120)
+    }
+
+    attemptDemo()
   }
 
   const spotlightStyle = useMemo<CSSProperties>(() => {
@@ -282,8 +332,8 @@ export function TutorialOverlay() {
               {stepIndex === tutorialSteps.length - 1 ? '完成训练' : '下一关'}
             </button>
           ) : (
-            <button className="primary-action" type="button" onClick={() => setPhase('success')}>
-              先看演示
+            <button className="primary-action" type="button" onClick={playDemo} disabled={isDemoPlaying}>
+              {isDemoPlaying ? '演示中…' : '先看演示'}
             </button>
           )}
         </div>

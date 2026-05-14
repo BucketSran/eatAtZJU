@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const ONBOARDING_KEY = 'eatAtZju:web:onboarding:v1'
 
@@ -18,10 +18,18 @@ function getFocusableElements(container: HTMLElement | null) {
 }
 
 export function OnboardingDialog() {
+  const location = useLocation()
+  const isTutorialRoute = location.pathname === '/guide' || new URLSearchParams(location.search).get('tutorial') === '1'
   const [open, setOpen] = useState(() => !hasSeenOnboarding())
   const dialogRef = useRef<HTMLElement | null>(null)
   const primaryActionRef = useRef<HTMLAnchorElement | null>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (!isTutorialRoute || !open) return
+    rememberOnboarding()
+    setOpen(false)
+  }, [isTutorialRoute, open])
 
   useEffect(() => {
     if (!open) return undefined
@@ -59,7 +67,7 @@ export function OnboardingDialog() {
     requestAnimationFrame(() => previousFocusRef.current?.focus())
   }
 
-  if (!open) return null
+  if (!open || isTutorialRoute) return null
 
   return (
     <div className="onboarding-backdrop" role="presentation">

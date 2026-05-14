@@ -519,8 +519,12 @@ async function checkProfileContracts() {
   assert(tutorialOverlay.includes('eatAtZju:web:tutorial:v3') && tutorialOverlay.includes('data-tour-id'), 'tutorial overlay must use target ids and versioned one-time completion storage')
   assert(tutorialOverlay.includes("type TutorialPhase = 'action' | 'success'") && tutorialOverlay.includes('before: string') && tutorialOverlay.includes('success: string'), 'tutorial overlay must model each step as before/action/success instead of immediate route skipping')
   assert(tutorialOverlay.includes('demoPoints') && tutorialOverlay.includes('tutorial-demo-list') && tutorialOverlay.includes("setPhase('success')"), 'tutorial overlay must stop after user action and show a feature demonstration summary')
+  assert(tutorialOverlay.includes('function playDemo') && tutorialOverlay.includes('getDemoElement') && tutorialOverlay.includes('demoElement.click()'), 'tutorial show-demo action must trigger a real target action when safe')
+  assert(tutorialOverlay.includes('isDemoPlaying') && tutorialOverlay.includes('deadline = Date.now() + 2800') && tutorialOverlay.includes('演示中…'), 'tutorial show-demo action must wait briefly for lazy targets instead of jumping straight to a big success card')
   assert(tutorialOverlay.includes('preventNativeClick') && tutorialOverlay.includes('restaurant-navigate'), 'tutorial overlay must avoid forcing external navigation during the navigation lesson')
+  assert(tutorialOverlay.includes('startedAt') && tutorialOverlay.includes('6500') && tutorialOverlay.includes('retryTimer'), 'tutorial overlay must retry target lookup so lazy-loaded anchors can still be clicked')
   assert(globalCss.includes('prefers-reduced-motion') && globalCss.includes('.tutorial-finger') && globalCss.includes('.tutorial-state--success'), 'tutorial overlay styles must respect reduced motion and render a distinct success state')
+  assert(globalCss.includes('max-height: min(34vh, 280px)') && globalCss.includes('.tutorial-state--success .tutorial-scrim'), 'tutorial success state must stay compact on mobile and preserve page visibility')
   for (const tourId of ['home-random-pick', 'home-add-requirement', 'discover-filter', 'discover-map', 'restaurant-navigate', 'leaderboard-tabs', 'contribute-meal-periods']) {
     const sources = [homeRoute, discoverRoute, detailRoute, fs.readFileSync(path.join(root, 'src/routes/LeaderboardsPage.tsx'), 'utf8'), fs.readFileSync(path.join(root, 'src/routes/ContributePage.tsx'), 'utf8')].join('\n')
     assert(sources.includes(`data-tour-id="${tourId}"`), `missing tutorial anchor ${tourId}`)
@@ -534,6 +538,7 @@ async function checkProfileContracts() {
   assert(!foodMap.includes('getItemPrimaryRestaurant(mapItems[0]).id'), 'food map must not auto-open a selected restaurant card on initial render')
   assert(!foodMap.includes('map-sheet-handle'), 'food map selected-card must not use a fake draggable handle')
   assert(onboardingDialog.includes('你好，灿若星辰的浙大人') && onboardingDialog.includes('eatAtZju:web:onboarding:v1'), 'onboarding dialog must include intro copy and one-time localStorage guard')
+  assert(onboardingDialog.includes('useLocation') && onboardingDialog.includes('isTutorialRoute') && onboardingDialog.includes("tutorial') === '1'"), 'onboarding dialog must not stack over /guide or active tutorial sessions')
 }
 
 function checkLeaderboardContracts() {
